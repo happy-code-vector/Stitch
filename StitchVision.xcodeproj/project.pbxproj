@@ -11,6 +11,16 @@
 		A1234567890123456789012C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012D /* ContentView.swift */; };
 		A1234567890123456789012E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012F /* Assets.xcassets */; };
 		A1234567890123456789013A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789013B /* Preview Assets.xcassets */; };
+		A1234567890123456789020A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789020B /* AppState.swift */; };
+		A1234567890123456789021A /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789021B /* Project.swift */; };
+		A1234567890123456789022A /* ProjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789022B /* ProjectStore.swift */; };
+		A1234567890123456789023A /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789023B /* SplashView.swift */; };
+		A1234567890123456789024A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789024B /* DashboardView.swift */; };
+		A1234567890123456789025A /* CraftSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789025B /* CraftSelectionView.swift */; };
+		A1234567890123456789026A /* SkillLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789026B /* SkillLevelView.swift */; };
+		A1234567890123456789027A /* PlaceholderViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789027B /* PlaceholderViews.swift */; };
+		A1234567890123456789028A /* YarnBallMascotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789028B /* YarnBallMascotView.swift */; };
+		A1234567890123456789029A /* FloatingConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789029B /* FloatingConfettiView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +29,16 @@
 		A1234567890123456789012D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A1234567890123456789012F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1234567890123456789013B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A1234567890123456789020B /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		A1234567890123456789021B /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		A1234567890123456789022B /* ProjectStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStore.swift; sourceTree = "<group>"; };
+		A1234567890123456789023B /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		A1234567890123456789024B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		A1234567890123456789025B /* CraftSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CraftSelectionView.swift; sourceTree = "<group>"; };
+		A1234567890123456789026B /* SkillLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillLevelView.swift; sourceTree = "<group>"; };
+		A1234567890123456789027B /* PlaceholderViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderViews.swift; sourceTree = "<group>"; };
+		A1234567890123456789028B /* YarnBallMascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YarnBallMascotView.swift; sourceTree = "<group>"; };
+		A1234567890123456789029B /* FloatingConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingConfettiView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +78,8 @@
 		A1234567890123456789013F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A1234567890123456789020B /* AppState.swift */,
+				A1234567890123456789021B /* Project.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -65,13 +87,37 @@
 		A1234567890123456789014A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A1234567890123456789023B /* SplashView.swift */,
+				A1234567890123456789024B /* DashboardView.swift */,
+				A1234567890123456789027B /* PlaceholderViews.swift */,
+				A1234567890123456789030A /* Onboarding */,
+				A1234567890123456789031A /* Shared */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A1234567890123456789030A /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890123456789025B /* CraftSelectionView.swift */,
+				A1234567890123456789026B /* SkillLevelView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		A1234567890123456789031A /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890123456789028B /* YarnBallMascotView.swift */,
+				A1234567890123456789029B /* FloatingConfettiView.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		A1234567890123456789014B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				A1234567890123456789022B /* ProjectStore.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -171,6 +217,16 @@
 			files = (
 				A1234567890123456789012C /* ContentView.swift in Sources */,
 				A1234567890123456789012A /* StitchVisionApp.swift in Sources */,
+				A1234567890123456789020A /* AppState.swift in Sources */,
+				A1234567890123456789021A /* Project.swift in Sources */,
+				A1234567890123456789022A /* ProjectStore.swift in Sources */,
+				A1234567890123456789023A /* SplashView.swift in Sources */,
+				A1234567890123456789024A /* DashboardView.swift in Sources */,
+				A1234567890123456789025A /* CraftSelectionView.swift in Sources */,
+				A1234567890123456789026A /* SkillLevelView.swift in Sources */,
+				A1234567890123456789027A /* PlaceholderViews.swift in Sources */,
+				A1234567890123456789028A /* YarnBallMascotView.swift in Sources */,
+				A1234567890123456789029A /* FloatingConfettiView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
