@@ -1961,7 +1961,7 @@ struct AIDetectionVisualView: View {
                 .offset(y: scanningPosition)
                 .onAppear {
                     withAnimation(.linear(duration: 2).repeatForever(autoreverses: false)) {
-                        scanningPosition = 100
+                        scanningPosition = 100.0
                     }
                 }
             
@@ -2135,7 +2135,7 @@ struct TrustLineVisualView: View {
                         .offset(y: floatingOffset)
                         .onAppear {
                             withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true).delay(1)) {
-                                floatingOffset = -5
+                                floatingOffset = -5.0
                             }
                         }
                     
@@ -2302,7 +2302,7 @@ struct KnittingPatternView: View {
                 for col in 0..<cols {
                     let x = CGFloat(col) * 20 + 10
                     let y = CGFloat(row) * 20 + 10
-                    let offset = row % 2 == 0 ? 0 : 10
+                    let offset: CGFloat = row % 2 == 0 ? 0 : 10
                     
                     context.fill(
                         Path(ellipseIn: CGRect(x: x + offset, y: y, width: 6, height: 6)),
