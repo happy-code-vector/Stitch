@@ -21,6 +21,16 @@
 		A1234567890123456789027A /* PlaceholderViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789027B /* PlaceholderViews.swift */; };
 		A1234567890123456789028A /* YarnBallMascotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789028B /* YarnBallMascotView.swift */; };
 		A1234567890123456789029A /* FloatingConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789029B /* FloatingConfettiView.swift */; };
+		A1234567890123456789030B /* StruggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789030C /* StruggleView.swift */; };
+		A1234567890123456789031B /* StatsProblemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789031C /* StatsProblemView.swift */; };
+		A1234567890123456789032B /* HabitFrequencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789032C /* HabitFrequencyView.swift */; };
+		A1234567890123456789033B /* GoalSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789033C /* GoalSettingView.swift */; };
+		A1234567890123456789034B /* StatsSolutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789034C /* StatsSolutionView.swift */; };
+		A1234567890123456789035B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789035C /* LoadingView.swift */; };
+		A1234567890123456789036B /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789036C /* ResultView.swift */; };
+		A1234567890123456789037B /* CameraPermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789037C /* CameraPermissionsView.swift */; };
+		A1234567890123456789038B /* HowItWorksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789038C /* HowItWorksView.swift */; };
+		A1234567890123456789039B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789039C /* StatsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +49,16 @@
 		A1234567890123456789027B /* PlaceholderViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderViews.swift; sourceTree = "<group>"; };
 		A1234567890123456789028B /* YarnBallMascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YarnBallMascotView.swift; sourceTree = "<group>"; };
 		A1234567890123456789029B /* FloatingConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingConfettiView.swift; sourceTree = "<group>"; };
+		A1234567890123456789030C /* StruggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StruggleView.swift; sourceTree = "<group>"; };
+		A1234567890123456789031C /* StatsProblemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsProblemView.swift; sourceTree = "<group>"; };
+		A1234567890123456789032C /* HabitFrequencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitFrequencyView.swift; sourceTree = "<group>"; };
+		A1234567890123456789033C /* GoalSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingView.swift; sourceTree = "<group>"; };
+		A1234567890123456789034C /* StatsSolutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSolutionView.swift; sourceTree = "<group>"; };
+		A1234567890123456789035C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		A1234567890123456789036C /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
+		A1234567890123456789037C /* CameraPermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789038C /* HowItWorksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksView.swift; sourceTree = "<group>"; };
+		A1234567890123456789039C /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +121,16 @@
 			children = (
 				A1234567890123456789025B /* CraftSelectionView.swift */,
 				A1234567890123456789026B /* SkillLevelView.swift */,
+				A1234567890123456789030C /* StruggleView.swift */,
+				A1234567890123456789031C /* StatsProblemView.swift */,
+				A1234567890123456789032C /* HabitFrequencyView.swift */,
+				A1234567890123456789033C /* GoalSettingView.swift */,
+				A1234567890123456789034C /* StatsSolutionView.swift */,
+				A1234567890123456789035C /* LoadingView.swift */,
+				A1234567890123456789036C /* ResultView.swift */,
+				A1234567890123456789037C /* CameraPermissionsView.swift */,
+				A1234567890123456789038C /* HowItWorksView.swift */,
+				A1234567890123456789039C /* StatsView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -227,6 +257,16 @@
 				A1234567890123456789027A /* PlaceholderViews.swift in Sources */,
 				A1234567890123456789028A /* YarnBallMascotView.swift in Sources */,
 				A1234567890123456789029A /* FloatingConfettiView.swift in Sources */,
+				A1234567890123456789030B /* StruggleView.swift in Sources */,
+				A1234567890123456789031B /* StatsProblemView.swift in Sources */,
+				A1234567890123456789032B /* HabitFrequencyView.swift in Sources */,
+				A1234567890123456789033B /* GoalSettingView.swift in Sources */,
+				A1234567890123456789034B /* StatsSolutionView.swift in Sources */,
+				A1234567890123456789035B /* LoadingView.swift in Sources */,
+				A1234567890123456789036B /* ResultView.swift in Sources */,
+				A1234567890123456789037B /* CameraPermissionsView.swift in Sources */,
+				A1234567890123456789038B /* HowItWorksView.swift in Sources */,
+				A1234567890123456789039B /* StatsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
