@@ -2181,7 +2181,8 @@ struct ControlPanelVisualView: View {
         VStack(spacing: 0) {
             // Top: Mini camera view
             ZStack {
-                RoundedRectangle(cornerRadius: 16, corners: [.topLeft, .topRight])
+                RoundedRectangle(cornerRadius: 16)
+                    .cornerRadius(16, corners: [.topLeft, .topRight])
                     .fill(
                         LinearGradient(
                             colors: [
@@ -2196,13 +2197,14 @@ struct ControlPanelVisualView: View {
                     .frame(height: 140)
                 
                 // Knitting texture
-                RoundedRectangle(cornerRadius: 16, corners: [.topLeft, .topRight])
+                RoundedRectangle(cornerRadius: 16)
+                    .cornerRadius(16, corners: [.topLeft, .topRight])
                     .fill(Color.clear)
                     .frame(height: 140)
                     .overlay(
                         KnittingPatternView()
                             .opacity(0.2)
-                            .clipShape(RoundedRectangle(cornerRadius: 16, corners: [.topLeft, .topRight]))
+                            .clipShape(RoundedRectangle(cornerRadius: 16).cornerRadius(16, corners: [.topLeft, .topRight]))
                     )
                 
                 // Row count display
@@ -2285,7 +2287,7 @@ struct ControlPanelVisualView: View {
             }
             .padding(24)
             .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 16, corners: [.bottomLeft, .bottomRight]))
+            .clipShape(RoundedRectangle(cornerRadius: 16).cornerRadius(16, corners: [.bottomLeft, .bottomRight]))
         }
         .shadow(color: .black.opacity(0.3), radius: 12, x: 0, y: 6)
     }
@@ -2411,8 +2413,8 @@ struct SmallHappyMascotView: View {
 }
 
 extension RoundedRectangle {
-    init(cornerRadius: CGFloat, corners: UIRectCorner) {
-        self.init(cornerRadius: cornerRadius)
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
     }
 }
 
