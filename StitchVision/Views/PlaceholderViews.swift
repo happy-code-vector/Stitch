@@ -4579,7 +4579,6 @@ struct ExcitedMascotWithTagView: View {
         }
     }
 }
-}
 
 struct PermissionsView: View {
     @EnvironmentObject var appState: AppState
