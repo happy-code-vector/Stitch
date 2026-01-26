@@ -267,21 +267,11 @@ private struct MascotBallView: View {
 
                 // Eyebrows positioned above eyes
                 Path { path in
-<<<<<<< HEAD
                     let start = CGPoint(x: -ballSize * 0.04, y: -ballSize * 0.04)
                     let end = CGPoint(x: ballSize * 0.04, y: -ballSize * 0.04)
                     let control = CGPoint(x: 0, y: -ballSize * 0.06)
                     path.move(to: start)
                     path.addQuadCurve(to: end, control: control)
-=======
-                    let leftEyeX = center.x - eyeSpacing/2
-                    let leftEyeY = center.y - eyeOffsetY
-                    path.move(to: CGPoint(x: leftEyeX - size * 0.03, y: leftEyeY - size * 0.04))
-                    path.addQuadCurve(
-                        to: CGPoint(x: leftEyeX + size * 0.03, y: leftEyeY - size * 0.04),
-                        control: CGPoint(x: leftEyeX, y: leftEyeY - size * 0.06)
-                    )
->>>>>>> 3d713b69f9d7f198328bbcdf27cc5eb8b8893e9a
                 }
                 .stroke(Color.black, lineWidth: 1.5)
                 .offset(x:leftEyeCenter.x, y: leftEyeCenter.y)
