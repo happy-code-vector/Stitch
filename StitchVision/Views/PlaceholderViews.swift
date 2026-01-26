@@ -372,28 +372,28 @@ struct EmpathyMascotView: View {
             }
             
             // Concerned/empathetic eyes
-            HStack(spacing: 12) {
-                Ellipse()
+            HStack(spacing: 14) {
+                Circle()
                     .fill(Color.black)
-                    .frame(width: 6, height: 8)
+                    .frame(width: 8, height: 8)
                     .overlay(
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 2, height: 2)
+                            .frame(width: 3, height: 3)
                             .offset(x: 1, y: -1)
                     )
                 
-                Ellipse()
+                Circle()
                     .fill(Color.black)
-                    .frame(width: 6, height: 8)
+                    .frame(width: 8, height: 8)
                     .overlay(
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 2, height: 2)
+                            .frame(width: 3, height: 3)
                             .offset(x: 1, y: -1)
                     )
             }
-            .offset(y: -8)
+            .offset(y: -10)
             
             // Concerned eyebrows
             HStack(spacing: 16) {
@@ -970,37 +970,37 @@ struct ExcitedMascotView: View {
             HStack(spacing: 16) {
                 Circle()
                     .fill(Color.black)
-                    .frame(width: 12, height: 12)
+                    .frame(width: 10, height: 10)
                     .overlay(
-                        VStack {
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 6, height: 6)
-                                .offset(x: 1, y: -1)
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 3, height: 3)
-                                .offset(x: 2, y: 2)
-                        }
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 4, height: 4)
+                            .offset(x: 1, y: -1)
+                    )
+                    .overlay(
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 2, height: 2)
+                            .offset(x: 2, y: 2)
                     )
                 
                 Circle()
                     .fill(Color.black)
-                    .frame(width: 12, height: 12)
+                    .frame(width: 10, height: 10)
                     .overlay(
-                        VStack {
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 6, height: 6)
-                                .offset(x: 1, y: -1)
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 3, height: 3)
-                                .offset(x: 2, y: 2)
-                        }
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 4, height: 4)
+                            .offset(x: 1, y: -1)
+                    )
+                    .overlay(
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 2, height: 2)
+                            .offset(x: 2, y: 2)
                     )
             }
-            .offset(y: -8)
+            .offset(y: -10)
             
             // Raised excited eyebrows
             HStack(spacing: 20) {
@@ -3535,24 +3535,24 @@ struct PeekingMascotView: View {
                     
                     // Curious eyes looking down
                     HStack(spacing: 12) {
-                        Ellipse()
+                        Circle()
                             .fill(Color.black)
-                            .frame(width: 8, height: 10)
+                            .frame(width: 6, height: 6)
                             .overlay(
                                 Circle()
                                     .fill(Color.white)
-                                    .frame(width: 3, height: 3)
-                                    .offset(x: 1, y: -1)
+                                    .frame(width: 2, height: 2)
+                                    .offset(x: 0.5, y: -0.5)
                             )
                         
-                        Ellipse()
+                        Circle()
                             .fill(Color.black)
-                            .frame(width: 8, height: 10)
+                            .frame(width: 6, height: 6)
                             .overlay(
                                 Circle()
                                     .fill(Color.white)
-                                    .frame(width: 3, height: 3)
-                                    .offset(x: 1, y: -1)
+                                    .frame(width: 2, height: 2)
+                                    .offset(x: 0.5, y: -0.5)
                             )
                     }
                     .offset(y: -5)
@@ -4404,34 +4404,34 @@ struct ExcitedMascotWithTagView: View {
         HStack(spacing: 16) {
             Circle()
                 .fill(Color.black)
-                .frame(width: 14, height: 14)
+                .frame(width: 10, height: 10)
                 .overlay(
-                    VStack {
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 6, height: 6)
-                            .offset(x: 1, y: -1)
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 3, height: 3)
-                            .offset(x: 2, y: 2)
-                    }
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 4, height: 4)
+                        .offset(x: 1, y: -1)
+                )
+                .overlay(
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 2, height: 2)
+                        .offset(x: 2, y: 1)
                 )
             
             Circle()
                 .fill(Color.black)
-                .frame(width: 14, height: 14)
+                .frame(width: 10, height: 10)
                 .overlay(
-                    VStack {
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 6, height: 6)
-                            .offset(x: 1, y: -1)
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 3, height: 3)
-                            .offset(x: 2, y: 2)
-                    }
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 4, height: 4)
+                        .offset(x: 1, y: -1)
+                )
+                .overlay(
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: 2, height: 2)
+                        .offset(x: 2, y: 1)
                 )
         }
         .offset(y: -8)
@@ -4985,14 +4985,8 @@ struct MascotWithFolderView: View {
                             .overlay(
                                 Circle()
                                     .fill(Color.white)
-                                    .frame(width: 3, height: 3)
-                                    .offset(x: 1, y: -1)
-                            )
-                            .overlay(
-                                Circle()
-                                    .fill(Color.white)
-                                    .frame(width: 1, height: 1)
-                                    .offset(x: 2, y: 1)
+                                    .frame(width: 2, height: 2)
+                                    .offset(x: 0.5, y: -0.5)
                             )
                         
                         Circle()
@@ -5001,14 +4995,8 @@ struct MascotWithFolderView: View {
                             .overlay(
                                 Circle()
                                     .fill(Color.white)
-                                    .frame(width: 3, height: 3)
-                                    .offset(x: 1, y: -1)
-                            )
-                            .overlay(
-                                Circle()
-                                    .fill(Color.white)
-                                    .frame(width: 1, height: 1)
-                                    .offset(x: 2, y: 1)
+                                    .frame(width: 2, height: 2)
+                                    .offset(x: 0.5, y: -0.5)
                             )
                     }
                     .offset(y: -8)
