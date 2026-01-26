@@ -2416,11 +2416,575 @@ extension RoundedRectangle {
     }
 }
 
-struct StatsView: View {
-    @EnvironmentObject var appState: AppState
+struct ComparisonChartView: View {
+    @State private var animateChart = false
     
     var body: some View {
-        PlaceholderView(title: "Stats", nextScreen: .cameraPermissions)
+        VStack(spacing: 16) {
+            Text("Project Completion Time")
+                .font(.headline)
+                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                .multilineTextAlignment(.center)
+            
+            ZStack {
+                // Chart background
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white)
+                    .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                
+                // Savings Sticker - Top right corner
+                VStack {
+                    HStack {
+                        Spacer()
+                        
+                        VStack(spacing: 2) {
+                            Text("⚡")
+                                .font(.title3)
+                            
+                            Text("SAVE")
+                                .font(.caption2)
+                                .fontWeight(.bold)
+                                .tracking(0.5)
+                            
+                            Text("4.5hrs")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            LinearGradient(
+                                colors: [Color(red: 0.831, green: 0.502, blue: 0.435), Color(red: 0.74, green: 0.45, blue: 0.39)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .cornerRadius(16)
+                        .rotationEffect(.degrees(6))
+                        .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.white, lineWidth: 4)
+                                .rotationEffect(.degrees(6))
+                        )
+                        .scaleEffect(animateChart ? 1.0 : 0.0)
+                        .animation(.spring(response: 0.6, dampingFraction: 0.5).delay(1.2), value: animateChart)
+                    }
+                    .padding(.top, -16)
+                    .padding(.trailing, -16)
+                    
+                    Spacer()
+                }
+                
+                // Chart content
+                VStack(spacing: 16) {
+                    // Y-axis labels
+                    HStack {
+                        VStack(alignment: .trailing, spacing: 20) {
+                            Text("12h")
+                            Text("9h")
+                            Text("6h")
+                            Text("3h")
+                            Text("0h")
+                        }
+                        .font(.caption2)
+                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        
+                        // Bars
+                        HStack(alignment: .bottom, spacing: 24) {
+                            // Others Bar - TALLER (more time = bad)
+                            VStack(spacing: 8) {
+                                Rectangle()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Color(red: 0.8, green: 0.8, blue: 0.8), Color(red: 0.9, green: 0.9, blue: 0.9)],
+                                            startPoint: .bottom,
+                                            endPoint: .top
+                                        )
+                                    )
+                                    .frame(width: 60, height: animateChart ? 140 : 0)
+                                    .cornerRadius(8, corners: [.topLeft, .topRight])
+                                    .overlay(
+                                        VStack {
+                                            Text("9 hrs")
+                                                .font(.caption)
+                                                .fontWeight(.medium)
+                                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                                .padding(.top, 8)
+                                            
+                                            Spacer()
+                                        }
+                                    )
+                                    .animation(.easeOut(duration: 1).delay(0.3), value: animateChart)
+                                
+                                Text("Others")
+                                    .font(.caption)
+                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            }
+                            
+                            // StitchVision Bar - SHORTER (less time = good!)
+                            VStack(spacing: 8) {
+                                ZStack {
+                                    Rectangle()
+                                        .fill(
+                                            LinearGradient(
+                                                colors: [Color(red: 0.561, green: 0.659, blue: 0.533), Color(red: 0.66, green: 0.76, blue: 0.63)],
+                                                startPoint: .bottom,
+                                                endPoint: .top
+                                            )
+                                        )
+                                        .frame(width: 60, height: animateChart ? 70 : 0)
+                                        .cornerRadius(8, corners: [.topLeft, .topRight])
+                                        .overlay(
+                                            VStack {
+                                                Text("4.5 hrs")
+                                                    .font(.caption)
+                                                    .fontWeight(.medium)
+                                                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                                    .padding(.top, 8)
+                                                
+                                                Spacer()
+                                            }
+                                        )
+                                        .animation(.easeOut(duration: 1.2).delay(0.5), value: animateChart)
+                                    
+                                    // Sparkle effects
+                                    VStack {
+                                        HStack {
+                                            Spacer()
+                                            
+                                            Text("✨")
+                                                .font(.caption)
+                                                .scaleEffect(animateChart ? 1.2 : 1.0)
+                                                .opacity(animateChart ? 1.0 : 0.5)
+                                                .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true).delay(2), value: animateChart)
+                                        }
+                                        .padding(.top, -8)
+                                        .padding(.trailing, -8)
+                                        
+                                        Spacer()
+                                    }
+                                }
+                                
+                                Text("StitchVision")
+                                    .font(.caption)
+                                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            }
+                            
+                            // Mascot celebrating next to StitchVision bar
+                            VStack {
+                                CelebratingMascotView()
+                                    .scaleEffect(0.6)
+                                    .offset(x: 20, y: -20)
+                                    .opacity(animateChart ? 1.0 : 0.0)
+                                    .scaleEffect(animateChart ? 0.6 : 0.4)
+                                    .animation(.spring(response: 0.8, dampingFraction: 0.6).delay(1.5), value: animateChart)
+                                
+                                Spacer()
+                            }
+                        }
+                        .frame(height: 160)
+                        
+                        Spacer()
+                    }
+                    
+                    // X-axis line
+                    Rectangle()
+                        .fill(Color(red: 0.867, green: 0.867, blue: 0.867))
+                        .frame(height: 1)
+                        .padding(.horizontal, 40)
+                }
+                .padding(20)
+            }
+        }
+        .onAppear {
+            animateChart = true
+        }
+    }
+}
+
+struct CelebratingMascotView: View {
+    @State private var celebrateAnimation = false
+    
+    var body: some View {
+        ZStack {
+            // Yarn ball body
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [
+                            Color(red: 0.66, green: 0.76, blue: 0.63),
+                            Color(red: 0.561, green: 0.659, blue: 0.533)
+                        ],
+                        center: .topLeading,
+                        startRadius: 15,
+                        endRadius: 40
+                    )
+                )
+                .frame(width: 80, height: 80)
+                .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+            
+            // Yarn texture lines
+            ForEach(0..<4, id: \.self) { index in
+                Path { path in
+                    let angle = Double(index) * 45 * .pi / 180
+                    let radius: CGFloat = 30
+                    let startX = cos(angle) * radius * 0.3
+                    let startY = sin(angle) * radius * 0.3
+                    let endX = cos(angle) * radius * 0.7
+                    let endY = sin(angle) * radius * 0.7
+                    
+                    path.move(to: CGPoint(x: startX, y: startY))
+                    path.addLine(to: CGPoint(x: endX, y: endY))
+                }
+                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                .opacity(0.6)
+            }
+            
+            // Happy eyes
+            HStack(spacing: 12) {
+                Circle()
+                    .fill(Color.black)
+                    .frame(width: 6, height: 6)
+                    .overlay(
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 2, height: 2)
+                            .offset(x: 1, y: -1)
+                    )
+                
+                Circle()
+                    .fill(Color.black)
+                    .frame(width: 6, height: 6)
+                    .overlay(
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 2, height: 2)
+                            .offset(x: 1, y: -1)
+                    )
+            }
+            .offset(y: -6)
+            
+            // Big smile
+            Path { path in
+                path.move(to: CGPoint(x: -12, y: 8))
+                path.addQuadCurve(to: CGPoint(x: 12, y: 8), control: CGPoint(x: 0, y: 18))
+            }
+            .stroke(Color.black, lineWidth: 2)
+            
+            // Raised arms in celebration
+            Path { path in
+                path.move(to: CGPoint(x: -30, y: -5))
+                path.addQuadCurve(to: CGPoint(x: -45, y: -25), control: CGPoint(x: -40, y: -10))
+            }
+            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 4)
+            .rotationEffect(.degrees(celebrateAnimation ? -5 : 5))
+            .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: celebrateAnimation)
+            
+            Path { path in
+                path.move(to: CGPoint(x: 30, y: -5))
+                path.addQuadCurve(to: CGPoint(x: 45, y: -25), control: CGPoint(x: 40, y: -10))
+            }
+            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 4)
+            .rotationEffect(.degrees(celebrateAnimation ? 5 : -5))
+            .animation(.easeInOut(duration: 0.6).repeatForever(autoreverses: true), value: celebrateAnimation)
+            
+            // Sparkles around mascot
+            ForEach(0..<3, id: \.self) { index in
+                let positions: [(CGFloat, CGFloat)] = [(-35, -15), (35, -15), (0, -40)]
+                let position = positions[index]
+                
+                Text("✨")
+                    .font(.caption2)
+                    .offset(x: position.0, y: position.1)
+                    .scaleEffect(celebrateAnimation ? 1.2 : 0.8)
+                    .opacity(celebrateAnimation ? 1.0 : 0.6)
+                    .animation(
+                        .easeInOut(duration: 1.5)
+                        .repeatForever(autoreverses: true)
+                        .delay(Double(index) * 0.3),
+                        value: celebrateAnimation
+                    )
+            }
+        }
+        .onAppear {
+            celebrateAnimation = true
+        }
+    }
+}
+
+extension RoundedRectangle {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape(RoundedCorner(radius: radius, corners: corners))
+    }
+}
+
+struct RoundedCorner: Shape {
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+}
+
+struct StatsView: View {
+    @EnvironmentObject var appState: AppState
+    @State private var animateElements = false
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // Progress bar
+            HStack {
+                Rectangle()
+                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .frame(height: 4)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .clipShape(RoundedRectangle(cornerRadius: 2))
+                
+                Rectangle()
+                    .fill(Color.white.opacity(0.5))
+                    .frame(height: 4)
+                    .frame(maxWidth: .infinity)
+            }
+            .padding(.horizontal, 0)
+            
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Headline
+                    Text("Finish Projects 2x Faster")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        .multilineTextAlignment(.center)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : -20)
+                        .animation(.easeOut(duration: 0.6), value: animateElements)
+                    
+                    // Social Proof Badge
+                    HStack(spacing: 12) {
+                        // Overlapping colored circles
+                        HStack(spacing: -8) {
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color(red: 0.561, green: 0.659, blue: 0.533), Color(red: 0.49, green: 0.58, blue: 0.47)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 24, height: 24)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
+                            
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color(red: 0.831, green: 0.502, blue: 0.435), Color(red: 0.74, green: 0.45, blue: 0.39)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 24, height: 24)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
+                            
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color(red: 0.831, green: 0.686, blue: 0.216), Color(red: 0.78, green: 0.64, blue: 0.20)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 24, height: 24)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color.white, lineWidth: 2)
+                                )
+                        }
+                        
+                        Text("Join knitters like you")
+                            .font(.caption)
+                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 12)
+                    .background(Color.white)
+                    .cornerRadius(25)
+                    .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : -20)
+                    .animation(.easeOut(duration: 0.6).delay(0.2), value: animateElements)
+                    
+                    // Bar Chart with Mascot
+                    ComparisonChartView()
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .scaleEffect(animateElements ? 1.0 : 0.9)
+                        .animation(.easeOut(duration: 0.8).delay(0.2), value: animateElements)
+                    
+                    // Subtext
+                    Text("Our users save an average of 4 hours per project by never recounting rows.")
+                        .font(.body)
+                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                        .multilineTextAlignment(.center)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : 20)
+                        .animation(.easeOut(duration: 0.6).delay(0.6), value: animateElements)
+                    
+                    // Testimonial Card
+                    VStack(spacing: 12) {
+                        HStack {
+                            Spacer()
+                            Image(systemName: "quote.bubble.fill")
+                                .font(.title)
+                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.2))
+                        }
+                        
+                        Text("\"This saved my sanity! I used to spend so much time recounting. Now I just knit.\"")
+                            .font(.body)
+                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .italic()
+                            .multilineTextAlignment(.center)
+                        
+                        HStack(spacing: 12) {
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color(red: 0.561, green: 0.659, blue: 0.533), Color(red: 0.49, green: 0.58, blue: 0.47)],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 40, height: 40)
+                                .overlay(
+                                    Text("S")
+                                        .font(.headline)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                )
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Sarah M.")
+                                    .font(.headline)
+                                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                
+                                Text("Pro Knitter")
+                                    .font(.caption)
+                                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                            }
+                            
+                            Spacer()
+                        }
+                    }
+                    .padding(20)
+                    .background(Color.white)
+                    .cornerRadius(16)
+                    .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 20)
+                    .animation(.easeOut(duration: 0.6).delay(0.7), value: animateElements)
+                    
+                    // Stats Cards
+                    HStack(spacing: 12) {
+                        VStack(spacing: 8) {
+                            Text("4hrs")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                            
+                            Text("SAVED PER PROJECT")
+                                .font(.caption2)
+                                .fontWeight(.medium)
+                                .foregroundColor(.white.opacity(0.9))
+                                .tracking(0.5)
+                                .multilineTextAlignment(.center)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            LinearGradient(
+                                colors: [Color(red: 0.561, green: 0.659, blue: 0.533), Color(red: 0.49, green: 0.58, blue: 0.47)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color(red: 0.66, green: 0.76, blue: 0.63), lineWidth: 2)
+                        )
+                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                        
+                        VStack(spacing: 8) {
+                            Text("2x")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                            
+                            Text("FASTER COMPLETION")
+                                .font(.caption2)
+                                .fontWeight(.medium)
+                                .foregroundColor(.white.opacity(0.9))
+                                .tracking(0.5)
+                                .multilineTextAlignment(.center)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(
+                            LinearGradient(
+                                colors: [Color(red: 0.561, green: 0.659, blue: 0.533), Color(red: 0.49, green: 0.58, blue: 0.47)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color(red: 0.66, green: 0.76, blue: 0.63), lineWidth: 2)
+                        )
+                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 20)
+                    .animation(.easeOut(duration: 0.6).delay(0.8), value: animateElements)
+                    
+                    // CTA Button
+                    Button(action: {
+                        appState.navigateTo(.calibration)
+                    }) {
+                        Text("Set Up My AI Counter")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .cornerRadius(25)
+                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 20)
+                    .animation(.easeOut(duration: 0.6).delay(1.0), value: animateElements)
+                }
+                .padding(.horizontal, 32)
+                .padding(.vertical, 40)
+            }
+        }
+        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
+        .ignoresSafeArea()
+        .onAppear {
+            animateElements = true
+        }
     }
 }
 
@@ -2606,62 +3170,1415 @@ struct BenefitRow: View {
 
 struct CalibrationView: View {
     @EnvironmentObject var appState: AppState
+    @State private var animateElements = false
+    @State private var scanningPosition: CGFloat = -100
+    @State private var confidence: Double = 0
+    @State private var rowCount = 42
     
     var body: some View {
-        PlaceholderView(title: "Calibration", nextScreen: .subscription)
+        ZStack {
+            // Black camera background
+            Color.black
+                .ignoresSafeArea()
+            
+            // Simulated Camera Feed Background
+            SimulatedCameraFeedView()
+            
+            VStack(spacing: 0) {
+                // Progress bar
+                HStack {
+                    Rectangle()
+                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                    
+                    Rectangle()
+                        .fill(Color.white.opacity(0.5))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity)
+                }
+                .padding(.horizontal, 0)
+                
+                // Header
+                VStack(spacing: 8) {
+                    Text("Let's calibrate your AI")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+                        .shadow(color: .black.opacity(0.5), radius: 4, x: 0, y: 2)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : -20)
+                        .animation(.easeOut(duration: 0.6), value: animateElements)
+                    
+                    Text("Quick 10-second setup to learn your knitting style")
+                        .font(.body)
+                        .foregroundColor(.white.opacity(0.8))
+                        .multilineTextAlignment(.center)
+                        .shadow(color: .black.opacity(0.5), radius: 4, x: 0, y: 2)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .animation(.easeOut(duration: 0.6).delay(0.2), value: animateElements)
+                }
+                .padding(.horizontal, 32)
+                .padding(.top, 32)
+                
+                Spacer()
+                
+                // Center Detection Area
+                VStack {
+                    // Neon Detection Rectangle
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color(red: 0.922, green: 1.0, blue: 0.0), lineWidth: 4)
+                        .frame(height: 200)
+                        .background(Color.clear)
+                        .shadow(color: Color(red: 0.922, green: 1.0, blue: 0.0), radius: 15, x: 0, y: 0)
+                        .overlay(
+                            // Corner indicators
+                            VStack {
+                                HStack {
+                                    CornerIndicator(corners: [.topLeft])
+                                    Spacer()
+                                    CornerIndicator(corners: [.topRight])
+                                }
+                                Spacer()
+                                HStack {
+                                    CornerIndicator(corners: [.bottomLeft])
+                                    Spacer()
+                                    CornerIndicator(corners: [.bottomRight])
+                                }
+                            }
+                            .padding(8)
+                        )
+                        .overlay(
+                            // Scanning line animation
+                            Rectangle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [
+                                            Color.clear,
+                                            Color(red: 0.922, green: 1.0, blue: 0.0).opacity(0.8),
+                                            Color.clear
+                                        ],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .frame(height: 2)
+                                .offset(y: scanningPosition)
+                                .onAppear {
+                                    withAnimation(.linear(duration: 2).repeatForever(autoreverses: false)) {
+                                        scanningPosition = 100
+                                    }
+                                }
+                        )
+                        .scaleEffect(animateElements ? 1.0 : 0.9)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .animation(.easeOut(duration: 0.8).delay(0.3), value: animateElements)
+                    
+                    // Mascot peeking over bottom edge
+                    PeekingMascotView()
+                        .offset(y: -20)
+                        .scaleEffect(animateElements ? 1.0 : 0.8)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .animation(.spring(response: 0.8, dampingFraction: 0.6).delay(0.6), value: animateElements)
+                }
+                .padding(.horizontal, 32)
+                
+                Spacer()
+                
+                // Bottom UI Elements
+                VStack(spacing: 16) {
+                    // Row count display
+                    HStack {
+                        Spacer()
+                        
+                        VStack(spacing: 4) {
+                            Text("\(rowCount)")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                            
+                            Text("ROWS")
+                                .font(.caption2)
+                                .fontWeight(.medium)
+                                .foregroundColor(.white.opacity(0.6))
+                                .tracking(1)
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(Color.black.opacity(0.6))
+                                .background(.ultraThinMaterial)
+                        )
+                        
+                        Spacer()
+                    }
+                    
+                    // Confidence meter
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack {
+                                Text("Confidence")
+                                    .font(.caption2)
+                                    .foregroundColor(.white)
+                                
+                                Spacer()
+                                
+                                Text("\(Int(confidence))%")
+                                    .font(.caption2)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            }
+                            
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(Color.white.opacity(0.2))
+                                .frame(height: 6)
+                                .overlay(
+                                    GeometryReader { geometry in
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .fill(
+                                                LinearGradient(
+                                                    colors: [
+                                                        Color(red: 0.561, green: 0.659, blue: 0.533),
+                                                        Color(red: 0.66, green: 0.76, blue: 0.63)
+                                                    ],
+                                                    startPoint: .leading,
+                                                    endPoint: .trailing
+                                                )
+                                            )
+                                            .frame(width: geometry.size.width * confidence / 100)
+                                    }
+                                )
+                        }
+                        .padding(12)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.black.opacity(0.4))
+                                .background(.ultraThinMaterial)
+                        )
+                        
+                        Spacer()
+                    }
+                    .padding(.horizontal, 16)
+                    
+                    // CTA Button
+                    Button(action: {
+                        appState.navigateTo(.subscription)
+                    }) {
+                        Text("Calibration Complete")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .cornerRadius(25)
+                            .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                    }
+                    .padding(.horizontal, 32)
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 20)
+                    .animation(.easeOut(duration: 0.6).delay(1.2), value: animateElements)
+                }
+                .padding(.bottom, 32)
+            }
+        }
+        .onAppear {
+            animateElements = true
+            
+            // Animate confidence meter
+            withAnimation(.easeOut(duration: 1).delay(0.8)) {
+                confidence = 95
+            }
+        }
+    }
+}
+
+struct SimulatedCameraFeedView: View {
+    @State private var noiseOffset: CGFloat = 0
+    @State private var lightingIntensity: Double = 0.3
+    
+    var body: some View {
+        ZStack {
+            // Base gradient to simulate lighting
+            LinearGradient(
+                colors: [
+                    Color(red: 0.3, green: 0.3, blue: 0.3),
+                    Color(red: 0.25, green: 0.25, blue: 0.25),
+                    Color(red: 0.35, green: 0.35, blue: 0.35)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            
+            // Simulated knitting texture in background
+            KnittingPatternOverlayView()
+                .opacity(0.3)
+            
+            // Vignette effect
+            RadialGradient(
+                colors: [Color.clear, Color.clear, Color.black.opacity(0.4)],
+                center: .center,
+                startRadius: 100,
+                endRadius: 300
+            )
+            
+            // Subtle moving light effect
+            LinearGradient(
+                colors: [Color.white.opacity(0.05), Color.clear, Color.clear],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .opacity(lightingIntensity)
+            .onAppear {
+                withAnimation(.easeInOut(duration: 3).repeatForever(autoreverses: true)) {
+                    lightingIntensity = 0.5
+                }
+            }
+        }
+        .ignoresSafeArea()
+    }
+}
+
+struct KnittingPatternOverlayView: View {
+    var body: some View {
+        Canvas { context, size in
+            let rows = Int(size.height / 20)
+            let stitchesPerRow = Int(size.width / 15)
+            
+            for row in 0..<rows {
+                for stitch in 0..<stitchesPerRow {
+                    let x = CGFloat(stitch) * 15 + (row % 2 == 0 ? 0 : 7.5)
+                    let y = CGFloat(row) * 20
+                    
+                    // Draw stitch as small oval
+                    let stitchRect = CGRect(x: x, y: y, width: 12, height: 8)
+                    let stitchPath = Path(ellipseIn: stitchRect)
+                    
+                    context.fill(stitchPath, with: .color(Color(red: 0.62, green: 0.72, blue: 0.59).opacity(0.4)))
+                    
+                    // Add connecting lines between stitches
+                    if stitch < stitchesPerRow - 1 {
+                        let startPoint = CGPoint(x: x + 12, y: y + 4)
+                        let endPoint = CGPoint(x: x + 15, y: y + 4)
+                        var linePath = Path()
+                        linePath.move(to: startPoint)
+                        linePath.addLine(to: endPoint)
+                        
+                        context.stroke(linePath, with: .color(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.3)), lineWidth: 1.5)
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct CornerIndicator: View {
+    let corners: UIRectCorner
+    
+    var body: some View {
+        RoundedRectangle(cornerRadius: 0)
+            .stroke(Color(red: 0.922, green: 1.0, blue: 0.0), lineWidth: 4)
+            .frame(width: 32, height: 32)
+            .clipShape(
+                CornerShape(corners: corners)
+            )
+    }
+}
+
+struct CornerShape: Shape {
+    let corners: UIRectCorner
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        if corners.contains(.topLeft) {
+            path.move(to: CGPoint(x: 0, y: 16))
+            path.addLine(to: CGPoint(x: 0, y: 0))
+            path.addLine(to: CGPoint(x: 16, y: 0))
+        }
+        
+        if corners.contains(.topRight) {
+            path.move(to: CGPoint(x: rect.width - 16, y: 0))
+            path.addLine(to: CGPoint(x: rect.width, y: 0))
+            path.addLine(to: CGPoint(x: rect.width, y: 16))
+        }
+        
+        if corners.contains(.bottomLeft) {
+            path.move(to: CGPoint(x: 0, y: rect.height - 16))
+            path.addLine(to: CGPoint(x: 0, y: rect.height))
+            path.addLine(to: CGPoint(x: 16, y: rect.height))
+        }
+        
+        if corners.contains(.bottomRight) {
+            path.move(to: CGPoint(x: rect.width - 16, y: rect.height))
+            path.addLine(to: CGPoint(x: rect.width, y: rect.height))
+            path.addLine(to: CGPoint(x: rect.width, y: rect.height - 16))
+        }
+        
+        return path
+    }
+}
+
+struct PeekingMascotView: View {
+    @State private var floatAnimation = false
+    @State private var speechBubbleVisible = false
+    
+    var body: some View {
+        ZStack {
+            // Mascot peeking over
+            VStack {
+                Spacer()
+                
+                ZStack {
+                    // Top of yarn ball
+                    Ellipse()
+                        .fill(
+                            RadialGradient(
+                                colors: [
+                                    Color(red: 0.66, green: 0.76, blue: 0.63),
+                                    Color(red: 0.561, green: 0.659, blue: 0.533)
+                                ],
+                                center: .topLeading,
+                                startRadius: 15,
+                                endRadius: 35
+                            )
+                        )
+                        .frame(width: 70, height: 60)
+                        .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                    
+                    // Yarn texture lines on visible part
+                    ForEach(0..<3, id: \.self) { index in
+                        Path { path in
+                            let y = CGFloat(index - 1) * 8
+                            path.move(to: CGPoint(x: -25, y: y))
+                            path.addQuadCurve(to: CGPoint(x: 25, y: y), control: CGPoint(x: 0, y: y - 2))
+                        }
+                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                        .opacity(0.6)
+                    }
+                    
+                    // Curious eyes looking down
+                    HStack(spacing: 12) {
+                        Ellipse()
+                            .fill(Color.black)
+                            .frame(width: 8, height: 10)
+                            .overlay(
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 3, height: 3)
+                                    .offset(x: 1, y: -1)
+                            )
+                        
+                        Ellipse()
+                            .fill(Color.black)
+                            .frame(width: 8, height: 10)
+                            .overlay(
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 3, height: 3)
+                                    .offset(x: 1, y: -1)
+                            )
+                    }
+                    .offset(y: -5)
+                    
+                    // Small curious smile
+                    Path { path in
+                        path.move(to: CGPoint(x: -8, y: 8))
+                        path.addQuadCurve(to: CGPoint(x: 8, y: 8), control: CGPoint(x: 0, y: 12))
+                    }
+                    .stroke(Color.black, lineWidth: 2)
+                    
+                    // Highlight for 3D effect
+                    Ellipse()
+                        .fill(Color.white.opacity(0.3))
+                        .frame(width: 24, height: 16)
+                        .offset(x: -8, y: -12)
+                    
+                    // Little hands/nubs gripping the edge
+                    HStack(spacing: 50) {
+                        Ellipse()
+                            .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
+                            .frame(width: 16, height: 12)
+                            .offset(y: 25)
+                        
+                        Ellipse()
+                            .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
+                            .frame(width: 16, height: 12)
+                            .offset(y: 25)
+                    }
+                }
+                .offset(y: floatAnimation ? -2 : 2)
+                .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: floatAnimation)
+            }
+            .frame(height: 80)
+            
+            // Speech Bubble
+            if speechBubbleVisible {
+                VStack {
+                    HStack {
+                        Spacer()
+                        
+                        VStack(spacing: 8) {
+                            Text("Place your knitting here!")
+                                .font(.caption)
+                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 8)
+                                .background(Color.white)
+                                .cornerRadius(16)
+                                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                                .overlay(
+                                    // Speech bubble tail
+                                    VStack {
+                                        Spacer()
+                                        
+                                        HStack {
+                                            Spacer()
+                                            
+                                            Path { path in
+                                                path.move(to: CGPoint(x: 0, y: 0))
+                                                path.addLine(to: CGPoint(x: -8, y: 8))
+                                                path.addLine(to: CGPoint(x: 8, y: 8))
+                                                path.closeSubpath()
+                                            }
+                                            .fill(Color.white)
+                                            .frame(width: 16, height: 8)
+                                            .offset(x: -20, y: 4)
+                                            
+                                            Spacer()
+                                        }
+                                    }
+                                )
+                            
+                            Spacer()
+                        }
+                        .offset(x: -60, y: -40)
+                    }
+                    
+                    Spacer()
+                }
+                .opacity(speechBubbleVisible ? 1.0 : 0.0)
+                .scaleEffect(speechBubbleVisible ? 1.0 : 0.8)
+                .animation(.spring(response: 0.5, dampingFraction: 0.6), value: speechBubbleVisible)
+            }
+        }
+        .onAppear {
+            floatAnimation = true
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                speechBubbleVisible = true
+            }
+        }
     }
 }
 
 struct SubscriptionView: View {
     @EnvironmentObject var appState: AppState
+    @State private var selectedPlan: PlanType = .proYearly
+    @State private var selectedTier: PlanTier = .pro
+    @State private var animateElements = false
+    
+    enum PlanType {
+        case proYearly, proMonthly
+    }
+    
+    enum PlanTier {
+        case free, pro
+    }
+    
+    let freeFeatures = [
+        "AI Row Counting",
+        "1 Active Project",
+        "Basic Stitch Doctor"
+    ]
+    
+    let proFeatures = [
+        "AI Row Counting",
+        "Unlimited Projects",
+        "Advanced Stitch Doctor",
+        "Unlimited Stash",
+        "Pattern Library"
+    ]
     
     var body: some View {
-        VStack(spacing: 32) {
-            Text("Subscription")
-                .font(.title)
-                .fontWeight(.bold)
-            
-            VStack(spacing: 16) {
-                Button("Subscribe") {
-                    appState.navigateTo(.permissions)
-                }
-                .buttonStyle(PrimaryButtonStyle())
+        VStack(spacing: 0) {
+            // Progress bar
+            HStack {
+                Rectangle()
+                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .frame(height: 4)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .clipShape(RoundedRectangle(cornerRadius: 2))
                 
-                Button("Skip") {
-                    appState.navigateTo(.downsell)
+                Rectangle()
+                    .fill(Color.white.opacity(0.5))
+                    .frame(height: 4)
+                    .frame(maxWidth: .infinity)
+            }
+            .padding(.horizontal, 0)
+            
+            ScrollView {
+                VStack(spacing: 24) {
+                    // Header
+                    Text("Start your 7-Day Free Trial")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        .multilineTextAlignment(.center)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : -20)
+                        .animation(.easeOut(duration: 0.6), value: animateElements)
+                    
+                    // Tier Toggle
+                    HStack(spacing: 4) {
+                        Button(action: {
+                            selectedTier = .free
+                        }) {
+                            Text("Free")
+                                .font(.headline)
+                                .foregroundColor(selectedTier == .free ? .white : Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(
+                                    selectedTier == .free 
+                                    ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                    : Color.clear
+                                )
+                                .cornerRadius(25)
+                                .shadow(color: .black.opacity(selectedTier == .free ? 0.1 : 0), radius: selectedTier == .free ? 8 : 0, x: 0, y: selectedTier == .free ? 4 : 0)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        Button(action: {
+                            selectedTier = .pro
+                        }) {
+                            Text("Pro")
+                                .font(.headline)
+                                .foregroundColor(selectedTier == .pro ? .white : Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(
+                                    selectedTier == .pro 
+                                    ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                    : Color.clear
+                                )
+                                .cornerRadius(25)
+                                .shadow(color: .black.opacity(selectedTier == .pro ? 0.1 : 0), radius: selectedTier == .pro ? 8 : 0, x: 0, y: selectedTier == .pro ? 4 : 0)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    .padding(4)
+                    .background(Color.white)
+                    .cornerRadius(25)
+                    .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 20)
+                    .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
+                    
+                    // Plan Cards
+                    if selectedTier == .free {
+                        // Free Tier Card
+                        VStack(spacing: 16) {
+                            VStack(spacing: 8) {
+                                Text("$0")
+                                    .font(.system(size: 48, weight: .bold))
+                                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                
+                                Text("Free Forever")
+                                    .font(.body)
+                                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                            }
+                            
+                            VStack(spacing: 8) {
+                                Text("1 Project Limit")
+                                    .font(.headline)
+                                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                
+                                Text("Perfect for trying StitchVision")
+                                    .font(.caption)
+                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            }
+                            .padding(.vertical, 16)
+                            .padding(.horizontal, 24)
+                            .background(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                            .cornerRadius(16)
+                            
+                            Text("No credit card required")
+                                .font(.caption)
+                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .italic()
+                        }
+                        .padding(24)
+                        .background(Color.white)
+                        .cornerRadius(24)
+                        .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : 30)
+                        .animation(.easeOut(duration: 0.4), value: animateElements)
+                        
+                    } else {
+                        // Pro Plan Options
+                        VStack(spacing: 16) {
+                            // Pro Yearly Option
+                            Button(action: {
+                                selectedPlan = .proYearly
+                            }) {
+                                HStack(spacing: 16) {
+                                    // Radio button
+                                    Circle()
+                                        .stroke(
+                                            selectedPlan == .proYearly 
+                                            ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                            : Color.gray.opacity(0.3),
+                                            lineWidth: 2
+                                        )
+                                        .background(
+                                            Circle()
+                                                .fill(
+                                                    selectedPlan == .proYearly 
+                                                    ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                                    : Color.clear
+                                                )
+                                        )
+                                        .frame(width: 24, height: 24)
+                                        .overlay(
+                                            Circle()
+                                                .fill(Color.white)
+                                                .frame(width: 12, height: 12)
+                                                .opacity(selectedPlan == .proYearly ? 1.0 : 0.0)
+                                        )
+                                    
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Yearly Pro")
+                                            .font(.headline)
+                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                        
+                                        Text("$6.67/mo")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    VStack(alignment: .trailing, spacing: 4) {
+                                        Text("Save 50%")
+                                            .font(.caption)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 4)
+                                            .background(Color(red: 0.831, green: 0.502, blue: 0.435))
+                                            .cornerRadius(12)
+                                        
+                                        Text("$79.99/year")
+                                            .font(.caption)
+                                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                    }
+                                }
+                                .padding(20)
+                                .background(
+                                    selectedPlan == .proYearly 
+                                    ? Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1)
+                                    : Color(red: 0.95, green: 0.95, blue: 0.95)
+                                )
+                                .cornerRadius(16)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(
+                                            selectedPlan == .proYearly 
+                                            ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                            : Color.clear,
+                                            lineWidth: 4
+                                        )
+                                )
+                                .shadow(color: .black.opacity(selectedPlan == .proYearly ? 0.1 : 0.05), radius: selectedPlan == .proYearly ? 12 : 8, x: 0, y: selectedPlan == .proYearly ? 6 : 2)
+                                .scaleEffect(selectedPlan == .proYearly ? 1.02 : 1.0)
+                                .animation(.easeInOut(duration: 0.2), value: selectedPlan)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            
+                            // Pro Monthly Option
+                            Button(action: {
+                                selectedPlan = .proMonthly
+                            }) {
+                                HStack(spacing: 16) {
+                                    // Radio button
+                                    Circle()
+                                        .stroke(
+                                            selectedPlan == .proMonthly 
+                                            ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                            : Color.gray.opacity(0.3),
+                                            lineWidth: 2
+                                        )
+                                        .background(
+                                            Circle()
+                                                .fill(
+                                                    selectedPlan == .proMonthly 
+                                                    ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                                    : Color.clear
+                                                )
+                                        )
+                                        .frame(width: 24, height: 24)
+                                        .overlay(
+                                            Circle()
+                                                .fill(Color.white)
+                                                .frame(width: 12, height: 12)
+                                                .opacity(selectedPlan == .proMonthly ? 1.0 : 0.0)
+                                        )
+                                    
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Monthly Pro")
+                                            .font(.headline)
+                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                        
+                                        Text("$12.99/mo")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    }
+                                    
+                                    Spacer()
+                                }
+                                .padding(20)
+                                .background(
+                                    selectedPlan == .proMonthly 
+                                    ? Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1)
+                                    : Color(red: 0.95, green: 0.95, blue: 0.95)
+                                )
+                                .cornerRadius(16)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(
+                                            selectedPlan == .proMonthly 
+                                            ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                            : Color.clear,
+                                            lineWidth: 4
+                                        )
+                                )
+                                .shadow(color: .black.opacity(selectedPlan == .proMonthly ? 0.1 : 0.05), radius: selectedPlan == .proMonthly ? 12 : 8, x: 0, y: selectedPlan == .proMonthly ? 6 : 2)
+                                .scaleEffect(selectedPlan == .proMonthly ? 1.02 : 1.0)
+                                .animation(.easeInOut(duration: 0.2), value: selectedPlan)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        .padding(20)
+                        .background(Color.white)
+                        .cornerRadius(24)
+                        .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : 30)
+                        .animation(.easeOut(duration: 0.4), value: animateElements)
+                    }
+                    
+                    // Features List
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text(selectedTier == .free ? "Free Includes" : "Pro Includes")
+                            .font(.headline)
+                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .frame(maxWidth: .infinity, alignment: .center)
+                        
+                        VStack(spacing: 12) {
+                            ForEach(Array((selectedTier == .free ? freeFeatures : proFeatures).enumerated()), id: \.offset) { index, feature in
+                                HStack(spacing: 12) {
+                                    Circle()
+                                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                        .frame(width: 32, height: 32)
+                                        .overlay(
+                                            Image(systemName: "checkmark")
+                                                .font(.headline)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.white)
+                                        )
+                                        .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                                    
+                                    Text(feature)
+                                        .font(.body)
+                                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                    
+                                    Spacer()
+                                }
+                                .opacity(animateElements ? 1.0 : 0.0)
+                                .offset(x: animateElements ? 0 : -20)
+                                .animation(.easeOut(duration: 0.5).delay(0.5 + Double(index) * 0.1), value: animateElements)
+                            }
+                        }
+                    }
+                    .padding(20)
+                    .background(Color.white)
+                    .cornerRadius(24)
+                    .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 30)
+                    .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
+                    
+                    // CTA Button
+                    Button(action: {
+                        appState.navigateTo(.permissions)
+                    }) {
+                        Text(selectedTier == .free ? "Continue with Free" : "Start Free Trial")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 20)
+                            .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .cornerRadius(25)
+                            .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 6)
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 20)
+                    .animation(.easeOut(duration: 0.6).delay(0.7), value: animateElements)
+                    
+                    // Disclaimer for Pro
+                    if selectedTier == .pro {
+                        Text("Cancel anytime")
+                            .font(.body)
+                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                            .multilineTextAlignment(.center)
+                            .opacity(animateElements ? 1.0 : 0.0)
+                            .animation(.easeOut(duration: 0.6).delay(0.9), value: animateElements)
+                    }
+                    
+                    // Skip link
+                    Button(action: {
+                        appState.navigateTo(.downsell)
+                    }) {
+                        Text(selectedTier == .free ? "Skip" : "Skip trial")
+                            .font(.body)
+                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                            .underline()
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .animation(.easeOut(duration: 0.6).delay(1.0), value: animateElements)
+                    
+                    // Footer Links
+                    HStack(spacing: 16) {
+                        Button("Restore Purchases") {
+                            // Restore purchases logic
+                        }
+                        .font(.caption)
+                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        
+                        Text("•")
+                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        
+                        Button("Terms of Service") {
+                            // Open Terms of Service
+                        }
+                        .font(.caption)
+                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        
+                        Text("•")
+                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        
+                        Button("Privacy Policy") {
+                            // Open Privacy Policy
+                        }
+                        .font(.caption)
+                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .animation(.easeOut(duration: 0.6).delay(1.1), value: animateElements)
                 }
-                .buttonStyle(SecondaryButtonStyle())
+                .padding(.horizontal, 32)
+                .padding(.vertical, 40)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(red: 0.976, green: 0.969, blue: 0.949))
+        .ignoresSafeArea()
+        .onAppear {
+            animateElements = true
+        }
     }
 }
 
 struct DownsellView: View {
     @EnvironmentObject var appState: AppState
+    @State private var animateElements = false
+    @State private var urgencyPulse = false
     
     var body: some View {
-        VStack(spacing: 32) {
-            Text("Special Offer")
-                .font(.title)
-                .fontWeight(.bold)
+        ZStack {
+            // Background
+            Color(red: 0.976, green: 0.969, blue: 0.949)
+                .ignoresSafeArea()
             
-            VStack(spacing: 16) {
-                Button("Accept") {
-                    appState.navigateTo(.permissions)
+            // Urgency background elements
+            Circle()
+                .fill(Color(red: 0.831, green: 0.502, blue: 0.435).opacity(0.1))
+                .frame(width: 128, height: 128)
+                .blur(radius: 30)
+                .position(x: UIScreen.main.bounds.width - 80, y: 120)
+                .scaleEffect(urgencyPulse ? 1.3 : 1.0)
+                .opacity(urgencyPulse ? 0.2 : 0.1)
+                .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: urgencyPulse)
+            
+            Circle()
+                .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                .frame(width: 160, height: 160)
+                .blur(radius: 40)
+                .position(x: 80, y: UIScreen.main.bounds.height - 160)
+                .scaleEffect(urgencyPulse ? 1.2 : 1.0)
+                .opacity(urgencyPulse ? 0.15 : 0.1)
+                .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true).delay(1), value: urgencyPulse)
+            
+            VStack(spacing: 0) {
+                // Progress bar
+                HStack {
+                    Rectangle()
+                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                    
+                    Rectangle()
+                        .fill(Color.white.opacity(0.5))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity)
                 }
-                .buttonStyle(PrimaryButtonStyle())
+                .padding(.horizontal, 0)
                 
-                Button("Decline") {
-                    appState.navigateTo(.permissions)
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Mascot with 50% OFF tag
+                        ExcitedMascotWithTagView()
+                            .scaleEffect(animateElements ? 1.0 : 0.8)
+                            .opacity(animateElements ? 1.0 : 0.0)
+                            .rotationEffect(.degrees(animateElements ? 0 : -10))
+                            .animation(.spring(response: 0.6, dampingFraction: 0.5), value: animateElements)
+                        
+                        // Headline
+                        Text("Wait! Don't Miss Out.")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .multilineTextAlignment(.center)
+                            .opacity(animateElements ? 1.0 : 0.0)
+                            .offset(y: animateElements ? 0 : -20)
+                            .animation(.easeOut(duration: 0.5).delay(0.2), value: animateElements)
+                        
+                        // Subtext
+                        Text("We want you to experience the magic of AI knitting. Get your first year of Pro for half off.")
+                            .font(.body)
+                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .multilineTextAlignment(.center)
+                            .opacity(animateElements ? 1.0 : 0.0)
+                            .offset(y: animateElements ? 0 : 10)
+                            .animation(.easeOut(duration: 0.5).delay(0.3), value: animateElements)
+                        
+                        // Price Card
+                        VStack(spacing: 20) {
+                            // Special Offer Badge
+                            HStack {
+                                Spacer()
+                                
+                                HStack(spacing: 8) {
+                                    Image(systemName: "sparkles")
+                                        .font(.caption)
+                                        .foregroundColor(.white)
+                                    
+                                    Text("Limited Time")
+                                        .font(.caption)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(Color(red: 0.831, green: 0.502, blue: 0.435))
+                                .cornerRadius(20)
+                                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                                .scaleEffect(urgencyPulse ? 1.05 : 1.0)
+                                .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: urgencyPulse)
+                            }
+                            .padding(.top, -16)
+                            .padding(.trailing, -16)
+                            
+                            // Pricing
+                            VStack(spacing: 12) {
+                                // Old Price
+                                HStack {
+                                    Text("$19.99/mo")
+                                        .font(.title3)
+                                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                        .strikethrough(true, color: Color(red: 0.831, green: 0.502, blue: 0.435))
+                                    
+                                    Spacer()
+                                }
+                                
+                                // New Price
+                                HStack {
+                                    Text("$9.99")
+                                        .font(.system(size: 48, weight: .bold))
+                                        .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
+                                    
+                                    Text("/mo")
+                                        .font(.title)
+                                        .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
+                                    
+                                    Spacer()
+                                }
+                                
+                                // Savings callout
+                                HStack {
+                                    Text("Save $120 per year")
+                                        .font(.headline)
+                                        .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 8)
+                                        .background(Color(red: 0.831, green: 0.502, blue: 0.435).opacity(0.1))
+                                        .cornerRadius(12)
+                                    
+                                    Spacer()
+                                }
+                            }
+                            
+                            // Features reminder
+                            VStack(alignment: .leading, spacing: 12) {
+                                Text("Everything Pro includes:")
+                                    .font(.headline)
+                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                
+                                VStack(spacing: 8) {
+                                    HStack(spacing: 8) {
+                                        Circle()
+                                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                            .frame(width: 8, height: 8)
+                                        
+                                        Text("AI Row Counting")
+                                            .font(.body)
+                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                        
+                                        Spacer()
+                                    }
+                                    
+                                    HStack(spacing: 8) {
+                                        Circle()
+                                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                            .frame(width: 8, height: 8)
+                                        
+                                        Text("Stitch Doctor")
+                                            .font(.body)
+                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                        
+                                        Spacer()
+                                    }
+                                    
+                                    HStack(spacing: 8) {
+                                        Circle()
+                                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                            .frame(width: 8, height: 8)
+                                        
+                                        Text("Unlimited Projects")
+                                            .font(.body)
+                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                        
+                                        Spacer()
+                                    }
+                                }
+                            }
+                            .padding(.top, 16)
+                            .overlay(
+                                Rectangle()
+                                    .fill(Color(red: 0.976, green: 0.969, blue: 0.949))
+                                    .frame(height: 2)
+                                    .padding(.horizontal, -24),
+                                alignment: .top
+                            )
+                        }
+                        .padding(24)
+                        .background(Color.white)
+                        .cornerRadius(24)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24)
+                                .stroke(Color(red: 0.831, green: 0.502, blue: 0.435), lineWidth: 4)
+                        )
+                        .shadow(color: .black.opacity(0.2), radius: 16, x: 0, y: 8)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .scaleEffect(animateElements ? 1.0 : 0.9)
+                        .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
+                        
+                        // Primary CTA
+                        Button(action: {
+                            appState.navigateTo(.permissions)
+                        }) {
+                            Text("Claim 50% Off Offer")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 20)
+                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .cornerRadius(25)
+                                .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 6)
+                        }
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : 20)
+                        .animation(.easeOut(duration: 0.5).delay(0.6), value: animateElements)
+                        
+                        // Secondary Decline Link
+                        Button(action: {
+                            appState.navigateTo(.permissions)
+                        }) {
+                            Text("No thanks, continue with limited Free Plan")
+                                .font(.body)
+                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .underline()
+                                .multilineTextAlignment(.center)
+                        }
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .animation(.easeOut(duration: 0.5).delay(0.8), value: animateElements)
+                    }
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 40)
                 }
-                .buttonStyle(SecondaryButtonStyle())
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
+        .onAppear {
+            animateElements = true
+            urgencyPulse = true
+        }
     }
+}
+
+struct ExcitedMascotWithTagView: View {
+    @State private var tagFloat = false
+    @State private var sparkleAnimation = false
+    
+    var body: some View {
+        ZStack {
+            // 50% OFF Tag held up
+            VStack {
+                HStack {
+                    Spacer()
+                    
+                    VStack(spacing: 4) {
+                        Text("50%")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        
+                        Text("OFF")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.91, green: 0.61, blue: 0.55),
+                                Color(red: 0.831, green: 0.502, blue: 0.435),
+                                Color(red: 0.78, green: 0.46, blue: 0.40)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .cornerRadius(16)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color.white, lineWidth: 4)
+                    )
+                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                    .rotationEffect(.degrees(6))
+                    .offset(y: tagFloat ? -3 : 3)
+                    .rotationEffect(.degrees(tagFloat ? -5 : 5))
+                    .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: tagFloat)
+                    .overlay(
+                        // Tag hole
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 12, height: 12)
+                            .overlay(
+                                Circle()
+                                    .stroke(Color(red: 0.78, green: 0.46, blue: 0.40), lineWidth: 2)
+                            )
+                            .offset(x: 40, y: -20)
+                            .rotationEffect(.degrees(6))
+                    )
+                    .overlay(
+                        // Sparkle on tag
+                        Text("✨")
+                            .font(.caption)
+                            .offset(x: -30, y: -15)
+                            .rotationEffect(.degrees(6))
+                            .scaleEffect(sparkleAnimation ? 1.3 : 1.0)
+                            .opacity(sparkleAnimation ? 1.0 : 0.8)
+                            .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: sparkleAnimation)
+                    )
+                    
+                    Spacer()
+                }
+                
+                Spacer()
+            }
+            .frame(height: 200)
+            
+            // Yarn ball mascot body
+            VStack {
+                Spacer()
+                
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                Color(red: 0.66, green: 0.76, blue: 0.63),
+                                Color(red: 0.561, green: 0.659, blue: 0.533)
+                            ],
+                            center: .topLeading,
+                            startRadius: 20,
+                            endRadius: 50
+                        )
+                    )
+                    .frame(width: 100, height: 100)
+                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                    .overlay(
+                        // Yarn texture lines
+                        ForEach(0..<6, id: \.self) { index in
+                            Path { path in
+                                let angle = Double(index) * 30 * .pi / 180
+                                let radius: CGFloat = 40
+                                let startX = cos(angle) * radius * 0.3
+                                let startY = sin(angle) * radius * 0.3
+                                let endX = cos(angle) * radius * 0.7
+                                let endY = sin(angle) * radius * 0.7
+                                
+                                path.move(to: CGPoint(x: startX, y: startY))
+                                path.addLine(to: CGPoint(x: endX, y: endY))
+                            }
+                            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                            .opacity(0.6)
+                        }
+                    )
+                    .overlay(
+                        // Excited/shocked eyes - wide open
+                        HStack(spacing: 16) {
+                            Circle()
+                                .fill(Color.black)
+                                .frame(width: 14, height: 14)
+                                .overlay(
+                                    VStack {
+                                        Circle()
+                                            .fill(Color.white)
+                                            .frame(width: 6, height: 6)
+                                            .offset(x: 1, y: -1)
+                                        Circle()
+                                            .fill(Color.white)
+                                            .frame(width: 3, height: 3)
+                                            .offset(x: 2, y: 2)
+                                    }
+                                )
+                            
+                            Circle()
+                                .fill(Color.black)
+                                .frame(width: 14, height: 14)
+                                .overlay(
+                                    VStack {
+                                        Circle()
+                                            .fill(Color.white)
+                                            .frame(width: 6, height: 6)
+                                            .offset(x: 1, y: -1)
+                                        Circle()
+                                            .fill(Color.white)
+                                            .frame(width: 3, height: 3)
+                                            .offset(x: 2, y: 2)
+                                    }
+                                )
+                        }
+                        .offset(y: -8)
+                    )
+                    .overlay(
+                        // Excited open mouth
+                        Ellipse()
+                            .fill(Color.black.opacity(0.8))
+                            .frame(width: 24, height: 30)
+                            .overlay(
+                                Ellipse()
+                                    .fill(Color(red: 0.976, green: 0.969, blue: 0.949).opacity(0.3))
+                                    .frame(width: 16, height: 20)
+                            )
+                            .offset(y: 15)
+                    )
+                    .overlay(
+                        // Eyebrows raised in excitement
+                        HStack(spacing: 20) {
+                            Path { path in
+                                path.move(to: CGPoint(x: -3, y: -2))
+                                path.addQuadCurve(to: CGPoint(x: 7, y: -1), control: CGPoint(x: 2, y: -5))
+                            }
+                            .stroke(Color.black, lineWidth: 2.5)
+                            
+                            Path { path in
+                                path.move(to: CGPoint(x: -7, y: -1))
+                                path.addQuadCurve(to: CGPoint(x: 3, y: -2), control: CGPoint(x: -2, y: -5))
+                            }
+                            .stroke(Color.black, lineWidth: 2.5)
+                        }
+                        .offset(y: -22)
+                    )
+                    .overlay(
+                        // Highlight for 3D effect
+                        Ellipse()
+                            .fill(Color.white.opacity(0.3))
+                            .frame(width: 36, height: 26)
+                            .offset(x: -16, y: -16)
+                    )
+                    .overlay(
+                        // Arms reaching up holding tag
+                        VStack {
+                            HStack(spacing: 80) {
+                                Path { path in
+                                    path.move(to: CGPoint(x: 0, y: 20))
+                                    path.addQuadCurve(to: CGPoint(x: -20, y: -10), control: CGPoint(x: -25, y: 5))
+                                }
+                                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
+                                
+                                Path { path in
+                                    path.move(to: CGPoint(x: 0, y: 20))
+                                    path.addQuadCurve(to: CGPoint(x: 20, y: -10), control: CGPoint(x: 25, y: 5))
+                                }
+                                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
+                            }
+                            
+                            Spacer()
+                        }
+                        .frame(height: 100)
+                    )
+                
+                Spacer()
+            }
+            .frame(height: 200)
+            
+            // Excitement sparkles around mascot
+            ForEach(0..<6, id: \.self) { index in
+                let positions: [(CGFloat, CGFloat)] = [
+                    (-60, -20), (60, -20), (-40, 40), (50, 40), (-70, 10), (70, 10)
+                ]
+                let position = positions[index]
+                
+                Text("✨")
+                    .font(.caption2)
+                    .offset(x: position.0, y: position.1)
+                    .scaleEffect(sparkleAnimation ? 1.5 : 0.0)
+                    .opacity(sparkleAnimation ? 1.0 : 0.0)
+                    .rotationEffect(.degrees(sparkleAnimation ? 180 : 0))
+                    .animation(
+                        .easeInOut(duration: 2)
+                        .repeatForever(autoreverses: true)
+                        .delay(Double(index) * 0.3),
+                        value: sparkleAnimation
+                    )
+            }
+        }
+        .onAppear {
+            tagFloat = true
+            sparkleAnimation = true
+        }
+    }
+}
 }
 
 struct PermissionsView: View {
