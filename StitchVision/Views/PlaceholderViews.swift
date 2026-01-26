@@ -4320,6 +4320,61 @@ struct ExcitedMascotWithTagView: View {
     @State private var tagFloat = false
     @State private var sparkleAnimation = false
     
+    private var tagContent: some View {
+        VStack(spacing: 4) {
+            Text("50%")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+            
+            Text("OFF")
+                .font(.headline)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(
+            LinearGradient(
+                colors: [
+                    Color(red: 0.91, green: 0.61, blue: 0.55),
+                    Color(red: 0.831, green: 0.502, blue: 0.435),
+                    Color(red: 0.78, green: 0.46, blue: 0.40)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        )
+        .cornerRadius(16)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.white, lineWidth: 4)
+        )
+        .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+    }
+    
+    private var tagHole: some View {
+        Circle()
+            .fill(Color.white)
+            .frame(width: 12, height: 12)
+            .overlay(
+                Circle()
+                    .stroke(Color(red: 0.78, green: 0.46, blue: 0.40), lineWidth: 2)
+            )
+            .offset(x: 40, y: -20)
+            .rotationEffect(.degrees(6))
+    }
+    
+    private var tagSparkle: some View {
+        Text("✨")
+            .font(.caption)
+            .offset(x: -30, y: -15)
+            .rotationEffect(.degrees(6))
+            .scaleEffect(sparkleAnimation ? 1.3 : 1.0)
+            .opacity(sparkleAnimation ? 1.0 : 0.8)
+            .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: sparkleAnimation)
+    }
+    
     var body: some View {
         ZStack {
             // 50% OFF Tag held up
@@ -4327,64 +4382,13 @@ struct ExcitedMascotWithTagView: View {
                 HStack {
                     Spacer()
                     
-                    let tagView = VStack(spacing: 4) {
-                        Text("50%")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        
-                        Text("OFF")
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-                    .background(
-                        LinearGradient(
-                            colors: [
-                                Color(red: 0.91, green: 0.61, blue: 0.55),
-                                Color(red: 0.831, green: 0.502, blue: 0.435),
-                                Color(red: 0.78, green: 0.46, blue: 0.40)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .cornerRadius(16)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(Color.white, lineWidth: 4)
-                    )
-                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-                    
-                    tagView
+                    tagContent
                         .rotationEffect(.degrees(6))
                         .offset(y: tagFloat ? -3 : 3)
                         .rotationEffect(.degrees(tagFloat ? -5 : 5))
                         .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: tagFloat)
-                        .overlay(
-                            // Tag hole
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 12, height: 12)
-                                .overlay(
-                                    Circle()
-                                        .stroke(Color(red: 0.78, green: 0.46, blue: 0.40), lineWidth: 2)
-                                )
-                                .offset(x: 40, y: -20)
-                                .rotationEffect(.degrees(6))
-                        )
-                        .overlay(
-                            // Sparkle on tag
-                            Text("✨")
-                                .font(.caption)
-                                .offset(x: -30, y: -15)
-                                .rotationEffect(.degrees(6))
-                                .scaleEffect(sparkleAnimation ? 1.3 : 1.0)
-                                .opacity(sparkleAnimation ? 1.0 : 0.8)
-                                .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: sparkleAnimation)
-                        )
+                        .overlay(tagHole)
+                        .overlay(tagSparkle)
                     
                     Spacer()
                 }
