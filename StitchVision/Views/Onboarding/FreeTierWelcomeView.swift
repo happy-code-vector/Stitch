@@ -230,81 +230,96 @@ private struct MascotBallView: View {
     let ballSize: CGFloat
 
     var body: some View {
-        ZStack {
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            Color(red: 0.66, green: 0.76, blue: 0.63),
-                            Color(red: 0.561, green: 0.659, blue: 0.533)
-                        ],
-                        center: .topLeading,
-                        startRadius: ballSize * 0.23,
-                        endRadius: ballSize * 0.46
+        GeometryReader { geo in
+            let size = ballSize
+            let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
+            let eyeOffsetY = size * 0.08
+            let eyeSpacing = size * 0.12
+
+            ZStack {
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                Color(red: 0.66, green: 0.76, blue: 0.63),
+                                Color(red: 0.561, green: 0.659, blue: 0.533)
+                            ],
+                            center: .topLeading,
+                            startRadius: size * 0.23,
+                            endRadius: size * 0.46
+                        )
                     )
-                )
-                .frame(width: ballSize, height: ballSize)
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                    .frame(width: size, height: size)
+                    .position(center)
+                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
 
-            YarnTextureLines(ballSize: ballSize)
-
-            // Eyes + Eyebrows (properly positioned within ball bounds)
-            Group {
-                let eyeOffsetY = ballSize * 0.15 // Moved up for better positioning
-                let eyeSpacing = ballSize * 0.15 // Slightly closer together
-                let leftEyeCenter = CGPoint(x: -eyeSpacing/2, y: -eyeOffsetY)
-                let rightEyeCenter = CGPoint(x: eyeSpacing/2, y: -eyeOffsetY)
+                YarnTextureLines(ballSize: ballSize)
 
                 // Eyes
-                Circle().fill(Color.black)
-                    .frame(width: ballSize * 0.05, height: ballSize * 0.05)
-                    .offset(x: leftEyeCenter.x, y: leftEyeCenter.y)
-                Circle().fill(Color.black)
-                    .frame(width: ballSize * 0.05, height: ballSize * 0.05)
-                    .offset(x: rightEyeCenter.x, y: rightEyeCenter.y)
+                Circle()
+                    .fill(Color.black)
+                    .frame(width: size * 0.04, height: size * 0.04)
+                    .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
+                Circle()
+                    .fill(Color.black)
+                    .frame(width: size * 0.04, height: size * 0.04)
+                    .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
 
-                // Eyebrows positioned closer to eyes and well within ball bounds
+                // Eyebrows positioned above eyes
                 Path { path in
+<<<<<<< HEAD
                     let start = CGPoint(x: -ballSize * 0.04, y: -ballSize * 0.04)
                     let end = CGPoint(x: ballSize * 0.04, y: -ballSize * 0.04)
                     let control = CGPoint(x: 0, y: -ballSize * 0.06)
                     path.move(to: start)
                     path.addQuadCurve(to: end, control: control)
+=======
+                    let leftEyeX = center.x - eyeSpacing/2
+                    let leftEyeY = center.y - eyeOffsetY
+                    path.move(to: CGPoint(x: leftEyeX - size * 0.03, y: leftEyeY - size * 0.04))
+                    path.addQuadCurve(
+                        to: CGPoint(x: leftEyeX + size * 0.03, y: leftEyeY - size * 0.04),
+                        control: CGPoint(x: leftEyeX, y: leftEyeY - size * 0.06)
+                    )
+>>>>>>> 3d713b69f9d7f198328bbcdf27cc5eb8b8893e9a
                 }
                 .stroke(Color.black, lineWidth: 1.5)
                 .offset(x:leftEyeCenter.x, y: leftEyeCenter.y)
 
                 Path { path in
-                    let start = CGPoint(x: rightEyeCenter.x - ballSize * 0.04, y: rightEyeCenter.y - ballSize * 0.04)
-                    let end = CGPoint(x: rightEyeCenter.x + ballSize * 0.04, y: rightEyeCenter.y - ballSize * 0.04)
-                    let control = CGPoint(x: rightEyeCenter.x, y: rightEyeCenter.y - ballSize * 0.06)
-                    path.move(to: start)
-                    path.addQuadCurve(to: end, control: control)
+                    let rightEyeX = center.x + eyeSpacing/2
+                    let rightEyeY = center.y - eyeOffsetY
+                    path.move(to: CGPoint(x: rightEyeX - size * 0.03, y: rightEyeY - size * 0.04))
+                    path.addQuadCurve(
+                        to: CGPoint(x: rightEyeX + size * 0.03, y: rightEyeY - size * 0.04),
+                        control: CGPoint(x: rightEyeX, y: rightEyeY - size * 0.06)
+                    )
                 }
                 .stroke(Color.black, lineWidth: 1.5)
+
+                // Smile
+                Path { path in
+                    path.move(to: CGPoint(x: center.x - size * 0.15, y: center.y + size * 0.11))
+                    path.addQuadCurve(
+                        to: CGPoint(x: center.x + size * 0.15, y: center.y + size * 0.11),
+                        control: CGPoint(x: center.x, y: center.y + size * 0.16)
+                    )
+                }
+                .stroke(Color.black, lineWidth: 2)
+
+                // Arms holding folder
+                Ellipse()
+                    .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
+                    .frame(width: size * 0.16, height: size * 0.11)
+                    .position(x: center.x - size * 0.35, y: center.y - size * 0.04)
+
+                Ellipse()
+                    .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
+                    .frame(width: size * 0.16, height: size * 0.11)
+                    .position(x: center.x + size * 0.35, y: center.y - size * 0.04)
             }
-
-            // Smile (properly positioned within ball bounds)
-            Path { path in
-                path.move(to: CGPoint(x: -ballSize * 0.15, y: ballSize * 0.08))
-                path.addQuadCurve(
-                    to: CGPoint(x: ballSize * 0.15, y: ballSize * 0.08),
-                    control: CGPoint(x: 0, y: ballSize * 0.18)
-                )
-            }
-            .stroke(Color.black, lineWidth: 2)
-
-            // Arms holding folder
-            Ellipse()
-                .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
-                .frame(width: ballSize * 0.16, height: ballSize * 0.11)
-                .offset(x: -ballSize * 0.35, y: -ballSize * 0.04)
-
-            Ellipse()
-                .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
-                .frame(width: ballSize * 0.16, height: ballSize * 0.11)
-                .offset(x: ballSize * 0.35, y: -ballSize * 0.04)
         }
+        .frame(width: ballSize, height: ballSize)
     }
 }
 
