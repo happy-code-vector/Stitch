@@ -35,6 +35,7 @@
 		A1234567890123456789041B /* DownsellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789041C /* DownsellView.swift */; };
 		A1234567890123456789042B /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789042C /* PermissionsView.swift */; };
 		A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789043C /* FreeTierWelcomeView.swift */; };
+		A1234567890123456789044B /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789044C /* SubscriptionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +68,7 @@
 		A1234567890123456789041C /* DownsellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownsellView.swift; sourceTree = "<group>"; };
 		A1234567890123456789042C /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		A1234567890123456789043C /* FreeTierWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeTierWelcomeView.swift; sourceTree = "<group>"; };
+		A1234567890123456789044C /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +145,7 @@
 				A1234567890123456789041C /* DownsellView.swift */,
 				A1234567890123456789042C /* PermissionsView.swift */,
 				A1234567890123456789043C /* FreeTierWelcomeView.swift */,
+				A1234567890123456789044C /* SubscriptionView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -283,6 +286,7 @@
 				A1234567890123456789041B /* DownsellView.swift in Sources */,
 				A1234567890123456789042B /* PermissionsView.swift in Sources */,
 				A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */,
+				A1234567890123456789044B /* SubscriptionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
