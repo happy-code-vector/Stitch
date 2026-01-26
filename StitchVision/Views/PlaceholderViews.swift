@@ -372,28 +372,28 @@ struct EmpathyMascotView: View {
             }
             
             // Concerned/empathetic eyes
-            HStack(spacing: 14) {
+            HStack(spacing: 16) {
                 Circle()
                     .fill(Color.black)
-                    .frame(width: 8, height: 8)
+                    .frame(width: 12, height: 12)
                     .overlay(
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 3, height: 3)
-                            .offset(x: 1, y: -1)
+                            .frame(width: 4, height: 4)
+                            .offset(x: -1, y: -2)
                     )
                 
                 Circle()
                     .fill(Color.black)
-                    .frame(width: 8, height: 8)
+                    .frame(width: 12, height: 12)
                     .overlay(
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 3, height: 3)
-                            .offset(x: 1, y: -1)
+                            .frame(width: 4, height: 4)
+                            .offset(x: -1, y: -2)
                     )
             }
-            .offset(y: -10)
+            .offset(y: -12)
             
             // Concerned eyebrows
             HStack(spacing: 16) {
@@ -967,40 +967,40 @@ struct ExcitedMascotView: View {
             }
             
             // Excited sparkly eyes
-            HStack(spacing: 16) {
+            HStack(spacing: 18) {
                 Circle()
                     .fill(Color.black)
-                    .frame(width: 10, height: 10)
+                    .frame(width: 14, height: 14)
                     .overlay(
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 4, height: 4)
-                            .offset(x: 1, y: -1)
+                            .frame(width: 5, height: 5)
+                            .offset(x: -2, y: -2)
                     )
                     .overlay(
                         Circle()
                             .fill(Color.white)
                             .frame(width: 2, height: 2)
-                            .offset(x: 2, y: 2)
+                            .offset(x: 3, y: 3)
                     )
                 
                 Circle()
                     .fill(Color.black)
-                    .frame(width: 10, height: 10)
+                    .frame(width: 14, height: 14)
                     .overlay(
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 4, height: 4)
-                            .offset(x: 1, y: -1)
+                            .frame(width: 5, height: 5)
+                            .offset(x: -2, y: -2)
                     )
                     .overlay(
                         Circle()
                             .fill(Color.white)
                             .frame(width: 2, height: 2)
-                            .offset(x: 2, y: 2)
+                            .offset(x: 3, y: 3)
                     )
             }
-            .offset(y: -10)
+            .offset(y: -12)
             
             // Raised excited eyebrows
             HStack(spacing: 20) {
@@ -1234,28 +1234,28 @@ struct RollingYarnBallView: View {
                 )
                 .overlay(
                     // Eyes
-                    HStack(spacing: 16) {
+                    HStack(spacing: 18) {
                         Circle()
                             .fill(Color.black)
-                            .frame(width: 8, height: 8)
+                            .frame(width: 10, height: 10)
                             .overlay(
                                 Circle()
                                     .fill(Color.white)
                                     .frame(width: 3, height: 3)
-                                    .offset(x: 1, y: -1)
+                                    .offset(x: -1, y: -2)
                             )
                         
                         Circle()
                             .fill(Color.black)
-                            .frame(width: 8, height: 8)
+                            .frame(width: 10, height: 10)
                             .overlay(
                                 Circle()
                                     .fill(Color.white)
                                     .frame(width: 3, height: 3)
-                                    .offset(x: 1, y: -1)
+                                    .offset(x: -1, y: -2)
                             )
                     }
-                    .offset(y: -8)
+                    .offset(y: -10)
                 )
                 .overlay(
                     // Calm, focused smile
@@ -2377,25 +2377,25 @@ struct SmallHappyMascotView: View {
                 .frame(width: 48, height: 48)
             
             // Happy eyes
-            HStack(spacing: 8) {
+            HStack(spacing: 10) {
                 Circle()
                     .fill(Color.black)
-                    .frame(width: 4, height: 4)
+                    .frame(width: 6, height: 6)
                     .overlay(
                         Circle()
                             .fill(Color.white)
                             .frame(width: 2, height: 2)
-                            .offset(x: 0.5, y: -0.5)
+                            .offset(x: -1, y: -1)
                     )
                 
                 Circle()
                     .fill(Color.black)
-                    .frame(width: 4, height: 4)
+                    .frame(width: 6, height: 6)
                     .overlay(
                         Circle()
                             .fill(Color.white)
                             .frame(width: 2, height: 2)
-                            .offset(x: 0.5, y: -0.5)
+                            .offset(x: -1, y: -1)
                     )
             }
             .offset(y: -4)
@@ -2637,28 +2637,28 @@ struct CelebratingMascotView: View {
             }
             
             // Happy eyes
-            HStack(spacing: 12) {
+            HStack(spacing: 14) {
                 Circle()
                     .fill(Color.black)
-                    .frame(width: 6, height: 6)
+                    .frame(width: 8, height: 8)
                     .overlay(
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 2, height: 2)
-                            .offset(x: 1, y: -1)
+                            .frame(width: 3, height: 3)
+                            .offset(x: -1, y: -1)
                     )
                 
                 Circle()
                     .fill(Color.black)
-                    .frame(width: 6, height: 6)
+                    .frame(width: 8, height: 8)
                     .overlay(
                         Circle()
                             .fill(Color.white)
-                            .frame(width: 2, height: 2)
-                            .offset(x: 1, y: -1)
+                            .frame(width: 3, height: 3)
+                            .offset(x: -1, y: -1)
                     )
             }
-            .offset(y: -6)
+            .offset(y: -8)
             
             // Big smile
             Path { path in
@@ -3534,28 +3534,28 @@ struct PeekingMascotView: View {
                     }
                     
                     // Curious eyes looking down
-                    HStack(spacing: 12) {
+                    HStack(spacing: 14) {
                         Circle()
                             .fill(Color.black)
-                            .frame(width: 6, height: 6)
+                            .frame(width: 8, height: 8)
                             .overlay(
                                 Circle()
                                     .fill(Color.white)
-                                    .frame(width: 2, height: 2)
-                                    .offset(x: 0.5, y: -0.5)
+                                    .frame(width: 3, height: 3)
+                                    .offset(x: -1, y: -1)
                             )
                         
                         Circle()
                             .fill(Color.black)
-                            .frame(width: 6, height: 6)
+                            .frame(width: 8, height: 8)
                             .overlay(
                                 Circle()
                                     .fill(Color.white)
-                                    .frame(width: 2, height: 2)
-                                    .offset(x: 0.5, y: -0.5)
+                                    .frame(width: 3, height: 3)
+                                    .offset(x: -1, y: -1)
                             )
                     }
-                    .offset(y: -5)
+                    .offset(y: -8)
                     
                     // Small curious smile
                     Path { path in
@@ -4401,40 +4401,40 @@ struct ExcitedMascotWithTagView: View {
     }
     
     private var mascotEyes: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 18) {
             Circle()
                 .fill(Color.black)
-                .frame(width: 10, height: 10)
+                .frame(width: 12, height: 12)
                 .overlay(
                     Circle()
                         .fill(Color.white)
                         .frame(width: 4, height: 4)
-                        .offset(x: 1, y: -1)
+                        .offset(x: -2, y: -2)
                 )
                 .overlay(
                     Circle()
                         .fill(Color.white)
                         .frame(width: 2, height: 2)
-                        .offset(x: 2, y: 1)
+                        .offset(x: 3, y: 3)
                 )
             
             Circle()
                 .fill(Color.black)
-                .frame(width: 10, height: 10)
+                .frame(width: 12, height: 12)
                 .overlay(
                     Circle()
                         .fill(Color.white)
                         .frame(width: 4, height: 4)
-                        .offset(x: 1, y: -1)
+                        .offset(x: -2, y: -2)
                 )
                 .overlay(
                     Circle()
                         .fill(Color.white)
                         .frame(width: 2, height: 2)
-                        .offset(x: 2, y: 1)
+                        .offset(x: 3, y: 3)
                 )
         }
-        .offset(y: -8)
+        .offset(y: -10)
     }
     
     private var mascotMouth: some View {
@@ -4978,28 +4978,28 @@ struct MascotWithFolderView: View {
                     }
                     
                     // Happy eyes
-                    HStack(spacing: 12) {
+                    HStack(spacing: 14) {
                         Circle()
                             .fill(Color.black)
-                            .frame(width: 6, height: 6)
+                            .frame(width: 8, height: 8)
                             .overlay(
                                 Circle()
                                     .fill(Color.white)
-                                    .frame(width: 2, height: 2)
-                                    .offset(x: 0.5, y: -0.5)
+                                    .frame(width: 3, height: 3)
+                                    .offset(x: -1, y: -1)
                             )
                         
                         Circle()
                             .fill(Color.black)
-                            .frame(width: 6, height: 6)
+                            .frame(width: 8, height: 8)
                             .overlay(
                                 Circle()
                                     .fill(Color.white)
-                                    .frame(width: 2, height: 2)
-                                    .offset(x: 0.5, y: -0.5)
+                                    .frame(width: 3, height: 3)
+                                    .offset(x: -1, y: -1)
                             )
                     }
-                    .offset(y: -8)
+                    .offset(y: -10)
                     
                     // Big smile
                     Path { path in
