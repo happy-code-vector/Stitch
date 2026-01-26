@@ -5,21 +5,29 @@ struct FloatingConfettiView: View {
     
     var body: some View {
         ZStack {
+            Color.clear
             ForEach(confettiPieces, id: \.id) { piece in
                 ConfettiPieceView(piece: piece)
             }
         }
+        .ignoresSafeArea()
         .onAppear {
             generateConfetti()
         }
     }
     
     private func generateConfetti() {
+        let screen = UIScreen.main.bounds
+        let minX: CGFloat = 0
+        let maxX: CGFloat = screen.width
+        let minY: CGFloat = 0
+        let maxY: CGFloat = screen.height
+
         confettiPieces = (0..<15).map { _ in
             ConfettiPiece(
                 id: UUID(),
-                x: Double.random(in: 0...UIScreen.main.bounds.width),
-                y: Double.random(in: -100...UIScreen.main.bounds.height + 100),
+                x: Double.random(in: minX...maxX),
+                y: Double.random(in: minY...maxY),
                 color: [
                     Color(red: 0.8, green: 0.9, blue: 0.8),
                     Color(red: 0.9, green: 0.8, blue: 0.9),
@@ -52,7 +60,7 @@ struct ConfettiPieceView: View {
         Circle()
             .fill(piece.color)
             .frame(width: piece.size, height: piece.size)
-            .position(x: piece.x, y: isAnimating ? piece.y + 200 : piece.y - 200)
+            .position(x: piece.x, y: isAnimating ? piece.y + 220 : piece.y - 220)
             .rotationEffect(.degrees(isAnimating ? piece.rotation + 360 : piece.rotation))
             .opacity(isAnimating ? 0.3 : 0.7)
             .animation(
