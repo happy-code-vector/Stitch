@@ -2426,9 +2426,181 @@ struct StatsView: View {
 
 struct CameraPermissionsView: View {
     @EnvironmentObject var appState: AppState
+    @State private var animateElements = false
+    @State private var animateBackground = false
     
     var body: some View {
-        PlaceholderView(title: "Camera Permissions", nextScreen: .calibration)
+        ZStack {
+            // Background
+            Color(red: 0.976, green: 0.969, blue: 0.949)
+                .ignoresSafeArea()
+            
+            // Decorative background circles
+            Circle()
+                .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.3))
+                .frame(width: 200, height: 200)
+                .blur(radius: 60)
+                .offset(x: -100, y: -200)
+                .scaleEffect(animateBackground ? 1.2 : 1.0)
+                .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true), value: animateBackground)
+            
+            Circle()
+                .fill(Color(red: 0.66, green: 0.76, blue: 0.63).opacity(0.3))
+                .frame(width: 200, height: 200)
+                .blur(radius: 60)
+                .offset(x: 100, y: 200)
+                .scaleEffect(animateBackground ? 1.0 : 1.3)
+                .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true), value: animateBackground)
+            
+            VStack(spacing: 0) {
+                // Progress bar
+                HStack {
+                    Rectangle()
+                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                        .scaleEffect(x: 0.8, y: 1, anchor: .leading)
+                        .animation(.easeOut(duration: 0.8), value: animateElements)
+                    
+                    Rectangle()
+                        .fill(Color.white.opacity(0.5))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity)
+                }
+                .padding(.horizontal, 0)
+                
+                Spacer()
+                
+                // Modal content
+                VStack(spacing: 24) {
+                    // Camera icon
+                    ZStack {
+                        Circle()
+                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                            .frame(width: 80, height: 80)
+                        
+                        Image(systemName: "camera.fill")
+                            .font(.system(size: 32))
+                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    }
+                    .scaleEffect(animateElements ? 1.0 : 0.0)
+                    .animation(.spring(response: 0.5, dampingFraction: 0.6).delay(0.2), value: animateElements)
+                    
+                    VStack(spacing: 8) {
+                        Text("Set Up Your AI Counter")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .multilineTextAlignment(.center)
+                        
+                        Text("Quick 10-second setup")
+                            .font(.caption)
+                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 10)
+                    .animation(.easeOut(duration: 0.5).delay(0.3), value: animateElements)
+                    
+                    VStack(spacing: 16) {
+                        Text("StitchVision uses your camera to watch your knitting and count rows. **Camera-based row counting runs entirely on your device**—video is never saved or uploaded.")
+                            .font(.subheadline)
+                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .multilineTextAlignment(.center)
+                            .lineLimit(nil)
+                        
+                        Text("Note: Other AI features like Stitch Doctor use secure cloud processing.")
+                            .font(.caption)
+                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                            .italic()
+                            .multilineTextAlignment(.center)
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 10)
+                    .animation(.easeOut(duration: 0.5).delay(0.5), value: animateElements)
+                    
+                    // Benefits list
+                    VStack(spacing: 12) {
+                        BenefitRow(icon: "✓", text: "AI Counting runs locally on-device")
+                        BenefitRow(icon: "🔒", text: "Video stream is never saved")
+                        BenefitRow(icon: "⚡", text: "Works offline")
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 10)
+                    .animation(.easeOut(duration: 0.5).delay(0.6), value: animateElements)
+                    
+                    // Buttons
+                    VStack(spacing: 12) {
+                        Button(action: {
+                            // Request camera permission here
+                            appState.navigateTo(.calibration)
+                        }) {
+                            Text("Allow Camera Access")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .cornerRadius(25)
+                                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                        }
+                        
+                        Button(action: {
+                            appState.navigateTo(.calibration)
+                        }) {
+                            Text("Maybe Later")
+                                .font(.subheadline)
+                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .padding(.vertical, 8)
+                        }
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 10)
+                    .animation(.easeOut(duration: 0.6).delay(0.5), value: animateElements)
+                    
+                    // Privacy note
+                    Text("🔒 Your privacy is protected. Camera access is only used during active knitting sessions.")
+                        .font(.caption2)
+                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        .multilineTextAlignment(.center)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .animation(.easeOut(duration: 0.6).delay(0.7), value: animateElements)
+                }
+                .padding(.horizontal, 32)
+                .padding(.vertical, 32)
+                .background(Color.white)
+                .cornerRadius(24)
+                .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
+                .padding(.horizontal, 24)
+                .scaleEffect(animateElements ? 1.0 : 0.9)
+                .animation(.spring(response: 0.6, dampingFraction: 0.8), value: animateElements)
+                
+                Spacer()
+            }
+        }
+        .onAppear {
+            animateElements = true
+            animateBackground = true
+        }
+    }
+}
+
+struct BenefitRow: View {
+    let icon: String
+    let text: String
+    
+    var body: some View {
+        HStack(spacing: 8) {
+            Text(icon)
+                .font(.subheadline)
+                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+            
+            Text(text)
+                .font(.subheadline)
+                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+            
+            Spacer()
+        }
     }
 }
 
@@ -2494,17 +2666,511 @@ struct DownsellView: View {
 
 struct PermissionsView: View {
     @EnvironmentObject var appState: AppState
+    @State private var animateElements = false
+    @State private var animateBackground = false
     
     var body: some View {
-        PlaceholderView(title: "Permissions", nextScreen: .freeTierWelcome)
+        ZStack {
+            // Background
+            Color(red: 0.976, green: 0.969, blue: 0.949)
+                .ignoresSafeArea()
+            
+            // Background pattern
+            Canvas { context, size in
+                let rows = Int(size.height / 80)
+                let cols = Int(size.width / 80)
+                
+                for row in 0..<rows {
+                    for col in 0..<cols {
+                        let x = CGFloat(col) * 80 + 20
+                        let y = CGFloat(row) * 80 + 20
+                        let offset: CGFloat = row % 2 == 0 ? 0 : 40
+                        
+                        context.fill(
+                            Path(ellipseIn: CGRect(x: x + offset, y: y, width: 4, height: 4)),
+                            with: .color(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                        )
+                    }
+                }
+            }
+            
+            // Decorative background circles
+            Circle()
+                .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                .frame(width: 120, height: 120)
+                .blur(radius: 40)
+                .offset(x: 80, y: -150)
+                .scaleEffect(animateBackground ? 1.2 : 1.0)
+                .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true), value: animateBackground)
+            
+            Circle()
+                .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                .frame(width: 160, height: 160)
+                .blur(radius: 40)
+                .offset(x: -80, y: 200)
+                .scaleEffect(animateBackground ? 1.0 : 1.3)
+                .animation(.easeInOut(duration: 5).repeatForever(autoreverses: true).delay(1), value: animateBackground)
+            
+            VStack(spacing: 0) {
+                // Progress bar
+                HStack {
+                    Rectangle()
+                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                        .scaleEffect(x: 0.95, y: 1, anchor: .leading)
+                        .animation(.easeOut(duration: 0.8), value: animateElements)
+                    
+                    Rectangle()
+                        .fill(Color.white.opacity(0.5))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity)
+                }
+                .padding(.horizontal, 0)
+                
+                Spacer()
+                
+                // Modal content
+                VStack(spacing: 24) {
+                    // Bell icon with gradient background
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 0.561, green: 0.659, blue: 0.533),
+                                        Color(red: 0.49, green: 0.57, blue: 0.46)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 80, height: 80)
+                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                        
+                        Image(systemName: "bell.fill")
+                            .font(.system(size: 32))
+                            .foregroundColor(.white)
+                    }
+                    .scaleEffect(animateElements ? 1.0 : 0.0)
+                    .animation(.spring(response: 0.5, dampingFraction: 0.6).delay(0.2), value: animateElements)
+                    
+                    VStack(spacing: 16) {
+                        Text("Don't lose your streak")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .multilineTextAlignment(.center)
+                        
+                        Text("Allow notifications so the AI Coach can remind you to finish that sweater.")
+                            .font(.subheadline)
+                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .multilineTextAlignment(.center)
+                            .lineLimit(nil)
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 10)
+                    .animation(.easeOut(duration: 0.5).delay(0.4), value: animateElements)
+                    
+                    // Buttons
+                    VStack(spacing: 16) {
+                        Button(action: {
+                            // Request notification permission here
+                            appState.navigateTo(.freeTierWelcome)
+                        }) {
+                            Text("Allow")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .cornerRadius(25)
+                                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                        }
+                        
+                        Button(action: {
+                            appState.navigateTo(.freeTierWelcome)
+                        }) {
+                            Text("Maybe Later")
+                                .font(.subheadline)
+                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .padding(.vertical, 12)
+                        }
+                    }
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : 10)
+                    .animation(.easeOut(duration: 0.5).delay(0.5), value: animateElements)
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 32)
+                .background(Color.white)
+                .cornerRadius(24)
+                .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
+                .padding(.horizontal, 32)
+                .scaleEffect(animateElements ? 1.0 : 0.9)
+                .animation(.spring(response: 0.6, dampingFraction: 0.8), value: animateElements)
+                
+                Spacer()
+            }
+        }
+        .onAppear {
+            animateElements = true
+            animateBackground = true
+        }
     }
 }
 
 struct FreeTierWelcomeView: View {
     @EnvironmentObject var appState: AppState
+    @State private var animateElements = false
+    @State private var animateSparkles = false
     
     var body: some View {
-        PlaceholderView(title: "Free Tier Welcome", nextScreen: .dashboard)
+        ZStack {
+            // Background
+            Color(red: 0.976, green: 0.969, blue: 0.949)
+                .ignoresSafeArea()
+            
+            // Blurred background elements to simulate home screen
+            VStack(spacing: 16) {
+                Rectangle()
+                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .frame(height: 64)
+                    .cornerRadius(16)
+                    .blur(radius: 8)
+                    .opacity(0.4)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 80)
+                
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(height: 128)
+                    .cornerRadius(24)
+                    .blur(radius: 8)
+                    .opacity(0.4)
+                    .padding(.horizontal, 24)
+                
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(height: 96)
+                    .cornerRadius(24)
+                    .blur(radius: 8)
+                    .opacity(0.4)
+                    .padding(.horizontal, 24)
+                
+                Spacer()
+                
+                Capsule()
+                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .frame(height: 80)
+                    .blur(radius: 8)
+                    .opacity(0.4)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 120)
+            }
+            
+            // Dark overlay
+            Color.black.opacity(0.2)
+                .ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                // Progress bar
+                HStack {
+                    Rectangle()
+                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                        .animation(.easeOut(duration: 0.8), value: animateElements)
+                    
+                    Rectangle()
+                        .fill(Color.white.opacity(0.5))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity)
+                }
+                .padding(.horizontal, 0)
+                
+                Spacer()
+                
+                // Modal content
+                VStack(spacing: 0) {
+                    // Mascot with folder (floating above modal)
+                    MascotWithFolderView()
+                        .offset(y: -60)
+                        .scaleEffect(animateElements ? 1.0 : 0.8)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .animation(.spring(response: 0.8, dampingFraction: 0.6).delay(0.2), value: animateElements)
+                    
+                    VStack(spacing: 24) {
+                        VStack(spacing: 16) {
+                            Text("Welcome to the Starter Plan!")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                .multilineTextAlignment(.center)
+                            
+                            Text("You have access to **1 Active Smart Project** with full AI Vision features. Finish it to start a new one, or upgrade anytime to multitask.")
+                                .font(.subheadline)
+                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .multilineTextAlignment(.center)
+                                .lineLimit(nil)
+                        }
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : 10)
+                        .animation(.easeOut(duration: 0.5).delay(0.4), value: animateElements)
+                        
+                        Button(action: {
+                            appState.navigateTo(.dashboard)
+                        }) {
+                            Text("Let's Cast On!")
+                                .font(.headline)
+                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(Color.white)
+                                .cornerRadius(25)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 25)
+                                        .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 3)
+                                )
+                        }
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : 10)
+                        .animation(.easeOut(duration: 0.5).delay(0.6), value: animateElements)
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 32)
+                    .padding(.top, 40) // Extra space for floating mascot
+                    .background(Color.white)
+                    .cornerRadius(24)
+                    .shadow(color: .black.opacity(0.1), radius: 20, x: 0, y: 10)
+                }
+                .padding(.horizontal, 24)
+                .scaleEffect(animateElements ? 1.0 : 0.9)
+                .animation(.spring(response: 0.6, dampingFraction: 0.8), value: animateElements)
+                
+                Spacer()
+            }
+            
+            // Sparkle decorations
+            SparkleView(x: 80, y: 120, delay: 0)
+            SparkleView(x: 300, y: 200, delay: 0.7)
+        }
+        .onAppear {
+            animateElements = true
+            animateSparkles = true
+        }
+    }
+}
+
+struct MascotWithFolderView: View {
+    var body: some View {
+        ZStack {
+            // Project folder/ticket held up
+            VStack {
+                ZStack {
+                    // Golden folder
+                    RoundedRectangle(cornerRadius: 6)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 0.957, green: 0.898, blue: 0.627),
+                                    Color(red: 0.831, green: 0.686, blue: 0.216),
+                                    Color(red: 0.788, green: 0.635, blue: 0.196)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 60, height: 40)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color(red: 0.788, green: 0.635, blue: 0.196), lineWidth: 1.5)
+                        )
+                    
+                    // Folder tab
+                    Path { path in
+                        path.move(to: CGPoint(x: -30, y: -15))
+                        path.addLine(to: CGPoint(x: -30, y: -20))
+                        path.addQuadCurve(to: CGPoint(x: -25, y: -25), control: CGPoint(x: -30, y: -25))
+                        path.addLine(to: CGPoint(x: -10, y: -25))
+                        path.addLine(to: CGPoint(x: -5, y: -15))
+                        path.closeSubpath()
+                    }
+                    .fill(Color(red: 0.831, green: 0.686, blue: 0.216))
+                    .overlay(
+                        Path { path in
+                            path.move(to: CGPoint(x: -30, y: -15))
+                            path.addLine(to: CGPoint(x: -30, y: -20))
+                            path.addQuadCurve(to: CGPoint(x: -25, y: -25), control: CGPoint(x: -30, y: -25))
+                            path.addLine(to: CGPoint(x: -10, y: -25))
+                            path.addLine(to: CGPoint(x: -5, y: -15))
+                        }
+                        .stroke(Color(red: 0.788, green: 0.635, blue: 0.196), lineWidth: 1.5)
+                    )
+                    
+                    // Decorative lines on folder
+                    VStack(spacing: 4) {
+                        Rectangle()
+                            .fill(Color(red: 0.788, green: 0.635, blue: 0.196))
+                            .frame(width: 40, height: 1.5)
+                        Rectangle()
+                            .fill(Color(red: 0.788, green: 0.635, blue: 0.196))
+                            .frame(width: 25, height: 1.5)
+                        Rectangle()
+                            .fill(Color(red: 0.788, green: 0.635, blue: 0.196))
+                            .frame(width: 30, height: 1.5)
+                    }
+                    
+                    // Star icon
+                    Image(systemName: "star.fill")
+                        .font(.caption2)
+                        .foregroundColor(Color(red: 0.957, green: 0.898, blue: 0.627))
+                        .offset(x: 15, y: -8)
+                    
+                    // Shine effect
+                    Ellipse()
+                        .fill(Color.white.opacity(0.3))
+                        .frame(width: 30, height: 20)
+                        .offset(x: -10, y: -5)
+                }
+                .offset(y: -40)
+                
+                Spacer()
+            }
+            
+            // Yarn ball mascot
+            VStack {
+                Spacer()
+                
+                ZStack {
+                    // Main body
+                    Circle()
+                        .fill(
+                            RadialGradient(
+                                colors: [
+                                    Color(red: 0.66, green: 0.76, blue: 0.63),
+                                    Color(red: 0.561, green: 0.659, blue: 0.533)
+                                ],
+                                center: .topLeading,
+                                startRadius: 15,
+                                endRadius: 40
+                            )
+                        )
+                        .frame(width: 80, height: 80)
+                    
+                    // Yarn texture
+                    ForEach(0..<4, id: \.self) { index in
+                        Path { path in
+                            let y = 40 + CGFloat(index - 2) * 8
+                            path.move(to: CGPoint(x: 15, y: y))
+                            path.addQuadCurve(to: CGPoint(x: 65, y: y), control: CGPoint(x: 40, y: y - 3))
+                        }
+                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                        .opacity(0.6)
+                    }
+                    
+                    // Happy eyes
+                    HStack(spacing: 12) {
+                        Circle()
+                            .fill(Color.black)
+                            .frame(width: 6, height: 6)
+                            .overlay(
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 3, height: 3)
+                                    .offset(x: 1, y: -1)
+                            )
+                            .overlay(
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 1, height: 1)
+                                    .offset(x: 2, y: 1)
+                            )
+                        
+                        Circle()
+                            .fill(Color.black)
+                            .frame(width: 6, height: 6)
+                            .overlay(
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 3, height: 3)
+                                    .offset(x: 1, y: -1)
+                            )
+                            .overlay(
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 1, height: 1)
+                                    .offset(x: 2, y: 1)
+                            )
+                    }
+                    .offset(y: -8)
+                    
+                    // Big smile
+                    Path { path in
+                        path.move(to: CGPoint(x: 25, y: 48))
+                        path.addQuadCurve(to: CGPoint(x: 55, y: 48), control: CGPoint(x: 40, y: 58))
+                    }
+                    .stroke(Color.black, lineWidth: 2)
+                    
+                    // Rosy cheeks
+                    HStack(spacing: 30) {
+                        Ellipse()
+                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                            .frame(width: 8, height: 6)
+                            .opacity(0.3)
+                        
+                        Ellipse()
+                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                            .frame(width: 8, height: 6)
+                            .opacity(0.3)
+                    }
+                    .offset(y: 5)
+                    
+                    // Arms reaching up
+                    HStack(spacing: 60) {
+                        Path { path in
+                            path.move(to: CGPoint(x: 0, y: 0))
+                            path.addQuadCurve(to: CGPoint(x: -15, y: -35), control: CGPoint(x: -10, y: -15))
+                        }
+                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 5)
+                        
+                        Path { path in
+                            path.move(to: CGPoint(x: 0, y: 0))
+                            path.addQuadCurve(to: CGPoint(x: 15, y: -35), control: CGPoint(x: 10, y: -15))
+                        }
+                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 5)
+                    }
+                    .offset(y: -10)
+                }
+            }
+        }
+        .frame(width: 120, height: 120)
+    }
+}
+
+struct SparkleView: View {
+    let x: CGFloat
+    let y: CGFloat
+    let delay: Double
+    @State private var animate = false
+    
+    var body: some View {
+        Circle()
+            .fill(Color(red: 0.922, green: 1.0, blue: 0.0))
+            .frame(width: animate ? 6 : 2, height: animate ? 6 : 2)
+            .opacity(animate ? 1.0 : 0.0)
+            .position(x: x, y: y)
+            .animation(
+                .easeInOut(duration: 2)
+                .repeatForever(autoreverses: true)
+                .delay(delay),
+                value: animate
+            )
+            .onAppear {
+                animate = true
+            }
     }
 }
 
