@@ -233,8 +233,8 @@ private struct MascotBallView: View {
         GeometryReader { geo in
             let size = ballSize
             let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
-            let eyeOffsetY = size * 0.08
-            let eyeSpacing = size * 0.12
+            let eyeOffsetY = size * 0.12
+            let eyeSpacing = size * 0.18
 
             ZStack {
                 Circle()
@@ -255,26 +255,27 @@ private struct MascotBallView: View {
 
                 YarnTextureLines(ballSize: ballSize)
 
-                // Eyes
+                // Eyes (made larger and better positioned)
                 Circle()
                     .fill(Color.black)
-                    .frame(width: size * 0.04, height: size * 0.04)
+                    .frame(width: size * 0.06, height: size * 0.06)
                     .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
                 Circle()
                     .fill(Color.black)
-                    .frame(width: size * 0.04, height: size * 0.04)
+                    .frame(width: size * 0.06, height: size * 0.06)
                     .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
 
                 // Eyebrows positioned above eyes
                 Path { path in
-                    let start = CGPoint(x: -ballSize * 0.04, y: -ballSize * 0.04)
-                    let end = CGPoint(x: ballSize * 0.04, y: -ballSize * 0.04)
-                    let control = CGPoint(x: 0, y: -ballSize * 0.06)
-                    path.move(to: start)
-                    path.addQuadCurve(to: end, control: control)
+                    let leftEyeX = center.x - eyeSpacing/2
+                    let leftEyeY = center.y - eyeOffsetY
+                    path.move(to: CGPoint(x: leftEyeX - size * 0.03, y: leftEyeY - size * 0.04))
+                    path.addQuadCurve(
+                        to: CGPoint(x: leftEyeX + size * 0.03, y: leftEyeY - size * 0.04),
+                        control: CGPoint(x: leftEyeX, y: leftEyeY - size * 0.06)
+                    )
                 }
                 .stroke(Color.black, lineWidth: 1.5)
-                .offset(x:leftEyeCenter.x, y: leftEyeCenter.y)
 
                 Path { path in
                     let rightEyeX = center.x + eyeSpacing/2
@@ -317,23 +318,27 @@ private struct YarnTextureLines: View {
     let ballSize: CGFloat
 
     var body: some View {
-        ForEach(0..<5, id: \.self) { index in
-            Path { path in
-                let angle = Double(index) * 36 * .pi / 180
-                let radius: CGFloat = ballSize * 0.40
-                let start = CGPoint(
-                    x: cos(angle) * radius * 0.3,
-                    y: sin(angle) * radius * 0.3
-                )
-                let end = CGPoint(
-                    x: cos(angle) * radius * 0.7,
-                    y: sin(angle) * radius * 0.7
-                )
-                path.move(to: start)
-                path.addLine(to: end)
+        GeometryReader { geo in
+            let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
+            
+            ForEach(0..<5, id: \.self) { index in
+                Path { path in
+                    let angle = Double(index) * 36 * .pi / 180
+                    let radius: CGFloat = ballSize * 0.40
+                    let start = CGPoint(
+                        x: center.x + cos(angle) * radius * 0.3,
+                        y: center.y + sin(angle) * radius * 0.3
+                    )
+                    let end = CGPoint(
+                        x: center.x + cos(angle) * radius * 0.7,
+                        y: center.y + sin(angle) * radius * 0.7
+                    )
+                    path.move(to: start)
+                    path.addLine(to: end)
+                }
+                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                .opacity(0.6)
             }
-            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-            .opacity(0.6)
         }
     }
 }
