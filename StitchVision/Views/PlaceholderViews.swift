@@ -2182,7 +2182,6 @@ struct ControlPanelVisualView: View {
             // Top: Mini camera view
             ZStack {
                 RoundedRectangle(cornerRadius: 16)
-                    .cornerRadius(16, corners: [.topLeft, .topRight])
                     .fill(
                         LinearGradient(
                             colors: [
@@ -2198,13 +2197,12 @@ struct ControlPanelVisualView: View {
                 
                 // Knitting texture
                 RoundedRectangle(cornerRadius: 16)
-                    .cornerRadius(16, corners: [.topLeft, .topRight])
                     .fill(Color.clear)
                     .frame(height: 140)
                     .overlay(
                         KnittingPatternView()
                             .opacity(0.2)
-                            .clipShape(RoundedRectangle(cornerRadius: 16).cornerRadius(16, corners: [.topLeft, .topRight]))
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
                     )
                 
                 // Row count display
@@ -2287,7 +2285,7 @@ struct ControlPanelVisualView: View {
             }
             .padding(24)
             .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 16).cornerRadius(16, corners: [.bottomLeft, .bottomRight]))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
         }
         .shadow(color: .black.opacity(0.3), radius: 12, x: 0, y: 6)
     }
@@ -2412,12 +2410,6 @@ struct SmallHappyMascotView: View {
     }
 }
 
-extension RoundedRectangle {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape(RoundedCorner(radius: radius, corners: corners))
-    }
-}
-
 struct ComparisonChartView: View {
     @State private var animateChart = false
     
@@ -2537,7 +2529,7 @@ struct ComparisonChartView: View {
                                             )
                                         )
                                         .frame(width: 60, height: animateChart ? 70 : 0)
-                                        .cornerRadius(8, corners: [.topLeft, .topRight])
+                                        .cornerRadius(8)
                                         .overlay(
                                             VStack {
                                                 Text("4.5 hrs")
@@ -2713,20 +2705,6 @@ struct CelebratingMascotView: View {
         .onAppear {
             celebrateAnimation = true
         }
-    }
-}
-
-struct RoundedCorner: Shape {
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(
-            roundedRect: rect,
-            byRoundingCorners: corners,
-            cornerRadii: CGSize(width: radius, height: radius)
-        )
-        return Path(path.cgPath)
     }
 }
 
