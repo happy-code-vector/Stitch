@@ -2498,7 +2498,7 @@ struct ComparisonChartView: View {
                                         )
                                     )
                                     .frame(width: 60, height: animateChart ? 140 : 0)
-                                    .cornerRadius(8, corners: [.topLeft, .topRight])
+                                    .cornerRadius(8)
                                     .overlay(
                                         VStack {
                                             Text("9 hrs")
@@ -4327,7 +4327,7 @@ struct ExcitedMascotWithTagView: View {
                 HStack {
                     Spacer()
                     
-                    VStack(spacing: 4) {
+                    let tagView = VStack(spacing: 4) {
                         Text("50%")
                             .font(.title)
                             .fontWeight(.bold)
@@ -4357,32 +4357,34 @@ struct ExcitedMascotWithTagView: View {
                             .stroke(Color.white, lineWidth: 4)
                     )
                     .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-                    .rotationEffect(.degrees(6))
-                    .offset(y: tagFloat ? -3 : 3)
-                    .rotationEffect(.degrees(tagFloat ? -5 : 5))
-                    .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: tagFloat)
-                    .overlay(
-                        // Tag hole
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 12, height: 12)
-                            .overlay(
-                                Circle()
-                                    .stroke(Color(red: 0.78, green: 0.46, blue: 0.40), lineWidth: 2)
-                            )
-                            .offset(x: 40, y: -20)
-                            .rotationEffect(.degrees(6))
-                    )
-                    .overlay(
-                        // Sparkle on tag
-                        Text("✨")
-                            .font(.caption)
-                            .offset(x: -30, y: -15)
-                            .rotationEffect(.degrees(6))
-                            .scaleEffect(sparkleAnimation ? 1.3 : 1.0)
-                            .opacity(sparkleAnimation ? 1.0 : 0.8)
-                            .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: sparkleAnimation)
-                    )
+                    
+                    tagView
+                        .rotationEffect(.degrees(6))
+                        .offset(y: tagFloat ? -3 : 3)
+                        .rotationEffect(.degrees(tagFloat ? -5 : 5))
+                        .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: tagFloat)
+                        .overlay(
+                            // Tag hole
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 12, height: 12)
+                                .overlay(
+                                    Circle()
+                                        .stroke(Color(red: 0.78, green: 0.46, blue: 0.40), lineWidth: 2)
+                                )
+                                .offset(x: 40, y: -20)
+                                .rotationEffect(.degrees(6))
+                        )
+                        .overlay(
+                            // Sparkle on tag
+                            Text("✨")
+                                .font(.caption)
+                                .offset(x: -30, y: -15)
+                                .rotationEffect(.degrees(6))
+                                .scaleEffect(sparkleAnimation ? 1.3 : 1.0)
+                                .opacity(sparkleAnimation ? 1.0 : 0.8)
+                                .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: sparkleAnimation)
+                        )
                     
                     Spacer()
                 }
