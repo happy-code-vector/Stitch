@@ -43,12 +43,35 @@ struct YarnBallMascotView: View {
                         .opacity(0.6)
                     }
 
-                    // Eyes
+                    // Eyes with proper positioning
                     HStack(spacing: size * 0.12) {
                         Circle().fill(Color.black).frame(width: size * 0.05, height: size * 0.05)
                         Circle().fill(Color.black).frame(width: size * 0.05, height: size * 0.05)
                     }
                     .position(x: center.x, y: center.y - size * 0.08)
+
+                    // Eyebrows positioned above eyes
+                    Path { path in
+                        let leftEyeX = center.x - size * 0.06
+                        let leftEyeY = center.y - size * 0.08
+                        path.move(to: CGPoint(x: leftEyeX - size * 0.03, y: leftEyeY - size * 0.04))
+                        path.addQuadCurve(
+                            to: CGPoint(x: leftEyeX + size * 0.03, y: leftEyeY - size * 0.04),
+                            control: CGPoint(x: leftEyeX, y: leftEyeY - size * 0.06)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 1.5)
+
+                    Path { path in
+                        let rightEyeX = center.x + size * 0.06
+                        let rightEyeY = center.y - size * 0.08
+                        path.move(to: CGPoint(x: rightEyeX - size * 0.03, y: rightEyeY - size * 0.04))
+                        path.addQuadCurve(
+                            to: CGPoint(x: rightEyeX + size * 0.03, y: rightEyeY - size * 0.04),
+                            control: CGPoint(x: rightEyeX, y: rightEyeY - size * 0.06)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 1.5)
 
                     // Smile
                     Path { path in

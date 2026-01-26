@@ -248,10 +248,10 @@ private struct MascotBallView: View {
 
             YarnTextureLines(ballSize: ballSize)
 
-            // Eyes + Eyebrows (kept within ball bounds)
+            // Eyes + Eyebrows (properly positioned within ball bounds)
             Group {
-                let eyeOffsetY = ballSize * 0.22 // lower than before
-                let eyeSpacing = ballSize * 0.18
+                let eyeOffsetY = ballSize * 0.15 // Moved up for better positioning
+                let eyeSpacing = ballSize * 0.15 // Slightly closer together
                 let leftEyeCenter = CGPoint(x: -eyeSpacing/2, y: -eyeOffsetY)
                 let rightEyeCenter = CGPoint(x: eyeSpacing/2, y: -eyeOffsetY)
 
@@ -263,32 +263,32 @@ private struct MascotBallView: View {
                     .frame(width: ballSize * 0.05, height: ballSize * 0.05)
                     .offset(x: rightEyeCenter.x, y: rightEyeCenter.y)
 
-                // Eyebrows closer to eyes and inside ball
+                // Eyebrows positioned closer to eyes and well within ball bounds
                 Path { path in
-                    let start = CGPoint(x: leftEyeCenter.x - ballSize * 0.05, y: leftEyeCenter.y - ballSize * 0.05)
-                    let end = CGPoint(x: leftEyeCenter.x + ballSize * 0.05, y: leftEyeCenter.y - ballSize * 0.05)
-                    let control = CGPoint(x: leftEyeCenter.x, y: leftEyeCenter.y - ballSize * 0.08)
+                    let start = CGPoint(x: leftEyeCenter.x - ballSize * 0.04, y: leftEyeCenter.y - ballSize * 0.04)
+                    let end = CGPoint(x: leftEyeCenter.x + ballSize * 0.04, y: leftEyeCenter.y - ballSize * 0.04)
+                    let control = CGPoint(x: leftEyeCenter.x, y: leftEyeCenter.y - ballSize * 0.06)
                     path.move(to: start)
                     path.addQuadCurve(to: end, control: control)
                 }
                 .stroke(Color.black, lineWidth: 1.5)
 
                 Path { path in
-                    let start = CGPoint(x: rightEyeCenter.x - ballSize * 0.05, y: rightEyeCenter.y - ballSize * 0.05)
-                    let end = CGPoint(x: rightEyeCenter.x + ballSize * 0.05, y: rightEyeCenter.y - ballSize * 0.05)
-                    let control = CGPoint(x: rightEyeCenter.x, y: rightEyeCenter.y - ballSize * 0.08)
+                    let start = CGPoint(x: rightEyeCenter.x - ballSize * 0.04, y: rightEyeCenter.y - ballSize * 0.04)
+                    let end = CGPoint(x: rightEyeCenter.x + ballSize * 0.04, y: rightEyeCenter.y - ballSize * 0.04)
+                    let control = CGPoint(x: rightEyeCenter.x, y: rightEyeCenter.y - ballSize * 0.06)
                     path.move(to: start)
                     path.addQuadCurve(to: end, control: control)
                 }
                 .stroke(Color.black, lineWidth: 1.5)
             }
 
-            // Smile (raised slightly to stay within ball)
+            // Smile (properly positioned within ball bounds)
             Path { path in
-                path.move(to: CGPoint(x: -ballSize * 0.18, y: ballSize * 0.14))
+                path.move(to: CGPoint(x: -ballSize * 0.15, y: ballSize * 0.08))
                 path.addQuadCurve(
-                    to: CGPoint(x: ballSize * 0.18, y: ballSize * 0.14),
-                    control: CGPoint(x: 0, y: ballSize * 0.24)
+                    to: CGPoint(x: ballSize * 0.15, y: ballSize * 0.08),
+                    control: CGPoint(x: 0, y: ballSize * 0.18)
                 )
             }
             .stroke(Color.black, lineWidth: 2)

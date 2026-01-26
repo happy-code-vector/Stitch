@@ -43,21 +43,11 @@ struct CameraPermissionsView: View {
                     }
                     .padding(.horizontal, 32)
                     
-                    // Camera icon with animation
-                    ZStack {
-                        Circle()
-                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
-                            .frame(width: 120, height: 120)
-                            .scaleEffect(animateElements ? 1.0 : 0.8)
-                            .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.3), value: animateElements)
-                        
-                        Image(systemName: "camera.fill")
-                            .font(.system(size: 48))
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-                            .opacity(animateElements ? 1.0 : 0.0)
-                            .scaleEffect(animateElements ? 1.0 : 0.5)
-                            .animation(.spring(response: 0.8, dampingFraction: 0.6).delay(0.4), value: animateElements)
-                    }
+                    // Yarn Ball Mascot with Camera
+                    YarnBallCameraMascotView()
+                        .frame(width: 120, height: 120)
+                        .scaleEffect(animateElements ? 1.0 : 0.8)
+                        .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.3), value: animateElements)
                     
                     // Benefits
                     VStack(spacing: 16) {
@@ -188,5 +178,144 @@ struct BenefitRow: View {
             Spacer()
         }
         .padding(.vertical, 8)
+    }
+}
+
+struct YarnBallCameraMascotView: View {
+    var body: some View {
+        ZStack {
+            GeometryReader { geo in
+                let size = min(geo.size.width, geo.size.height)
+                let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
+                let eyeOffsetY = size * 0.08
+                let eyeSpacing = size * 0.12
+
+                ZStack {
+                    // Main yarn ball body
+                    Circle()
+                        .fill(
+                            RadialGradient(
+                                colors: [
+                                    Color(red: 0.66, green: 0.76, blue: 0.63),
+                                    Color(red: 0.561, green: 0.659, blue: 0.533)
+                                ],
+                                center: .topLeading,
+                                startRadius: size * 0.18,
+                                endRadius: size * 0.6
+                            )
+                        )
+                        .frame(width: size * 0.8, height: size * 0.8)
+                        .position(center)
+                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+
+                    // Yarn texture lines
+                    ForEach(0..<8, id: \.self) { index in
+                        let angle = Double(index) * 45 * .pi / 180
+                        YarnCurveLine(center: center, size: size, angle: angle)
+                    }
+
+                    // Eyes
+                    Circle()
+                        .fill(Color.black)
+                        .frame(width: size * 0.04, height: size * 0.04)
+                        .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
+                    Circle()
+                        .fill(Color.black)
+                        .frame(width: size * 0.04, height: size * 0.04)
+                        .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
+
+                    // Eyebrows positioned above eyes
+                    Path { path in
+                        let leftEyeX = center.x - eyeSpacing/2
+                        let leftEyeY = center.y - eyeOffsetY
+                        path.move(to: CGPoint(x: leftEyeX - size * 0.03, y: leftEyeY - size * 0.04))
+                        path.addQuadCurve(
+                            to: CGPoint(x: leftEyeX + size * 0.03, y: leftEyeY - size * 0.04),
+                            control: CGPoint(x: leftEyeX, y: leftEyeY - size * 0.06)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 1.5)
+
+                    Path { path in
+                        let rightEyeX = center.x + eyeSpacing/2
+                        let rightEyeY = center.y - eyeOffsetY
+                        path.move(to: CGPoint(x: rightEyeX - size * 0.03, y: rightEyeY - size * 0.04))
+                        path.addQuadCurve(
+                            to: CGPoint(x: rightEyeX + size * 0.03, y: rightEyeY - size * 0.04),
+                            control: CGPoint(x: rightEyeX, y: rightEyeY - size * 0.06)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 1.5)
+
+                    // Smile
+                    Path { path in
+                        path.move(to: CGPoint(x: center.x - size * 0.15, y: center.y + size * 0.11))
+                        path.addQuadCurve(
+                            to: CGPoint(x: center.x + size * 0.15, y: center.y + size * 0.11),
+                            control: CGPoint(x: center.x, y: center.y + size * 0.16)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 2)
+
+                    // Camera lens on the ball
+                    Circle()
+                        .fill(Color.white)
+                        .frame(width: size * 0.25, height: size * 0.25)
+                        .position(x: center.x, y: center.y + size * 0.25)
+                        .overlay(
+                            Circle()
+                                .stroke(Color(red: 0.4, green: 0.4, blue: 0.4), lineWidth: 2)
+                                .frame(width: size * 0.25, height: size * 0.25)
+                                .position(x: center.x, y: center.y + size * 0.25)
+                        )
+                        .overlay(
+                            Circle()
+                                .fill(Color(red: 0.2, green: 0.2, blue: 0.2))
+                                .frame(width: size * 0.15, height: size * 0.15)
+                                .position(x: center.x, y: center.y + size * 0.25)
+                        )
+                        .overlay(
+                            Circle()
+                                .fill(Color(red: 0.1, green: 0.1, blue: 0.1))
+                                .frame(width: size * 0.08, height: size * 0.08)
+                                .position(x: center.x, y: center.y + size * 0.25)
+                        )
+                }
+            }
+        }
+    }
+}
+
+private struct YarnCurveLine: View {
+    let center: CGPoint
+    let size: CGFloat
+    let angle: Double
+
+    var body: some View {
+        let radius: CGFloat = size * 0.32
+        let inner = CGPoint(
+            x: center.x + Foundation.cos(angle) * radius * 0.2,
+            y: center.y + Foundation.sin(angle) * radius * 0.2
+        )
+        let outer = CGPoint(
+            x: center.x + Foundation.cos(angle) * radius * 0.85,
+            y: center.y + Foundation.sin(angle) * radius * 0.85
+        )
+        let ctrl1 = CGPoint(
+            x: center.x + Foundation.cos(angle + .pi/8) * radius * 0.5,
+            y: center.y + Foundation.sin(angle + .pi/8) * radius * 0.5
+        )
+        let ctrl2 = CGPoint(
+            x: center.x + Foundation.cos(angle - .pi/8) * radius * 0.7,
+            y: center.y + Foundation.sin(angle - .pi/8) * radius * 0.7
+        )
+
+        return Path { path in
+            path.move(to: inner)
+            path.addQuadCurve(to: ctrl1, control: inner)
+            path.addQuadCurve(to: outer, control: ctrl2)
+        }
+        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.8)
+        .opacity(0.6)
     }
 }

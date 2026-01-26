@@ -185,7 +185,7 @@ private struct RollingBall: View {
                     YarnCurveLine(center: center, size: size, angle: angle)
                 }
 
-                // Eyes
+                // Eyes (properly positioned)
                 Circle()
                     .fill(Color.black)
                     .frame(width: size * 0.04, height: size * 0.04)
@@ -194,6 +194,29 @@ private struct RollingBall: View {
                     .fill(Color.black)
                     .frame(width: size * 0.04, height: size * 0.04)
                     .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
+
+                // Eyebrows positioned above eyes
+                Path { path in
+                    let leftEyeX = center.x - eyeSpacing/2
+                    let leftEyeY = center.y - eyeOffsetY
+                    path.move(to: CGPoint(x: leftEyeX - size * 0.03, y: leftEyeY - size * 0.04))
+                    path.addQuadCurve(
+                        to: CGPoint(x: leftEyeX + size * 0.03, y: leftEyeY - size * 0.04),
+                        control: CGPoint(x: leftEyeX, y: leftEyeY - size * 0.06)
+                    )
+                }
+                .stroke(Color.black, lineWidth: 1.5)
+
+                Path { path in
+                    let rightEyeX = center.x + eyeSpacing/2
+                    let rightEyeY = center.y - eyeOffsetY
+                    path.move(to: CGPoint(x: rightEyeX - size * 0.03, y: rightEyeY - size * 0.04))
+                    path.addQuadCurve(
+                        to: CGPoint(x: rightEyeX + size * 0.03, y: rightEyeY - size * 0.04),
+                        control: CGPoint(x: rightEyeX, y: rightEyeY - size * 0.06)
+                    )
+                }
+                .stroke(Color.black, lineWidth: 1.5)
 
                 // Calm, focused smile
                 Path { path in
