@@ -33,7 +33,8 @@ enum ScreenType: CaseIterable {
 }
 
 class AppState: ObservableObject {
-    @Published var currentScreen: ScreenType = .splash
+    @Published var currentScreen: ScreenType = .freeTierWelcome
+    //@Published var currentScreen: ScreenType = .splash
     @Published var sessionData = SessionData(rowsKnit: 0, timeSpent: 0)
     @Published var isPro = false
     @Published var selectedProjectId: String?

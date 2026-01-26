@@ -187,7 +187,7 @@ private struct FolderView: View {
                         .stroke(Color(red: 0.788, green: 0.635, blue: 0.196), lineWidth: 1.5)
                 )
 
-            FolderTab(width: width, height: height)
+            // FolderTab(width: width, height: height)
 
             Text("1")
                 .font(.title2)
@@ -265,13 +265,14 @@ private struct MascotBallView: View {
 
                 // Eyebrows positioned closer to eyes and well within ball bounds
                 Path { path in
-                    let start = CGPoint(x: leftEyeCenter.x - ballSize * 0.04, y: leftEyeCenter.y - ballSize * 0.04)
-                    let end = CGPoint(x: leftEyeCenter.x + ballSize * 0.04, y: leftEyeCenter.y - ballSize * 0.04)
-                    let control = CGPoint(x: leftEyeCenter.x, y: leftEyeCenter.y - ballSize * 0.06)
+                    let start = CGPoint(x: -ballSize * 0.04, y: -ballSize * 0.04)
+                    let end = CGPoint(x: ballSize * 0.04, y: -ballSize * 0.04)
+                    let control = CGPoint(x: 0, y: -ballSize * 0.06)
                     path.move(to: start)
                     path.addQuadCurve(to: end, control: control)
                 }
                 .stroke(Color.black, lineWidth: 1.5)
+                .offset(x:leftEyeCenter.x, y: leftEyeCenter.y)
 
                 Path { path in
                     let start = CGPoint(x: rightEyeCenter.x - ballSize * 0.04, y: rightEyeCenter.y - ballSize * 0.04)

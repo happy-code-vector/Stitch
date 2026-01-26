@@ -381,14 +381,17 @@ struct PeekingMascotView: View {
                         .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
                     
                     // Yarn texture lines on visible part
-                    ForEach(0..<3, id: \.self) { index in
-                        Path { path in
-                            let y = CGFloat(index - 1) * 8
-                            path.move(to: CGPoint(x: -25, y: y))
-                            path.addQuadCurve(to: CGPoint(x: 25, y: y), control: CGPoint(x: 0, y: y - 2))
+                    GeometryReader { geometry in
+                        ForEach(0..<3, id: \.self) { index in
+                            Path { path in
+                                let y = CGFloat(index + 2) * 12
+                                let centerX = geometry.size.width / 2
+                                path.move(to: CGPoint(x: centerX - 25, y: y))
+                                path.addQuadCurve(to: CGPoint(x: centerX + 25, y: y), control: CGPoint(x: centerX, y: y - 2))
+                            }
+                            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                            .opacity(0.6)
                         }
-                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                        .opacity(0.6)
                     }
                     
                     // Curious eyes looking down
@@ -404,11 +407,14 @@ struct PeekingMascotView: View {
                     .offset(y: -5)
                     
                     // Small curious smile
-                    Path { path in
-                        path.move(to: CGPoint(x: -8, y: 8))
-                        path.addQuadCurve(to: CGPoint(x: 8, y: 8), control: CGPoint(x: 0, y: 12))
+                    GeometryReader { geometry in
+                        Path { path in
+                            let centerX = geometry.size.width / 2
+                            path.move(to: CGPoint(x: centerX - 8, y: 50))
+                            path.addQuadCurve(to: CGPoint(x: centerX + 8, y: 50), control: CGPoint(x: centerX, y: 54))
+                        }
+                        .stroke(Color.black, lineWidth: 2)
                     }
-                    .stroke(Color.black, lineWidth: 2)
                     
                     // Highlight for 3D effect
                     Ellipse()
