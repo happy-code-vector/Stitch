@@ -4365,6 +4365,135 @@ struct ExcitedMascotWithTagView: View {
             .rotationEffect(.degrees(6))
     }
     
+    private var yarnBallBody: some View {
+        Circle()
+            .fill(
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.66, green: 0.76, blue: 0.63),
+                        Color(red: 0.561, green: 0.659, blue: 0.533)
+                    ],
+                    center: .topLeading,
+                    startRadius: 20,
+                    endRadius: 50
+                )
+            )
+            .frame(width: 100, height: 100)
+            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+    }
+    
+    private var yarnTexture: some View {
+        ForEach(0..<6, id: \.self) { index in
+            Path { path in
+                let angle = Double(index) * 30 * .pi / 180
+                let radius: CGFloat = 40
+                let startX = cos(angle) * radius * 0.3
+                let startY = sin(angle) * radius * 0.3
+                let endX = cos(angle) * radius * 0.7
+                let endY = sin(angle) * radius * 0.7
+                
+                path.move(to: CGPoint(x: startX, y: startY))
+                path.addLine(to: CGPoint(x: endX, y: endY))
+            }
+            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+            .opacity(0.6)
+        }
+    }
+    
+    private var mascotEyes: some View {
+        HStack(spacing: 16) {
+            Circle()
+                .fill(Color.black)
+                .frame(width: 14, height: 14)
+                .overlay(
+                    VStack {
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 6, height: 6)
+                            .offset(x: 1, y: -1)
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 3, height: 3)
+                            .offset(x: 2, y: 2)
+                    }
+                )
+            
+            Circle()
+                .fill(Color.black)
+                .frame(width: 14, height: 14)
+                .overlay(
+                    VStack {
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 6, height: 6)
+                            .offset(x: 1, y: -1)
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 3, height: 3)
+                            .offset(x: 2, y: 2)
+                    }
+                )
+        }
+        .offset(y: -8)
+    }
+    
+    private var mascotMouth: some View {
+        Ellipse()
+            .fill(Color.black.opacity(0.8))
+            .frame(width: 24, height: 30)
+            .overlay(
+                Ellipse()
+                    .fill(Color(red: 0.976, green: 0.969, blue: 0.949).opacity(0.3))
+                    .frame(width: 16, height: 20)
+            )
+            .offset(y: 15)
+    }
+    
+    private var mascotEyebrows: some View {
+        HStack(spacing: 20) {
+            Path { path in
+                path.move(to: CGPoint(x: -3, y: -2))
+                path.addQuadCurve(to: CGPoint(x: 7, y: -1), control: CGPoint(x: 2, y: -5))
+            }
+            .stroke(Color.black, lineWidth: 2.5)
+            
+            Path { path in
+                path.move(to: CGPoint(x: -7, y: -1))
+                path.addQuadCurve(to: CGPoint(x: 3, y: -2), control: CGPoint(x: -2, y: -5))
+            }
+            .stroke(Color.black, lineWidth: 2.5)
+        }
+        .offset(y: -22)
+    }
+    
+    private var mascotHighlight: some View {
+        Ellipse()
+            .fill(Color.white.opacity(0.3))
+            .frame(width: 36, height: 26)
+            .offset(x: -16, y: -16)
+    }
+    
+    private var mascotArms: some View {
+        VStack {
+            HStack(spacing: 80) {
+                Path { path in
+                    path.move(to: CGPoint(x: 0, y: 20))
+                    path.addQuadCurve(to: CGPoint(x: -20, y: -10), control: CGPoint(x: -25, y: 5))
+                }
+                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
+                
+                Path { path in
+                    path.move(to: CGPoint(x: 0, y: 20))
+                    path.addQuadCurve(to: CGPoint(x: 20, y: -10), control: CGPoint(x: 25, y: 5))
+                }
+                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
+            }
+            
+            Spacer()
+        }
+        .frame(height: 100)
+    }
+    
     private var tagSparkle: some View {
         Text("✨")
             .font(.caption)
@@ -4401,132 +4530,13 @@ struct ExcitedMascotWithTagView: View {
             VStack {
                 Spacer()
                 
-                Circle()
-                    .fill(
-                        RadialGradient(
-                            colors: [
-                                Color(red: 0.66, green: 0.76, blue: 0.63),
-                                Color(red: 0.561, green: 0.659, blue: 0.533)
-                            ],
-                            center: .topLeading,
-                            startRadius: 20,
-                            endRadius: 50
-                        )
-                    )
-                    .frame(width: 100, height: 100)
-                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                    .overlay(
-                        // Yarn texture lines
-                        ForEach(0..<6, id: \.self) { index in
-                            Path { path in
-                                let angle = Double(index) * 30 * .pi / 180
-                                let radius: CGFloat = 40
-                                let startX = cos(angle) * radius * 0.3
-                                let startY = sin(angle) * radius * 0.3
-                                let endX = cos(angle) * radius * 0.7
-                                let endY = sin(angle) * radius * 0.7
-                                
-                                path.move(to: CGPoint(x: startX, y: startY))
-                                path.addLine(to: CGPoint(x: endX, y: endY))
-                            }
-                            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                            .opacity(0.6)
-                        }
-                    )
-                    .overlay(
-                        // Excited/shocked eyes - wide open
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(Color.black)
-                                .frame(width: 14, height: 14)
-                                .overlay(
-                                    VStack {
-                                        Circle()
-                                            .fill(Color.white)
-                                            .frame(width: 6, height: 6)
-                                            .offset(x: 1, y: -1)
-                                        Circle()
-                                            .fill(Color.white)
-                                            .frame(width: 3, height: 3)
-                                            .offset(x: 2, y: 2)
-                                    }
-                                )
-                            
-                            Circle()
-                                .fill(Color.black)
-                                .frame(width: 14, height: 14)
-                                .overlay(
-                                    VStack {
-                                        Circle()
-                                            .fill(Color.white)
-                                            .frame(width: 6, height: 6)
-                                            .offset(x: 1, y: -1)
-                                        Circle()
-                                            .fill(Color.white)
-                                            .frame(width: 3, height: 3)
-                                            .offset(x: 2, y: 2)
-                                    }
-                                )
-                        }
-                        .offset(y: -8)
-                    )
-                    .overlay(
-                        // Excited open mouth
-                        Ellipse()
-                            .fill(Color.black.opacity(0.8))
-                            .frame(width: 24, height: 30)
-                            .overlay(
-                                Ellipse()
-                                    .fill(Color(red: 0.976, green: 0.969, blue: 0.949).opacity(0.3))
-                                    .frame(width: 16, height: 20)
-                            )
-                            .offset(y: 15)
-                    )
-                    .overlay(
-                        // Eyebrows raised in excitement
-                        HStack(spacing: 20) {
-                            Path { path in
-                                path.move(to: CGPoint(x: -3, y: -2))
-                                path.addQuadCurve(to: CGPoint(x: 7, y: -1), control: CGPoint(x: 2, y: -5))
-                            }
-                            .stroke(Color.black, lineWidth: 2.5)
-                            
-                            Path { path in
-                                path.move(to: CGPoint(x: -7, y: -1))
-                                path.addQuadCurve(to: CGPoint(x: 3, y: -2), control: CGPoint(x: -2, y: -5))
-                            }
-                            .stroke(Color.black, lineWidth: 2.5)
-                        }
-                        .offset(y: -22)
-                    )
-                    .overlay(
-                        // Highlight for 3D effect
-                        Ellipse()
-                            .fill(Color.white.opacity(0.3))
-                            .frame(width: 36, height: 26)
-                            .offset(x: -16, y: -16)
-                    )
-                    .overlay(
-                        // Arms reaching up holding tag
-                        VStack {
-                            HStack(spacing: 80) {
-                                Path { path in
-                                    path.move(to: CGPoint(x: 0, y: 20))
-                                    path.addQuadCurve(to: CGPoint(x: -20, y: -10), control: CGPoint(x: -25, y: 5))
-                                }
-                                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
-                                
-                                Path { path in
-                                    path.move(to: CGPoint(x: 0, y: 20))
-                                    path.addQuadCurve(to: CGPoint(x: 20, y: -10), control: CGPoint(x: 25, y: 5))
-                                }
-                                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
-                            }
-                            
-                            Spacer()
-                        }
-                        .frame(height: 100)
-                    )
+                yarnBallBody
+                    .overlay(yarnTexture)
+                    .overlay(mascotEyes)
+                    .overlay(mascotMouth)
+                    .overlay(mascotEyebrows)
+                    .overlay(mascotHighlight)
+                    .overlay(mascotArms)
                 
                 Spacer()
             }
