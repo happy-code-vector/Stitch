@@ -254,123 +254,133 @@ struct ExcitedMascotWithTagView: View {
     
     var body: some View {
         ZStack {
-            // Main yarn ball body with excited expression
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            Color(red: 0.66, green: 0.76, blue: 0.63),
-                            Color(red: 0.561, green: 0.659, blue: 0.533)
-                        ],
-                        center: .topLeading,
-                        startRadius: 20,
-                        endRadius: 50
+            GeometryReader { geo in
+                let size = min(geo.size.width, geo.size.height)
+                let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
+
+                ZStack {
+                    // Main yarn ball body with excited expression
+                    Circle()
+                        .fill(
+                            RadialGradient(
+                                colors: [
+                                    Color(red: 0.66, green: 0.76, blue: 0.63),
+                                    Color(red: 0.561, green: 0.659, blue: 0.533)
+                                ],
+                                center: .topLeading,
+                                startRadius: size * 0.18,
+                                endRadius: size * 0.5
+                            )
+                        )
+                        .frame(width: size * 0.8, height: size * 0.8)
+                        .position(center)
+                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+
+                    // Yarn texture lines
+                    ForEach(0..<6, id: \.self) { index in
+                        Path { path in
+                            let angle = Double(index) * 30 * .pi / 180
+                            let radius: CGFloat = size * 0.32
+                            let start = CGPoint(
+                                x: center.x + cos(angle) * radius * 0.3,
+                                y: center.y + sin(angle) * radius * 0.3
+                            )
+                            let end = CGPoint(
+                                x: center.x + cos(angle) * radius * 0.7,
+                                y: center.y + sin(angle) * radius * 0.7
+                            )
+                            path.move(to: start)
+                            path.addLine(to: end)
+                        }
+                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                        .opacity(0.6)
+                    }
+
+                    // Excited eyes
+                    Group {
+                        let eyeOffsetY = size * 0.08
+                        let eyeSpacing = size * 0.12
+                        Circle().fill(Color.black).frame(width: size * 0.04, height: size * 0.04)
+                            .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
+                        Circle().fill(Color.black).frame(width: size * 0.04, height: size * 0.04)
+                            .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
+                    }
+
+                    // Big excited smile
+                    Path { path in
+                        path.move(to: CGPoint(x: center.x - size * 0.18, y: center.y + size * 0.12))
+                        path.addQuadCurve(
+                            to: CGPoint(x: center.x + size * 0.18, y: center.y + size * 0.12),
+                            control: CGPoint(x: center.x, y: center.y + size * 0.22)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 2.5)
+
+                    // 50% OFF tag (top-right of face)
+                    VStack(spacing: 4) {
+                        Text("50%")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        Text("OFF")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.91, green: 0.61, blue: 0.55),
+                                Color(red: 0.831, green: 0.502, blue: 0.435),
+                                Color(red: 0.78, green: 0.46, blue: 0.40)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
                     )
-                )
-                .frame(width: 100, height: 100)
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-            
-            // Yarn texture lines
-            ForEach(0..<6, id: \.self) { index in
-                Path { path in
-                    let angle = Double(index) * 30 * .pi / 180
-                    let radius: CGFloat = 40
-                    let startX = cos(angle) * radius * 0.3
-                    let startY = sin(angle) * radius * 0.3
-                    let endX = cos(angle) * radius * 0.7
-                    let endY = sin(angle) * radius * 0.7
-                    
-                    path.move(to: CGPoint(x: startX, y: startY))
-                    path.addLine(to: CGPoint(x: endX, y: endY))
-                }
-                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                .opacity(0.6)
-            }
-            
-            // Excited eyes
-            HStack(spacing: 12) {
-                Circle()
-                    .fill(Color.black)
-                    .frame(width: 4, height: 4)
-                
-                Circle()
-                    .fill(Color.black)
-                    .frame(width: 4, height: 4)
-            }
-            .offset(y: -8)
-            
-            // Big excited smile
-            Path { path in
-                path.move(to: CGPoint(x: -16, y: 15))
-                path.addQuadCurve(to: CGPoint(x: 16, y: 15), control: CGPoint(x: 0, y: 25))
-            }
-            .stroke(Color.black, lineWidth: 2.5)
-            
-            // 50% OFF tag
-            VStack(spacing: 4) {
-                Text("50%")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                
-                Text("OFF")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .background(
-                LinearGradient(
-                    colors: [
-                        Color(red: 0.91, green: 0.61, blue: 0.55),
-                        Color(red: 0.831, green: 0.502, blue: 0.435),
-                        Color(red: 0.78, green: 0.46, blue: 0.40)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-            )
-            .cornerRadius(16)
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.white, lineWidth: 4)
-            )
-            .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-            .offset(x: 60, y: -60)
-            .offset(y: tagFloat ? -5 : 5)
-            .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: tagFloat)
-            .overlay(
-                // Tag hole
-                Circle()
-                    .fill(Color.white)
-                    .frame(width: 12, height: 12)
+                    .cornerRadius(16)
                     .overlay(
+                        RoundedRectangle(cornerRadius: 16)
+                            .stroke(Color.white, lineWidth: 4)
+                    )
+                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                    .position(x: center.x + size * 0.35, y: center.y - size * 0.35)
+                    .offset(y: tagFloat ? -size * 0.03 : size * 0.03)
+                    .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: tagFloat)
+                    .overlay(
+                        // Tag hole
                         Circle()
-                            .stroke(Color(red: 0.78, green: 0.46, blue: 0.40), lineWidth: 2)
+                            .fill(Color.white)
+                            .frame(width: size * 0.09, height: size * 0.09)
+                            .overlay(
+                                Circle().stroke(Color(red: 0.78, green: 0.46, blue: 0.40), lineWidth: 2)
+                            )
+                            .position(x: center.x + size * 0.58, y: center.y - size * 0.47)
+                            .rotationEffect(.degrees(6))
                     )
-                    .offset(x: 100, y: -80)
-                    .rotationEffect(.degrees(6))
-            )
-            
-            // Sparkles around tag
-            ForEach(0..<3, id: \.self) { index in
-                let positions: [(CGFloat, CGFloat)] = [(40, -80), (80, -40), (90, -70)]
-                let position = positions[index]
-                
-                Text("✨")
-                    .font(.caption)
-                    .offset(x: position.0, y: position.1)
-                    .scaleEffect(sparkleAnimation ? 1.2 : 0.8)
-                    .opacity(sparkleAnimation ? 1.0 : 0.6)
-                    .animation(
-                        .easeInOut(duration: 1.5)
-                        .repeatForever(autoreverses: true)
-                        .delay(Double(index) * 0.3),
-                        value: sparkleAnimation
-                    )
+
+                    // Sparkles around tag
+                    ForEach(0..<3, id: \.self) { index in
+                        let positions: [(CGFloat, CGFloat)] = [(0.25, -0.50), (0.50, -0.25), (0.56, -0.44)]
+                        let p = positions[index]
+                        Text("✨")
+                            .font(.caption)
+                            .position(x: center.x + size * p.0, y: center.y + size * p.1)
+                            .scaleEffect(sparkleAnimation ? 1.2 : 0.8)
+                            .opacity(sparkleAnimation ? 1.0 : 0.6)
+                            .animation(
+                                .easeInOut(duration: 1.5)
+                                .repeatForever(autoreverses: true)
+                                .delay(Double(index) * 0.3),
+                                value: sparkleAnimation
+                            )
+                    }
+                }
             }
         }
+        .frame(width: 140, height: 140)
         .onAppear {
             tagFloat = true
             sparkleAnimation = true

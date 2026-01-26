@@ -236,121 +236,154 @@ struct ExcitedMascotView: View {
     
     var body: some View {
         ZStack {
-            // Main yarn ball body with excited expression
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            Color(red: 0.66, green: 0.76, blue: 0.63),
-                            Color(red: 0.561, green: 0.659, blue: 0.533)
-                        ],
-                        center: .topLeading,
-                        startRadius: 20,
-                        endRadius: 60
-                    )
-                )
-                .frame(width: 120, height: 120)
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-            
-            // Yarn texture lines
-            ForEach(0..<6, id: \.self) { index in
-                Path { path in
-                    let angle = Double(index) * 30 * .pi / 180
-                    let radius: CGFloat = 50
-                    let startX = cos(angle) * radius * 0.3
-                    let startY = sin(angle) * radius * 0.3
-                    let endX = cos(angle) * radius * 0.7
-                    let endY = sin(angle) * radius * 0.7
-                    
-                    path.move(to: CGPoint(x: startX, y: startY))
-                    path.addLine(to: CGPoint(x: endX, y: endY))
+            GeometryReader { geo in
+                let size = min(geo.size.width, geo.size.height)
+                let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
+
+                ZStack {
+                    // Main yarn ball body with excited expression
+                    Circle()
+                        .fill(
+                            RadialGradient(
+                                colors: [
+                                    Color(red: 0.66, green: 0.76, blue: 0.63),
+                                    Color(red: 0.561, green: 0.659, blue: 0.533)
+                                ],
+                                center: .topLeading,
+                                startRadius: size * 0.18,
+                                endRadius: size * 0.6
+                            )
+                        )
+                        .frame(width: size * 0.8, height: size * 0.8)
+                        .position(center)
+                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+
+                    // Yarn texture lines
+                    ForEach(0..<6, id: \.self) { index in
+                        Path { path in
+                            let angle = Double(index) * 30 * .pi / 180
+                            let radius: CGFloat = size * 0.35
+                            let start = CGPoint(
+                                x: center.x + cos(angle) * radius * 0.3,
+                                y: center.y + sin(angle) * radius * 0.3
+                            )
+                            let end = CGPoint(
+                                x: center.x + cos(angle) * radius * 0.7,
+                                y: center.y + sin(angle) * radius * 0.7
+                            )
+                            path.move(to: start)
+                            path.addLine(to: end)
+                        }
+                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                        .opacity(0.6)
+                    }
+
+                    // Eyes
+                    Group {
+                        let eyeOffsetY = size * 0.08
+                        let eyeSpacing = size * 0.12
+                        Circle()
+                            .fill(Color.black)
+                            .frame(width: size * 0.04, height: size * 0.04)
+                            .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
+                        Circle()
+                            .fill(Color.black)
+                            .frame(width: size * 0.04, height: size * 0.04)
+                            .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
+                    }
+
+                    // Raised excited eyebrows above each eye
+                    Group {
+                        let eyeOffsetY = size * 0.08
+                        let eyeSpacing = size * 0.12
+                        let leftEyeCenter = CGPoint(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
+                        let rightEyeCenter = CGPoint(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
+
+                        Path { path in
+                            let start = CGPoint(x: leftEyeCenter.x - size * 0.06, y: leftEyeCenter.y - size * 0.07)
+                            let end = CGPoint(x: leftEyeCenter.x + size * 0.06, y: leftEyeCenter.y - size * 0.07)
+                            let control = CGPoint(x: leftEyeCenter.x, y: leftEyeCenter.y - size * 0.11)
+                            path.move(to: start)
+                            path.addQuadCurve(to: end, control: control)
+                        }
+                        .stroke(Color.black, lineWidth: 2)
+
+                        Path { path in
+                            let start = CGPoint(x: rightEyeCenter.x - size * 0.06, y: rightEyeCenter.y - size * 0.07)
+                            let end = CGPoint(x: rightEyeCenter.x + size * 0.06, y: rightEyeCenter.y - size * 0.07)
+                            let control = CGPoint(x: rightEyeCenter.x, y: rightEyeCenter.y - size * 0.11)
+                            path.move(to: start)
+                            path.addQuadCurve(to: end, control: control)
+                        }
+                        .stroke(Color.black, lineWidth: 2)
+                    }
+
+                    // Big happy smile
+                    Path { path in
+                        path.move(to: CGPoint(x: center.x - size * 0.20, y: center.y + size * 0.14))
+                        path.addQuadCurve(
+                            to: CGPoint(x: center.x + size * 0.20, y: center.y + size * 0.14),
+                            control: CGPoint(x: center.x, y: center.y + size * 0.26)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 3)
+
+                    // Rosy excited cheeks
+                    Group {
+                        Ellipse()
+                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                            .frame(width: size * 0.12, height: size * 0.07)
+                            .opacity(0.4)
+                            .position(x: center.x - size * 0.22, y: center.y + size * 0.10)
+
+                        Ellipse()
+                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                            .frame(width: size * 0.12, height: size * 0.07)
+                            .opacity(0.4)
+                            .position(x: center.x + size * 0.22, y: center.y + size * 0.10)
+                    }
+
+                    // Raised arms in celebration
+                    Path { path in
+                        path.move(to: CGPoint(x: center.x - size * 0.30, y: center.y - size * 0.06))
+                        path.addQuadCurve(
+                            to: CGPoint(x: center.x - size * 0.46, y: center.y - size * 0.22),
+                            control: CGPoint(x: center.x - size * 0.40, y: center.y - size * 0.08)
+                        )
+                    }
+                    .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
+                    .opacity(0.8)
+
+                    Path { path in
+                        path.move(to: CGPoint(x: center.x + size * 0.30, y: center.y - size * 0.06))
+                        path.addQuadCurve(
+                            to: CGPoint(x: center.x + size * 0.46, y: center.y - size * 0.22),
+                            control: CGPoint(x: center.x + size * 0.40, y: center.y - size * 0.08)
+                        )
+                    }
+                    .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
+                    .opacity(0.8)
+
+                    // Sparkles around mascot
+                    ForEach(0..<4, id: \.self) { index in
+                        let positions: [(CGFloat, CGFloat)] = [(-0.32, -0.20), (0.32, -0.20), (-0.28, 0.22), (0.32, 0.22)]
+                        let p = positions[index]
+                        Text("✨")
+                            .font(.title2)
+                            .position(x: center.x + size * p.0, y: center.y + size * p.1)
+                            .scaleEffect(sparkleAnimation ? 1.5 : 0.5)
+                            .opacity(sparkleAnimation ? 1.0 : 0.0)
+                            .animation(
+                                .easeInOut(duration: 2)
+                                .repeatForever(autoreverses: true)
+                                .delay(Double(index) * 0.2),
+                                value: sparkleAnimation
+                            )
+                    }
                 }
-                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                .opacity(0.6)
-            }
-            
-            // Excited sparkly eyes
-            HStack(spacing: 12) {
-                Circle()
-                    .fill(Color.black)
-                    .frame(width: 4, height: 4)
-                
-                Circle()
-                    .fill(Color.black)
-                    .frame(width: 4, height: 4)
-            }
-            .offset(y: -8)
-            
-            // Raised excited eyebrows
-            HStack(spacing: 20) {
-                Path { path in
-                    path.move(to: CGPoint(x: -3, y: -2))
-                    path.addQuadCurve(to: CGPoint(x: 7, y: -1), control: CGPoint(x: 2, y: -5))
-                }
-                .stroke(Color.black, lineWidth: 2)
-                
-                Path { path in
-                    path.move(to: CGPoint(x: -7, y: -1))
-                    path.addQuadCurve(to: CGPoint(x: 3, y: -2), control: CGPoint(x: -2, y: -5))
-                }
-                .stroke(Color.black, lineWidth: 2)
-            }
-            .offset(y: -20)
-            
-            // Big happy smile
-            Path { path in
-                path.move(to: CGPoint(x: -20, y: 20))
-                path.addQuadCurve(to: CGPoint(x: 20, y: 20), control: CGPoint(x: 0, y: 32))
-            }
-            .stroke(Color.black, lineWidth: 3)
-            
-            // Rosy excited cheeks
-            HStack(spacing: 40) {
-                Ellipse()
-                    .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                    .frame(width: 16, height: 10)
-                    .opacity(0.4)
-                
-                Ellipse()
-                    .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                    .frame(width: 16, height: 10)
-                    .opacity(0.4)
-            }
-            .offset(y: 8)
-            
-            // Raised arms in celebration
-            Path { path in
-                path.move(to: CGPoint(x: -45, y: -10))
-                path.addQuadCurve(to: CGPoint(x: -70, y: -35), control: CGPoint(x: -65, y: -15))
-            }
-            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
-            .opacity(0.8)
-            
-            Path { path in
-                path.move(to: CGPoint(x: 45, y: -10))
-                path.addQuadCurve(to: CGPoint(x: 70, y: -35), control: CGPoint(x: 65, y: -15))
-            }
-            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
-            .opacity(0.8)
-            
-            // Sparkles around mascot
-            ForEach(0..<4, id: \.self) { index in
-                let positions: [(CGFloat, CGFloat)] = [(-50, -25), (50, -25), (-40, 30), (50, 30)]
-                let position = positions[index]
-                
-                Text("✨")
-                    .font(.title2)
-                    .offset(x: position.0, y: position.1)
-                    .scaleEffect(sparkleAnimation ? 1.5 : 0.5)
-                    .opacity(sparkleAnimation ? 1.0 : 0.0)
-                    .animation(
-                        .easeInOut(duration: 2)
-                        .repeatForever(autoreverses: true)
-                        .delay(Double(index) * 0.2),
-                        value: sparkleAnimation
-                    )
             }
         }
+        .frame(width: 160, height: 160)
         .onAppear {
             sparkleAnimation = true
         }

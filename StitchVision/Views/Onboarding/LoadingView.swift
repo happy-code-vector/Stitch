@@ -119,66 +119,15 @@ struct LoadingView: View {
 struct RollingYarnBallView: View {
     @State private var isRotating = false
     @State private var yarnLength: CGFloat = 0
-    
+
     var body: some View {
         VStack(spacing: 0) {
-            // Rolling mascot
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            Color(red: 0.66, green: 0.76, blue: 0.63),
-                            Color(red: 0.561, green: 0.659, blue: 0.533)
-                        ],
-                        center: .topLeading,
-                        startRadius: 20,
-                        endRadius: 60
-                    )
-                )
-                .frame(width: 120, height: 120)
-                .overlay(
-                    // Yarn texture lines
-                    ForEach(0..<8, id: \.self) { index in
-                        Path { path in
-                            let angle = Double(index) * 45 * .pi / 180
-                            let radius: CGFloat = 50
-                            let startX = cos(angle) * radius * 0.3
-                            let startY = sin(angle) * radius * 0.3
-                            let endX = cos(angle) * radius * 0.7
-                            let endY = sin(angle) * radius * 0.7
-                            
-                            path.move(to: CGPoint(x: startX, y: startY))
-                            path.addLine(to: CGPoint(x: endX, y: endY))
-                        }
-                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 2)
-                        .opacity(0.6)
-                    }
-                )
-                .overlay(
-                    // Eyes
-                    HStack(spacing: 12) {
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: 4, height: 4)
-                        
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: 4, height: 4)
-                    }
-                    .offset(y: -8)
-                )
-                .overlay(
-                    // Calm, focused smile
-                    Path { path in
-                        path.move(to: CGPoint(x: -12, y: 15))
-                        path.addQuadCurve(to: CGPoint(x: 12, y: 15), control: CGPoint(x: 0, y: 20))
-                    }
-                    .stroke(Color.black, lineWidth: 2)
-                )
+            RollingBall()
+                .frame(height: 140)
                 .rotationEffect(.degrees(isRotating ? 360 : 0))
                 .animation(.linear(duration: 3).repeatForever(autoreverses: false), value: isRotating)
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-            
+                .onAppear { isRotating = true }
+
             // Unspooling yarn thread
             Path { path in
                 path.move(to: CGPoint(x: 0, y: 0))
@@ -190,7 +139,7 @@ struct RollingYarnBallView: View {
             .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 3)
             .frame(height: 80)
             .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: yarnLength)
-            
+
             // Small yarn tail
             Path { path in
                 path.move(to: CGPoint(x: 0, y: 0))
@@ -201,9 +150,95 @@ struct RollingYarnBallView: View {
             .rotationEffect(.degrees(isRotating ? -10 : 0))
             .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: isRotating)
         }
-        .onAppear {
-            isRotating = true
-            yarnLength = 80
+        .onAppear { yarnLength = 80 }
+    }
+}
+
+private struct RollingBall: View {
+    var body: some View {
+        GeometryReader { geo in
+            let size = min(geo.size.width, geo.size.height)
+            let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
+            let eyeOffsetY = size * 0.08
+            let eyeSpacing = size * 0.12
+
+            ZStack {
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                Color(red: 0.66, green: 0.76, blue: 0.63),
+                                Color(red: 0.561, green: 0.659, blue: 0.533)
+                            ],
+                            center: .topLeading,
+                            startRadius: size * 0.18,
+                            endRadius: size * 0.6
+                        )
+                    )
+                    .frame(width: size * 0.8, height: size * 0.8)
+                    .position(center)
+                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+
+                // Yarn texture lines
+                ForEach(0..<8, id: \.self) { index in
+                    let angle = Double(index) * 45 * .pi / 180
+                    YarnCurveLine(center: center, size: size, angle: angle)
+                }
+
+                // Eyes
+                Circle()
+                    .fill(Color.black)
+                    .frame(width: size * 0.04, height: size * 0.04)
+                    .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
+                Circle()
+                    .fill(Color.black)
+                    .frame(width: size * 0.04, height: size * 0.04)
+                    .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
+
+                // Calm, focused smile
+                Path { path in
+                    path.move(to: CGPoint(x: center.x - size * 0.15, y: center.y + size * 0.11))
+                    path.addQuadCurve(
+                        to: CGPoint(x: center.x + size * 0.15, y: center.y + size * 0.11),
+                        control: CGPoint(x: center.x, y: center.y + size * 0.16)
+                    )
+                }
+                .stroke(Color.black, lineWidth: 2)
+            }
         }
     }
 }
+private struct YarnCurveLine: View {
+    let center: CGPoint
+    let size: CGFloat
+    let angle: Double
+
+    var body: some View {
+        let radius: CGFloat = size * 0.32
+        let inner = CGPoint(
+            x: center.x + Foundation.cos(angle) * radius * 0.2,
+            y: center.y + Foundation.sin(angle) * radius * 0.2
+        )
+        let outer = CGPoint(
+            x: center.x + Foundation.cos(angle) * radius * 0.85,
+            y: center.y + Foundation.sin(angle) * radius * 0.85
+        )
+        let ctrl1 = CGPoint(
+            x: center.x + Foundation.cos(angle + .pi/8) * radius * 0.5,
+            y: center.y + Foundation.sin(angle + .pi/8) * radius * 0.5
+        )
+        let ctrl2 = CGPoint(
+            x: center.x + Foundation.cos(angle - .pi/8) * radius * 0.7,
+            y: center.y + Foundation.sin(angle - .pi/8) * radius * 0.7
+        )
+
+        return Path { path in
+            path.move(to: inner)
+            path.addQuadCurve(to: ctrl1, control: inner)
+            path.addQuadCurve(to: outer, control: ctrl2)
+        }
+        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.8)
+        .opacity(0.6)
+    }
+}
+

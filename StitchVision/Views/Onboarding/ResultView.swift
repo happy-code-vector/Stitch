@@ -186,130 +186,149 @@ struct ProudMascotWithTrophyView: View {
     
     var body: some View {
         ZStack {
-            // Main yarn ball body with proud expression
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            Color(red: 0.66, green: 0.76, blue: 0.63),
-                            Color(red: 0.561, green: 0.659, blue: 0.533)
-                        ],
-                        center: .topLeading,
-                        startRadius: 20,
-                        endRadius: 60
-                    )
-                )
-                .frame(width: 120, height: 120)
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-            
-            // Yarn texture lines
-            ForEach(0..<6, id: \.self) { index in
-                Path { path in
-                    let angle = Double(index) * 30 * .pi / 180
-                    let radius: CGFloat = 50
-                    let startX = cos(angle) * radius * 0.3
-                    let startY = sin(angle) * radius * 0.3
-                    let endX = cos(angle) * radius * 0.7
-                    let endY = sin(angle) * radius * 0.7
-                    
-                    path.move(to: CGPoint(x: startX, y: startY))
-                    path.addLine(to: CGPoint(x: endX, y: endY))
+            GeometryReader { geo in
+                let size = min(geo.size.width, geo.size.height)
+                let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
+
+                ZStack {
+                    // Main yarn ball body with proud expression
+                    Circle()
+                        .fill(
+                            RadialGradient(
+                                colors: [
+                                    Color(red: 0.66, green: 0.76, blue: 0.63),
+                                    Color(red: 0.561, green: 0.659, blue: 0.533)
+                                ],
+                                center: .topLeading,
+                                startRadius: size * 0.18,
+                                endRadius: size * 0.6
+                            )
+                        )
+                        .frame(width: size * 0.8, height: size * 0.8)
+                        .position(center)
+                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+
+                    // Yarn texture lines
+                    ForEach(0..<6, id: \.self) { index in
+                        Path { path in
+                            let angle = Double(index) * 30 * .pi / 180
+                            let radius: CGFloat = size * 0.35
+                            let start = CGPoint(
+                                x: center.x + cos(angle) * radius * 0.3,
+                                y: center.y + sin(angle) * radius * 0.3
+                            )
+                            let end = CGPoint(
+                                x: center.x + cos(angle) * radius * 0.7,
+                                y: center.y + sin(angle) * radius * 0.7
+                            )
+                            path.move(to: start)
+                            path.addLine(to: end)
+                        }
+                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                        .opacity(0.6)
+                    }
+
+                    // Proud eyes
+                    Group {
+                        let eyeOffsetY = size * 0.08
+                        let eyeSpacing = size * 0.12
+                        Circle().fill(Color.black).frame(width: size * 0.04, height: size * 0.04)
+                            .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
+                        Circle().fill(Color.black).frame(width: size * 0.04, height: size * 0.04)
+                            .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
+                    }
+
+                    // Confident eyebrows above each eye
+                    Group {
+                        let eyeOffsetY = size * 0.08
+                        let eyeSpacing = size * 0.12
+                        let leftEyeCenter = CGPoint(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
+                        let rightEyeCenter = CGPoint(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
+
+                        Path { path in
+                            let start = CGPoint(x: leftEyeCenter.x - size * 0.06, y: leftEyeCenter.y - size * 0.07)
+                            let end = CGPoint(x: leftEyeCenter.x + size * 0.06, y: leftEyeCenter.y - size * 0.07)
+                            let control = CGPoint(x: leftEyeCenter.x, y: leftEyeCenter.y - size * 0.10)
+                            path.move(to: start)
+                            path.addQuadCurve(to: end, control: control)
+                        }
+                        .stroke(Color.black, lineWidth: 2)
+
+                        Path { path in
+                            let start = CGPoint(x: rightEyeCenter.x - size * 0.06, y: rightEyeCenter.y - size * 0.07)
+                            let end = CGPoint(x: rightEyeCenter.x + size * 0.06, y: rightEyeCenter.y - size * 0.07)
+                            let control = CGPoint(x: rightEyeCenter.x, y: rightEyeCenter.y - size * 0.10)
+                            path.move(to: start)
+                            path.addQuadCurve(to: end, control: control)
+                        }
+                        .stroke(Color.black, lineWidth: 2)
+                    }
+
+                    // Proud smile
+                    Path { path in
+                        path.move(to: CGPoint(x: center.x - size * 0.18, y: center.y + size * 0.12))
+                        path.addQuadCurve(
+                            to: CGPoint(x: center.x + size * 0.18, y: center.y + size * 0.12),
+                            control: CGPoint(x: center.x, y: center.y + size * 0.22)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 2.5)
+
+                    // Rosy proud cheeks
+                    Group {
+                        Ellipse()
+                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                            .frame(width: size * 0.11, height: size * 0.07)
+                            .opacity(0.4)
+                            .position(x: center.x - size * 0.20, y: center.y + size * 0.10)
+
+                        Ellipse()
+                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                            .frame(width: size * 0.11, height: size * 0.07)
+                            .opacity(0.4)
+                            .position(x: center.x + size * 0.20, y: center.y + size * 0.10)
+                    }
+
+                    // Trophy held high (top-right of face)
+                    VStack(spacing: 4) {
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(Color(red: 0.831, green: 0.686, blue: 0.216))
+                            .frame(width: size * 0.13, height: size * 0.10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 2)
+                                    .fill(Color(red: 0.9, green: 0.8, blue: 0.3))
+                                    .frame(width: size * 0.10, height: size * 0.07)
+                            )
+                        Rectangle()
+                            .fill(Color(red: 0.7, green: 0.6, blue: 0.2))
+                            .frame(width: size * 0.16, height: size * 0.03)
+                        Rectangle()
+                            .fill(Color(red: 0.6, green: 0.5, blue: 0.15))
+                            .frame(width: size * 0.20, height: size * 0.025)
+                    }
+                    .position(x: center.x + size * 0.33, y: center.y - size * 0.33)
+                    .offset(y: trophyFloat ? -size * 0.03 : size * 0.03)
+                    .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: trophyFloat)
+
+                    // Sparkles around trophy
+                    ForEach(0..<3, id: \.self) { index in
+                        let positions: [(CGFloat, CGFloat)] = [(0.22, -0.40), (0.40, -0.28), (0.28, -0.18)]
+                        let p = positions[index]
+                        Text("✨")
+                            .font(.caption)
+                            .position(x: center.x + size * p.0, y: center.y + size * p.1)
+                            .scaleEffect(trophyFloat ? 1.2 : 0.8)
+                            .opacity(trophyFloat ? 1.0 : 0.6)
+                            .animation(
+                                .easeInOut(duration: 1.5)
+                                .repeatForever(autoreverses: true)
+                                .delay(Double(index) * 0.3),
+                                value: trophyFloat
+                            )
+                    }
                 }
-                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                .opacity(0.6)
             }
-            
-            // Proud, confident eyes
-            HStack(spacing: 12) {
-                Circle()
-                    .fill(Color.black)
-                    .frame(width: 4, height: 4)
-                
-                Circle()
-                    .fill(Color.black)
-                    .frame(width: 4, height: 4)
-            }
-            .offset(y: -8)
-            
-            // Confident eyebrows
-            HStack(spacing: 20) {
-                Path { path in
-                    path.move(to: CGPoint(x: -3, y: -2))
-                    path.addQuadCurve(to: CGPoint(x: 7, y: -1), control: CGPoint(x: 2, y: -3))
-                }
-                .stroke(Color.black, lineWidth: 2)
-                
-                Path { path in
-                    path.move(to: CGPoint(x: -7, y: -1))
-                    path.addQuadCurve(to: CGPoint(x: 3, y: -2), control: CGPoint(x: -2, y: -3))
-                }
-                .stroke(Color.black, lineWidth: 2)
-            }
-            .offset(y: -20)
-            
-            // Proud smile
-            Path { path in
-                path.move(to: CGPoint(x: -16, y: 18))
-                path.addQuadCurve(to: CGPoint(x: 16, y: 18), control: CGPoint(x: 0, y: 28))
-            }
-            .stroke(Color.black, lineWidth: 2.5)
-            
-            // Rosy proud cheeks
-            HStack(spacing: 36) {
-                Ellipse()
-                    .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                    .frame(width: 14, height: 9)
-                    .opacity(0.4)
-                
-                Ellipse()
-                    .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                    .frame(width: 14, height: 9)
-                    .opacity(0.4)
-            }
-            .offset(y: 8)
-            
-            // Trophy held high
-            VStack(spacing: 4) {
-                // Trophy cup
-                RoundedRectangle(cornerRadius: 4)
-                    .fill(Color(red: 0.831, green: 0.686, blue: 0.216))
-                    .frame(width: 16, height: 12)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(Color(red: 0.9, green: 0.8, blue: 0.3))
-                            .frame(width: 12, height: 8)
-                    )
-                
-                // Trophy base
-                Rectangle()
-                    .fill(Color(red: 0.7, green: 0.6, blue: 0.2))
-                    .frame(width: 20, height: 4)
-                
-                Rectangle()
-                    .fill(Color(red: 0.6, green: 0.5, blue: 0.15))
-                    .frame(width: 24, height: 3)
-            }
-            .offset(x: 50, y: -50)
-            .offset(y: trophyFloat ? -5 : 5)
-            .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: trophyFloat)
-            
-            // Sparkles around trophy
-            ForEach(0..<3, id: \.self) { index in
-                let positions: [(CGFloat, CGFloat)] = [(35, -65), (65, -45), (45, -30)]
-                let position = positions[index]
-                
-                Text("✨")
-                    .font(.caption)
-                    .offset(x: position.0, y: position.1)
-                    .scaleEffect(trophyFloat ? 1.2 : 0.8)
-                    .opacity(trophyFloat ? 1.0 : 0.6)
-                    .animation(
-                        .easeInOut(duration: 1.5)
-                        .repeatForever(autoreverses: true)
-                        .delay(Double(index) * 0.3),
-                        value: trophyFloat
-                    )
-            }
+            .frame(width: 160, height: 160)
         }
         .onAppear {
             trophyFloat = true

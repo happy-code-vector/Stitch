@@ -310,104 +310,127 @@ struct CelebratingMascotView: View {
     
     var body: some View {
         ZStack {
-            // Main yarn ball body with celebrating expression
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [
-                            Color(red: 0.66, green: 0.76, blue: 0.63),
+            GeometryReader { geo in
+                let size = min(geo.size.width, geo.size.height)
+                let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
+
+                ZStack {
+                    // Main yarn ball body with celebrating expression
+                    Circle()
+                        .fill(
+                            RadialGradient(
+                                colors: [
+                                    Color(red: 0.66, green: 0.76, blue: 0.63),
+                                    Color(red: 0.561, green: 0.659, blue: 0.533)
+                                ],
+                                center: .topLeading,
+                                startRadius: size * 0.18,
+                                endRadius: size * 0.6
+                            )
+                        )
+                        .frame(width: size * 0.8, height: size * 0.8)
+                        .position(center)
+                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+
+                    // Yarn texture lines
+                    ForEach(0..<6, id: \.self) { index in
+                        Path { path in
+                            let angle = Double(index) * 30 * .pi / 180
+                            let radius: CGFloat = size * 0.35
+                            let start = CGPoint(
+                                x: center.x + cos(angle) * radius * 0.3,
+                                y: center.y + sin(angle) * radius * 0.3
+                            )
+                            let end = CGPoint(
+                                x: center.x + cos(angle) * radius * 0.7,
+                                y: center.y + sin(angle) * radius * 0.7
+                            )
+                            path.move(to: start)
+                            path.addLine(to: end)
+                        }
+                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                        .opacity(0.6)
+                    }
+
+                    // Celebrating eyes (closed with joy)
+                    Group {
+                        let eyeOffsetY = size * 0.08
+                        let eyeSpacing = size * 0.14
+                        Path { path in
+                            let leftStart = CGPoint(x: center.x - eyeSpacing/2 - size * 0.02, y: center.y - eyeOffsetY)
+                            let leftEnd = CGPoint(x: center.x - eyeSpacing/2 + size * 0.02, y: center.y - eyeOffsetY)
+                            let leftCtrl = CGPoint(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY + size * 0.02)
+                            path.move(to: leftStart)
+                            path.addQuadCurve(to: leftEnd, control: leftCtrl)
+                        }
+                        .stroke(Color.black, lineWidth: 2)
+
+                        Path { path in
+                            let rightStart = CGPoint(x: center.x + eyeSpacing/2 - size * 0.02, y: center.y - eyeOffsetY)
+                            let rightEnd = CGPoint(x: center.x + eyeSpacing/2 + size * 0.02, y: center.y - eyeOffsetY)
+                            let rightCtrl = CGPoint(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY + size * 0.02)
+                            path.move(to: rightStart)
+                            path.addQuadCurve(to: rightEnd, control: rightCtrl)
+                        }
+                        .stroke(Color.black, lineWidth: 2)
+                    }
+
+                    // Big celebration smile
+                    Path { path in
+                        path.move(to: CGPoint(x: center.x - size * 0.22, y: center.y + size * 0.12))
+                        path.addQuadCurve(
+                            to: CGPoint(x: center.x + size * 0.22, y: center.y + size * 0.12),
+                            control: CGPoint(x: center.x, y: center.y + size * 0.26)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 3)
+
+                    // Rosy celebration cheeks
+                    Group {
+                        Ellipse()
+                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                            .frame(width: size * 0.12, height: size * 0.07)
+                            .opacity(0.5)
+                            .position(x: center.x - size * 0.22, y: center.y + size * 0.10)
+
+                        Ellipse()
+                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                            .frame(width: size * 0.12, height: size * 0.07)
+                            .opacity(0.5)
+                            .position(x: center.x + size * 0.22, y: center.y + size * 0.10)
+                    }
+
+                    // Celebration confetti around head
+                    ForEach(0..<6, id: \.self) { index in
+                        let positions: [(CGFloat, CGFloat)] = [
+                            (-0.38, -0.26), (0.38, -0.26), (-0.32, -0.40), (0.32, -0.40), (-0.28, -0.52), (0.28, -0.52)
+                        ]
+                        let p = positions[index]
+                        let colors: [Color] = [
+                            Color(red: 0.831, green: 0.686, blue: 0.216),
+                            Color(red: 0.831, green: 0.502, blue: 0.435),
                             Color(red: 0.561, green: 0.659, blue: 0.533)
-                        ],
-                        center: .topLeading,
-                        startRadius: 20,
-                        endRadius: 60
-                    )
-                )
-                .frame(width: 120, height: 120)
-                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-            
-            // Yarn texture lines
-            ForEach(0..<6, id: \.self) { index in
-                Path { path in
-                    let angle = Double(index) * 30 * .pi / 180
-                    let radius: CGFloat = 50
-                    let startX = cos(angle) * radius * 0.3
-                    let startY = sin(angle) * radius * 0.3
-                    let endX = cos(angle) * radius * 0.7
-                    let endY = sin(angle) * radius * 0.7
-                    
-                    path.move(to: CGPoint(x: startX, y: startY))
-                    path.addLine(to: CGPoint(x: endX, y: endY))
+                        ]
+
+                        Rectangle()
+                            .fill(colors[index % colors.count])
+                            .frame(width: size * 0.05, height: size * 0.05)
+                            .cornerRadius(2)
+                            .position(x: center.x + size * p.0, y: center.y + size * p.1)
+                            .rotationEffect(.degrees(celebrateAnimation ? 360 : 0))
+                            .scaleEffect(celebrateAnimation ? 1.2 : 0.8)
+                            .opacity(celebrateAnimation ? 1.0 : 0.6)
+                            .animation(
+                                .easeInOut(duration: 2)
+                                .repeatForever(autoreverses: true)
+                                .delay(Double(index) * 0.2),
+                                value: celebrateAnimation
+                            )
+                    }
                 }
-                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                .opacity(0.6)
-            }
-            
-            // Celebrating eyes (closed with joy)
-            HStack(spacing: 12) {
-                Path { path in
-                    path.move(to: CGPoint(x: -2, y: 0))
-                    path.addQuadCurve(to: CGPoint(x: 2, y: 0), control: CGPoint(x: 0, y: 2))
-                }
-                .stroke(Color.black, lineWidth: 2)
-                
-                Path { path in
-                    path.move(to: CGPoint(x: -2, y: 0))
-                    path.addQuadCurve(to: CGPoint(x: 2, y: 0), control: CGPoint(x: 0, y: 2))
-                }
-                .stroke(Color.black, lineWidth: 2)
-            }
-            .offset(y: -8)
-            
-            // Big celebration smile
-            Path { path in
-                path.move(to: CGPoint(x: -20, y: 15))
-                path.addQuadCurve(to: CGPoint(x: 20, y: 15), control: CGPoint(x: 0, y: 30))
-            }
-            .stroke(Color.black, lineWidth: 3)
-            
-            // Rosy celebration cheeks
-            HStack(spacing: 40) {
-                Ellipse()
-                    .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                    .frame(width: 16, height: 10)
-                    .opacity(0.5)
-                
-                Ellipse()
-                    .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                    .frame(width: 16, height: 10)
-                    .opacity(0.5)
-            }
-            .offset(y: 8)
-            
-            // Celebration confetti
-            ForEach(0..<6, id: \.self) { index in
-                let positions: [(CGFloat, CGFloat)] = [
-                    (-60, -40), (60, -40), (-50, -60), (50, -60), (-40, -80), (40, -80)
-                ]
-                let position = positions[index]
-                let colors: [Color] = [
-                    Color(red: 0.831, green: 0.686, blue: 0.216),
-                    Color(red: 0.831, green: 0.502, blue: 0.435),
-                    Color(red: 0.561, green: 0.659, blue: 0.533)
-                ]
-                
-                Rectangle()
-                    .fill(colors[index % colors.count])
-                    .frame(width: 6, height: 6)
-                    .cornerRadius(1)
-                    .offset(x: position.0, y: position.1)
-                    .rotationEffect(.degrees(celebrateAnimation ? 360 : 0))
-                    .scaleEffect(celebrateAnimation ? 1.2 : 0.8)
-                    .opacity(celebrateAnimation ? 1.0 : 0.6)
-                    .animation(
-                        .easeInOut(duration: 2)
-                        .repeatForever(autoreverses: true)
-                        .delay(Double(index) * 0.2),
-                        value: celebrateAnimation
-                    )
             }
         }
+        .frame(width: 160, height: 160)
         .onAppear {
             celebrateAnimation = true
         }

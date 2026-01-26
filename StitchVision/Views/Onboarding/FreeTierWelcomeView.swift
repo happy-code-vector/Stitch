@@ -146,124 +146,188 @@ struct FreeTierWelcomeView: View {
 struct MascotWithFolderView: View {
     var body: some View {
         ZStack {
-            // Project folder/ticket held up
-            VStack {
-                ZStack {
-                    // Golden folder
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color(red: 0.957, green: 0.898, blue: 0.627),
-                                    Color(red: 0.831, green: 0.686, blue: 0.216),
-                                    Color(red: 0.788, green: 0.635, blue: 0.196)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .frame(width: 60, height: 40)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(Color(red: 0.788, green: 0.635, blue: 0.196), lineWidth: 1.5)
-                        )
-                    
-                    // Folder tab
-                    Path { path in
-                        path.move(to: CGPoint(x: -30, y: -15))
-                        path.addLine(to: CGPoint(x: -30, y: -20))
-                        path.addQuadCurve(to: CGPoint(x: -25, y: -25), control: CGPoint(x: -30, y: -25))
-                        path.addLine(to: CGPoint(x: -10, y: -25))
-                        path.addLine(to: CGPoint(x: -5, y: -15))
-                        path.closeSubpath()
-                    }
-                    .fill(Color(red: 0.831, green: 0.686, blue: 0.216))
-                    .overlay(
-                        Path { path in
-                            path.move(to: CGPoint(x: -30, y: -15))
-                            path.addLine(to: CGPoint(x: -30, y: -20))
-                            path.addQuadCurve(to: CGPoint(x: -25, y: -25), control: CGPoint(x: -30, y: -25))
-                            path.addLine(to: CGPoint(x: -10, y: -25))
-                            path.addLine(to: CGPoint(x: -5, y: -15))
-                        }
-                        .stroke(Color(red: 0.788, green: 0.635, blue: 0.196), lineWidth: 1)
-                    )
-                    
-                    // "1" on folder
-                    Text("1")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.788, green: 0.635, blue: 0.196))
-                }
-                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-                .offset(y: -30)
-                
-                // Mascot holding folder
-                ZStack {
-                    // Main yarn ball body
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    Color(red: 0.66, green: 0.76, blue: 0.63),
-                                    Color(red: 0.561, green: 0.659, blue: 0.533)
-                                ],
-                                center: .topLeading,
-                                startRadius: 20,
-                                endRadius: 40
-                            )
-                        )
-                        .frame(width: 80, height: 80)
-                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                    
-                    // Yarn texture lines
-                    ForEach(0..<5, id: \.self) { index in
-                        Path { path in
-                            let angle = Double(index) * 36 * .pi / 180
-                            let radius: CGFloat = 32
-                            let startX = cos(angle) * radius * 0.3
-                            let startY = sin(angle) * radius * 0.3
-                            let endX = cos(angle) * radius * 0.7
-                            let endY = sin(angle) * radius * 0.7
-                            
-                            path.move(to: CGPoint(x: startX, y: startY))
-                            path.addLine(to: CGPoint(x: endX, y: endY))
-                        }
-                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                        .opacity(0.6)
-                    }
-                    
-                    // Happy eyes
-                    HStack(spacing: 10) {
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: 3, height: 3)
-                        
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: 3, height: 3)
-                    }
-                    .offset(y: -6)
-                    
-                    // Proud smile
-                    Path { path in
-                        path.move(to: CGPoint(x: -10, y: 12))
-                        path.addQuadCurve(to: CGPoint(x: 10, y: 12), control: CGPoint(x: 0, y: 18))
-                    }
-                    .stroke(Color.black, lineWidth: 2)
-                    
-                    // Arms holding folder (simplified as small extensions)
-                    Ellipse()
-                        .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
-                        .frame(width: 12, height: 8)
-                        .offset(x: -25, y: -15)
-                    
-                    Ellipse()
-                        .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
-                        .frame(width: 12, height: 8)
-                        .offset(x: 25, y: -15)
-                }
+            GeometryReader { geo in
+                let size = min(geo.size.width, geo.size.height)
+                let centerX = geo.size.width / 2
+                let centerY = geo.size.height / 2
+
+                FolderView(width: size * 0.43, height: size * 0.29)
+                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                    .position(x: centerX, y: centerY - size * 0.45)
+
+                MascotBallView(ballSize: size * 0.57)
+                    .position(x: centerX, y: centerY - size * 0.12)
             }
+        }
+        .frame(width: 160, height: 200)
+    }
+}
+
+private struct FolderView: View {
+    let width: CGFloat
+    let height: CGFloat
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 6)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color(red: 0.957, green: 0.898, blue: 0.627),
+                            Color(red: 0.831, green: 0.686, blue: 0.216),
+                            Color(red: 0.788, green: 0.635, blue: 0.196)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .frame(width: width, height: height)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color(red: 0.788, green: 0.635, blue: 0.196), lineWidth: 1.5)
+                )
+
+            FolderTab(width: width, height: height)
+
+            Text("1")
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(Color(red: 0.788, green: 0.635, blue: 0.196))
+        }
+    }
+}
+
+private struct FolderTab: View {
+    let width: CGFloat
+    let height: CGFloat
+
+    var body: some View {
+        let left = -width / 2
+        let top = -height / 2
+        return Path { path in
+            path.move(to: CGPoint(x: left, y: top + height * 0.25))
+            path.addLine(to: CGPoint(x: left, y: top + height * 0.05))
+            path.addQuadCurve(to: CGPoint(x: left + width * 0.08, y: top), control: CGPoint(x: left, y: top))
+            path.addLine(to: CGPoint(x: left + width * 0.33, y: top))
+            path.addLine(to: CGPoint(x: left + width * 0.42, y: top + height * 0.25))
+            path.closeSubpath()
+        }
+        .fill(Color(red: 0.831, green: 0.686, blue: 0.216))
+        .overlay(
+            Path { path in
+                path.move(to: CGPoint(x: left, y: top + height * 0.25))
+                path.addLine(to: CGPoint(x: left, y: top + height * 0.05))
+                path.addQuadCurve(to: CGPoint(x: left + width * 0.08, y: top), control: CGPoint(x: left, y: top))
+                path.addLine(to: CGPoint(x: left + width * 0.33, y: top))
+                path.addLine(to: CGPoint(x: left + width * 0.42, y: top + height * 0.25))
+            }
+            .stroke(Color(red: 0.788, green: 0.635, blue: 0.196), lineWidth: 1)
+        )
+    }
+}
+
+private struct MascotBallView: View {
+    let ballSize: CGFloat
+
+    var body: some View {
+        ZStack {
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [
+                            Color(red: 0.66, green: 0.76, blue: 0.63),
+                            Color(red: 0.561, green: 0.659, blue: 0.533)
+                        ],
+                        center: .topLeading,
+                        startRadius: ballSize * 0.23,
+                        endRadius: ballSize * 0.46
+                    )
+                )
+                .frame(width: ballSize, height: ballSize)
+                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+
+            YarnTextureLines(ballSize: ballSize)
+
+            // Eyes + Eyebrows (kept within ball bounds)
+            Group {
+                let eyeOffsetY = ballSize * 0.22 // lower than before
+                let eyeSpacing = ballSize * 0.18
+                let leftEyeCenter = CGPoint(x: -eyeSpacing/2, y: -eyeOffsetY)
+                let rightEyeCenter = CGPoint(x: eyeSpacing/2, y: -eyeOffsetY)
+
+                // Eyes
+                Circle().fill(Color.black)
+                    .frame(width: ballSize * 0.05, height: ballSize * 0.05)
+                    .offset(x: leftEyeCenter.x, y: leftEyeCenter.y)
+                Circle().fill(Color.black)
+                    .frame(width: ballSize * 0.05, height: ballSize * 0.05)
+                    .offset(x: rightEyeCenter.x, y: rightEyeCenter.y)
+
+                // Eyebrows closer to eyes and inside ball
+                Path { path in
+                    let start = CGPoint(x: leftEyeCenter.x - ballSize * 0.05, y: leftEyeCenter.y - ballSize * 0.05)
+                    let end = CGPoint(x: leftEyeCenter.x + ballSize * 0.05, y: leftEyeCenter.y - ballSize * 0.05)
+                    let control = CGPoint(x: leftEyeCenter.x, y: leftEyeCenter.y - ballSize * 0.08)
+                    path.move(to: start)
+                    path.addQuadCurve(to: end, control: control)
+                }
+                .stroke(Color.black, lineWidth: 1.5)
+
+                Path { path in
+                    let start = CGPoint(x: rightEyeCenter.x - ballSize * 0.05, y: rightEyeCenter.y - ballSize * 0.05)
+                    let end = CGPoint(x: rightEyeCenter.x + ballSize * 0.05, y: rightEyeCenter.y - ballSize * 0.05)
+                    let control = CGPoint(x: rightEyeCenter.x, y: rightEyeCenter.y - ballSize * 0.08)
+                    path.move(to: start)
+                    path.addQuadCurve(to: end, control: control)
+                }
+                .stroke(Color.black, lineWidth: 1.5)
+            }
+
+            // Smile (raised slightly to stay within ball)
+            Path { path in
+                path.move(to: CGPoint(x: -ballSize * 0.18, y: ballSize * 0.14))
+                path.addQuadCurve(
+                    to: CGPoint(x: ballSize * 0.18, y: ballSize * 0.14),
+                    control: CGPoint(x: 0, y: ballSize * 0.24)
+                )
+            }
+            .stroke(Color.black, lineWidth: 2)
+
+            // Arms holding folder
+            Ellipse()
+                .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
+                .frame(width: ballSize * 0.16, height: ballSize * 0.11)
+                .offset(x: -ballSize * 0.35, y: -ballSize * 0.04)
+
+            Ellipse()
+                .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
+                .frame(width: ballSize * 0.16, height: ballSize * 0.11)
+                .offset(x: ballSize * 0.35, y: -ballSize * 0.04)
+        }
+    }
+}
+
+private struct YarnTextureLines: View {
+    let ballSize: CGFloat
+
+    var body: some View {
+        ForEach(0..<5, id: \.self) { index in
+            Path { path in
+                let angle = Double(index) * 36 * .pi / 180
+                let radius: CGFloat = ballSize * 0.40
+                let start = CGPoint(
+                    x: cos(angle) * radius * 0.3,
+                    y: sin(angle) * radius * 0.3
+                )
+                let end = CGPoint(
+                    x: cos(angle) * radius * 0.7,
+                    y: sin(angle) * radius * 0.7
+                )
+                path.move(to: start)
+                path.addLine(to: end)
+            }
+            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+            .opacity(0.6)
         }
     }
 }

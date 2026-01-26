@@ -35,7 +35,7 @@ struct PermissionsView: View {
                 .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
                 .frame(width: 120, height: 120)
                 .blur(radius: 40)
-                .offset(x: 80, y: -150)
+                .offset(x: UIScreen.main.bounds.width * 0.22, y: -UIScreen.main.bounds.height * 0.22)
                 .scaleEffect(animateBackground ? 1.2 : 1.0)
                 .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true), value: animateBackground)
             
@@ -43,7 +43,7 @@ struct PermissionsView: View {
                 .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
                 .frame(width: 160, height: 160)
                 .blur(radius: 40)
-                .offset(x: -80, y: 200)
+                .offset(x: -UIScreen.main.bounds.width * 0.22, y: UIScreen.main.bounds.height * 0.28)
                 .scaleEffect(animateBackground ? 1.0 : 1.3)
                 .animation(.easeInOut(duration: 5).repeatForever(autoreverses: true).delay(1), value: animateBackground)
             
@@ -71,23 +71,28 @@ struct PermissionsView: View {
                 VStack(spacing: 24) {
                     // Bell icon with gradient background
                     ZStack {
-                        Circle()
-                            .fill(
-                                LinearGradient(
-                                    colors: [
-                                        Color(red: 0.561, green: 0.659, blue: 0.533),
-                                        Color(red: 0.49, green: 0.57, blue: 0.46)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
+                        GeometryReader { geo in
+                            let size = min(geo.size.width, 120)
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [
+                                            Color(red: 0.561, green: 0.659, blue: 0.533),
+                                            Color(red: 0.49, green: 0.57, blue: 0.46)
+                                        ],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
                                 )
-                            )
-                            .frame(width: 80, height: 80)
-                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                        
-                        Image(systemName: "bell.fill")
-                            .font(.system(size: 32))
-                            .foregroundColor(.white)
+                                .frame(width: size, height: size)
+                                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                                .position(x: geo.size.width/2, y: size/2)
+                            Image(systemName: "bell.fill")
+                                .font(.system(size: size * 0.4))
+                                .foregroundColor(.white)
+                                .position(x: geo.size.width/2, y: size/2)
+                        }
+                        .frame(height: 120)
                     }
                     .scaleEffect(animateElements ? 1.0 : 0.0)
                     .animation(.spring(response: 0.5, dampingFraction: 0.6).delay(0.2), value: animateElements)
