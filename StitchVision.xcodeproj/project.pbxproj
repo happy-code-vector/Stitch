@@ -31,6 +31,10 @@
 		A1234567890123456789037B /* CameraPermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789037C /* CameraPermissionsView.swift */; };
 		A1234567890123456789038B /* HowItWorksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789038C /* HowItWorksView.swift */; };
 		A1234567890123456789039B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789039C /* StatsView.swift */; };
+		A1234567890123456789040B /* CalibrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789040C /* CalibrationView.swift */; };
+		A1234567890123456789041B /* DownsellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789041C /* DownsellView.swift */; };
+		A1234567890123456789042B /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789042C /* PermissionsView.swift */; };
+		A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789043C /* FreeTierWelcomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +63,10 @@
 		A1234567890123456789037C /* CameraPermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionsView.swift; sourceTree = "<group>"; };
 		A1234567890123456789038C /* HowItWorksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksView.swift; sourceTree = "<group>"; };
 		A1234567890123456789039C /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789040C /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
+		A1234567890123456789041C /* DownsellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownsellView.swift; sourceTree = "<group>"; };
+		A1234567890123456789042C /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789043C /* FreeTierWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeTierWelcomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +139,10 @@
 				A1234567890123456789037C /* CameraPermissionsView.swift */,
 				A1234567890123456789038C /* HowItWorksView.swift */,
 				A1234567890123456789039C /* StatsView.swift */,
+				A1234567890123456789040C /* CalibrationView.swift */,
+				A1234567890123456789041C /* DownsellView.swift */,
+				A1234567890123456789042C /* PermissionsView.swift */,
+				A1234567890123456789043C /* FreeTierWelcomeView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -267,6 +279,10 @@
 				A1234567890123456789037B /* CameraPermissionsView.swift in Sources */,
 				A1234567890123456789038B /* HowItWorksView.swift in Sources */,
 				A1234567890123456789039B /* StatsView.swift in Sources */,
+				A1234567890123456789040B /* CalibrationView.swift in Sources */,
+				A1234567890123456789041B /* DownsellView.swift in Sources */,
+				A1234567890123456789042B /* PermissionsView.swift in Sources */,
+				A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
