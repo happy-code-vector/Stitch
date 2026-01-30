@@ -604,25 +604,25 @@ struct HappyMascotView: View {
                 .offset(x: -8, y: -8)
             
             // Happy Eyes
-            HStack(spacing: 12) {
+            HStack(spacing: 10) {
                 Circle().fill(.black).frame(width: 5, height: 5)
                 Circle().fill(.black).frame(width: 5, height: 5)
             }
-            .offset(y: -8)
+            .offset(y: -6)
             
-            // Smile
+            // Smile - closer to eyes
             Path { path in
-                path.move(to: CGPoint(x: -10, y: 4))
-                path.addQuadCurve(to: CGPoint(x: 10, y: 4), control: CGPoint(x: 0, y: 10))
+                path.move(to: CGPoint(x: -8, y: 2))
+                path.addQuadCurve(to: CGPoint(x: 8, y: 2), control: CGPoint(x: 0, y: 7))
             }
             .stroke(.black, lineWidth: 2)
             
-            // Cheeks
-            HStack(spacing: 24) {
+            // Cheeks - closer to face
+            HStack(spacing: 20) {
                 Ellipse().fill(Color(red: 0.83, green: 0.50, blue: 0.44).opacity(0.6)).frame(width: 7, height: 5)
                 Ellipse().fill(Color(red: 0.83, green: 0.50, blue: 0.44).opacity(0.6)).frame(width: 7, height: 5)
             }
-            .offset(y: 2)
+            .offset(y: 0)
         }
     }
 }
@@ -651,18 +651,18 @@ struct NeutralMascotView: View {
                 .offset(x: -8, y: -8)
             
             // Neutral Eyes
-            HStack(spacing: 12) {
+            HStack(spacing: 10) {
                 Circle().fill(.black).frame(width: 5, height: 5)
                 Circle().fill(.black).frame(width: 5, height: 5)
             }
-            .offset(y: -8)
+            .offset(y: -6)
             
-            // Neutral Mouth
+            // Neutral Mouth - closer to eyes
             Rectangle()
                 .fill(.black)
-                .frame(width: 16, height: 2)
+                .frame(width: 14, height: 2)
                 .cornerRadius(1)
-                .offset(y: 6)
+                .offset(y: 3)
         }
     }
 }
@@ -693,17 +693,17 @@ struct ConfusedMascotView: View {
                 .offset(x: -8, y: -8)
             
             // Confused Eyes (different sizes)
-            HStack(spacing: 12) {
+            HStack(spacing: 10) {
                 Circle().fill(.black).frame(width: 4, height: 4)
                 Circle().fill(.black).frame(width: 6, height: 6)
             }
-            .offset(y: -8)
+            .offset(y: -6)
             
-            // Confused Mouth (wavy)
+            // Confused Mouth (wavy) - closer to eyes
             Path { path in
-                path.move(to: CGPoint(x: -8, y: 6))
-                path.addQuadCurve(to: CGPoint(x: 0, y: 8), control: CGPoint(x: -4, y: 8))
-                path.addQuadCurve(to: CGPoint(x: 8, y: 6), control: CGPoint(x: 4, y: 8))
+                path.move(to: CGPoint(x: -7, y: 3))
+                path.addQuadCurve(to: CGPoint(x: 0, y: 5), control: CGPoint(x: -3, y: 5))
+                path.addQuadCurve(to: CGPoint(x: 7, y: 3), control: CGPoint(x: 3, y: 5))
             }
             .stroke(.black, lineWidth: 2)
             

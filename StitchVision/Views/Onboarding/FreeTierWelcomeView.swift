@@ -253,8 +253,8 @@ private struct MascotBallView: View {
 
                 YarnTextureLines(ballSize: ballSize)
 
-                // Eyes - properly centered
-                HStack(spacing: size * 0.18) {
+                // Eyes - properly centered and closer together
+                HStack(spacing: size * 0.15) {
                     Circle()
                         .fill(Color.black)
                         .frame(width: size * 0.08, height: size * 0.08)
@@ -262,10 +262,10 @@ private struct MascotBallView: View {
                         .fill(Color.black)
                         .frame(width: size * 0.08, height: size * 0.08)
                 }
-                .position(x: center.x, y: center.y - size * 0.08)
+                .position(x: center.x, y: center.y - size * 0.06)
 
-                // Eyebrows - properly positioned above eyes
-                HStack(spacing: size * 0.18) {
+                // Eyebrows - closer to eyes
+                HStack(spacing: size * 0.15) {
                     Path { path in
                         path.move(to: CGPoint(x: -size * 0.04, y: 0))
                         path.addQuadCurve(
@@ -286,14 +286,14 @@ private struct MascotBallView: View {
                     .stroke(Color.black, lineWidth: 1.5)
                     .frame(width: size * 0.08, height: size * 0.04)
                 }
-                .position(x: center.x, y: center.y - size * 0.16)
+                .position(x: center.x, y: center.y - size * 0.13)
 
-                // Smile - properly positioned below eyes
+                // Smile - closer to eyes
                 Path { path in
-                    path.move(to: CGPoint(x: center.x - size * 0.12, y: center.y + size * 0.08))
+                    path.move(to: CGPoint(x: center.x - size * 0.10, y: center.y + size * 0.04))
                     path.addQuadCurve(
-                        to: CGPoint(x: center.x + size * 0.12, y: center.y + size * 0.08),
-                        control: CGPoint(x: center.x, y: center.y + size * 0.14)
+                        to: CGPoint(x: center.x + size * 0.10, y: center.y + size * 0.04),
+                        control: CGPoint(x: center.x, y: center.y + size * 0.09)
                     )
                 }
                 .stroke(Color.black, lineWidth: 2)
