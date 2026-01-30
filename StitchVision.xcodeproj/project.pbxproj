@@ -36,6 +36,16 @@
 		A1234567890123456789042B /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789042C /* PermissionsView.swift */; };
 		A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789043C /* FreeTierWelcomeView.swift */; };
 		A1234567890123456789044B /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789044C /* SubscriptionView.swift */; };
+		A1234567890123456789045B /* WorkModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789045C /* WorkModeView.swift */; };
+		A1234567890123456789046B /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789046C /* SessionSummaryView.swift */; };
+		A1234567890123456789047B /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789047C /* ProjectDetailView.swift */; };
+		A1234567890123456789048B /* ProjectSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789048C /* ProjectSetupView.swift */; };
+		A1234567890123456789049B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789049C /* SettingsView.swift */; };
+		A1234567890123456789050B /* PatternUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789050C /* PatternUploadView.swift */; };
+		A1234567890123456789051B /* PatternVerificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789051C /* PatternVerificationView.swift */; };
+		A1234567890123456789052B /* HelpSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789052C /* HelpSupportView.swift */; };
+		A1234567890123456789053B /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789053C /* NotificationsView.swift */; };
+		A1234567890123456789054B /* ProfileEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789054C /* ProfileEditorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +79,16 @@
 		A1234567890123456789042C /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		A1234567890123456789043C /* FreeTierWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeTierWelcomeView.swift; sourceTree = "<group>"; };
 		A1234567890123456789044C /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
+		A1234567890123456789045C /* WorkModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkModeView.swift; sourceTree = "<group>"; };
+		A1234567890123456789046C /* SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryView.swift; sourceTree = "<group>"; };
+		A1234567890123456789047C /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
+		A1234567890123456789048C /* ProjectSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSetupView.swift; sourceTree = "<group>"; };
+		A1234567890123456789049C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789050C /* PatternUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternUploadView.swift; sourceTree = "<group>"; };
+		A1234567890123456789051C /* PatternVerificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternVerificationView.swift; sourceTree = "<group>"; };
+		A1234567890123456789052C /* HelpSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportView.swift; sourceTree = "<group>"; };
+		A1234567890123456789053C /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789054C /* ProfileEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +139,16 @@
 			children = (
 				A1234567890123456789023B /* SplashView.swift */,
 				A1234567890123456789024B /* DashboardView.swift */,
+				A1234567890123456789045C /* WorkModeView.swift */,
+				A1234567890123456789046C /* SessionSummaryView.swift */,
+				A1234567890123456789047C /* ProjectDetailView.swift */,
+				A1234567890123456789048C /* ProjectSetupView.swift */,
+				A1234567890123456789049C /* SettingsView.swift */,
+				A1234567890123456789050C /* PatternUploadView.swift */,
+				A1234567890123456789051C /* PatternVerificationView.swift */,
+				A1234567890123456789052C /* HelpSupportView.swift */,
+				A1234567890123456789053C /* NotificationsView.swift */,
+				A1234567890123456789054C /* ProfileEditorView.swift */,
 				A1234567890123456789027B /* PlaceholderViews.swift */,
 				A1234567890123456789030A /* Onboarding */,
 				A1234567890123456789031A /* Shared */,
@@ -287,6 +317,16 @@
 				A1234567890123456789042B /* PermissionsView.swift in Sources */,
 				A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */,
 				A1234567890123456789044B /* SubscriptionView.swift in Sources */,
+				A1234567890123456789045B /* WorkModeView.swift in Sources */,
+				A1234567890123456789046B /* SessionSummaryView.swift in Sources */,
+				A1234567890123456789047B /* ProjectDetailView.swift in Sources */,
+				A1234567890123456789048B /* ProjectSetupView.swift in Sources */,
+				A1234567890123456789049B /* SettingsView.swift in Sources */,
+				A1234567890123456789050B /* PatternUploadView.swift in Sources */,
+				A1234567890123456789051B /* PatternVerificationView.swift in Sources */,
+				A1234567890123456789052B /* HelpSupportView.swift in Sources */,
+				A1234567890123456789053B /* NotificationsView.swift in Sources */,
+				A1234567890123456789054B /* ProfileEditorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
