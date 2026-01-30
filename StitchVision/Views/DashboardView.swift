@@ -386,7 +386,7 @@ struct AnimatedMascotView: View {
                 .offset(x: -8, y: -8)
             
             // Happy Eyes
-            HStack(spacing: 10) {
+            HStack(spacing: 8) {
                 Circle()
                     .fill(.black)
                     .frame(width: 5, height: 5)
@@ -394,26 +394,27 @@ struct AnimatedMascotView: View {
                     .fill(.black)
                     .frame(width: 5, height: 5)
             }
-            .offset(y: -6)
+            .offset(y: -4)
             
-            // Smile - closer to eyes
+            // Smile - very close to eyes
             Path { path in
-                path.move(to: CGPoint(x: -8, y: 2))
-                path.addQuadCurve(to: CGPoint(x: 8, y: 2), control: CGPoint(x: 0, y: 7))
+                path.move(to: CGPoint(x: -7, y: 0))
+                path.addQuadCurve(to: CGPoint(x: 7, y: 0), control: CGPoint(x: 0, y: 4))
             }
             .stroke(.black, lineWidth: 2)
             .fill(.clear)
+            .offset(y: 3)
             
-            // Rosy Cheeks - closer to face
-            HStack(spacing: 20) {
+            // Rosy Cheeks - very close to face
+            HStack(spacing: 16) {
                 Ellipse()
                     .fill(Color(red: 0.83, green: 0.50, blue: 0.44).opacity(0.6))
-                    .frame(width: 8, height: 5)
+                    .frame(width: 6, height: 4)
                 Ellipse()
                     .fill(Color(red: 0.83, green: 0.50, blue: 0.44).opacity(0.6))
-                    .frame(width: 8, height: 5)
+                    .frame(width: 6, height: 4)
             }
-            .offset(y: 0)
+            .offset(y: 1)
             
             // Waving Arm
             Path { path in

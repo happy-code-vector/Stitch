@@ -253,8 +253,8 @@ private struct MascotBallView: View {
 
                 YarnTextureLines(ballSize: ballSize)
 
-                // Eyes - properly centered and closer together
-                HStack(spacing: size * 0.15) {
+                // Eyes - compact and centered
+                HStack(spacing: size * 0.12) {
                     Circle()
                         .fill(Color.black)
                         .frame(width: size * 0.08, height: size * 0.08)
@@ -262,38 +262,38 @@ private struct MascotBallView: View {
                         .fill(Color.black)
                         .frame(width: size * 0.08, height: size * 0.08)
                 }
-                .position(x: center.x, y: center.y - size * 0.06)
+                .position(x: center.x, y: center.y - size * 0.04)
 
-                // Eyebrows - closer to eyes
-                HStack(spacing: size * 0.15) {
+                // Eyebrows - very close to eyes
+                HStack(spacing: size * 0.12) {
                     Path { path in
                         path.move(to: CGPoint(x: -size * 0.04, y: 0))
                         path.addQuadCurve(
                             to: CGPoint(x: size * 0.04, y: 0),
-                            control: CGPoint(x: 0, y: -size * 0.02)
+                            control: CGPoint(x: 0, y: -size * 0.015)
                         )
                     }
                     .stroke(Color.black, lineWidth: 1.5)
-                    .frame(width: size * 0.08, height: size * 0.04)
+                    .frame(width: size * 0.08, height: size * 0.03)
                     
                     Path { path in
                         path.move(to: CGPoint(x: -size * 0.04, y: 0))
                         path.addQuadCurve(
                             to: CGPoint(x: size * 0.04, y: 0),
-                            control: CGPoint(x: 0, y: -size * 0.02)
+                            control: CGPoint(x: 0, y: -size * 0.015)
                         )
                     }
                     .stroke(Color.black, lineWidth: 1.5)
-                    .frame(width: size * 0.08, height: size * 0.04)
+                    .frame(width: size * 0.08, height: size * 0.03)
                 }
-                .position(x: center.x, y: center.y - size * 0.13)
+                .position(x: center.x, y: center.y - size * 0.09)
 
-                // Smile - closer to eyes
+                // Smile - very close to eyes
                 Path { path in
-                    path.move(to: CGPoint(x: center.x - size * 0.10, y: center.y + size * 0.04))
+                    path.move(to: CGPoint(x: center.x - size * 0.08, y: center.y + size * 0.02))
                     path.addQuadCurve(
-                        to: CGPoint(x: center.x + size * 0.10, y: center.y + size * 0.04),
-                        control: CGPoint(x: center.x, y: center.y + size * 0.09)
+                        to: CGPoint(x: center.x + size * 0.08, y: center.y + size * 0.02),
+                        control: CGPoint(x: center.x, y: center.y + size * 0.06)
                     )
                 }
                 .stroke(Color.black, lineWidth: 2)
