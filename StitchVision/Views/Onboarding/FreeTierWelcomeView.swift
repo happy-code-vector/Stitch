@@ -133,8 +133,8 @@ struct FreeTierWelcomeView: View {
             }
             
             // Sparkle decorations
-            SparkleView(x: 80, y: 120, delay: 0)
-            SparkleView(x: 300, y: 200, delay: 0.7)
+            FreeTierSparkleView(x: 80, y: 120, delay: 0)
+            FreeTierSparkleView(x: 300, y: 200, delay: 0.7)
         }
         .onAppear {
             animateElements = true
@@ -343,7 +343,7 @@ private struct YarnTextureLines: View {
     }
 }
 
-struct SparkleView: View {
+struct FreeTierSparkleView: View {
     let x: CGFloat
     let y: CGFloat
     let delay: Double

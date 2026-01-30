@@ -31,7 +31,7 @@ struct SessionSummaryView: View {
             
             // Background Sparkles
             ForEach(Array(sparkles.enumerated()), id: \.offset) { index, sparkle in
-                SparkleView(delay: sparkle.delay)
+                SessionSparkleView(delay: sparkle.delay)
                     .position(
                         x: UIScreen.main.bounds.width * sparkle.x,
                         y: UIScreen.main.bounds.height * sparkle.y
@@ -202,7 +202,7 @@ struct SessionSummaryView: View {
 
 // MARK: - Supporting Views
 
-struct SparkleView: View {
+struct SessionSparkleView: View {
     let delay: Double
     @State private var isAnimating = false
     
