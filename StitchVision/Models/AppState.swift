@@ -37,7 +37,7 @@ class AppState: ObservableObject {
     //@Published var currentScreen: ScreenType = .splash
     @Published var sessionData = SessionData(rowsKnit: 0, timeSpent: 0)
     @Published var isPro = false
-    @Published var selectedProjectId: String?
+    @Published var selectedProjectId: Int?
     
     func navigateTo(_ screen: ScreenType) {
         currentScreen = screen

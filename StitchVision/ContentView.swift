@@ -48,7 +48,10 @@ struct ContentView: View {
                 case .workMode:
                     WorkModeView()
                 case .sessionSummary:
-                    SessionSummaryView()
+                    SessionSummaryView(
+                        rowsKnit: appState.sessionData.rowsKnit,
+                        timeSpent: appState.sessionData.timeSpent
+                    )
                 case .settings:
                     SettingsView()
                 case .patternVerification:
