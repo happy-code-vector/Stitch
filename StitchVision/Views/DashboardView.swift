@@ -386,38 +386,38 @@ struct AnimatedMascotView: View {
                 .offset(x: -8, y: -8)
             
             // Happy Eyes
-            HStack(spacing: 16) {
+            HStack(spacing: 12) {
                 Circle()
                     .fill(.black)
-                    .frame(width: 4, height: 4)
+                    .frame(width: 5, height: 5)
                 Circle()
                     .fill(.black)
-                    .frame(width: 4, height: 4)
+                    .frame(width: 5, height: 5)
             }
-            .offset(y: -6)
+            .offset(y: -8)
             
             // Smile
             Path { path in
-                path.move(to: CGPoint(x: -8, y: 8))
-                path.addQuadCurve(to: CGPoint(x: 8, y: 8), control: CGPoint(x: 0, y: 14))
+                path.move(to: CGPoint(x: -10, y: 4))
+                path.addQuadCurve(to: CGPoint(x: 10, y: 4), control: CGPoint(x: 0, y: 10))
             }
             .stroke(.black, lineWidth: 2)
             .fill(.clear)
             
             // Rosy Cheeks
-            HStack(spacing: 28) {
+            HStack(spacing: 24) {
                 Ellipse()
                     .fill(Color(red: 0.83, green: 0.50, blue: 0.44).opacity(0.6))
-                    .frame(width: 10, height: 6)
+                    .frame(width: 8, height: 5)
                 Ellipse()
                     .fill(Color(red: 0.83, green: 0.50, blue: 0.44).opacity(0.6))
-                    .frame(width: 10, height: 6)
+                    .frame(width: 8, height: 5)
             }
-            .offset(y: 4)
+            .offset(y: 2)
             
             // Waving Arm
             Path { path in
-                path.move(to: CGPoint(x: -30, y: 2))
+                path.move(to: CGPoint(x: -30, y: 0))
                 path.addQuadCurve(to: CGPoint(x: -42, y: -12), control: CGPoint(x: -38, y: -8))
             }
             .stroke(Color(red: 0.49, green: 0.57, blue: 0.46), lineWidth: 4)

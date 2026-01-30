@@ -233,8 +233,6 @@ private struct MascotBallView: View {
         GeometryReader { geo in
             let size = ballSize
             let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
-            let eyeOffsetY = size * 0.12
-            let eyeSpacing = size * 0.18
 
             ZStack {
                 Circle()
@@ -255,45 +253,47 @@ private struct MascotBallView: View {
 
                 YarnTextureLines(ballSize: ballSize)
 
-                // Eyes (made larger and better positioned)
-                Circle()
-                    .fill(Color.black)
-                    .frame(width: size * 0.06, height: size * 0.06)
-                    .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
-                Circle()
-                    .fill(Color.black)
-                    .frame(width: size * 0.06, height: size * 0.06)
-                    .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
-
-                // Eyebrows positioned above eyes
-                Path { path in
-                    let leftEyeX = center.x - eyeSpacing/2
-                    let leftEyeY = center.y - eyeOffsetY
-                    path.move(to: CGPoint(x: leftEyeX - size * 0.03, y: leftEyeY - size * 0.04))
-                    path.addQuadCurve(
-                        to: CGPoint(x: leftEyeX + size * 0.03, y: leftEyeY - size * 0.04),
-                        control: CGPoint(x: leftEyeX, y: leftEyeY - size * 0.06)
-                    )
+                // Eyes - properly centered
+                HStack(spacing: size * 0.18) {
+                    Circle()
+                        .fill(Color.black)
+                        .frame(width: size * 0.08, height: size * 0.08)
+                    Circle()
+                        .fill(Color.black)
+                        .frame(width: size * 0.08, height: size * 0.08)
                 }
-                .stroke(Color.black, lineWidth: 1.5)
+                .position(x: center.x, y: center.y - size * 0.08)
 
-                Path { path in
-                    let rightEyeX = center.x + eyeSpacing/2
-                    let rightEyeY = center.y - eyeOffsetY
-                    path.move(to: CGPoint(x: rightEyeX - size * 0.03, y: rightEyeY - size * 0.04))
-                    path.addQuadCurve(
-                        to: CGPoint(x: rightEyeX + size * 0.03, y: rightEyeY - size * 0.04),
-                        control: CGPoint(x: rightEyeX, y: rightEyeY - size * 0.06)
-                    )
+                // Eyebrows - properly positioned above eyes
+                HStack(spacing: size * 0.18) {
+                    Path { path in
+                        path.move(to: CGPoint(x: -size * 0.04, y: 0))
+                        path.addQuadCurve(
+                            to: CGPoint(x: size * 0.04, y: 0),
+                            control: CGPoint(x: 0, y: -size * 0.02)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 1.5)
+                    .frame(width: size * 0.08, height: size * 0.04)
+                    
+                    Path { path in
+                        path.move(to: CGPoint(x: -size * 0.04, y: 0))
+                        path.addQuadCurve(
+                            to: CGPoint(x: size * 0.04, y: 0),
+                            control: CGPoint(x: 0, y: -size * 0.02)
+                        )
+                    }
+                    .stroke(Color.black, lineWidth: 1.5)
+                    .frame(width: size * 0.08, height: size * 0.04)
                 }
-                .stroke(Color.black, lineWidth: 1.5)
+                .position(x: center.x, y: center.y - size * 0.16)
 
-                // Smile
+                // Smile - properly positioned below eyes
                 Path { path in
-                    path.move(to: CGPoint(x: center.x - size * 0.15, y: center.y + size * 0.11))
+                    path.move(to: CGPoint(x: center.x - size * 0.12, y: center.y + size * 0.08))
                     path.addQuadCurve(
-                        to: CGPoint(x: center.x + size * 0.15, y: center.y + size * 0.11),
-                        control: CGPoint(x: center.x, y: center.y + size * 0.16)
+                        to: CGPoint(x: center.x + size * 0.12, y: center.y + size * 0.08),
+                        control: CGPoint(x: center.x, y: center.y + size * 0.14)
                     )
                 }
                 .stroke(Color.black, lineWidth: 2)
@@ -302,12 +302,12 @@ private struct MascotBallView: View {
                 Ellipse()
                     .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
                     .frame(width: size * 0.16, height: size * 0.11)
-                    .position(x: center.x - size * 0.35, y: center.y - size * 0.04)
+                    .position(x: center.x - size * 0.35, y: center.y + size * 0.02)
 
                 Ellipse()
                     .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
                     .frame(width: size * 0.16, height: size * 0.11)
-                    .position(x: center.x + size * 0.35, y: center.y - size * 0.04)
+                    .position(x: center.x + size * 0.35, y: center.y + size * 0.02)
             }
         }
         .frame(width: ballSize, height: ballSize)
