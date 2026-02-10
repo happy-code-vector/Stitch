@@ -236,7 +236,7 @@ struct CloudSyncUpgradePrompt: View {
                 
                 // Description
                 VStack(spacing: 8) {
-                    Text("Great work on ")
+                    (Text("Great work on ")
                         .font(.body)
                         .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                     + Text(projectName)
@@ -245,10 +245,10 @@ struct CloudSyncUpgradePrompt: View {
                         .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
                     + Text("! ")
                         .font(.body)
-                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4)))
                     
                     if hoursInvested > 0 {
-                        Text("You've invested ")
+                        (Text("You've invested ")
                             .font(.body)
                             .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                         + Text("\(hoursInvested) hours")
@@ -257,10 +257,10 @@ struct CloudSyncUpgradePrompt: View {
                             .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
                         + Text(" into this project. ")
                             .font(.body)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4)))
                     }
                     
-                    Text("Your project data is saved ")
+                    (Text("Your project data is saved ")
                         .font(.body)
                         .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                     + Text("locally only")
@@ -269,7 +269,7 @@ struct CloudSyncUpgradePrompt: View {
                         .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                     + Text(".")
                         .font(.body)
-                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4)))
                 }
                 .multilineTextAlignment(.center)
                 

@@ -328,8 +328,8 @@ struct WorkModeView: View {
         .sheet(isPresented: $showDiagnosis) {
             StitchDoctorDiagnosisViewSheet(
                 onClose: { showDiagnosis = false },
-                onSaveToNotes: { },
-                diagnosisText: "Camera-based mistake detection coming soon!"
+                onSaveToNotes: nil,
+                diagnosisText: nil
             )
         }
         .sheet(isPresented: $showSettings) {
@@ -805,6 +805,13 @@ struct StitchDoctorDiagnosisViewSheet: View {
                     .padding()
                 
                 Spacer()
+                
+                if let saveAction = onSaveToNotes {
+                    Button("Save to Notes") {
+                        saveAction()
+                    }
+                    .padding()
+                }
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
