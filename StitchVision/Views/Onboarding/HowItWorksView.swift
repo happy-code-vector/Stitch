@@ -149,7 +149,7 @@ struct HowItWorksView: View {
                                 currentSlide += 1
                             }
                         } else {
-                            appState.navigateTo(.statsProblem)
+                            appState.navigateTo(.stats)
                         }
                     }) {
                         HStack(spacing: 8) {
