@@ -44,11 +44,6 @@ struct SessionSummaryView: View {
                 
                 // Main Victory Card
                 VStack(spacing: 0) {
-                    // Sleeping Mascot on Top of Card
-                    SleepingMascotView()
-                        .offset(y: 48)
-                        .zIndex(1)
-                    
                     VStack(spacing: 24) {
                         // Big Bold Row Count
                         VStack(spacing: 8) {
@@ -60,7 +55,7 @@ struct SessionSummaryView: View {
                                 .font(.body)
                                 .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                         }
-                        .padding(.top, 32)
+                        .padding(.top, 24)
                         
                         // Bar Chart Comparison
                         VStack(spacing: 16) {
