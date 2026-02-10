@@ -213,6 +213,15 @@ struct CloudSyncUpgradePrompt: View {
     let projectName: String
     let hoursInvested: Int
     
+    private func buildDescriptionText() -> String {
+        var text = "Great work on \(projectName)! "
+        if hoursInvested > 0 {
+            text += "You've invested \(hoursInvested) hours into this project. "
+        }
+        text += "Your project data is saved locally only."
+        return text
+    }
+    
     var body: some View {
         UpgradeModal(isOpen: isOpen, onClose: onClose, onUpgrade: onUpgrade) {
             VStack(spacing: 20) {
@@ -236,42 +245,11 @@ struct CloudSyncUpgradePrompt: View {
                 
                 // Description
                 VStack(spacing: 8) {
-                    (Text("Great work on ")
+                    Text(buildDescriptionText())
                         .font(.body)
                         .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                    + Text(projectName)
-                        .font(.body)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                    + Text("! ")
-                        .font(.body)
-                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4)))
-                    
-                    if hoursInvested > 0 {
-                        (Text("You've invested ")
-                            .font(.body)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                        + Text("\(hoursInvested) hours")
-                            .font(.body)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
-                        + Text(" into this project. ")
-                            .font(.body)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4)))
-                    }
-                    
-                    (Text("Your project data is saved ")
-                        .font(.body)
-                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                    + Text("locally only")
-                        .font(.body)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                    + Text(".")
-                        .font(.body)
-                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4)))
+                        .multilineTextAlignment(.center)
                 }
-                .multilineTextAlignment(.center)
                 
                 // Risk Warning
                 VStack(alignment: .leading, spacing: 8) {
