@@ -278,8 +278,6 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
-			sourceTree = "<group>";
-		};
 		A1234567890123456789014E /* Products */ = {
 			isa = PBXGroup;
 			children = (
