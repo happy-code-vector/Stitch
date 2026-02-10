@@ -119,17 +119,17 @@ struct StitchDoctorUpgradePrompt: View {
                     .multilineTextAlignment(.center)
                 
                 // Description
-                Text("Free tier gets generic \"Error detected\" alerts. Upgrade to Pro for precise diagnosis like ")
+                (Text("Free tier gets generic \"Error detected\" alerts. Upgrade to Pro for precise diagnosis like ")
                     .font(.body)
                     .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                    .multilineTextAlignment(.center)
                 + Text("\"Dropped stitch 3 rows down, stitch #47\"")
                     .font(.body)
                     .fontWeight(.bold)
                     .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
                 + Text(" with step-by-step fix instructions.")
                     .font(.body)
-                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4)))
+                    .multilineTextAlignment(.center)
                 
                 // Before/After Comparison
                 VStack(spacing: 16) {
