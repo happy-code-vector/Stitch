@@ -23,7 +23,7 @@ struct WorkModeView: View {
     @StateObject private var cameraPermissionManager = CameraPermissionManager.shared
     @StateObject private var cameraManager = CameraManager()
     @StateObject private var geminiService = GeminiVisionService()
-    @StateObject private var cameraDelegate = WorkModeCameraDelegate()
+    @State private var cameraDelegate = WorkModeCameraDelegate()
     
     @State private var isPaused = false
     @State private var sessionStartTime = Date()
@@ -326,8 +326,7 @@ struct WorkModeView: View {
             cameraManager.stopSession()
         }
         .sheet(isPresented: $showDiagnosis) {
-            StitchDoctorDiagnosisView(
-                isOpen: showDiagnosis,
+            StitchDoctorDiagnosisViewSheet(
                 onClose: { showDiagnosis = false },
                 onSaveToNotes: nil,
                 diagnosisText: nil
@@ -361,9 +360,9 @@ struct WorkModeView: View {
     
     private func setupCamera() {
         cameraManager.delegate = cameraDelegate
-        cameraDelegate.onFrameReceived = { [weak geminiService] pixelBuffer in
-            guard let geminiService = geminiService, !self.isPaused else { return }
-            geminiService.processFrame(pixelBuffer)
+        cameraDelegate.onFrameReceived = { pixelBuffer in
+            guard !self.isPaused else { return }
+            self.geminiService.processFrame(pixelBuffer)
         }
         cameraDelegate.onError = { error in
             print("Camera error: \(error.localizedDescription)")
@@ -788,8 +787,10 @@ struct ConfusedMascotView: View {
     }
 }
 
-struct StitchDoctorDiagnosisView: View {
-    @Environment(\.presentationMode) var presentationMode
+struct StitchDoctorDiagnosisViewSheet: View {
+    let onClose: () -> Void
+    let onSaveToNotes: (() -> Void)?
+    let diagnosisText: String?
     
     var body: some View {
         NavigationView {
@@ -798,7 +799,7 @@ struct StitchDoctorDiagnosisView: View {
                     .font(.title)
                     .padding()
                 
-                Text("Camera-based mistake detection coming soon!")
+                Text(diagnosisText ?? "Camera-based mistake detection coming soon!")
                     .font(.body)
                     .foregroundColor(.gray)
                     .padding()
@@ -808,7 +809,7 @@ struct StitchDoctorDiagnosisView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
                 leading: Button("Close") {
-                    presentationMode.wrappedValue.dismiss()
+                    onClose()
                 }
             )
         }

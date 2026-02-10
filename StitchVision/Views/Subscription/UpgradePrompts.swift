@@ -609,26 +609,7 @@ struct GenericProGatePrompt: View {
     }
 }
 
-// MARK: - Helper Extension for Rounded Corners
-extension View {
-    func customCornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape(UpgradePromptsRoundedCorner(radius: radius, corners: corners))
-    }
-}
 
-struct UpgradePromptsRoundedCorner: Shape {
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-    
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(
-            roundedRect: rect,
-            byRoundingCorners: corners,
-            cornerRadii: CGSize(width: radius, height: radius)
-        )
-        return Path(path.cgPath)
-    }
-}
 
 #Preview {
     StitchDoctorUpgradePrompt(
