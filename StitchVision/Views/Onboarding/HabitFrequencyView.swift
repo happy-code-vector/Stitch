@@ -63,6 +63,8 @@ struct HabitFrequencyView: View {
                 
                 // Continue button
                 Button(action: {
+                    // Save selected frequency
+                    appState.habitFrequency = selectedFrequency
                     appState.navigateTo(.goal)
                 }) {
                     Text("Continue")

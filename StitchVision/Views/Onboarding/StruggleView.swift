@@ -68,6 +68,10 @@ struct StruggleView: View {
                 
                 // Continue button
                 Button(action: {
+                    // Save selected struggle
+                    if let struggle = selectedStruggle {
+                        appState.struggles = [struggle]
+                    }
                     appState.navigateTo(.statsProblem)
                 }) {
                     Text("Continue")

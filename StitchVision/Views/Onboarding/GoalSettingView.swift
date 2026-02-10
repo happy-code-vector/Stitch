@@ -63,6 +63,8 @@ struct GoalSettingView: View {
                 
                 // Continue button
                 Button(action: {
+                    // Save selected goal
+                    appState.goal = selectedGoal
                     appState.navigateTo(.statsSolution)
                 }) {
                     Text("Continue")

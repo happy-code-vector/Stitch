@@ -66,6 +66,8 @@ struct SkillLevelView: View {
                 
                 // Continue button
                 Button(action: {
+                    // Save selected skill level
+                    appState.skillLevel = selectedSkill
                     appState.navigateTo(.struggle)
                 }) {
                     Text("Continue")

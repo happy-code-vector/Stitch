@@ -127,7 +127,21 @@ class AppState: ObservableObject {
     }
     
     func completeOnboarding() {
-        _ = db.updateOnboardingStatus(completed: true)
+        // Save all onboarding data first
+        let user = UserProfile(
+            name: userName ?? "",
+            email: userEmail ?? "",
+            craftType: selectedCraft ?? "",
+            skillLevel: skillLevel ?? "",
+            struggles: struggles,
+            habitFrequency: habitFrequency ?? "",
+            goal: goal ?? "",
+            isPro: isPro,
+            hasCompletedOnboarding: true
+        )
+        _ = db.saveUser(user)
+        
+        // Navigate to dashboard
         navigateTo(.dashboard)
     }
     
