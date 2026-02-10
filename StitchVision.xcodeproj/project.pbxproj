@@ -54,12 +54,8 @@
 		A1234567890123456789060B /* UpgradePrompts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789060C /* UpgradePrompts.swift */; };
 		A1234567890123456789061B /* StitchDoctorDiagnosisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */; };
 		A1234567890123456789062B /* LoadingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789062C /* LoadingScreenView.swift */; };
-		A1234567890123456789063B /* VisionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789063D /* VisionCounter.swift */; };
 		A1234567890123456789064B /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789064D /* CameraManager.swift */; };
 		A1234567890123456789065B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789065D /* CameraPreviewView.swift */; };
-		A1234567890123456789066B /* VisionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789066D /* VisionSettingsView.swift */; };
-		A1234567890123456789067B /* CoreMLStitchClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789067D /* CoreMLStitchClassifier.swift */; };
-		A1234567890123456789068B /* ModelTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789068D /* ModelTestView.swift */; };
 		A1234567890123456789069B /* GeminiVisionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789069D /* GeminiVisionService.swift */; };
 		A1234567890123456789070B /* GeminiSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789070D /* GeminiSettingsView.swift */; };
 /* End PBXBuildFile section */
@@ -114,12 +110,8 @@
 		A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchDoctorDiagnosisView.swift; sourceTree = "<group>"; };
 		A1234567890123456789062C /* LoadingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreenView.swift; sourceTree = "<group>"; };
 		A1234567890123456789063C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A1234567890123456789063D /* VisionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionCounter.swift; sourceTree = "<group>"; };
 		A1234567890123456789064D /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		A1234567890123456789065D /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
-		A1234567890123456789066D /* VisionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionSettingsView.swift; sourceTree = "<group>"; };
-		A1234567890123456789067D /* CoreMLStitchClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLStitchClassifier.swift; sourceTree = "<group>"; };
-		A1234567890123456789068D /* ModelTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTestView.swift; sourceTree = "<group>"; };
 		A1234567890123456789069D /* GeminiVisionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiVisionService.swift; sourceTree = "<group>"; };
 		A1234567890123456789070D /* GeminiSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -397,10 +389,8 @@
 				A1234567890123456789060B /* UpgradePrompts.swift in Sources */,
 				A1234567890123456789061B /* StitchDoctorDiagnosisView.swift in Sources */,
 				A1234567890123456789062B /* LoadingScreenView.swift in Sources */,
-				A1234567890123456789063B /* VisionCounter.swift in Sources */,
 				A1234567890123456789064B /* CameraManager.swift in Sources */,
 				A1234567890123456789065B /* CameraPreviewView.swift in Sources */,
-				A1234567890123456789066B /* VisionSettingsView.swift in Sources */,
 				A1234567890123456789069B /* GeminiVisionService.swift in Sources */,
 				A1234567890123456789070B /* GeminiSettingsView.swift in Sources */,
 			);
