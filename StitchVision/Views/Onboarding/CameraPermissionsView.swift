@@ -2,7 +2,9 @@ import SwiftUI
 
 struct CameraPermissionsView: View {
     @EnvironmentObject var appState: AppState
+    @StateObject private var cameraManager = CameraPermissionManager.shared
     @State private var animateElements = false
+    @State private var showingSettingsAlert = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -108,10 +110,9 @@ struct CameraPermissionsView: View {
                     // Action buttons
                     VStack(spacing: 16) {
                         Button(action: {
-                            // Request camera permission
-                            appState.navigateTo(.calibration)
+                            handleCameraPermission()
                         }) {
-                            Text("Allow Camera Access")
+                            Text(cameraManager.isPermissionGranted ? "Continue" : "Allow Camera Access")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
@@ -152,6 +153,44 @@ struct CameraPermissionsView: View {
         .ignoresSafeArea()
         .onAppear {
             animateElements = true
+            cameraManager.checkPermissionStatus()
+        }
+        .alert("Camera Access Required", isPresented: $showingSettingsAlert) {
+            Button("Open Settings") {
+                cameraManager.openAppSettings()
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("Camera access was previously denied. Please enable it in Settings to use StitchVision's AI features.")
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func handleCameraPermission() {
+        switch cameraManager.permissionStatus {
+        case .granted:
+            // Already granted, proceed to next screen
+            appState.navigateTo(.calibration)
+            
+        case .notDetermined:
+            // Request permission
+            cameraManager.requestCameraPermission { granted in
+                if granted {
+                    appState.navigateTo(.calibration)
+                } else {
+                    // User denied permission
+                    showingSettingsAlert = true
+                }
+            }
+            
+        case .denied:
+            // Show alert to open settings
+            showingSettingsAlert = true
+            
+        case .restricted:
+            // Show alert that camera is restricted
+            showingSettingsAlert = true
         }
     }
 }

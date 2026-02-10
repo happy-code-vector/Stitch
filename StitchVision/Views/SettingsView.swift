@@ -2,7 +2,9 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject var appState: AppState
+    @StateObject private var cameraManager = CameraPermissionManager.shared
     @State private var isPro = false
+    @State private var showPermissionAlert = false
     
     var body: some View {
         ZStack {
@@ -204,6 +206,75 @@ struct SettingsView: View {
                                     }
                                 )
                                 
+                                // Camera Permission Status
+                                Button(action: {
+                                    if cameraManager.isPermissionGranted {
+                                        // Already granted, just show info
+                                        showPermissionAlert = true
+                                    } else if cameraManager.canRequestPermission {
+                                        // Request permission
+                                        cameraManager.requestCameraPermission { _ in
+                                            showPermissionAlert = true
+                                        }
+                                    } else {
+                                        // Need to open settings
+                                        showPermissionAlert = true
+                                    }
+                                }) {
+                                    HStack(spacing: 16) {
+                                        // Icon
+                                        Circle()
+                                            .fill(
+                                                cameraManager.isPermissionGranted
+                                                ? Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1)
+                                                : Color(red: 0.79, green: 0.43, blue: 0.37).opacity(0.1)
+                                            )
+                                            .frame(width: 40, height: 40)
+                                            .overlay(
+                                                Image(systemName: cameraManager.isPermissionGranted ? "camera.fill" : "camera.fill.badge.ellipsis")
+                                                    .font(.system(size: 18, weight: .medium))
+                                                    .foregroundColor(
+                                                        cameraManager.isPermissionGranted
+                                                        ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                                        : Color(red: 0.79, green: 0.43, blue: 0.37)
+                                                    )
+                                            )
+                                        
+                                        // Text Content
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text("Camera Permission")
+                                                .font(.system(size: 16, weight: .medium))
+                                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            
+                                            Text(cameraManager.isPermissionGranted ? "Granted" : "Not granted")
+                                                .font(.system(size: 14, weight: .regular))
+                                                .foregroundColor(
+                                                    cameraManager.isPermissionGranted
+                                                    ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                                    : Color(red: 0.79, green: 0.43, blue: 0.37)
+                                                )
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        // Status indicator
+                                        if cameraManager.isPermissionGranted {
+                                            Image(systemName: "checkmark.circle.fill")
+                                                .font(.system(size: 20))
+                                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                        } else {
+                                            Image(systemName: "chevron.right")
+                                                .font(.system(size: 14, weight: .medium))
+                                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                        }
+                                    }
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 16)
+                                    .background(Color.white)
+                                    .cornerRadius(12)
+                                    .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                                }
+                                
                                 SettingsItemView(
                                     icon: "camera",
                                     title: "Calibrate Camera",
@@ -251,6 +322,15 @@ struct SettingsView: View {
                                         // Handle logout
                                     }
                                 )
+                                
+                                SettingsItemView(
+                                    icon: "arrow.counterclockwise",
+                                    title: "Reset Onboarding",
+                                    description: "Start tutorial again",
+                                    action: {
+                                        appState.resetOnboarding()
+                                    }
+                                )
                             }
                         }
                         
@@ -268,6 +348,25 @@ struct SettingsView: View {
                     .padding(.horizontal, 24)
                     .padding(.vertical, 24)
                 }
+            }
+        }
+        .onAppear {
+            cameraManager.checkPermissionStatus()
+        }
+        .alert("Camera Permission", isPresented: $showPermissionAlert) {
+            if cameraManager.isPermissionGranted {
+                Button("OK", role: .cancel) {}
+            } else {
+                Button("Open Settings") {
+                    cameraManager.openAppSettings()
+                }
+                Button("Cancel", role: .cancel) {}
+            }
+        } message: {
+            if cameraManager.isPermissionGranted {
+                Text("Camera access is granted. You can use all AI-powered features in Work Mode.")
+            } else {
+                Text("Camera access is required for AI stitch counting and pattern detection. Please enable it in Settings.")
             }
         }
     }

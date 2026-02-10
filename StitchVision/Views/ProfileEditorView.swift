@@ -2,8 +2,8 @@ import SwiftUI
 
 struct ProfileEditorView: View {
     @EnvironmentObject var appState: AppState
-    @State private var displayName = "Creator"
-    @State private var email = "creator@example.com"
+    @State private var displayName = ""
+    @State private var email = ""
     @State private var knittingExperience = "Intermediate"
     @State private var favoriteProjects = "Scarves & Blankets"
     @State private var showingImagePicker = false
@@ -37,7 +37,8 @@ struct ProfileEditorView: View {
                     Spacer()
                     
                     Button(action: {
-                        // Save profile changes
+                        // Save profile changes to database
+                        appState.updateUserProfile(name: displayName, email: email)
                         appState.navigateTo(.settings)
                     }) {
                         Text("Save")
@@ -198,6 +199,12 @@ struct ProfileEditorView: View {
             // Image picker would go here
             Text("Image Picker")
         }
+        .onAppear {
+            // Load user data from AppState
+            displayName = appState.userName ?? ""
+            email = appState.userEmail ?? ""
+            knittingExperience = appState.skillLevel ?? "Intermediate"
+        }
     }
 }
 
@@ -221,6 +228,7 @@ struct ProfileFieldView: View {
                 .font(.system(size: 16, weight: .regular))
                 .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
                 .multilineTextAlignment(.trailing)
+                .disableAutocorrection(true)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 16)

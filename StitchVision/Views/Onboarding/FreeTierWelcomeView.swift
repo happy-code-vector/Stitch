@@ -100,7 +100,8 @@ struct FreeTierWelcomeView: View {
                         .animation(.easeOut(duration: 0.5).delay(0.4), value: animateElements)
                         
                         Button(action: {
-                            appState.navigateTo(.dashboard)
+                            // Mark onboarding as complete and navigate to dashboard
+                            appState.completeOnboarding()
                         }) {
                             Text("Let's Cast On!")
                                 .font(.headline)

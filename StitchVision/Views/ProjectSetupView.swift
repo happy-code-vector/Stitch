@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ProjectSetupView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject var projectStore: ProjectStore
     @State private var projectName = ""
     @State private var needleSize = ""
     @State private var selectedYarn: YarnStashItem? = nil
@@ -81,6 +82,7 @@ struct ProjectSetupView: View {
                                             .font(.system(size: 14, weight: .regular))
                                             .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
                                             .multilineTextAlignment(.trailing)
+                                            .disableAutocorrection(true)
                                     }
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 12)
@@ -103,6 +105,8 @@ struct ProjectSetupView: View {
                                             .font(.system(size: 14, weight: .regular))
                                             .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
                                             .multilineTextAlignment(.trailing)
+                                            .disableAutocorrection(true)
+                                            .keyboardType(.decimalPad)
                                     }
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 12)
@@ -314,7 +318,20 @@ struct ProjectSetupView: View {
     
     private func handleCreate() {
         if isFormValid {
-            // In real app, would save project data
+            // Create new project and save to database
+            let newProject = ProjectModel(
+                name: projectName,
+                craftType: appState.selectedCraft ?? "Knitting",
+                needleSize: needleSize,
+                yarnType: selectedYarn?.name ?? "",
+                yarnColor: selectedYarn?.color ?? "",
+                patternName: "",
+                totalRows: 0,
+                currentRow: 0,
+                status: "active"
+            )
+            
+            projectStore.addProject(newProject)
             appState.navigateTo(.dashboard)
         }
     }

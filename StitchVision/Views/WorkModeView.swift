@@ -2,15 +2,17 @@ import SwiftUI
 
 struct WorkModeView: View {
     @EnvironmentObject var appState: AppState
+    @StateObject private var cameraPermissionManager = CameraPermissionManager.shared
+    @StateObject private var cameraManager = CameraManager()
+    @StateObject private var geminiService = GeminiVisionService() // API key loaded from UserDefaults
+    
     @State private var isPaused = false
-    @State private var rowCount = 12
-    @State private var confidence = 94.0
-    @State private var flashlightOn = false
-    @State private var batterySaverOn = false
     @State private var sessionStartTime = Date()
-    @State private var initialRowCount = 12
+    @State private var initialRowCount = 0
     @State private var showDiagnosis = false
-    @State private var confidenceTimer: Timer?
+    @State private var showPermissionAlert = false
+    @State private var showSettings = false
+    @State private var showApiKeyAlert = false
     
     var body: some View {
         ZStack {
@@ -20,48 +22,55 @@ struct WorkModeView: View {
             VStack(spacing: 0) {
                 // Camera Feed Area - Top 60%
                 ZStack {
-                    // Background gradient
-                    LinearGradient(
-                        colors: [
-                            Color(red: 0.31, green: 0.31, blue: 0.31),
-                            Color(red: 0.44, green: 0.44, blue: 0.44),
-                            Color(red: 0.56, green: 0.56, blue: 0.56)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                    
-                    // Simulated camera feed texture
-                    CameraNoiseView()
-                        .opacity(0.2)
+                    // Real camera preview
+                    if let previewLayer = cameraManager.previewLayer {
+                        CameraPreviewView(previewLayer: previewLayer)
+                    } else {
+                        // Fallback gradient while camera loads
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.31, green: 0.31, blue: 0.31),
+                                Color(red: 0.44, green: 0.44, blue: 0.44),
+                                Color(red: 0.56, green: 0.56, blue: 0.56)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    }
                     
                     // Confidence Meter - Very Top
                     VStack {
                         HStack {
-                            Text("Confidence")
+                            Text(geminiService.isAnalyzing ? "Analyzing..." : "Confidence")
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(.white)
                             
                             Spacer()
                             
-                            GeometryReader { geometry in
-                                ZStack(alignment: .leading) {
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(.white.opacity(0.2))
-                                        .frame(height: 8)
-                                    
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(confidenceColor)
-                                        .frame(width: geometry.size.width * (confidence / 100), height: 8)
-                                        .animation(.easeOut(duration: 0.5), value: confidence)
+                            if geminiService.isAnalyzing {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(0.8)
+                            } else {
+                                GeometryReader { geometry in
+                                    ZStack(alignment: .leading) {
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .fill(.white.opacity(0.2))
+                                            .frame(height: 8)
+                                        
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .fill(confidenceColor)
+                                            .frame(width: geometry.size.width * geminiService.confidence, height: 8)
+                                            .animation(.easeOut(duration: 0.5), value: geminiService.confidence)
+                                    }
                                 }
+                                .frame(height: 8)
+                                
+                                Text("\(Int(geminiService.confidence * 100))%")
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundColor(.white)
+                                    .frame(width: 48, alignment: .trailing)
                             }
-                            .frame(height: 8)
-                            
-                            Text("\(Int(confidence))%")
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(.white)
-                                .frame(width: 48, alignment: .trailing)
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
@@ -92,11 +101,6 @@ struct WorkModeView: View {
                     // Yarn Detection Bounding Box
                     YarnDetectionBoxView(isPaused: isPaused)
                     
-                    // AR Trust Indicator Line
-                    if !isPaused && !batterySaverOn {
-                        ARTrustLineView(rowCount: rowCount)
-                    }
-                    
                     // Row Count Display - Large and prominent
                     VStack {
                         Spacer()
@@ -106,11 +110,17 @@ struct WorkModeView: View {
                                 .font(.system(size: 12, weight: .medium))
                                 .foregroundColor(.white.opacity(0.7))
                             
-                            Text("\(rowCount)")
+                            Text("\(geminiService.currentCount)")
                                 .font(.system(size: 72, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
                                 .scaleEffect(1.0)
-                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: rowCount)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: geminiService.currentCount)
+                            
+                            if let lastAnalysis = geminiService.lastAnalysisTime {
+                                Text("Last analyzed: \(timeAgo(lastAnalysis))")
+                                    .font(.system(size: 10, weight: .regular))
+                                    .foregroundColor(.white.opacity(0.6))
+                            }
                         }
                         .padding(.horizontal, 32)
                         .padding(.vertical, 16)
@@ -143,17 +153,11 @@ struct WorkModeView: View {
                             .transition(.opacity)
                     }
                     
-                    // Battery Saver Overlay
-                    if batterySaverOn {
-                        Color.black.opacity(0.95)
-                            .transition(.opacity)
-                    }
-                    
                     // Reactive Mascot
                     VStack {
                         HStack {
                             Spacer()
-                            ReactiveMascotView(confidence: confidence)
+                            ReactiveMascotView(confidence: geminiService.confidence * 100)
                                 .padding(.trailing, 16)
                         }
                         .padding(.top, 80)
@@ -177,31 +181,29 @@ struct WorkModeView: View {
                             // Flashlight Toggle
                             Button(action: {
                                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                                    flashlightOn.toggle()
+                                    cameraManager.toggleTorch()
                                 }
                             }) {
-                                Image(systemName: flashlightOn ? "flashlight.on.fill" : "flashlight.off.fill")
+                                Image(systemName: cameraManager.isTorchOn ? "flashlight.on.fill" : "flashlight.off.fill")
                                     .font(.system(size: 20))
-                                    .foregroundColor(flashlightOn ? .white : Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .foregroundColor(cameraManager.isTorchOn ? .white : Color(red: 0.4, green: 0.4, blue: 0.4))
                                     .frame(width: 44, height: 44)
-                                    .background(flashlightOn ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.95, green: 0.95, blue: 0.95))
+                                    .background(cameraManager.isTorchOn ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.95, green: 0.95, blue: 0.95))
                                     .clipShape(Circle())
-                                    .shadow(color: .black.opacity(flashlightOn ? 0.2 : 0.05), radius: flashlightOn ? 8 : 2, x: 0, y: flashlightOn ? 4 : 1)
+                                    .shadow(color: .black.opacity(cameraManager.isTorchOn ? 0.2 : 0.05), radius: cameraManager.isTorchOn ? 8 : 2, x: 0, y: cameraManager.isTorchOn ? 4 : 1)
                             }
                             
-                            // Battery Saver Toggle
+                            // Settings Button
                             Button(action: {
-                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                                    batterySaverOn.toggle()
-                                }
+                                showSettings = true
                             }) {
-                                Image(systemName: batterySaverOn ? "moon.fill" : "moon")
+                                Image(systemName: "gearshape.fill")
                                     .font(.system(size: 20))
-                                    .foregroundColor(batterySaverOn ? .white : Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                                     .frame(width: 44, height: 44)
-                                    .background(batterySaverOn ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.95, green: 0.95, blue: 0.95))
+                                    .background(Color(red: 0.95, green: 0.95, blue: 0.95))
                                     .clipShape(Circle())
-                                    .shadow(color: .black.opacity(batterySaverOn ? 0.2 : 0.05), radius: batterySaverOn ? 8 : 2, x: 0, y: batterySaverOn ? 4 : 1)
+                                    .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
                             }
                             
                             Spacer()
@@ -212,7 +214,9 @@ struct WorkModeView: View {
                         // Main Control Area
                         HStack(spacing: 16) {
                             // Manual Decrement
-                            Button(action: handleManualDecrement) {
+                            Button(action: {
+                                geminiService.manualDecrement()
+                            }) {
                                 Image(systemName: "minus")
                                     .font(.system(size: 24, weight: .bold))
                                     .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
@@ -223,8 +227,6 @@ struct WorkModeView: View {
                                     )
                                     .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                             }
-                            .scaleEffect(1.0)
-                            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: rowCount)
                             
                             // Main Pause/Resume Button
                             Button(action: togglePause) {
@@ -243,11 +245,11 @@ struct WorkModeView: View {
                                 .clipShape(Circle())
                                 .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 6)
                             }
-                            .scaleEffect(1.0)
-                            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPaused)
                             
                             // Manual Increment
-                            Button(action: handleManualIncrement) {
+                            Button(action: {
+                                geminiService.manualIncrement()
+                            }) {
                                 Image(systemName: "plus")
                                     .font(.system(size: 24, weight: .bold))
                                     .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
@@ -258,13 +260,11 @@ struct WorkModeView: View {
                                     )
                                     .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                             }
-                            .scaleEffect(1.0)
-                            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: rowCount)
                         }
                         .padding(.vertical, 32)
                         
                         // Status Text
-                        Text(isPaused ? "Counting paused. Tap Resume to continue." : "AI is actively counting your rows")
+                        Text(isPaused ? "Counting paused. Tap Resume to continue." : geminiService.isAnalyzing ? "AI is analyzing your knitting..." : "AI monitoring active")
                             .font(.system(size: 14, weight: .regular))
                             .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                             .multilineTextAlignment(.center)
@@ -296,37 +296,58 @@ struct WorkModeView: View {
             }
         }
         .onAppear {
-            startConfidenceSimulation()
+            cameraPermissionManager.checkPermissionStatus()
+            if cameraPermissionManager.isPermissionGranted {
+                setupCamera()
+            } else {
+                showPermissionAlert = true
+            }
         }
         .onDisappear {
-            stopConfidenceSimulation()
+            cameraManager.stopSession()
         }
         .sheet(isPresented: $showDiagnosis) {
             StitchDoctorDiagnosisView()
+        }
+        .sheet(isPresented: $showSettings) {
+            GeminiSettingsView(geminiService: geminiService)
+        }
+        .alert("Camera Access Required", isPresented: $showPermissionAlert) {
+            Button("Grant Access") {
+                cameraPermissionManager.requestCameraPermission { granted in
+                    if granted {
+                        setupCamera()
+                    } else {
+                        appState.navigateTo(.dashboard)
+                    }
+                }
+            }
+            Button("Go to Settings") {
+                cameraPermissionManager.openAppSettings()
+            }
+            Button("Cancel", role: .cancel) {
+                appState.navigateTo(.dashboard)
+            }
+        } message: {
+            Text("StitchVision needs camera access to count your stitches and detect patterns. Please grant camera permission to use Work Mode.")
         }
     }
     
     // MARK: - Helper Methods
     
+    private func setupCamera() {
+        cameraManager.delegate = self
+        geminiService.currentCount = initialRowCount
+        cameraManager.startSession()
+    }
+    
     private var confidenceColor: Color {
-        if confidence >= 90 {
+        if geminiService.confidence >= 0.90 {
             return Color(red: 0.561, green: 0.659, blue: 0.533)
-        } else if confidence >= 75 {
+        } else if geminiService.confidence >= 0.75 {
             return Color(red: 0.83, green: 0.69, blue: 0.22)
         } else {
             return Color(red: 0.79, green: 0.43, blue: 0.37)
-        }
-    }
-    
-    private func handleManualIncrement() {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-            rowCount += 1
-        }
-    }
-    
-    private func handleManualDecrement() {
-        withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-            rowCount = max(0, rowCount - 1)
         }
     }
     
@@ -337,25 +358,39 @@ struct WorkModeView: View {
     }
     
     private func handleExit() {
-        let timeSpent = Int(Date().timeIntervalSince(sessionStartTime) / 60) // minutes
-        let rowsKnit = rowCount - initialRowCount
+        let timeSpent = Int(Date().timeIntervalSince(sessionStartTime) / 60)
+        let rowsKnit = geminiService.currentCount - initialRowCount
         
         appState.updateSessionData(rowsKnit: max(0, rowsKnit), timeSpent: timeSpent)
         appState.navigateTo(.sessionSummary)
     }
     
-    private func startConfidenceSimulation() {
-        confidenceTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-            if !isPaused {
-                let variation = Double.random(in: -2...2)
-                confidence = min(100, max(85, confidence + variation))
-            }
+    private func timeAgo(_ date: Date) -> String {
+        let seconds = Int(Date().timeIntervalSince(date))
+        if seconds < 60 {
+            return "\(seconds)s ago"
+        } else {
+            let minutes = seconds / 60
+            return "\(minutes)m ago"
         }
     }
+}
+
+// MARK: - Camera Manager Delegate
+
+extension WorkModeView: CameraManagerDelegate {
+    func cameraManager(_ manager: CameraManager, didOutput sampleBuffer: CMSampleBuffer) {
+        guard !isPaused else { return }
+        
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            return
+        }
+        
+        geminiService.processFrame(pixelBuffer)
+    }
     
-    private func stopConfidenceSimulation() {
-        confidenceTimer?.invalidate()
-        confidenceTimer = nil
+    func cameraManager(_ manager: CameraManager, didEncounterError error: Error) {
+        print("Camera error: \(error.localizedDescription)")
     }
 }
 

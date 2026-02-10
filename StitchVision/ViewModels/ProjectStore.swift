@@ -2,99 +2,93 @@ import Foundation
 import SwiftUI
 
 class ProjectStore: ObservableObject {
-    @Published var projects: [Project] = []
-    @Published var activeProjectId: String?
+    @Published var projects: [ProjectModel] = []
+    @Published var activeProjectId: Int?
     @Published var isLoading = false
     @Published var error: String?
     
+    private let db = DatabaseManager.shared
+    
     init() {
-        loadSampleData()
+        loadProjects()
     }
     
-    private func loadSampleData() {
-        projects = [
-            Project(
-                id: "1",
-                userId: "user-1",
-                name: "Winter Scarf",
-                type: .scarf,
-                progress: 68,
-                totalRows: 120,
-                completedRows: 82,
-                lastWorked: "2h ago"
-            ),
-            Project(
-                id: "2",
-                userId: "user-1",
-                name: "Beanie",
-                type: .beanie,
-                progress: 45,
-                totalRows: 80,
-                completedRows: 36,
-                lastWorked: "1d ago"
-            ),
-            Project(
-                id: "3",
-                userId: "user-1",
-                name: "Sweater",
-                type: .sweater,
-                progress: 23,
-                totalRows: 200,
-                completedRows: 46,
-                lastWorked: "3d ago"
-            ),
-            Project(
-                id: "4",
-                userId: "user-1",
-                name: "Mittens",
-                type: .mittens,
-                progress: 89,
-                totalRows: 60,
-                completedRows: 53,
-                lastWorked: "5h ago"
-            ),
-            Project(
-                id: "5",
-                userId: "user-1",
-                name: "Baby Blanket",
-                type: .blanket,
-                progress: 12,
-                totalRows: 150,
-                completedRows: 18,
-                lastWorked: "1w ago"
-            )
-        ]
-        activeProjectId = "1"
-    }
-    
-    func addProject(_ project: Project) {
-        projects.insert(project, at: 0)
-    }
-    
-    func updateProject(_ id: String, updates: (inout Project) -> Void) {
-        if let index = projects.firstIndex(where: { $0.id == id }) {
-            updates(&projects[index])
-            projects[index].updatedAt = Date()
+    func loadProjects() {
+        isLoading = true
+        projects = db.getAllProjects()
+        isLoading = false
+        
+        // Set first project as active if none selected
+        if activeProjectId == nil && !projects.isEmpty {
+            activeProjectId = projects.first?.id
         }
     }
     
-    func deleteProject(_ id: String) {
-        projects.removeAll { $0.id == id }
-        if activeProjectId == id {
-            activeProjectId = nil
+    func addProject(_ project: ProjectModel) {
+        if let projectId = db.saveProject(project) {
+            var savedProject = project
+            savedProject.id = projectId
+            projects.insert(savedProject, at: 0)
+            activeProjectId = projectId
         }
     }
     
-    func setActiveProject(_ id: String?) {
+    func updateProject(_ project: ProjectModel) {
+        if db.updateProject(project) {
+            if let index = projects.firstIndex(where: { $0.id == project.id }) {
+                projects[index] = project
+            }
+        }
+    }
+    
+    func deleteProject(_ id: Int) {
+        if db.deleteProject(id: id) {
+            projects.removeAll { $0.id == id }
+            if activeProjectId == id {
+                activeProjectId = projects.first?.id
+            }
+        }
+    }
+    
+    func setActiveProject(_ id: Int?) {
         activeProjectId = id
     }
     
-    func getActiveProject() -> Project? {
+    func getActiveProject() -> ProjectModel? {
         guard let activeProjectId = activeProjectId else { return nil }
         return projects.first { $0.id == activeProjectId }
     }
     
-    func getProject(by id: String) -> Project? {
+    func getProject(by id: Int) -> ProjectModel? {
         return projects.first { $0.id == id }
+    }
+    
+    func updateProjectProgress(projectId: Int, currentRow: Int) {
+        if var project = getProject(by: projectId) {
+            project.currentRow = currentRow
+            updateProject(project)
+        }
+    }
+    
+    func saveSession(projectId: Int, rowsKnit: Int, timeSpent: Int) {
+        let dateFormatter = ISO8601DateFormatter()
+        let now = dateFormatter.string(from: Date())
+        
+        let session = SessionModel(
+            projectId: projectId,
+            rowsKnit: rowsKnit,
+            timeSpent: timeSpent,
+            startTime: now,
+            endTime: now
+        )
+        
+        _ = db.saveSession(session)
+        
+        // Update project progress
+        updateProjectProgress(projectId: projectId, currentRow: (getProject(by: projectId)?.currentRow ?? 0) + rowsKnit)
+    }
+    
+    func getSessionsForProject(projectId: Int) -> [SessionModel] {
+        return db.getSessionsForProject(projectId: projectId)
     }
 }

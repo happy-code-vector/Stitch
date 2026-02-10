@@ -65,6 +65,8 @@ struct CraftSelectionView: View {
                 
                 // Continue button
                 Button(action: {
+                    // Save selected craft
+                    appState.selectedCraft = selectedCraft
                     appState.navigateTo(.skill)
                 }) {
                     Text("Continue")

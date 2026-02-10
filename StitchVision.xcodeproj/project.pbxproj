@@ -46,6 +46,22 @@
 		A1234567890123456789052B /* HelpSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789052C /* HelpSupportView.swift */; };
 		A1234567890123456789053B /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789053C /* NotificationsView.swift */; };
 		A1234567890123456789054B /* ProfileEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789054C /* ProfileEditorView.swift */; };
+		A1234567890123456789055B /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789055C /* UserDefaultsManager.swift */; };
+		A1234567890123456789056B /* CameraPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789056C /* CameraPermissionManager.swift */; };
+		A1234567890123456789057B /* EnhancedSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789057C /* EnhancedSubscriptionView.swift */; };
+		A1234567890123456789058B /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789058C /* AuthenticationView.swift */; };
+		A1234567890123456789059B /* FreeVsProComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789059C /* FreeVsProComparisonView.swift */; };
+		A1234567890123456789060B /* UpgradePrompts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789060C /* UpgradePrompts.swift */; };
+		A1234567890123456789061B /* StitchDoctorDiagnosisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */; };
+		A1234567890123456789062B /* LoadingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789062C /* LoadingScreenView.swift */; };
+		A1234567890123456789063B /* VisionCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789063D /* VisionCounter.swift */; };
+		A1234567890123456789064B /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789064D /* CameraManager.swift */; };
+		A1234567890123456789065B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789065D /* CameraPreviewView.swift */; };
+		A1234567890123456789066B /* VisionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789066D /* VisionSettingsView.swift */; };
+		A1234567890123456789067B /* CoreMLStitchClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789067D /* CoreMLStitchClassifier.swift */; };
+		A1234567890123456789068B /* ModelTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789068D /* ModelTestView.swift */; };
+		A1234567890123456789069B /* GeminiVisionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789069D /* GeminiVisionService.swift */; };
+		A1234567890123456789070B /* GeminiSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789070D /* GeminiSettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +105,23 @@
 		A1234567890123456789052C /* HelpSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportView.swift; sourceTree = "<group>"; };
 		A1234567890123456789053C /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		A1234567890123456789054C /* ProfileEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditorView.swift; sourceTree = "<group>"; };
+		A1234567890123456789055C /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		A1234567890123456789056C /* CameraPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionManager.swift; sourceTree = "<group>"; };
+		A1234567890123456789057C /* EnhancedSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedSubscriptionView.swift; sourceTree = "<group>"; };
+		A1234567890123456789058C /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		A1234567890123456789059C /* FreeVsProComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeVsProComparisonView.swift; sourceTree = "<group>"; };
+		A1234567890123456789060C /* UpgradePrompts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradePrompts.swift; sourceTree = "<group>"; };
+		A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchDoctorDiagnosisView.swift; sourceTree = "<group>"; };
+		A1234567890123456789062C /* LoadingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreenView.swift; sourceTree = "<group>"; };
+		A1234567890123456789063C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1234567890123456789063D /* VisionCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionCounter.swift; sourceTree = "<group>"; };
+		A1234567890123456789064D /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		A1234567890123456789065D /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		A1234567890123456789066D /* VisionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionSettingsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789067D /* CoreMLStitchClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLStitchClassifier.swift; sourceTree = "<group>"; };
+		A1234567890123456789068D /* ModelTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTestView.swift; sourceTree = "<group>"; };
+		A1234567890123456789069D /* GeminiVisionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiVisionService.swift; sourceTree = "<group>"; };
+		A1234567890123456789070D /* GeminiSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiSettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +140,7 @@
 			children = (
 				A1234567890123456789012B /* StitchVisionApp.swift */,
 				A1234567890123456789012D /* ContentView.swift */,
+				A1234567890123456789063C /* Info.plist */,
 				A1234567890123456789013F /* Models */,
 				A1234567890123456789014A /* Views */,
 				A1234567890123456789014B /* ViewModels */,
@@ -151,6 +185,8 @@
 				A1234567890123456789054C /* ProfileEditorView.swift */,
 				A1234567890123456789027B /* PlaceholderViews.swift */,
 				A1234567890123456789030A /* Onboarding */,
+				A1234567890123456789064A /* Subscription */,
+				A1234567890123456789065A /* WorkMode */,
 				A1234567890123456789031A /* Shared */,
 			);
 			path = Views;
@@ -185,8 +221,30 @@
 			children = (
 				A1234567890123456789028B /* YarnBallMascotView.swift */,
 				A1234567890123456789029B /* FloatingConfettiView.swift */,
+				A1234567890123456789062C /* LoadingScreenView.swift */,
+				A1234567890123456789065D /* CameraPreviewView.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		A1234567890123456789064A /* Subscription */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890123456789057C /* EnhancedSubscriptionView.swift */,
+				A1234567890123456789058C /* AuthenticationView.swift */,
+				A1234567890123456789059C /* FreeVsProComparisonView.swift */,
+				A1234567890123456789060C /* UpgradePrompts.swift */,
+			);
+			path = Subscription;
+			sourceTree = "<group>";
+		};
+		A1234567890123456789065A /* WorkMode */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */,
+				A1234567890123456789070D /* GeminiSettingsView.swift */,
+			);
+			path = WorkMode;
 			sourceTree = "<group>";
 		};
 		A1234567890123456789014B /* ViewModels */ = {
@@ -200,6 +258,10 @@
 		A1234567890123456789014C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				A1234567890123456789055C /* UserDefaultsManager.swift */,
+				A1234567890123456789056C /* CameraPermissionManager.swift */,
+				A1234567890123456789064D /* CameraManager.swift */,
+				A1234567890123456789069D /* GeminiVisionService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -327,6 +389,20 @@
 				A1234567890123456789052B /* HelpSupportView.swift in Sources */,
 				A1234567890123456789053B /* NotificationsView.swift in Sources */,
 				A1234567890123456789054B /* ProfileEditorView.swift in Sources */,
+				A1234567890123456789055B /* UserDefaultsManager.swift in Sources */,
+				A1234567890123456789056B /* CameraPermissionManager.swift in Sources */,
+				A1234567890123456789057B /* EnhancedSubscriptionView.swift in Sources */,
+				A1234567890123456789058B /* AuthenticationView.swift in Sources */,
+				A1234567890123456789059B /* FreeVsProComparisonView.swift in Sources */,
+				A1234567890123456789060B /* UpgradePrompts.swift in Sources */,
+				A1234567890123456789061B /* StitchDoctorDiagnosisView.swift in Sources */,
+				A1234567890123456789062B /* LoadingScreenView.swift in Sources */,
+				A1234567890123456789063B /* VisionCounter.swift in Sources */,
+				A1234567890123456789064B /* CameraManager.swift in Sources */,
+				A1234567890123456789065B /* CameraPreviewView.swift in Sources */,
+				A1234567890123456789066B /* VisionSettingsView.swift in Sources */,
+				A1234567890123456789069B /* GeminiVisionService.swift in Sources */,
+				A1234567890123456789070B /* GeminiSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,8 +537,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StitchVision/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "StitchVision needs camera access to count your stitches and track your knitting progress.";
+				INFOPLIST_FILE = StitchVision/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -490,8 +565,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StitchVision/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "StitchVision needs camera access to count your stitches and track your knitting progress.";
+				INFOPLIST_FILE = StitchVision/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

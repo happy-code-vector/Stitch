@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var appState = AppState()
+    @StateObject private var projectStore = ProjectStore()
     
     var body: some View {
         Group {
@@ -36,6 +37,15 @@ struct ContentView: View {
                 CalibrationView()
             case .subscription:
                 SubscriptionView()
+            case .enhancedSubscription:
+                EnhancedSubscriptionView()
+            case .authentication:
+                AuthenticationView()
+            case .freeVsProComparison:
+                FreeVsProComparisonView(
+                    onUpgrade: { appState.navigateTo(.enhancedSubscription) },
+                    onDismiss: { appState.navigateTo(.dashboard) }
+                )
             case .downsell:
                 DownsellView()
             case .permissions:
@@ -70,6 +80,7 @@ struct ContentView: View {
             }
         }
         .environmentObject(appState)
+        .environmentObject(projectStore)
     }
 }
 
