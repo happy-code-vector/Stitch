@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SessionSummaryView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject var projectStore: ProjectStore
     let rowsKnit: Int
     let timeSpent: Int // in minutes
     
@@ -164,9 +165,7 @@ struct SessionSummaryView: View {
                 // Action Buttons
                 VStack(spacing: 16) {
                     // Primary: Save Progress
-                    Button(action: {
-                        appState.navigateTo(.dashboard)
-                    }) {
+                    Button(action: saveSession) {
                         Text("Save Progress")
                             .font(.headline)
                             .fontWeight(.semibold)
@@ -197,6 +196,17 @@ struct SessionSummaryView: View {
                 Spacer()
             }
         }
+    }
+    
+    private func saveSession() {
+        if let projectId = appState.selectedProjectId {
+            projectStore.saveSession(
+                projectId: projectId,
+                rowsKnit: rowsKnit,
+                timeSpent: timeSpent * 60 // Convert minutes to seconds
+            )
+        }
+        appState.navigateTo(.dashboard)
     }
 }
 

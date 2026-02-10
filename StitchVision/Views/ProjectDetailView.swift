@@ -2,370 +2,326 @@ import SwiftUI
 
 struct ProjectDetailView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject var projectStore: ProjectStore
     @State private var showDeleteConfirm = false
     
-    // Sample project data - in real app this would come from data store
-    let project = ProjectDetail(
-        id: 1,
-        name: "Winter Scarf",
-        type: "scarf",
-        progress: 68,
-        totalRows: 120,
-        completedRows: 82,
-        lastWorked: "2h ago",
-        needleSize: "5.0 mm",
-        stitchType: "stockinette"
-    )
+    var project: ProjectModel? {
+        guard let projectId = appState.selectedProjectId else { return nil }
+        return projectStore.getProject(by: projectId)
+    }
+    
+    var sessions: [SessionModel] {
+        guard let projectId = appState.selectedProjectId else { return [] }
+        return projectStore.getSessionsForProject(projectId: projectId)
+    }
+    
+    var progress: Double {
+        guard let project = project, project.totalRows > 0 else { return 0.0 }
+        return Double(project.currentRow) / Double(project.totalRows)
+    }
     
     var body: some View {
         ZStack {
             Color(red: 0.976, green: 0.969, blue: 0.949)
                 .ignoresSafeArea()
             
-            VStack(spacing: 0) {
-                // Header
-                HStack {
-                    Button(action: {
-                        appState.navigateTo(.dashboard)
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                    }
-                    
-                    Spacer()
-                    
-                    Text("Project Details")
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        // Handle edit
-                    }) {
-                        Image(systemName: "pencil")
-                            .font(.system(size: 18, weight: .medium))
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                    }
-                }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 16)
-                .background(Color.white)
-                .shadow(color: .black.opacity(0.05), radius: 1, x: 0, y: 1)
-                
+            if let project = project {
                 ScrollView {
                     VStack(spacing: 24) {
-                        // Project Hero Card
-                        VStack(spacing: 24) {
-                            // Project Icon
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [
-                                            Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.3),
-                                            Color(red: 0.49, green: 0.57, blue: 0.46).opacity(0.3)
-                                        ],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                                .frame(width: 96, height: 96)
-                                .overlay(
-                                    Text(project.emoji)
-                                        .font(.system(size: 48))
-                                )
-                                .scaleEffect(1.0)
-                                .animation(.spring(response: 0.5, dampingFraction: 0.6).delay(0.3), value: project.progress)
-                            
-                            // Project Name
-                            VStack(spacing: 8) {
-                                Text(project.name)
+                        // Header
+                        HStack {
+                            Button(action: {
+                                appState.navigateTo(.dashboard)
+                            }) {
+                                Image(systemName: "chevron.left")
                                     .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                                
-                                Text("Last worked \(project.lastWorked)")
-                                    .font(.system(size: 14, weight: .regular))
-                                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                             }
                             
+                            Spacer()
+                            
+                            Menu {
+                                Button(action: {
+                                    projectStore.setActiveProject(project.id)
+                                    appState.navigateTo(.workMode)
+                                }) {
+                                    Label("Start Session", systemImage: "play.fill")
+                                }
+                                
+                                Button(action: {
+                                    showDeleteConfirm = true
+                                }) {
+                                    Label("Delete Project", systemImage: "trash")
+                                }
+                            } label: {
+                                Image(systemName: "ellipsis.circle")
+                                    .font(.title2)
+                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            }
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.top, 48)
+                        
+                        // Project Info Card
+                        VStack(spacing: 20) {
                             // Progress Ring
                             ZStack {
                                 Circle()
-                                    .stroke(Color(red: 0.898, green: 0.898, blue: 0.898), lineWidth: 8)
-                                    .frame(width: 128, height: 128)
+                                    .stroke(Color(red: 0.898, green: 0.898, blue: 0.898), lineWidth: 12)
+                                    .frame(width: 160, height: 160)
                                 
                                 Circle()
-                                    .trim(from: 0, to: CGFloat(project.progress) / 100)
+                                    .trim(from: 0, to: CGFloat(progress))
                                     .stroke(
                                         Color(red: 0.561, green: 0.659, blue: 0.533),
-                                        style: StrokeStyle(lineWidth: 8, lineCap: .round)
+                                        style: StrokeStyle(lineWidth: 12, lineCap: .round)
                                     )
-                                    .frame(width: 128, height: 128)
+                                    .frame(width: 160, height: 160)
                                     .rotationEffect(.degrees(-90))
-                                    .animation(.easeOut(duration: 1.5).delay(0.5), value: project.progress)
                                 
-                                VStack(spacing: 2) {
-                                    Text("\(project.progress)%")
-                                        .font(.system(size: 32, weight: .bold))
+                                VStack(spacing: 4) {
+                                    Text("\(Int(progress * 100))%")
+                                        .font(.system(size: 36, weight: .bold))
                                         .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
                                     
                                     Text("Complete")
-                                        .font(.system(size: 12, weight: .regular))
+                                        .font(.caption)
                                         .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                                 }
-                                .opacity(1.0)
-                                .animation(.easeOut(duration: 0.6).delay(0.8), value: project.progress)
                             }
                             
-                            // Row Count
-                            Text("Row \(project.completedRows) of \(project.totalRows)")
-                                .font(.system(size: 14, weight: .regular))
-                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            // Project Name
+                            Text(project.name)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            
+                            // Stats Grid
+                            HStack(spacing: 24) {
+                                StatItem(
+                                    icon: "chart.line.uptrend.xyaxis",
+                                    value: "\(project.currentRow)",
+                                    label: "Current Row"
+                                )
+                                
+                                Divider()
+                                    .frame(height: 40)
+                                
+                                StatItem(
+                                    icon: "flag.checkered",
+                                    value: "\(project.totalRows)",
+                                    label: "Total Rows"
+                                )
+                                
+                                Divider()
+                                    .frame(height: 40)
+                                
+                                StatItem(
+                                    icon: "clock",
+                                    value: "\(sessions.count)",
+                                    label: "Sessions"
+                                )
+                            }
+                            .padding(.vertical, 16)
                         }
-                        .padding(.horizontal, 32)
-                        .padding(.vertical, 32)
+                        .padding(24)
                         .background(Color.white)
                         .cornerRadius(24)
                         .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
+                        .padding(.horizontal, 24)
                         
-                        // Details Section
-                        VStack(spacing: 0) {
-                            // Section Header
-                            HStack {
-                                Text("DETAILS")
-                                    .font(.system(size: 12, weight: .semibold))
+                        // Project Details
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text("Project Details")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            
+                            VStack(spacing: 12) {
+                                if !project.craftType.isEmpty {
+                                    DetailRow(label: "Type", value: project.craftType)
+                                }
+                                
+                                if !project.needleSize.isEmpty {
+                                    DetailRow(label: "Needle Size", value: project.needleSize)
+                                }
+                                
+                                if !project.yarnType.isEmpty {
+                                    DetailRow(label: "Yarn", value: project.yarnType)
+                                }
+                                
+                                if !project.yarnColor.isEmpty {
+                                    DetailRow(label: "Color", value: project.yarnColor)
+                                }
+                                
+                                if !project.patternName.isEmpty {
+                                    DetailRow(label: "Pattern", value: project.patternName)
+                                }
+                                
+                                DetailRow(label: "Status", value: project.status.capitalized)
+                            }
+                            .padding(16)
+                            .background(Color.white)
+                            .cornerRadius(16)
+                            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                        }
+                        .padding(.horizontal, 24)
+                        
+                        // Session History
+                        if !sessions.isEmpty {
+                            VStack(alignment: .leading, spacing: 16) {
+                                Text("Session History")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
                                     .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                                    .tracking(1)
-                                Spacer()
+                                
+                                VStack(spacing: 12) {
+                                    ForEach(sessions.prefix(10), id: \.id) { session in
+                                        SessionHistoryRow(session: session)
+                                    }
+                                }
                             }
                             .padding(.horizontal, 24)
-                            .padding(.vertical, 12)
-                            .background(Color(red: 0.976, green: 0.969, blue: 0.949))
-                            
-                            // Detail Rows
-                            VStack(spacing: 0) {
-                                DetailRowView(
-                                    label: "Rows Completed",
-                                    value: "\(project.completedRows) / \(project.totalRows)"
-                                )
-                                
-                                Divider()
-                                    .background(Color(red: 0.867, green: 0.867, blue: 0.867))
-                                
-                                DetailRowView(
-                                    label: "Progress",
-                                    value: "\(project.progress)%",
-                                    valueColor: Color(red: 0.561, green: 0.659, blue: 0.533)
-                                )
-                                
-                                if let needleSize = project.needleSize {
-                                    Divider()
-                                        .background(Color(red: 0.867, green: 0.867, blue: 0.867))
-                                    
-                                    DetailRowView(
-                                        label: "Needle Size",
-                                        value: needleSize
-                                    )
-                                }
-                                
-                                if let stitchType = project.stitchType {
-                                    Divider()
-                                        .background(Color(red: 0.867, green: 0.867, blue: 0.867))
-                                    
-                                    DetailRowView(
-                                        label: "Stitch Type",
-                                        value: stitchType.capitalized
-                                    )
-                                }
-                                
-                                Divider()
-                                    .background(Color(red: 0.867, green: 0.867, blue: 0.867))
-                                
-                                DetailRowView(
-                                    label: "Last Worked",
-                                    value: project.lastWorked
-                                )
-                            }
                         }
-                        .background(Color.white)
-                        .cornerRadius(16)
-                        .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
                         
-                        // Actions
-                        VStack(spacing: 12) {
-                            // Resume Knitting Button
-                            Button(action: {
-                                appState.navigateTo(.workMode)
-                            }) {
-                                HStack(spacing: 8) {
-                                    Image(systemName: "play.fill")
-                                        .font(.system(size: 16, weight: .medium))
-                                    Text("Resume Knitting")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                }
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
-                                .cornerRadius(25)
-                                .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
+                        // Action Button
+                        Button(action: {
+                            projectStore.setActiveProject(project.id)
+                            appState.navigateTo(.workMode)
+                        }) {
+                            HStack {
+                                Image(systemName: "play.fill")
+                                Text("Start New Session")
                             }
-                            .scaleEffect(1.0)
-                            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: project.progress)
-                            
-                            // Delete Project Button
-                            Button(action: {
-                                showDeleteConfirm = true
-                            }) {
-                                HStack(spacing: 8) {
-                                    Image(systemName: "trash")
-                                        .font(.system(size: 16, weight: .medium))
-                                    Text("Delete Project")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                }
-                                .foregroundColor(Color(red: 0.79, green: 0.43, blue: 0.37))
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(Color.white)
-                                .cornerRadius(25)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .stroke(Color(red: 0.79, green: 0.43, blue: 0.37), lineWidth: 2)
-                                )
-                            }
-                            .scaleEffect(1.0)
-                            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: project.progress)
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .cornerRadius(25)
+                            .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                         }
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 32)
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 24)
                 }
-            }
-            
-            // Delete Confirmation Modal
-            if showDeleteConfirm {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        showDeleteConfirm = false
-                    }
-                
-                VStack(spacing: 24) {
-                    VStack(spacing: 16) {
-                        Text("Delete Project?")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                        
-                        Text("This will permanently delete \"\(project.name)\" and all its progress. This action cannot be undone.")
-                            .font(.system(size: 14, weight: .regular))
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                            .multilineTextAlignment(.center)
-                            .lineLimit(nil)
-                    }
+            } else {
+                VStack(spacing: 16) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.system(size: 48))
+                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                     
-                    HStack(spacing: 12) {
-                        Button(action: {
-                            showDeleteConfirm = false
-                        }) {
-                            Text("Cancel")
-                                .font(.headline)
-                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 12)
-                                .background(Color.white)
-                                .cornerRadius(25)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .stroke(Color(red: 0.867, green: 0.867, blue: 0.867), lineWidth: 2)
-                                )
-                        }
-                        
-                        Button(action: {
-                            showDeleteConfirm = false
-                            appState.navigateTo(.dashboard)
-                        }) {
-                            Text("Delete")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 12)
-                                .background(Color(red: 0.79, green: 0.43, blue: 0.37))
-                                .cornerRadius(25)
-                        }
+                    Text("Project Not Found")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    
+                    Button("Go Back") {
+                        appState.navigateTo(.dashboard)
                     }
+                    .padding()
                 }
-                .padding(.horizontal, 32)
-                .padding(.vertical, 32)
-                .background(Color.white)
-                .cornerRadius(24)
-                .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: 10)
-                .padding(.horizontal, 24)
-                .scaleEffect(showDeleteConfirm ? 1.0 : 0.9)
-                .opacity(showDeleteConfirm ? 1.0 : 0.0)
-                .animation(.spring(response: 0.3, dampingFraction: 0.7), value: showDeleteConfirm)
             }
+        }
+        .alert("Delete Project", isPresented: $showDeleteConfirm) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                if let projectId = appState.selectedProjectId {
+                    projectStore.deleteProject(projectId)
+                    appState.navigateTo(.dashboard)
+                }
+            }
+        } message: {
+            Text("Are you sure you want to delete this project? This action cannot be undone.")
         }
     }
 }
 
 // MARK: - Supporting Views
 
-struct DetailRowView: View {
+struct StatItem: View {
+    let icon: String
+    let value: String
+    let label: String
+    
+    var body: some View {
+        VStack(spacing: 8) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+            
+            Text(value)
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+            
+            Text(label)
+                .font(.caption)
+                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+        }
+    }
+}
+
+struct DetailRow: View {
     let label: String
     let value: String
-    let valueColor: Color?
-    
-    init(label: String, value: String, valueColor: Color? = nil) {
-        self.label = label
-        self.value = value
-        self.valueColor = valueColor
-    }
     
     var body: some View {
         HStack {
             Text(label)
-                .font(.system(size: 14, weight: .regular))
-                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                .font(.subheadline)
+                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
             
             Spacer()
             
             Text(value)
-                .font(.system(size: 14, weight: .medium))
-                .foregroundColor(valueColor ?? Color(red: 0.173, green: 0.173, blue: 0.173))
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
         }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 16)
     }
 }
 
-// MARK: - Data Models
-
-struct ProjectDetail {
-    let id: Int
-    let name: String
-    let type: String
-    let progress: Int
-    let totalRows: Int
-    let completedRows: Int
-    let lastWorked: String
-    let needleSize: String?
-    let stitchType: String?
+struct SessionHistoryRow: View {
+    let session: SessionModel
     
-    var emoji: String {
-        switch type {
-        case "scarf": return "🧣"
-        case "beanie": return "🧢"
-        case "sweater": return "🧶"
-        case "mittens": return "🧤"
-        case "blanket": return "🛏️"
-        case "socks": return "🧦"
-        default: return "🧶"
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        
+        if let date = ISO8601DateFormatter().date(from: session.startTime) {
+            return formatter.string(from: date)
         }
+        return session.startTime
     }
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(formattedDate)
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                
+                Text("\(session.rowsKnit) rows • \(session.timeSpent / 60) min")
+                    .font(.caption)
+                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+            }
+            
+            Spacer()
+            
+            Image(systemName: "checkmark.circle.fill")
+                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+        }
+        .padding(12)
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+    }
+}
+
+#Preview {
+    ProjectDetailView()
+        .environmentObject(AppState())
+        .environmentObject(ProjectStore())
 }

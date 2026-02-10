@@ -54,6 +54,9 @@ class AppState: ObservableObject {
     private let db = DatabaseManager.shared
     
     init() {
+        // Initialize currentScreen first
+        self.currentScreen = .splash
+        
         // Migrate from UserDefaults to SQLite if needed
         migrateFromUserDefaults()
         
@@ -68,8 +71,6 @@ class AppState: ObservableObject {
             self.goal = user.goal.isEmpty ? nil : user.goal
             self.userName = user.name.isEmpty ? nil : user.name
             self.userEmail = user.email.isEmpty ? nil : user.email
-        } else {
-            self.currentScreen = .splash
         }
     }
     

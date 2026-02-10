@@ -80,7 +80,7 @@ struct UpgradeModal<Content: View>: View {
                         .padding(.bottom, 32)
                     }
                     .background(Color.white)
-                    .cornerRadius(24, corners: [.topLeft, .topRight])
+                    .customCornerRadius(24, corners: [.topLeft, .topRight])
                     .shadow(color: .black.opacity(0.2), radius: 20, x: 0, y: -5)
                     .transition(.move(edge: .bottom))
                 }
@@ -611,7 +611,7 @@ struct GenericProGatePrompt: View {
 
 // MARK: - Helper Extension for Rounded Corners
 extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+    func customCornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(UpgradePromptsRoundedCorner(radius: radius, corners: corners))
     }
 }

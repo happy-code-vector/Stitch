@@ -2,25 +2,17 @@ import SwiftUI
 
 struct DashboardView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject var projectStore: ProjectStore
     @State private var timeOfDay = "Morning"
     @State private var showSettingsMenu = false
-    @State private var leftHandedMode = false
     
-    // Sample data - in real app this would come from data store
-    let activeProject = ActiveProject(
-        title: "Winter Scarf",
-        lastWorked: "2h ago",
-        progress: 68,
-        totalRows: 120,
-        completedRows: 82
-    )
+    var activeProject: ProjectModel? {
+        projectStore.getActiveProject()
+    }
     
-    let stashProjects = [
-        StashProject(id: 1, name: "Beanie", type: "beanie", progress: 45),
-        StashProject(id: 2, name: "Sweater", type: "sweater", progress: 23),
-        StashProject(id: 3, name: "Mittens", type: "mittens", progress: 89),
-        StashProject(id: 4, name: "Baby Blanket", type: "blanket", progress: 12)
-    ]
+    var otherProjects: [ProjectModel] {
+        projectStore.projects.filter { $0.id != activeProject?.id }
+    }
     
     var body: some View {
         ZStack {
@@ -32,7 +24,6 @@ struct DashboardView: View {
                     // Header
                     HStack {
                         HStack(spacing: 16) {
-                            // Avatar
                             Circle()
                                 .fill(
                                     LinearGradient(
@@ -52,7 +43,7 @@ struct DashboardView: View {
                                 .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                             
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Good \(timeOfDay), Creator")
+                                Text("Good \(timeOfDay), \(appState.userName ?? "Creator")")
                                     .font(.title2)
                                     .fontWeight(.medium)
                                     .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
@@ -61,204 +52,83 @@ struct DashboardView: View {
                         
                         Spacer()
                         
-                        // Settings Button
                         Button(action: {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                                showSettingsMenu.toggle()
-                            }
+                            appState.navigateTo(.settings)
                         }) {
                             Image(systemName: "gearshape")
                                 .font(.title2)
                                 .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                         }
-                        .scaleEffect(showSettingsMenu ? 1.1 : 1.0)
-                        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: showSettingsMenu)
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 48)
                     .padding(.bottom, 24)
                     
-                    // Hero Section - Continue Working Card
-                    VStack(spacing: 0) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 24)
-                                .fill(Color.white)
-                                .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
-                            
-                            VStack(spacing: 0) {
-                                HStack(alignment: .top, spacing: 16) {
-                                    // Progress Ring
-                                    ZStack {
-                                        Circle()
-                                            .stroke(Color(red: 0.898, green: 0.898, blue: 0.898), lineWidth: 6)
-                                            .frame(width: 80, height: 80)
-                                        
-                                        Circle()
-                                            .trim(from: 0, to: CGFloat(activeProject.progress) / 100)
-                                            .stroke(
-                                                Color(red: 0.561, green: 0.659, blue: 0.533),
-                                                style: StrokeStyle(lineWidth: 6, lineCap: .round)
-                                            )
-                                            .frame(width: 80, height: 80)
-                                            .rotationEffect(.degrees(-90))
-                                            .animation(.easeOut(duration: 1).delay(0.4), value: activeProject.progress)
-                                        
-                                        Text("\(activeProject.progress)%")
-                                            .font(.system(size: 18, weight: .medium))
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                                            .opacity(1.0)
-                                            .animation(.easeOut(duration: 0.6).delay(0.6), value: activeProject.progress)
-                                    }
-                                    
-                                    // Project Info
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text("Continue Working")
-                                            .font(.system(size: 14, weight: .regular))
-                                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
-                                        
-                                        Text(activeProject.title)
-                                            .font(.title3)
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                                        
-                                        Text("Last worked \(activeProject.lastWorked)")
-                                            .font(.system(size: 14, weight: .regular))
-                                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                                            .padding(.bottom, 12)
-                                        
-                                        Text("Row \(activeProject.completedRows) of \(activeProject.totalRows)")
-                                            .font(.system(size: 12, weight: .regular))
-                                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
-                                    }
-                                    
-                                    Spacer()
-                                }
-                                .padding(.horizontal, 24)
-                                .padding(.top, 24)
-                                
-                                // Resume Button
-                                Button(action: {
-                                    appState.navigateTo(.workMode)
-                                }) {
-                                    Text("Resume")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(.white)
-                                        .frame(maxWidth: .infinity)
-                                        .padding(.vertical, 16)
-                                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
-                                        .cornerRadius(25)
-                                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                                }
-                                .padding(.horizontal, 24)
-                                .padding(.top, 24)
-                                .padding(.bottom, 24)
-                                .scaleEffect(1.0)
-                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: activeProject.progress)
-                            }
-                        }
-                        
-                        // Mascot sitting on card
-                        HStack {
-                            Spacer()
-                            AnimatedMascotView()
-                                .offset(y: -32)
-                            Spacer().frame(width: 24)
-                        }
+                    // Active Project Card
+                    if let project = activeProject {
+                        ActiveProjectCardView(project: project, appState: appState)
+                    } else {
+                        NoActiveProjectCardView(appState: appState)
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 32)
                     
-                    // My Stash Section
-                    VStack(alignment: .leading, spacing: 16) {
-                        HStack {
-                            Text("My Stash")
+                    // Project Stash
+                    if !otherProjects.isEmpty {
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text("Your Project Stash")
                                 .font(.title3)
-                                .fontWeight(.semibold)
+                                .fontWeight(.bold)
                                 .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                            Spacer()
-                        }
-                        .padding(.horizontal, 24)
-                        
-                        // 2-Column Grid
-                        LazyVGrid(columns: [
-                            GridItem(.flexible(), spacing: 8),
-                            GridItem(.flexible(), spacing: 8)
-                        ], spacing: 16) {
-                            ForEach(Array(stashProjects.enumerated()), id: \.element.id) { index, project in
-                                ProjectCardView(project: project, index: index) {
-                                    // Handle project tap
-                                    appState.selectedProjectId = project.id
-                                    appState.navigateTo(.projectDetail)
+                                .padding(.horizontal, 24)
+                            
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 16) {
+                                    ForEach(otherProjects, id: \.id) { project in
+                                        ProjectStashCard(project: project, appState: appState, projectStore: projectStore)
+                                    }
                                 }
+                                .padding(.horizontal, 24)
+                            }
+                        }
+                        .padding(.top, 24)
+                    }
+                    
+                    // Quick Actions
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Quick Actions")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .padding(.horizontal, 24)
+                        
+                        VStack(spacing: 12) {
+                            QuickActionButton(
+                                icon: "plus.circle.fill",
+                                title: "New Project",
+                                subtitle: "Start tracking a new project",
+                                color: Color(red: 0.561, green: 0.659, blue: 0.533)
+                            ) {
+                                appState.navigateTo(.projectSetup)
+                            }
+                            
+                            QuickActionButton(
+                                icon: "doc.text.fill",
+                                title: "Upload Pattern",
+                                subtitle: "Add a new knitting pattern",
+                                color: Color(red: 0.831, green: 0.502, blue: 0.435)
+                            ) {
+                                appState.navigateTo(.patternUpload)
                             }
                         }
                         .padding(.horizontal, 24)
                     }
-                    .padding(.bottom, 100) // Space for FAB
-                }
-            }
-            
-            // Floating Action Button
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        appState.navigateTo(.projectSetup)
-                    }) {
-                        Image(systemName: "plus")
-                            .font(.system(size: 24, weight: .semibold))
-                            .foregroundColor(.white)
-                            .frame(width: 64, height: 64)
-                            .background(Color(red: 0.561, green: 0.659, blue: 0.533))
-                            .clipShape(Circle())
-                            .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 6)
-                    }
-                    .scaleEffect(1.0)
-                    .animation(.spring(response: 0.4, dampingFraction: 0.6), value: showSettingsMenu)
-                    .padding(.trailing, 24)
-                    .padding(.bottom, 32)
-                }
-            }
-            
-            // Settings Dropdown Menu
-            if showSettingsMenu {
-                Color.black.opacity(0.2)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                            showSettingsMenu = false
-                        }
-                    }
-                
-                VStack {
-                    HStack {
-                        Spacer()
-                        SettingsMenuView(
-                            leftHandedMode: $leftHandedMode,
-                            onRestorePurchases: {
-                                // Handle restore purchases
-                                showSettingsMenu = false
-                            },
-                            onAllSettings: {
-                                showSettingsMenu = false
-                                appState.navigateTo(.settings)
-                            },
-                            onDeleteAccount: {
-                                // Handle delete account
-                                showSettingsMenu = false
-                            }
-                        )
-                        .padding(.trailing, 24)
-                    }
-                    .padding(.top, 80)
-                    Spacer()
+                    .padding(.top, 32)
+                    .padding(.bottom, 100)
                 }
             }
         }
         .onAppear {
             updateTimeOfDay()
+            projectStore.loadProjects()
         }
     }
     
@@ -274,304 +144,264 @@ struct DashboardView: View {
     }
 }
 
-// MARK: - Supporting Views
+// MARK: - Active Project Card
 
-struct ProjectCardView: View {
-    let project: StashProject
-    let index: Int
-    let onTap: () -> Void
+struct ActiveProjectCardView: View {
+    let project: ProjectModel
+    let appState: AppState
     
-    var body: some View {
-        Button(action: onTap) {
-            VStack(alignment: .leading, spacing: 12) {
-                // Project Icon
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.2),
-                                Color(red: 0.49, green: 0.57, blue: 0.46).opacity(0.2)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 48, height: 48)
-                    .overlay(
-                        Text(project.emoji)
-                            .font(.title2)
-                    )
-                
-                // Project Name
-                Text(project.name)
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                    .multilineTextAlignment(.leading)
-                
-                // Progress Bar
-                VStack(alignment: .leading, spacing: 4) {
-                    GeometryReader { geometry in
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 3)
-                                .fill(Color(red: 0.898, green: 0.898, blue: 0.898))
-                                .frame(height: 6)
-                            
-                            RoundedRectangle(cornerRadius: 3)
-                                .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                                .frame(width: geometry.size.width * CGFloat(project.progress) / 100, height: 6)
-                                .animation(.easeOut(duration: 0.8).delay(0.5 + Double(index) * 0.1), value: project.progress)
-                        }
-                    }
-                    .frame(height: 6)
-                    
-                    Text("\(project.progress)%")
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
-                }
-            }
-            .padding(16)
-            .background(Color.white)
-            .cornerRadius(16)
-            .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
-        }
-        .scaleEffect(1.0)
-        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: project.progress)
+    var progress: Double {
+        project.totalRows > 0 ? Double(project.currentRow) / Double(project.totalRows) : 0.0
     }
-}
-
-struct AnimatedMascotView: View {
-    @State private var isAnimating = false
-    
-    var body: some View {
-        ZStack {
-            // Yarn Ball Body
-            Circle()
-                .fill(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 0.66, green: 0.76, blue: 0.63),
-                            Color(red: 0.49, green: 0.57, blue: 0.46)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(width: 60, height: 60)
-            
-            // Yarn Texture Lines
-            VStack(spacing: 4) {
-                Path { path in
-                    path.move(to: CGPoint(x: 15, y: 0))
-                    path.addQuadCurve(to: CGPoint(x: 45, y: 0), control: CGPoint(x: 30, y: -2))
-                }
-                .stroke(Color(red: 0.62, green: 0.71, blue: 0.59), lineWidth: 1)
-                
-                Path { path in
-                    path.move(to: CGPoint(x: 15, y: 0))
-                    path.addQuadCurve(to: CGPoint(x: 45, y: 0), control: CGPoint(x: 30, y: 2))
-                }
-                .stroke(Color(red: 0.62, green: 0.71, blue: 0.59), lineWidth: 1)
-                
-                Path { path in
-                    path.move(to: CGPoint(x: 15, y: 0))
-                    path.addQuadCurve(to: CGPoint(x: 45, y: 0), control: CGPoint(x: 30, y: -2))
-                }
-                .stroke(Color(red: 0.62, green: 0.71, blue: 0.59), lineWidth: 1)
-            }
-            
-            // Highlight
-            Ellipse()
-                .fill(.white.opacity(0.4))
-                .frame(width: 24, height: 16)
-                .offset(x: -8, y: -8)
-            
-            // Happy Eyes
-            HStack(spacing: 8) {
-                Circle()
-                    .fill(.black)
-                    .frame(width: 5, height: 5)
-                Circle()
-                    .fill(.black)
-                    .frame(width: 5, height: 5)
-            }
-            .offset(y: -4)
-            
-            // Smile - very close to eyes
-            Path { path in
-                path.move(to: CGPoint(x: -7, y: 0))
-                path.addQuadCurve(to: CGPoint(x: 7, y: 0), control: CGPoint(x: 0, y: 4))
-            }
-            .stroke(.black, lineWidth: 2)
-            .fill(.clear)
-            .offset(y: 3)
-            
-            // Rosy Cheeks - very close to face
-            HStack(spacing: 16) {
-                Ellipse()
-                    .fill(Color(red: 0.83, green: 0.50, blue: 0.44).opacity(0.6))
-                    .frame(width: 6, height: 4)
-                Ellipse()
-                    .fill(Color(red: 0.83, green: 0.50, blue: 0.44).opacity(0.6))
-                    .frame(width: 6, height: 4)
-            }
-            .offset(y: 1)
-            
-            // Waving Arm
-            Path { path in
-                path.move(to: CGPoint(x: -30, y: 0))
-                path.addQuadCurve(to: CGPoint(x: -42, y: -12), control: CGPoint(x: -38, y: -8))
-            }
-            .stroke(Color(red: 0.49, green: 0.57, blue: 0.46), lineWidth: 4)
-            .overlay(
-                Circle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                    .frame(width: 6, height: 6)
-                    .offset(x: -42, y: -12)
-            )
-            .rotationEffect(.degrees(isAnimating ? -15 : 0))
-            .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: isAnimating)
-        }
-        .offset(y: isAnimating ? -5 : 0)
-        .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: isAnimating)
-        .onAppear {
-            isAnimating = true
-        }
-    }
-}
-
-struct SettingsMenuView: View {
-    @Binding var leftHandedMode: Bool
-    let onRestorePurchases: () -> Void
-    let onAllSettings: () -> Void
-    let onDeleteAccount: () -> Void
     
     var body: some View {
         VStack(spacing: 0) {
-            // Restore Purchases
-            Button(action: onRestorePurchases) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(Color.white)
+                    .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
+                
+                VStack(spacing: 20) {
+                    HStack(alignment: .top, spacing: 16) {
+                        ZStack {
+                            Circle()
+                                .stroke(Color(red: 0.898, green: 0.898, blue: 0.898), lineWidth: 6)
+                                .frame(width: 80, height: 80)
+                            
+                            Circle()
+                                .trim(from: 0, to: CGFloat(progress))
+                                .stroke(
+                                    Color(red: 0.561, green: 0.659, blue: 0.533),
+                                    style: StrokeStyle(lineWidth: 6, lineCap: .round)
+                                )
+                                .frame(width: 80, height: 80)
+                                .rotationEffect(.degrees(-90))
+                            
+                            Text("\(Int(progress * 100))%")
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(project.name)
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            
+                            Text("Row \(project.currentRow) of \(project.totalRows)")
+                                .font(.subheadline)
+                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            
+                            if !project.yarnColor.isEmpty {
+                                HStack(spacing: 4) {
+                                    Text("🧶")
+                                    Text(project.yarnColor)
+                                        .font(.caption)
+                                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                }
+                            }
+                        }
+                        
+                        Spacer()
+                    }
+                    
+                    Button(action: {
+                        appState.navigateTo(.workMode)
+                    }) {
+                        HStack {
+                            Image(systemName: "play.fill")
+                            Text("Continue Working")
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .cornerRadius(25)
+                        .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
+                    }
+                }
+                .padding(24)
+            }
+        }
+        .padding(.horizontal, 24)
+        .padding(.bottom, 24)
+    }
+}
+
+// MARK: - No Active Project Card
+
+struct NoActiveProjectCardView: View {
+    let appState: AppState
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 24)
+                    .fill(Color.white)
+                    .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
+                
+                VStack(spacing: 20) {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 64))
+                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    
+                    VStack(spacing: 8) {
+                        Text("No Active Project")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        
+                        Text("Start a new project to begin tracking your knitting progress")
+                            .font(.subheadline)
+                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 16)
+                    }
+                    
+                    Button(action: {
+                        appState.navigateTo(.projectSetup)
+                    }) {
+                        HStack {
+                            Image(systemName: "plus")
+                            Text("Create New Project")
+                        }
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .cornerRadius(25)
+                        .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
+                    }
+                }
+                .padding(32)
+            }
+        }
+        .padding(.horizontal, 24)
+        .padding(.bottom, 24)
+    }
+}
+
+// MARK: - Project Stash Card
+
+struct ProjectStashCard: View {
+    let project: ProjectModel
+    let appState: AppState
+    let projectStore: ProjectStore
+    
+    var progress: Double {
+        project.totalRows > 0 ? Double(project.currentRow) / Double(project.totalRows) : 0.0
+    }
+    
+    var body: some View {
+        Button(action: {
+            projectStore.setActiveProject(project.id)
+            appState.selectedProjectId = project.id
+            appState.navigateTo(.projectDetail)
+        }) {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Text(projectEmoji)
+                        .font(.system(size: 32))
+                    Spacer()
+                    Text("\(Int(progress * 100))%")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                }
+                
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Restore Purchases")
-                        .font(.system(size: 14, weight: .medium))
+                    Text(project.name)
+                        .font(.headline)
                         .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                    Text("Recover your subscription")
-                        .font(.system(size: 12, weight: .regular))
+                        .lineLimit(1)
+                    
+                    Text("\(project.currentRow)/\(project.totalRows) rows")
+                        .font(.caption)
                         .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 16)
+                
+                GeometryReader { geometry in
+                    ZStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(Color(red: 0.898, green: 0.898, blue: 0.898))
+                            .frame(height: 6)
+                        
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .frame(width: geometry.size.width * CGFloat(progress), height: 6)
+                    }
+                }
+                .frame(height: 6)
             }
-            
-            Divider()
-                .background(Color(red: 0.867, green: 0.867, blue: 0.867))
-            
-            // Left-Handed Mode
-            HStack {
+            .padding(16)
+            .frame(width: 160)
+            .background(Color.white)
+            .cornerRadius(16)
+            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+        }
+    }
+    
+    var projectEmoji: String {
+        let type = project.craftType.lowercased()
+        if type.contains("scarf") { return "🧣" }
+        if type.contains("beanie") || type.contains("hat") { return "🧢" }
+        if type.contains("sweater") { return "🧥" }
+        if type.contains("mitten") || type.contains("glove") { return "🧤" }
+        if type.contains("blanket") { return "🛏️" }
+        if type.contains("sock") { return "🧦" }
+        return "🧶"
+    }
+}
+
+// MARK: - Quick Action Button
+
+struct QuickActionButton: View {
+    let icon: String
+    let title: String
+    let subtitle: String
+    let color: Color
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 16) {
+                Circle()
+                    .fill(color.opacity(0.1))
+                    .frame(width: 56, height: 56)
+                    .overlay(
+                        Image(systemName: icon)
+                            .font(.system(size: 24))
+                            .foregroundColor(color)
+                    )
+                
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Left-Handed Mode")
-                        .font(.system(size: 14, weight: .medium))
+                    Text(title)
+                        .font(.headline)
                         .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                    Text("Mirrors the video feed")
-                        .font(.system(size: 12, weight: .regular))
+                    
+                    Text(subtitle)
+                        .font(.caption)
                         .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                 }
                 
                 Spacer()
                 
-                // Toggle Switch
-                Button(action: {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        leftHandedMode.toggle()
-                    }
-                }) {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 14)
-                            .fill(leftHandedMode ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.867, green: 0.867, blue: 0.867))
-                            .frame(width: 48, height: 28)
-                        
-                        Circle()
-                            .fill(.white)
-                            .frame(width: 24, height: 24)
-                            .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
-                            .offset(x: leftHandedMode ? 10 : -10)
-                            .animation(.spring(response: 0.3, dampingFraction: 0.7), value: leftHandedMode)
-                    }
-                }
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
             }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 16)
-            
-            Divider()
-                .background(Color(red: 0.867, green: 0.867, blue: 0.867))
-            
-            // All Settings
-            Button(action: onAllSettings) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("All Settings")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                    Text("Preferences & account")
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 16)
-            }
-            
-            Divider()
-                .background(Color(red: 0.867, green: 0.867, blue: 0.867))
-            
-            // Delete Account
-            Button(action: onDeleteAccount) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Delete Account")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(Color(red: 0.79, green: 0.43, blue: 0.37))
-                    Text("Permanently remove your data")
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 16)
-            }
-        }
-        .background(Color.white)
-        .cornerRadius(16)
-        .shadow(color: .black.opacity(0.15), radius: 20, x: 0, y: 8)
-        .frame(width: 280)
-        .scaleEffect(showSettingsMenu ? 1.0 : 0.95)
-        .opacity(showSettingsMenu ? 1.0 : 0.0)
-        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: showSettingsMenu)
-    }
-    
-    @State private var showSettingsMenu = true
-}
-
-// MARK: - Data Models
-
-struct ActiveProject {
-    let title: String
-    let lastWorked: String
-    let progress: Int
-    let totalRows: Int
-    let completedRows: Int
-}
-
-struct StashProject {
-    let id: Int
-    let name: String
-    let type: String
-    let progress: Int
-    
-    var emoji: String {
-        switch type {
-        case "beanie": return "🧢"
-        case "sweater": return "🧶"
-        case "mittens": return "🧤"
-        case "blanket": return "🛏️"
-        default: return "🧶"
+            .padding(16)
+            .background(Color.white)
+            .cornerRadius(16)
+            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
         }
     }
+}
+
+#Preview {
+    DashboardView()
+        .environmentObject(AppState())
+        .environmentObject(ProjectStore())
 }

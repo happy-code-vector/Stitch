@@ -107,7 +107,7 @@ struct SubscriptionView: View {
                                     .padding(.horizontal, 20)
                                     .padding(.vertical, 12)
                                     .background(selectedPlan == .proMonthly ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear)
-                                    .cornerRadius(25, corners: [.topLeft, .bottomLeft])
+                                    .customCornerRadius(25, corners: [.topLeft, .bottomLeft])
                             }
                             
                             Button(action: {
@@ -130,7 +130,7 @@ struct SubscriptionView: View {
                                 .padding(.horizontal, 20)
                                 .padding(.vertical, 12)
                                 .background(selectedPlan == .proYearly ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear)
-                                .cornerRadius(25, corners: [.topRight, .bottomRight])
+                                .customCornerRadius(25, corners: [.topRight, .bottomRight])
                             }
                         }
                         .overlay(
@@ -246,7 +246,7 @@ struct PlanCard: View {
 }
 
 extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+    func customCornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
         clipShape(SubscriptionRoundedCorner(radius: radius, corners: corners))
     }
 }

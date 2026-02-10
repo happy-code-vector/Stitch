@@ -1,11 +1,29 @@
 import SwiftUI
 import AVFoundation
 
+// Camera delegate wrapper class
+class WorkModeCameraDelegate: NSObject, CameraManagerDelegate {
+    var onFrameReceived: ((CVPixelBuffer) -> Void)?
+    var onError: ((Error) -> Void)?
+    
+    func cameraManager(_ manager: CameraManager, didOutput sampleBuffer: CMSampleBuffer) {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            return
+        }
+        onFrameReceived?(pixelBuffer)
+    }
+    
+    func cameraManager(_ manager: CameraManager, didEncounterError error: Error) {
+        onError?(error)
+    }
+}
+
 struct WorkModeView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var cameraPermissionManager = CameraPermissionManager.shared
     @StateObject private var cameraManager = CameraManager()
-    @StateObject private var geminiService = GeminiVisionService() // API key loaded from UserDefaults
+    @StateObject private var geminiService = GeminiVisionService()
+    @StateObject private var cameraDelegate = WorkModeCameraDelegate()
     
     @State private var isPaused = false
     @State private var sessionStartTime = Date()
@@ -342,7 +360,14 @@ struct WorkModeView: View {
     // MARK: - Helper Methods
     
     private func setupCamera() {
-        cameraManager.delegate = self
+        cameraManager.delegate = cameraDelegate
+        cameraDelegate.onFrameReceived = { [weak geminiService] pixelBuffer in
+            guard let geminiService = geminiService, !self.isPaused else { return }
+            geminiService.processFrame(pixelBuffer)
+        }
+        cameraDelegate.onError = { error in
+            print("Camera error: \(error.localizedDescription)")
+        }
         geminiService.currentCount = initialRowCount
         cameraManager.startSession()
     }
@@ -379,24 +404,6 @@ struct WorkModeView: View {
             let minutes = seconds / 60
             return "\(minutes)m ago"
         }
-    }
-}
-
-// MARK: - Camera Manager Delegate
-
-extension WorkModeView: CameraManagerDelegate {
-    func cameraManager(_ manager: CameraManager, didOutput sampleBuffer: CMSampleBuffer) {
-        guard !isPaused else { return }
-        
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
-            return
-        }
-        
-        geminiService.processFrame(pixelBuffer)
-    }
-    
-    func cameraManager(_ manager: CameraManager, didEncounterError error: Error) {
-        print("Camera error: \(error.localizedDescription)")
     }
 }
 
