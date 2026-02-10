@@ -328,8 +328,8 @@ struct WorkModeView: View {
         .sheet(isPresented: $showDiagnosis) {
             StitchDoctorDiagnosisViewSheet(
                 onClose: { showDiagnosis = false },
-                onSaveToNotes: nil,
-                diagnosisText: nil
+                onSaveToNotes: { },
+                diagnosisText: "Camera-based mistake detection coming soon!"
             )
         }
         .sheet(isPresented: $showSettings) {

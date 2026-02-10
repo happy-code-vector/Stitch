@@ -235,7 +235,7 @@ struct CloudSyncUpgradePrompt: View {
                     .multilineTextAlignment(.center)
                 
                 // Description
-                Group {
+                VStack(spacing: 8) {
                     Text("Great work on ")
                         .font(.body)
                         .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
@@ -246,7 +246,8 @@ struct CloudSyncUpgradePrompt: View {
                     + Text("! ")
                         .font(.body)
                         .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                    + (hoursInvested > 0 ? (
+                    
+                    if hoursInvested > 0 {
                         Text("You've invested ")
                             .font(.body)
                             .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
@@ -257,8 +258,9 @@ struct CloudSyncUpgradePrompt: View {
                         + Text(" into this project. ")
                             .font(.body)
                             .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                    ) : Text(""))
-                    + Text("Your project data is saved ")
+                    }
+                    
+                    Text("Your project data is saved ")
                         .font(.body)
                         .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                     + Text("locally only")
