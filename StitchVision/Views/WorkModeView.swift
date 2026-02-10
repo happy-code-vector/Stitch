@@ -171,17 +171,6 @@ struct WorkModeView: View {
                             )
                             .transition(.opacity)
                     }
-                    
-                    // Reactive Mascot
-                    VStack {
-                        HStack {
-                            Spacer()
-                            ReactiveMascotView(confidence: geminiService.confidence * 100)
-                                .padding(.trailing, 16)
-                        }
-                        .padding(.top, 80)
-                        Spacer()
-                    }
                 }
                 .frame(maxHeight: .infinity)
                 .clipped()
