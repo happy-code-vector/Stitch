@@ -58,6 +58,10 @@
 		A1234567890123456789065B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789065D /* CameraPreviewView.swift */; };
 		A1234567890123456789069B /* GeminiVisionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789069D /* GeminiVisionService.swift */; };
 		A1234567890123456789070B /* GeminiSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789070D /* GeminiSettingsView.swift */; };
+		A1234567890123456789071B /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789071D /* DatabaseManager.swift */; };
+		A1234567890123456789072B /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789072D /* UserProfile.swift */; };
+		A1234567890123456789073B /* ProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789073D /* ProjectModel.swift */; };
+		A1234567890123456789074B /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789074D /* SessionModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +118,10 @@
 		A1234567890123456789065D /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		A1234567890123456789069D /* GeminiVisionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiVisionService.swift; sourceTree = "<group>"; };
 		A1234567890123456789070D /* GeminiSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiSettingsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789071D /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		A1234567890123456789072D /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		A1234567890123456789073D /* ProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectModel.swift; sourceTree = "<group>"; };
+		A1234567890123456789074D /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +145,7 @@
 				A1234567890123456789014A /* Views */,
 				A1234567890123456789014B /* ViewModels */,
 				A1234567890123456789014C /* Services */,
+				A1234567890123456789075E /* Database */,
 				A1234567890123456789012F /* Assets.xcassets */,
 				A1234567890123456789014D /* Preview Content */,
 			);
@@ -156,6 +165,9 @@
 			children = (
 				A1234567890123456789020B /* AppState.swift */,
 				A1234567890123456789021B /* Project.swift */,
+				A1234567890123456789072D /* UserProfile.swift */,
+				A1234567890123456789073D /* ProjectModel.swift */,
+				A1234567890123456789074D /* SessionModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -256,6 +268,16 @@
 				A1234567890123456789069D /* GeminiVisionService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		A1234567890123456789075E /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890123456789071D /* DatabaseManager.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 			sourceTree = "<group>";
 		};
 		A1234567890123456789014E /* Products */ = {
@@ -393,6 +415,10 @@
 				A1234567890123456789065B /* CameraPreviewView.swift in Sources */,
 				A1234567890123456789069B /* GeminiVisionService.swift in Sources */,
 				A1234567890123456789070B /* GeminiSettingsView.swift in Sources */,
+				A1234567890123456789071B /* DatabaseManager.swift in Sources */,
+				A1234567890123456789072B /* UserProfile.swift in Sources */,
+				A1234567890123456789073B /* ProjectModel.swift in Sources */,
+				A1234567890123456789074B /* SessionModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

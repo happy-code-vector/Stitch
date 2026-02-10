@@ -612,11 +612,11 @@ struct GenericProGatePrompt: View {
 // MARK: - Helper Extension for Rounded Corners
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape(RoundedCorner(radius: radius, corners: corners))
+        clipShape(UpgradePromptsRoundedCorner(radius: radius, corners: corners))
     }
 }
 
-struct RoundedCorner: Shape {
+struct UpgradePromptsRoundedCorner: Shape {
     var radius: CGFloat = .infinity
     var corners: UIRectCorner = .allCorners
     

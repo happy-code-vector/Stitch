@@ -19,7 +19,7 @@ struct LoadingScreenView: View {
             Spacer()
             
             // Rolling Yarn Ball Mascot
-            RollingYarnBallView(rotationAngle: $rotationAngle)
+            LoadingScreenRollingYarnBallView(rotationAngle: $rotationAngle)
             
             // Yarn Thread becoming Loading Bar
             VStack(spacing: 16) {
@@ -142,7 +142,7 @@ struct LoadingScreenView: View {
     }
 }
 
-struct RollingYarnBallView: View {
+struct LoadingScreenRollingYarnBallView: View {
     @Binding var rotationAngle: Double
     
     var body: some View {

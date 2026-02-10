@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct WorkModeView: View {
     @EnvironmentObject var appState: AppState
@@ -307,7 +308,12 @@ struct WorkModeView: View {
             cameraManager.stopSession()
         }
         .sheet(isPresented: $showDiagnosis) {
-            StitchDoctorDiagnosisView()
+            StitchDoctorDiagnosisView(
+                isOpen: showDiagnosis,
+                onClose: { showDiagnosis = false },
+                onSaveToNotes: nil,
+                diagnosisText: nil
+            )
         }
         .sheet(isPresented: $showSettings) {
             GeminiSettingsView(geminiService: geminiService)
