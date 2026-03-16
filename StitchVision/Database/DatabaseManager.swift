@@ -40,6 +40,7 @@ class DatabaseManager {
         createProjectsTable()
         createSessionsTable()
         createSettingsTable()
+        createPatternsTable()
     }
     
     private func createUserTable() {
@@ -113,7 +114,25 @@ class DatabaseManager {
             updated_at TEXT DEFAULT CURRENT_TIMESTAMP
         );
         """
-        
+
+        executeQuery(createTableQuery)
+    }
+
+    private func createPatternsTable() {
+        let createTableQuery = """
+        CREATE TABLE IF NOT EXISTS Patterns (
+            id TEXT PRIMARY KEY,
+            name TEXT NOT NULL,
+            image_data BLOB,
+            total_rows INTEGER DEFAULT 0,
+            current_row INTEGER DEFAULT 0,
+            completed_rows TEXT,
+            project_id TEXT,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP
+        );
+        """
+
         executeQuery(createTableQuery)
     }
     
@@ -438,19 +457,140 @@ class DatabaseManager {
     func getSetting(key: String) -> String? {
         let query = "SELECT value FROM Settings WHERE key = ?;"
         var statement: OpaquePointer?
-        
+
         guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
             return nil
         }
-        
+
         sqlite3_bind_text(statement, 1, (key as NSString).utf8String, -1, nil)
-        
+
         var value: String?
         if sqlite3_step(statement) == SQLITE_ROW {
             value = String(cString: sqlite3_column_text(statement, 0))
         }
-        
+
         sqlite3_finalize(statement)
         return value
+    }
+
+    // MARK: - Pattern Operations
+
+    func savePattern(_ pattern: KnittingPattern) -> Bool {
+        let query = """
+        INSERT OR REPLACE INTO Patterns (id, name, image_data, total_rows, current_row, completed_rows, project_id, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'));
+        """
+
+        var statement: OpaquePointer?
+
+        guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
+            return false
+        }
+
+        sqlite3_bind_text(statement, 1, (pattern.id.uuidString as NSString).utf8String, -1, nil)
+        sqlite3_bind_text(statement, 2, (pattern.name as NSString).utf8String, -1, nil)
+
+        // Bind image data as blob
+        let imageData = pattern.imageData
+        imageData.withUnsafeBytes { ptr in
+            sqlite3_bind_blob(statement, 3, ptr.baseAddress, Int32(imageData.count), nil)
+        }
+
+        sqlite3_bind_int(statement, 4, Int32(pattern.totalRows))
+        sqlite3_bind_int(statement, 5, Int32(pattern.currentRow))
+
+        // Serialize completed rows as JSON
+        if let completedRowsData = try? JSONEncoder().encode(pattern.completedRows),
+           let completedRowsString = String(data: completedRowsData, encoding: .utf8) {
+            sqlite3_bind_text(statement, 6, (completedRowsString as NSString).utf8String, -1, nil)
+        } else {
+            sqlite3_bind_text(statement, 6, nil, -1, nil)
+        }
+
+        if let projectId = pattern.projectId {
+            sqlite3_bind_text(statement, 7, (projectId.uuidString as NSString).utf8String, -1, nil)
+        } else {
+            sqlite3_bind_text(statement, 7, nil, -1, nil)
+        }
+
+        let success = sqlite3_step(statement) == SQLITE_DONE
+        sqlite3_finalize(statement)
+
+        return success
+    }
+
+    func getPatterns() -> [KnittingPattern] {
+        let query = "SELECT * FROM Patterns ORDER BY updated_at DESC;"
+        var statement: OpaquePointer?
+        var patterns: [KnittingPattern] = []
+
+        guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
+            return patterns
+        }
+
+        while sqlite3_step(statement) == SQLITE_ROW {
+            let idString = String(cString: sqlite3_column_text(statement, 0))
+            let name = String(cString: sqlite3_column_text(statement, 1))
+
+            // Get blob data
+            var imageData = Data()
+            if let blob = sqlite3_column_blob(statement, 2) {
+                let blobSize = sqlite3_column_bytes(statement, 2)
+                imageData = Data(bytes: blob, count: Int(blobSize))
+            }
+
+            let totalRows = Int(sqlite3_column_int(statement, 3))
+            let currentRow = Int(sqlite3_column_int(statement, 4))
+
+            // Deserialize completed rows
+            var completedRows: Set<Int> = []
+            if let completedRowsText = sqlite3_column_text(statement, 5) {
+                let completedRowsString = String(cString: completedRowsText)
+                if let data = completedRowsString.data(using: .utf8),
+                   let decoded = try? JSONDecoder().decode(Set<Int>.self, from: data) {
+                    completedRows = decoded
+                }
+            }
+
+            var projectId: UUID?
+            if let projectIdText = sqlite3_column_text(statement, 6) {
+                let projectIdString = String(cString: projectIdText)
+                projectId = UUID(uuidString: projectIdString)
+            }
+
+            guard let id = UUID(uuidString: idString) else { continue }
+
+            let pattern = KnittingPattern(
+                id: id,
+                name: name,
+                imageData: imageData,
+                detectedRows: [],
+                totalRows: totalRows,
+                currentRow: currentRow,
+                completedRows: completedRows,
+                projectId: projectId
+            )
+
+            patterns.append(pattern)
+        }
+
+        sqlite3_finalize(statement)
+        return patterns
+    }
+
+    func deletePattern(id: UUID) -> Bool {
+        let query = "DELETE FROM Patterns WHERE id = ?;"
+        var statement: OpaquePointer?
+
+        guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
+            return false
+        }
+
+        sqlite3_bind_text(statement, 1, (id.uuidString as NSString).utf8String, -1, nil)
+
+        let success = sqlite3_step(statement) == SQLITE_DONE
+        sqlite3_finalize(statement)
+
+        return success
     }
 }

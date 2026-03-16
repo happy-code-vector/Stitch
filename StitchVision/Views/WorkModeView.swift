@@ -36,7 +36,9 @@ struct WorkModeView: View {
     @State private var showSettings = false
     @State private var showApiKeyAlert = false
     @State private var showVoicePermissionAlert = false
-    
+    @State private var selectedPattern: KnittingPattern?
+    @State private var showPatternLibrary = false
+
     var body: some View {
         ZStack {
             Color(red: 0.976, green: 0.969, blue: 0.949)
@@ -119,7 +121,29 @@ struct WorkModeView: View {
                     
                     // Yarn Detection Bounding Box
                     YarnDetectionBoxView(isPaused: isPaused)
-                    
+
+                    // Pattern thumbnail (if selected)
+                    if let pattern = selectedPattern {
+                        VStack {
+                            HStack {
+                                Spacer()
+                                Button(action: { showPatternLibrary = true }) {
+                                    PatternProgressOverlay(
+                                        pattern: pattern,
+                                        currentRowCount: rowCountingService.rowCount
+                                    )
+                                    .frame(width: 80, height: 80)
+                                    .cornerRadius(8)
+                                    .shadow(color: .black.opacity(0.3), radius: 4)
+                                }
+                                .padding(.trailing, 16)
+                                .padding(.top, 120)
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                    }
+
                     // Row Count Display - Large and prominent
                     VStack {
                         Spacer()
@@ -213,7 +237,18 @@ struct WorkModeView: View {
                                     .clipShape(Circle())
                                     .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
                             }
-                            
+
+                            // Pattern Button
+                            Button(action: { showPatternLibrary = true }) {
+                                Image(systemName: selectedPattern != nil ? "photo.fill" : "photo")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(selectedPattern != nil ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .frame(width: 44, height: 44)
+                                    .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+                                    .clipShape(Circle())
+                                    .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+                            }
+
                             Spacer()
                         }
                         .padding(.horizontal, 24)
@@ -362,6 +397,12 @@ struct WorkModeView: View {
         } message: {
             Text("Enable voice commands for hands-free row counting? Say things like \"row done\" or \"undo\".")
         }
+        .sheet(isPresented: $showPatternLibrary) {
+            PatternLibraryView(onPatternSelected: { pattern in
+                selectedPattern = pattern
+                rowCountingService.setRowCount(pattern.currentRow)
+            })
+        }
     }
     
     // MARK: - Helper Methods
@@ -371,6 +412,20 @@ struct WorkModeView: View {
         cameraDelegate.onFrameReceived = { pixelBuffer in
             guard !self.isPaused else { return }
             self.rowCountingService.processFrame(pixelBuffer)
+
+            // Update pattern progress if pattern is selected
+            if let pattern = self.selectedPattern {
+                let currentRow = self.rowCountingService.rowCount
+                var completedRows = pattern.completedRows
+                if currentRow > 0 {
+                    completedRows.insert(currentRow - 1)
+                }
+                PatternStorageService.shared.updateProgress(
+                    for: pattern.id,
+                    currentRow: currentRow,
+                    completedRows: completedRows
+                )
+            }
         }
         cameraDelegate.onError = { error in
             print("Camera error: \(error.localizedDescription)")
@@ -456,6 +511,19 @@ struct WorkModeView: View {
 
         // Update app state
         appState.updateSessionData(rowsKnit: max(0, rowsKnit), timeSpent: timeSpent)
+
+        // Save pattern progress if pattern is selected
+        if let pattern = selectedPattern {
+            var completedRows = pattern.completedRows
+            if rowCountingService.rowCount > 0 {
+                completedRows.insert(rowCountingService.rowCount - 1)
+            }
+            PatternStorageService.shared.updateProgress(
+                for: pattern.id,
+                currentRow: rowCountingService.rowCount,
+                completedRows: completedRows
+            )
+        }
 
         // Provide feedback
         feedbackController.provideFeedback(.sessionEnded)
