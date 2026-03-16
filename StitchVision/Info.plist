@@ -20,6 +20,10 @@
 	<string>StitchVision needs camera access to count your stitches, detect patterns, and provide real-time AI assistance while you knit or crochet.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>StitchVision needs access to your photo library to save and load pattern images.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>StitchVision uses speech recognition to allow hands-free row counting with voice commands like "row done" and "undo".</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>StitchVision needs microphone access to listen for voice commands like "row done" and "undo" for hands-free counting.</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

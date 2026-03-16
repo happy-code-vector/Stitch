@@ -1,5 +1,6 @@
 import SwiftUI
 import AVFoundation
+import Speech
 
 // Camera delegate wrapper class
 class WorkModeCameraDelegate: NSObject, CameraManagerDelegate {
@@ -22,7 +23,9 @@ struct WorkModeView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var cameraPermissionManager = CameraPermissionManager.shared
     @StateObject private var cameraManager = CameraManager()
-    @StateObject private var geminiService = GeminiVisionService()
+    @StateObject private var rowCountingService = RowCountingService()
+    @StateObject private var voiceCommandManager = VoiceCommandManager()
+    @StateObject private var feedbackController = FeedbackController()
     @State private var cameraDelegate = WorkModeCameraDelegate()
     
     @State private var isPaused = false
@@ -32,6 +35,7 @@ struct WorkModeView: View {
     @State private var showPermissionAlert = false
     @State private var showSettings = false
     @State private var showApiKeyAlert = false
+    @State private var showVoicePermissionAlert = false
     
     var body: some View {
         ZStack {
@@ -57,44 +61,40 @@ struct WorkModeView: View {
                         )
                     }
                     
-                    // Confidence Meter - Very Top
+                    // Status Bar - Very Top
                     VStack {
                         HStack {
-                            Text(geminiService.isAnalyzing ? "Analyzing..." : "Confidence")
+                            Text(rowCountingService.isCounting ? "Detecting..." : "Ready")
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(.white)
-                            
+
                             Spacer()
-                            
-                            if geminiService.isAnalyzing {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                    .scaleEffect(0.8)
-                            } else {
-                                GeometryReader { geometry in
-                                    ZStack(alignment: .leading) {
-                                        RoundedRectangle(cornerRadius: 4)
-                                            .fill(.white.opacity(0.2))
-                                            .frame(height: 8)
-                                        
-                                        RoundedRectangle(cornerRadius: 4)
-                                            .fill(confidenceColor)
-                                            .frame(width: geometry.size.width * geminiService.confidence, height: 8)
-                                            .animation(.easeOut(duration: 0.5), value: geminiService.confidence)
-                                    }
+
+                            // Voice Command Indicator
+                            Button(action: {
+                                if voiceCommandManager.isListening {
+                                    voiceCommandManager.stopListening()
+                                } else {
+                                    voiceCommandManager.startListening()
                                 }
-                                .frame(height: 8)
-                                
-                                Text("\(Int(geminiService.confidence * 100))%")
-                                    .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(.white)
-                                    .frame(width: 48, alignment: .trailing)
+                            }) {
+                                HStack(spacing: 4) {
+                                    Image(systemName: voiceCommandManager.isListening ? "mic.fill" : "mic.slash")
+                                        .font(.system(size: 14))
+                                    Text(voiceCommandManager.isListening ? "Listening" : "Voice Off")
+                                        .font(.system(size: 12, weight: .medium))
+                                }
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(voiceCommandManager.isListening ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.black.opacity(0.4))
+                                .cornerRadius(16)
                             }
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
                         .background(.black.opacity(0.4))
-                        
+
                         Spacer()
                     }
                     
@@ -129,14 +129,14 @@ struct WorkModeView: View {
                                 .font(.system(size: 12, weight: .medium))
                                 .foregroundColor(.white.opacity(0.7))
                             
-                            Text("\(geminiService.currentCount)")
+                            Text("\(rowCountingService.rowCount)")
                                 .font(.system(size: 72, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
                                 .scaleEffect(1.0)
-                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: geminiService.currentCount)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: rowCountingService.rowCount)
                             
-                            if let lastAnalysis = geminiService.lastAnalysisTime {
-                                Text("Last analyzed: \(timeAgo(lastAnalysis))")
+                            if rowCountingService.lastCountTime != nil {
+                                Text("Row counted \(timeAgo(rowCountingService.lastCountTime!))")
                                     .font(.system(size: 10, weight: .regular))
                                     .foregroundColor(.white.opacity(0.6))
                             }
@@ -201,9 +201,9 @@ struct WorkModeView: View {
                                     .shadow(color: .black.opacity(cameraManager.isTorchOn ? 0.2 : 0.05), radius: cameraManager.isTorchOn ? 8 : 2, x: 0, y: cameraManager.isTorchOn ? 4 : 1)
                             }
                             
-                            // Settings Button
+                            // Settings Button - placeholder
                             Button(action: {
-                                showSettings = true
+                                // TODO: Add settings view for counting preferences
                             }) {
                                 Image(systemName: "gearshape.fill")
                                     .font(.system(size: 20))
@@ -223,7 +223,7 @@ struct WorkModeView: View {
                         HStack(spacing: 16) {
                             // Manual Decrement
                             Button(action: {
-                                geminiService.manualDecrement()
+                                rowCountingService.manualDecrement()
                             }) {
                                 Image(systemName: "minus")
                                     .font(.system(size: 24, weight: .bold))
@@ -256,7 +256,7 @@ struct WorkModeView: View {
                             
                             // Manual Increment
                             Button(action: {
-                                geminiService.manualIncrement()
+                                rowCountingService.manualIncrement()
                             }) {
                                 Image(systemName: "plus")
                                     .font(.system(size: 24, weight: .bold))
@@ -272,7 +272,7 @@ struct WorkModeView: View {
                         .padding(.vertical, 32)
                         
                         // Status Text
-                        Text(isPaused ? "Counting paused. Tap Resume to continue." : geminiService.isAnalyzing ? "AI is analyzing your knitting..." : "AI monitoring active")
+                        Text(isPaused ? "Counting paused. Tap Resume to continue." : rowCountingService.isCounting ? "Detecting rows..." : "Ready to count")
                             .font(.system(size: 14, weight: .regular))
                             .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                             .multilineTextAlignment(.center)
@@ -307,12 +307,21 @@ struct WorkModeView: View {
             cameraPermissionManager.checkPermissionStatus()
             if cameraPermissionManager.isPermissionGranted {
                 setupCamera()
+
+                // Check voice permission
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    if !self.voiceCommandManager.isAuthorized {
+                        self.showVoicePermissionAlert = true
+                    }
+                }
             } else {
                 showPermissionAlert = true
             }
         }
         .onDisappear {
             cameraManager.stopSession()
+            voiceCommandManager.stopListening()
+            rowCountingService.stopCounting()
         }
         .sheet(isPresented: $showDiagnosis) {
             StitchDoctorDiagnosisViewSheet(
@@ -320,9 +329,6 @@ struct WorkModeView: View {
                 onSaveToNotes: nil,
                 diagnosisText: nil
             )
-        }
-        .sheet(isPresented: $showSettings) {
-            GeminiSettingsView(geminiService: geminiService)
         }
         .alert("Camera Access Required", isPresented: $showPermissionAlert) {
             Button("Grant Access") {
@@ -343,6 +349,19 @@ struct WorkModeView: View {
         } message: {
             Text("StitchVision needs camera access to count your stitches and detect patterns. Please grant camera permission to use Work Mode.")
         }
+        .alert("Voice Commands", isPresented: $showVoicePermissionAlert) {
+            Button("Enable") {
+                voiceCommandManager.requestAuthorization()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    if self.voiceCommandManager.isAuthorized {
+                        self.voiceCommandManager.startListening()
+                    }
+                }
+            }
+            Button("Skip", role: .cancel) { }
+        } message: {
+            Text("Enable voice commands for hands-free row counting? Say things like \"row done\" or \"undo\".")
+        }
     }
     
     // MARK: - Helper Methods
@@ -351,22 +370,63 @@ struct WorkModeView: View {
         cameraManager.delegate = cameraDelegate
         cameraDelegate.onFrameReceived = { pixelBuffer in
             guard !self.isPaused else { return }
-            self.geminiService.processFrame(pixelBuffer)
+            self.rowCountingService.processFrame(pixelBuffer)
         }
         cameraDelegate.onError = { error in
             print("Camera error: \(error.localizedDescription)")
         }
-        geminiService.currentCount = initialRowCount
+        rowCountingService.setRowCount(self.initialRowCount)
+        rowCountingService.startCounting()
         cameraManager.startSession()
+
+        // Setup voice commands
+        setupVoiceCommands()
     }
-    
-    private var confidenceColor: Color {
-        if geminiService.confidence >= 0.90 {
-            return Color(red: 0.561, green: 0.659, blue: 0.533)
-        } else if geminiService.confidence >= 0.75 {
-            return Color(red: 0.83, green: 0.69, blue: 0.22)
-        } else {
-            return Color(red: 0.79, green: 0.43, blue: 0.37)
+
+    private func setupVoiceCommands() {
+        voiceCommandManager.requestAuthorization()
+
+        voiceCommandManager.onCommandReceived = { [weak self] command in
+            guard let self = self else { return }
+
+            switch command {
+            case .countRow:
+                self.rowCountingService.voiceIncrement()
+                self.feedbackController.provideFeedback(.rowCounted)
+
+            case .undo:
+                self.rowCountingService.manualDecrement()
+                self.feedbackController.provideFeedback(.undo)
+
+            case .pause:
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                    self.isPaused = true
+                }
+                self.rowCountingService.stopCounting()
+
+            case .resume:
+                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                    self.isPaused = false
+                }
+                self.rowCountingService.startCounting()
+
+            case .endSession:
+                self.handleExit()
+
+            case .addMarker(let name):
+                self.feedbackController.provideFeedback(.markerAdded)
+                print("Marker added: \(name)")
+
+            case .unknown(let text):
+                print("Unknown command: \(text)")
+            }
+        }
+
+        // Start listening if authorized
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            if self.voiceCommandManager.isAuthorized {
+                self.voiceCommandManager.startListening()
+            }
         }
     }
     
@@ -378,9 +438,28 @@ struct WorkModeView: View {
     
     private func handleExit() {
         let timeSpent = Int(Date().timeIntervalSince(sessionStartTime) / 60)
-        let rowsKnit = geminiService.currentCount - initialRowCount
-        
+        let rowsKnit = rowCountingService.rowCount - initialRowCount
+
+        // Create and save session
+        let session = SessionModel(
+            projectId: appState.currentProject?.id,
+            rowsKnit: max(0, rowsKnit),
+            timeSpent: timeSpent,
+            startTime: ISO8601DateFormatter().string(from: sessionStartTime),
+            endTime: ISO8601DateFormatter().string(from: Date())
+        )
+
+        // Save to database
+        if DatabaseManager.shared.saveSession(session) {
+            print("Session saved: \(rowsKnit) rows, \(timeSpent) minutes")
+        }
+
+        // Update app state
         appState.updateSessionData(rowsKnit: max(0, rowsKnit), timeSpent: timeSpent)
+
+        // Provide feedback
+        feedbackController.provideFeedback(.sessionEnded)
+
         appState.navigateTo(.sessionSummary)
     }
     
