@@ -3,8 +3,10 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var cameraManager = CameraPermissionManager.shared
+    @StateObject private var geminiService = GeminiVisionService()
     @State private var isPro = false
     @State private var showPermissionAlert = false
+    @State private var showGeminiSettings = false
     
     var body: some View {
         ZStack {
@@ -285,6 +287,15 @@ struct SettingsView: View {
                                 )
                                 
                                 SettingsItemView(
+                                    icon: "sparkles",
+                                    title: "Gemini AI Settings",
+                                    description: "Configure API key & analysis",
+                                    action: {
+                                        showGeminiSettings = true
+                                    }
+                                )
+                                
+                                SettingsItemView(
                                     icon: "questionmark.circle",
                                     title: "Help & Support",
                                     description: "FAQs and contact",
@@ -352,6 +363,9 @@ struct SettingsView: View {
         }
         .onAppear {
             cameraManager.checkPermissionStatus()
+        }
+        .sheet(isPresented: $showGeminiSettings) {
+            GeminiSettingsView(geminiService: geminiService)
         }
         .alert("Camera Permission", isPresented: $showPermissionAlert) {
             if cameraManager.isPermissionGranted {
