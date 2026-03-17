@@ -79,6 +79,10 @@ struct ContentView: View {
                 ProfileEditorView()
             case .analytics:
                 AnalyticsView()
+            case .abbreviationGlossary:
+                AbbreviationGlossaryView()
+            case .stitchBot:
+                StitchBotChatView()
             }
         }
         .environmentObject(appState)

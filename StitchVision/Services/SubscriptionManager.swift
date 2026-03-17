@@ -152,6 +152,41 @@ class SubscriptionManager: ObservableObject {
         return subscription.isPro ? Int.max : 5
     }
 
+    /// Get maximum StitchBot questions per month (Free: 10, Pro: unlimited)
+    var maxStitchBotQuestionsPerMonth: Int {
+        return subscription.isPro ? Int.max : 10
+    }
+
+    /// Check if StitchBot can be used
+    var canUseStitchBot: Bool {
+        return subscription.isPro || stitchBotQuestionsRemaining > 0
+    }
+
+    /// Get remaining StitchBot questions for free users
+    var stitchBotQuestionsRemaining: Int {
+        let used = stitchBotQuestionsUsedThisMonth
+        return max(0, maxStitchBotQuestionsPerMonth - used)
+    }
+
+    /// Track StitchBot question usage
+    func incrementStitchBotUsage() {
+        stitchBotQuestionsUsedThisMonth += 1
+        UserDefaults.standard.set(stitchBotQuestionsUsedThisMonth, forKey: "stitchbot_questions_\(currentMonthKey)")
+    }
+
+    // MARK: - StitchBot Usage Tracking
+
+    private var currentMonthKey: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMM"
+        return formatter.string(from: Date())
+    }
+
+    private var stitchBotQuestionsUsedThisMonth: Int {
+        let key = "stitchbot_questions_\(currentMonthKey)"
+        return UserDefaults.standard.integer(forKey: key)
+    }
+
     // MARK: - Private Methods
 
     private func updateSubscription(from transaction: Transaction) async {

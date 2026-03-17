@@ -1,0 +1,614 @@
+[
+  {
+    "abbr": "k",
+    "full_term": "knit",
+    "description": "Insert right needle through stitch from left to right, wrap yarn around needle, pull through to create a new stitch",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "p",
+    "full_term": "purl",
+    "description": "Insert right needle through stitch from right to left (backwards), wrap yarn, pull through",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "yo",
+    "full_term": "yarn over",
+    "description": "Wrap yarn over the right needle to create a new stitch, used for increases and lace patterns",
+    "craft": "both"
+  },
+  {
+    "abbr": "k2tog",
+    "full_term": "knit 2 together",
+    "description": "Knit two stitches as one, creating a right-leaning decrease",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "ssk",
+    "full_term": "slip slip knit",
+    "description": "Slip two stitches knitwise, insert left needle through front, knit together. Creates a left-leaning decrease",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "kfb",
+    "full_term": "knit front and back",
+    "description": "Knit into front of stitch without dropping it, then knit into back. Creates one extra stitch",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "sl",
+    "full_term": "slip",
+    "description": "Move stitch from left needle to right without working it",
+    "craft": "both"
+  },
+  {
+    "abbr": "psso",
+    "full_term": "pass slipped stitch over",
+    "description": "Pass a previously slipped stitch over the just-knitted stitch",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "m1",
+    "full_term": "make one",
+    "description": "Lift the bar between stitches onto left needle and knit into it, creating an increase",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "tbl",
+    "full_term": "through back loop",
+    "description": "Work the stitch through the back loop instead of the front",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "ch",
+    "full_term": "chain",
+    "description": "Yarn over, pull through loop on hook. Foundation of most crochet projects",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "sc",
+    "full_term": "single crochet",
+    "description": "Insert hook, yarn over, pull through stitch, yarn over, pull through both loops",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "dc",
+    "full_term": "double crochet",
+    "description": "Yarn over, insert hook, pull through, yarn over, pull through 2 loops, yarn over, pull through remaining 2 loops",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "hdc",
+    "full_term": "half double crochet",
+    "description": "Yarn over, insert hook, pull through, yarn over, pull through all 3 loops at once",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "tr",
+    "full_term": "treble crochet",
+    "description": "Yarn over twice, insert hook, pull through, then yarn over and pull through 2 loops three times",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "sl st",
+    "full_term": "slip stitch",
+    "description": "Insert hook, yarn over, pull through stitch and loop on hook in one motion",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "inc",
+    "full_term": "increase",
+    "description": "Add stitches to your work, usually by working multiple stitches into one",
+    "craft": "both"
+  },
+  {
+    "abbr": "dec",
+    "full_term": "decrease",
+    "description": "Reduce stitches by working multiple stitches together",
+    "craft": "both"
+  },
+  {
+    "abbr": "sc2tog",
+    "full_term": "single crochet 2 together",
+    "description": "Insert hook in next stitch, pull up loop, insert in next stitch, pull up loop, yarn over, pull through all 3 loops",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "dc2tog",
+    "full_term": "double crochet 2 together",
+    "description": "Work 2 double crochets together, leaving last loop of each, then yarn over and pull through all 3 loops",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "st(s)",
+    "full_term": "stitch(es)",
+    "description": "Refers to one or more stitches on the needle or hook",
+    "craft": "both"
+  },
+  {
+    "abbr": "rep",
+    "full_term": "repeat",
+    "description": "Repeat the instructions between asterisks or brackets the specified number of times",
+    "craft": "both"
+  },
+  {
+    "abbr": "RS",
+    "full_term": "right side",
+    "description": "The side of the work that will be visible when worn or displayed",
+    "craft": "both"
+  },
+  {
+    "abbr": "WS",
+    "full_term": "wrong side",
+    "description": "The side of the work that will be hidden, opposite of right side",
+    "craft": "both"
+  },
+  {
+    "abbr": "CO",
+    "full_term": "cast on",
+    "description": "Create the first row of stitches on your needle to begin knitting",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "BO",
+    "full_term": "bind off",
+    "description": "Secure and remove stitches from needle to finish your work",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "beg",
+    "full_term": "beginning",
+    "description": "Start of a row, round, or section",
+    "craft": "both"
+  },
+  {
+    "abbr": "cont",
+    "full_term": "continue",
+    "description": "Keep working in the established pattern",
+    "craft": "both"
+  },
+  {
+    "abbr": "rem",
+    "full_term": "remaining",
+    "description": "Stitches or rows that are left to work",
+    "craft": "both"
+  },
+  {
+    "abbr": "approx",
+    "full_term": "approximately",
+    "description": "About, roughly",
+    "craft": "both"
+  },
+  {
+    "abbr": "pm",
+    "full_term": "place marker",
+    "description": "Put a stitch marker on your needle to mark a specific point",
+    "craft": "both"
+  },
+  {
+    "abbr": "sm",
+    "full_term": "slip marker",
+    "description": "Move the marker from left needle to right needle",
+    "craft": "both"
+  },
+  {
+    "abbr": "wyif",
+    "full_term": "with yarn in front",
+    "description": "Bring yarn to front of work",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "wyib",
+    "full_term": "with yarn in back",
+    "description": "Bring yarn to back of work",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "cn",
+    "full_term": "cable needle",
+    "description": "Small needle used to hold stitches temporarily while creating cable patterns",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "C",
+    "full_term": "cable",
+    "description": "Slip stitches to cable needle, hold front or back, work next stitches, then work from cable needle",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "dpn",
+    "full_term": "double pointed needles",
+    "description": "Needles with points on both ends, used for knitting in the round on small circumferences",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "g",
+    "full_term": "grams",
+    "description": "Weight measurement for yarn",
+    "craft": "both"
+  },
+  {
+    "abbr": "m",
+    "full_term": "meters",
+    "description": "Length measurement for yarn",
+    "craft": "both"
+  },
+  {
+    "abbr": "oz",
+    "full_term": "ounces",
+    "description": "Weight measurement for yarn (imperial)",
+    "craft": "both"
+  },
+  {
+    "abbr": "yd",
+    "full_term": "yards",
+    "description": "Length measurement for yarn (imperial)",
+    "craft": "both"
+  },
+  {
+    "abbr": "mc",
+    "full_term": "main color",
+    "description": "Primary color in a multi-color pattern",
+    "craft": "both"
+  },
+  {
+    "abbr": "cc",
+    "full_term": "contrasting color",
+    "description": "Secondary color(s) in a multi-color pattern",
+    "craft": "both"
+  },
+  {
+    "abbr": "rnd(s)",
+    "full_term": "round(s)",
+    "description": "One complete circle when knitting or crocheting in the round",
+    "craft": "both"
+  },
+  {
+    "abbr": "tog",
+    "full_term": "together",
+    "description": "Work multiple stitches as one",
+    "craft": "both"
+  },
+  {
+    "abbr": "p2tog",
+    "full_term": "purl 2 together",
+    "description": "Purl two stitches as one, creating a decrease",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "pfb",
+    "full_term": "purl front and back",
+    "description": "Purl into front and back of same stitch to increase",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "ssp",
+    "full_term": "slip slip purl",
+    "description": "Slip two stitches knitwise, return to left needle, purl together through back loops",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "k3tog",
+    "full_term": "knit 3 together",
+    "description": "Knit three stitches as one, creating a double decrease",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "p3tog",
+    "full_term": "purl 3 together",
+    "description": "Purl three stitches as one, creating a double decrease",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "yo2",
+    "full_term": "yarn over twice",
+    "description": "Wrap yarn around needle twice to create a larger eyelet",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "m1L",
+    "full_term": "make one left",
+    "description": "Lift bar between stitches from front to back, knit through back loop (left-leaning increase)",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "m1R",
+    "full_term": "make one right",
+    "description": "Lift bar between stitches from back to front, knit through front loop (right-leaning increase)",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "m1p",
+    "full_term": "make one purl",
+    "description": "Make one increase worked as a purl stitch",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "llpi",
+    "full_term": "left lifted purl increase",
+    "description": "Purl into stitch below next stitch, then purl the next stitch",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "rlpi",
+    "full_term": "right lifted purl increase",
+    "description": "Purl next stitch, then purl into stitch below just-worked stitch",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "lli",
+    "full_term": "left lifted increase",
+    "description": "Knit into stitch below next stitch, then knit the next stitch",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "rli",
+    "full_term": "right lifted increase",
+    "description": "Knit next stitch, then knit into stitch below just-worked stitch",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "sk2p",
+    "full_term": "slip knit 2 pass",
+    "description": "Slip 1, k2tog, pass slipped stitch over. Double decrease, center stitch on top",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "s2kp",
+    "full_term": "slip 2 knit pass",
+    "description": "Slip 2 as if to k2tog, k1, pass slipped stitches over. Double decrease, center stitch on top",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "k tbl",
+    "full_term": "knit through back loop",
+    "description": "Knit through the back of the stitch instead of the front",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "p tbl",
+    "full_term": "purl through back loop",
+    "description": "Purl through the back of the stitch instead of the front",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "ktbl",
+    "full_term": "knit through back loop",
+    "description": "Alternate notation for knitting through back loop",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "ptbl",
+    "full_term": "purl through back loop",
+    "description": "Alternate notation for purling through back loop",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "magic loop",
+    "full_term": "magic loop technique",
+    "description": "Use a long circular needle to knit small circumferences by dividing stitches",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "ssk",
+    "full_term": "slip slip knit",
+    "description": "A left-leaning single decrease",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "ssp",
+    "full_term": "slip slip purl",
+    "description": "A left-leaning purl decrease",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "rh",
+    "full_term": "right hand",
+    "description": "Refers to holding yarn or tool in right hand",
+    "craft": "both"
+  },
+  {
+    "abbr": "lh",
+    "full_term": "left hand",
+    "description": "Refers to holding yarn or tool in left hand",
+    "craft": "both"
+  },
+  {
+    "abbr": "rs",
+    "full_term": "right side",
+    "description": "The public/visible side of the work",
+    "craft": "both"
+  },
+  {
+    "abbr": "ws",
+    "full_term": "wrong side",
+    "description": "The private/hidden side of the work",
+    "craft": "both"
+  },
+  {
+    "abbr": "blo",
+    "full_term": "back loop only",
+    "description": "Work into the back loop of the stitch only",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "flo",
+    "full_term": "front loop only",
+    "description": "Work into the front loop of the stitch only",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "bp",
+    "full_term": "back post",
+    "description": "Work around the back post of the stitch from previous row",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "fp",
+    "full_term": "front post",
+    "description": "Work around the front post of the stitch from previous row",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "fpdc",
+    "full_term": "front post double crochet",
+    "description": "Double crochet worked around the front post of the stitch below",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "bpdc",
+    "full_term": "back post double crochet",
+    "description": "Double crochet worked around the back post of the stitch below",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "fptr",
+    "full_term": "front post treble crochet",
+    "description": "Treble crochet worked around the front post of the stitch below",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "bptr",
+    "full_term": "back post treble crochet",
+    "description": "Treble crochet worked around the back post of the stitch below",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "fpsc",
+    "full_term": "front post single crochet",
+    "description": "Single crochet worked around the front post of the stitch below",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "bpsc",
+    "full_term": "back post single crochet",
+    "description": "Single crochet worked around the back post of the stitch below",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "join",
+    "full_term": "join",
+    "description": "Connect the first and last stitch to work in the round",
+    "craft": "both"
+  },
+  {
+    "abbr": "turn",
+    "full_term": "turn work",
+    "description": "Flip your work to begin working in the opposite direction",
+    "craft": "both"
+  },
+  {
+    "abbr": "sk",
+    "full_term": "skip",
+    "description": "Skip the next stitch without working it",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "sp",
+    "full_term": "space",
+    "description": "A gap created by chains from a previous row",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "ch-sp",
+    "full_term": "chain space",
+    "description": "Space created by chain stitches in previous row/round",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "cl",
+    "full_term": "cluster",
+    "description": "Multiple stitches worked into same stitch and joined at top",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "pop",
+    "full_term": "popcorn",
+    "description": "Multiple stitches in one, then join first and last to create 3D effect",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "puff",
+    "full_term": "puff stitch",
+    "description": "Multiple half-completed stitches joined together",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "bobble",
+    "full_term": "bobble",
+    "description": "Multiple stitches in one stitch, then decreased to create a bump",
+    "craft": "both"
+  },
+  {
+    "abbr": "picot",
+    "full_term": "picot",
+    "description": "Small decorative loop, usually made with chains and slip stitch",
+    "craft": "both"
+  },
+  {
+    "abbr": "shell",
+    "full_term": "shell",
+    "description": "Multiple stitches worked into same stitch, creating fan shape",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "v-st",
+    "full_term": "v-stitch",
+    "description": "Usually (dc, ch, dc) in same stitch, creating V shape",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "trtr",
+    "full_term": "triple treble crochet",
+    "description": "Yarn over 3 times, work like treble crochet",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "dtr",
+    "full_term": "double treble crochet",
+    "description": "Yarn over 2 times, work like treble crochet",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "sc3tog",
+    "full_term": "single crochet 3 together",
+    "description": "Single crochet 3 stitches together as one",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "dc3tog",
+    "full_term": "double crochet 3 together",
+    "description": "Double crochet 3 stitches together as one",
+    "craft": "crochet"
+  },
+  {
+    "abbr": "pick up",
+    "full_term": "pick up stitches",
+    "description": "Add new stitches along an edge by pulling loops through",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "PU",
+    "full_term": "pick up",
+    "description": "Pick up stitches along an edge",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "PUK",
+    "full_term": "pick up and knit",
+    "description": "Pick up a stitch and knit it",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "w&t",
+    "full_term": "wrap and turn",
+    "description": "Short row technique: wrap yarn around stitch, turn work",
+    "craft": "knitting"
+  },
+  {
+    "abbr": "german short row",
+    "full_term": "german short row",
+    "description": "Alternative short row technique using yarn manipulation",
+    "craft": "knitting"
+  }
+]
