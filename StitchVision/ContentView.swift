@@ -83,6 +83,10 @@ struct ContentView: View {
                 AbbreviationGlossaryView()
             case .stitchBot:
                 StitchBotChatView()
+            case .valuePropCarousel:
+                ValuePropCarouselView()
+            case .patternLibraryPreview:
+                PatternLibraryPreviewView()
             }
         }
         .environmentObject(appState)

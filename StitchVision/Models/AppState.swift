@@ -36,6 +36,8 @@ enum ScreenType: CaseIterable {
     case analytics
     case abbreviationGlossary
     case stitchBot
+    case valuePropCarousel
+    case patternLibraryPreview
 }
 
 class AppState: ObservableObject {
