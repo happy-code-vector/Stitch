@@ -114,6 +114,15 @@ struct DashboardView: View {
                             ) {
                                 appState.navigateTo(.patternUpload)
                             }
+
+                            QuickActionButton(
+                                icon: "chart.bar.fill",
+                                title: "View Analytics",
+                                subtitle: "See your knitting statistics",
+                                color: Color(red: 0.4, green: 0.6, blue: 0.8)
+                            ) {
+                                appState.navigateTo(.analytics)
+                            }
                         }
                         .padding(.horizontal, 24)
                     }

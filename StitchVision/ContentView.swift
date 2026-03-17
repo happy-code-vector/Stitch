@@ -77,6 +77,8 @@ struct ContentView: View {
                 NotificationsView()
             case .profile:
                 ProfileEditorView()
+            case .analytics:
+                AnalyticsView()
             }
         }
         .environmentObject(appState)
