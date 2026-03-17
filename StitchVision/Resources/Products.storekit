@@ -1,0 +1,147 @@
+{
+  "identifier" : "Products",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : 6738999000,
+    "_developerTeamID" : "YOUR_TEAM_ID",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 761596080.0,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "StitchVision_Pro",
+      "localizations" : [
+
+      ],
+      "name" : "StitchVision Pro",
+      "subscriptions" : [
+        {
+          "adHocPricing" : true,
+          "availability" : {
+            "availableInNewTerritories" : true,
+            "territories" : [
+              "USA"
+            ]
+          },
+          "billingGracePeriod" : {
+            "active" : false,
+            "duration" : 0,
+            "type" : "days"
+          },
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "4.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "com.stitchvision.pro.monthly_1700001",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Unlock AI Coach, unlimited patterns, cloud sync, and more.",
+              "displayName" : "Pro Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.stitchvision.pro.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Pro Monthly",
+          "subscriptionGroupID" : "StitchVision_Pro",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocPricing" : true,
+          "availability" : {
+            "availableInNewTerritories" : true,
+            "territories" : [
+              "USA"
+            ]
+          },
+          "billingGracePeriod" : {
+            "active" : false,
+            "duration" : 0,
+            "type" : "days"
+          },
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "29.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "com.stitchvision.pro.yearly_1700002",
+          "introductoryOffer" : {
+            "internalID" : "intro_1700002",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "PayUpFront",
+            "subscriptionPeriod" : "P1Y"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlock AI Coach, unlimited patterns, cloud sync, and more. Save 50% with annual billing!",
+              "displayName" : "Pro Yearly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.stitchvision.pro.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Pro Yearly",
+          "subscriptionGroupID" : "StitchVision_Pro",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
