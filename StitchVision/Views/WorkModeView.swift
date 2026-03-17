@@ -26,6 +26,7 @@ struct WorkModeView: View {
     @StateObject private var rowCountingService = RowCountingService()
     @StateObject private var voiceCommandManager = VoiceCommandManager()
     @StateObject private var feedbackController = FeedbackController()
+    @StateObject private var subscriptionManager = SubscriptionManager.shared
     @State private var cameraDelegate = WorkModeCameraDelegate()
     
     @State private var isPaused = false
@@ -38,6 +39,8 @@ struct WorkModeView: View {
     @State private var showVoicePermissionAlert = false
     @State private var selectedPattern: KnittingPattern?
     @State private var showPatternLibrary = false
+    @State private var showPaywall = false
+    @State private var proFeatureRequested: String?
 
     var body: some View {
         ZStack {
@@ -313,9 +316,14 @@ struct WorkModeView: View {
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 24)
                         
-                        // Stitch Doctor Button
+                        // Stitch Doctor Button (Pro Feature)
                         Button(action: {
-                            showDiagnosis = true
+                            if subscriptionManager.canUseAICoach {
+                                showDiagnosis = true
+                            } else {
+                                proFeatureRequested = "AI Coach"
+                                showPaywall = true
+                            }
                         }) {
                             HStack(spacing: 8) {
                                 Image(systemName: "camera")
@@ -326,7 +334,7 @@ struct WorkModeView: View {
                             .foregroundColor(.white)
                             .padding(.horizontal, 24)
                             .padding(.vertical, 12)
-                            .background(Color(red: 0.79, green: 0.43, blue: 0.37))
+                            .background(subscriptionManager.canUseAICoach ? Color(red: 0.79, green: 0.43, blue: 0.37) : Color.gray)
                             .cornerRadius(25)
                             .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                         }
@@ -402,6 +410,9 @@ struct WorkModeView: View {
                 selectedPattern = pattern
                 rowCountingService.setRowCount(pattern.currentRow)
             })
+        }
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(feature: proFeatureRequested)
         }
     }
     

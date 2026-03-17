@@ -26,6 +26,18 @@ class PatternStorageService: ObservableObject {
 
     // MARK: - Public Methods
 
+    /// Check if user can add more patterns
+    func canAddPattern() -> Bool {
+        let maxPatterns = SubscriptionManager.shared.maxPatterns
+        return patterns.count < maxPatterns
+    }
+
+    /// Get remaining patterns allowed
+    var remainingPatternSlots: Int {
+        let maxPatterns = SubscriptionManager.shared.maxPatterns
+        return max(0, maxPatterns - patterns.count)
+    }
+
     /// Load all patterns from storage
     func loadPatterns() {
         isLoading = true
@@ -43,8 +55,18 @@ class PatternStorageService: ObservableObject {
         }
     }
 
-    /// Save a pattern
-    func savePattern(_ pattern: KnittingPattern) {
+    /// Save a pattern (with Pro limit check)
+    /// Returns true if successful, false if limit reached
+    @discardableResult
+    func savePattern(_ pattern: KnittingPattern) -> Bool {
+        // Check if this is a new pattern
+        let isNew = !patterns.contains { $0.id == pattern.id }
+
+        if isNew && !canAddPattern() {
+            errorMessage = "Pattern limit reached. Upgrade to Pro for unlimited patterns."
+            return false
+        }
+
         isLoading = true
 
         DispatchQueue.global().async { [weak self] in
@@ -66,6 +88,8 @@ class PatternStorageService: ObservableObject {
                 self.isLoading = false
             }
         }
+
+        return true
     }
 
     /// Delete a pattern
