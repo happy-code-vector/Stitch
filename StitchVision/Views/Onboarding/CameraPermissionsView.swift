@@ -166,28 +166,28 @@ struct CameraPermissionsView: View {
     }
     
     // MARK: - Helper Methods
-    
+
     private func handleCameraPermission() {
         switch cameraManager.permissionStatus {
         case .granted:
-            // Already granted, proceed to next screen
-            appState.navigateTo(.calibration)
-            
+            // Already granted, proceed to paywall first
+            appState.navigateTo(.enhancedSubscription)
+
         case .notDetermined:
             // Request permission
             cameraManager.requestCameraPermission { granted in
                 if granted {
-                    appState.navigateTo(.calibration)
+                    appState.navigateTo(.enhancedSubscription)
                 } else {
                     // User denied permission
                     showingSettingsAlert = true
                 }
             }
-            
+
         case .denied:
             // Show alert to open settings
             showingSettingsAlert = true
-            
+
         case .restricted:
             // Show alert that camera is restricted
             showingSettingsAlert = true

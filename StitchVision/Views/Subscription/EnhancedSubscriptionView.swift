@@ -123,7 +123,14 @@ struct EnhancedSubscriptionView: View {
             // CTA Button
             VStack(spacing: 12) {
                 Button(action: {
-                    appState.navigateTo(.authentication)
+                    if selectedTier == .pro {
+                        // Pro selected - go to calibration
+                        appState.updateProStatus(true)
+                        appState.navigateTo(.calibration)
+                    } else {
+                        // Free selected - go to downsell
+                        appState.navigateTo(.downsell)
+                    }
                 }) {
                     Text(selectedTier == .free ? "Continue with Free" : "Start 7-Day Free Trial")
                         .font(.headline)
@@ -134,15 +141,16 @@ struct EnhancedSubscriptionView: View {
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
-                
+
                 if selectedTier == .pro {
                     Text("Cancel anytime • No commitment")
                         .font(.caption)
                         .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                 }
-                
+
                 Button(action: {
-                    appState.navigateTo(.authentication)
+                    // Skip - go to downsell
+                    appState.navigateTo(.downsell)
                 }) {
                     Text(selectedTier == .free ? "Skip" : "Skip trial")
                         .font(.subheadline)
@@ -303,7 +311,7 @@ struct ProTierCard: View {
                 VStack(spacing: 0) {
                     HStack {
                         Spacer()
-                        Text("Save 50%")
+                        Text("Best Value")
                             .font(.caption)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -332,15 +340,15 @@ struct ProTierCard: View {
                                 .font(.subheadline)
                                 .fontWeight(.medium)
                                 .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                            
-                            Text("$6.67/mo")
+
+                            Text("$3.33/mo")
                                 .font(.headline)
                                 .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                         }
-                        
+
                         Spacer()
-                        
-                        Text("$79.99/year")
+
+                        Text("$39.99/year")
                             .font(.caption)
                             .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                     }
@@ -375,8 +383,8 @@ struct ProTierCard: View {
                             .font(.subheadline)
                             .fontWeight(.medium)
                             .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                        
-                        Text("$12.99/mo")
+
+                        Text("$7.99/mo")
                             .font(.headline)
                             .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                     }

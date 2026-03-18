@@ -87,6 +87,12 @@ struct ContentView: View {
                 ValuePropCarouselView()
             case .patternLibraryPreview:
                 PatternLibraryPreviewView()
+            case .proGate:
+                ProGateView(onUpgrade: {
+                    appState.navigateTo(.enhancedSubscription)
+                }, onSkip: {
+                    appState.navigateTo(.downsell)
+                })
             }
         }
         .environmentObject(appState)

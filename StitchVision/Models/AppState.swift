@@ -38,6 +38,7 @@ enum ScreenType: CaseIterable {
     case stitchBot
     case valuePropCarousel
     case patternLibraryPreview
+    case proGate
 }
 
 class AppState: ObservableObject {

@@ -48,7 +48,7 @@ struct SplashView: View {
                 
                 // Get Started Button
                 Button(action: {
-                    appState.navigateTo(.craft)
+                    appState.navigateTo(.valuePropCarousel)
                 }) {
                     Text("Get Started")
                         .font(.headline)

@@ -65,11 +65,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A1234567890123456789013C /* StitchVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StitchVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1234567890123456789012B /* StitchVisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchVisionApp.swift; sourceTree = "<group>"; };
 		A1234567890123456789012D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A1234567890123456789012F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1234567890123456789013B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A1234567890123456789013C /* StitchVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StitchVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1234567890123456789020B /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		A1234567890123456789021B /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		A1234567890123456789022B /* ProjectStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStore.swift; sourceTree = "<group>"; };
@@ -152,14 +152,6 @@
 			path = StitchVision;
 			sourceTree = "<group>";
 		};
-		A1234567890123456789014D /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				A1234567890123456789013B /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
 		A1234567890123456789013F /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,6 +186,49 @@
 				A1234567890123456789031A /* Shared */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A1234567890123456789014B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890123456789022B /* ProjectStore.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		A1234567890123456789014C /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890123456789055C /* UserDefaultsManager.swift */,
+				A1234567890123456789056C /* CameraPermissionManager.swift */,
+				A1234567890123456789064D /* CameraManager.swift */,
+				A1234567890123456789069D /* GeminiVisionService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		A1234567890123456789014D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890123456789013B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A1234567890123456789014E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1234567890123456789013C /* StitchVision.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A1234567890123456789014F = {
+			isa = PBXGroup;
+			children = (
+				A1234567890123456789013E /* StitchVision */,
+				A1234567890123456789014E /* Products */,
+			);
 			sourceTree = "<group>";
 		};
 		A1234567890123456789030A /* Onboarding */ = {
@@ -251,47 +286,12 @@
 			path = WorkMode;
 			sourceTree = "<group>";
 		};
-		A1234567890123456789014B /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				A1234567890123456789022B /* ProjectStore.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		A1234567890123456789014C /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				A1234567890123456789055C /* UserDefaultsManager.swift */,
-				A1234567890123456789056C /* CameraPermissionManager.swift */,
-				A1234567890123456789064D /* CameraManager.swift */,
-				A1234567890123456789069D /* GeminiVisionService.swift */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		A1234567890123456789075E /* Database */ = {
 			isa = PBXGroup;
 			children = (
 				A1234567890123456789071D /* DatabaseManager.swift */,
 			);
 			path = Database;
-			sourceTree = "<group>";
-		};
-		A1234567890123456789014E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A1234567890123456789013C /* StitchVision.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		A1234567890123456789014F /* */ = {
-			isa = PBXGroup;
-			children = (
-				A1234567890123456789013E /* StitchVision */,
-				A1234567890123456789014E /* Products */,
-			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,7 +337,7 @@
 				en,
 				Base,
 			);
-			mainGroup = A1234567890123456789014F /* */;
+			mainGroup = A1234567890123456789014F;
 			productRefGroup = A1234567890123456789014E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

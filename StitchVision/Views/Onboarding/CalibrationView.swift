@@ -2,11 +2,13 @@ import SwiftUI
 
 struct CalibrationView: View {
     @EnvironmentObject var appState: AppState
+    @StateObject private var subscriptionManager = SubscriptionManager.shared
     @State private var animateElements = false
     @State private var scanningPosition: CGFloat = -100
     @State private var confidence: Double = 0
     @State private var rowCount = 42
-    
+    @State private var showProGate = false
+
     var body: some View {
         ZStack {
             // Black camera background
@@ -197,7 +199,8 @@ struct CalibrationView: View {
                     
                     // CTA Button
                     Button(action: {
-                        appState.navigateTo(.subscription)
+                        // After calibration, go to paywall/downsell
+                        appState.navigateTo(.downsell)
                     }) {
                         Text("Calibration Complete")
                             .font(.headline)
@@ -217,12 +220,28 @@ struct CalibrationView: View {
             }
         }
         .onAppear {
+            // Check Pro status - calibration is Pro-only
+            if !subscriptionManager.isPro {
+                showProGate = true
+                return
+            }
+
             animateElements = true
-            
+
             // Animate confidence meter
             withAnimation(.easeOut(duration: 1).delay(0.8)) {
                 confidence = 95
             }
+        }
+        .fullScreenCover(isPresented: $showProGate) {
+            ProGateView(onUpgrade: {
+                showProGate = false
+                appState.navigateTo(.enhancedSubscription)
+            }, onSkip: {
+                showProGate = false
+                // Skip calibration, go to subscription/downsell
+                appState.navigateTo(.downsell)
+            })
         }
     }
 }
