@@ -2,9 +2,10 @@ import Foundation
 import Speech
 import AVFoundation
 import Combine
+import UIKit
 
 /// Supported voice commands
-enum VoiceCommand: Equatable {
+enum VoiceCommand: Equatable, Hashable {
     case countRow
     case undo
     case pause

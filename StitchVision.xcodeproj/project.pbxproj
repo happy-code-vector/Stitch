@@ -7,6 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		88E402922F73CA5D002E2481 /* AbbreviationGlossaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E4028D2F73CA5D002E2481 /* AbbreviationGlossaryView.swift */; };
+		88E402932F73CA5D002E2481 /* PatternImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E4028F2F73CA5D002E2481 /* PatternImportView.swift */; };
+		88E402942F73CA5D002E2481 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E4028E2F73CA5D002E2481 /* AnalyticsView.swift */; };
+		88E402952F73CA5D002E2481 /* PatternLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402902F73CA5D002E2481 /* PatternLibraryView.swift */; };
+		88E402962F73CA5D002E2481 /* StitchBotChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402912F73CA5D002E2481 /* StitchBotChatView.swift */; };
+		88E4029A2F73CA73002E2481 /* ValuePropCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402992F73CA73002E2481 /* ValuePropCarouselView.swift */; };
+		88E4029B2F73CA73002E2481 /* PatternLibraryPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402972F73CA73002E2481 /* PatternLibraryPreviewView.swift */; };
+		88E4029C2F73CA73002E2481 /* ProGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402982F73CA73002E2481 /* ProGateView.swift */; };
+		88E4029E2F73CA95002E2481 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E4029D2F73CA95002E2481 /* PaywallView.swift */; };
+		88E402A22F73CAB6002E2481 /* KnittingPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E4029F2F73CAB6002E2481 /* KnittingPattern.swift */; };
+		88E402A32F73CAB6002E2481 /* RowSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402A02F73CAB6002E2481 /* RowSegment.swift */; };
+		88E402A42F73CAB6002E2481 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402A12F73CAB6002E2481 /* Subscription.swift */; };
+		88E402A72F73CAF7002E2481 /* PatternProgressOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402A52F73CAF7002E2481 /* PatternProgressOverlay.swift */; };
+		88E402A82F73CAF7002E2481 /* ProBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402A62F73CAF7002E2481 /* ProBadgeView.swift */; };
+		88E402C12F73CC76002E2481 /* FeedbackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402B82F73CC76002E2481 /* FeedbackController.swift */; };
+		88E402C22F73CC76002E2481 /* MotionAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402B92F73CC76002E2481 /* MotionAnalyzer.swift */; };
+		88E402C32F73CC76002E2481 /* AICoachProService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402B62F73CC76002E2481 /* AICoachProService.swift */; };
+		88E402C42F73CC76002E2481 /* PatternDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402BB2F73CC76002E2481 /* PatternDetectionService.swift */; };
+		88E402C52F73CC76002E2481 /* AchievementService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402B52F73CC76002E2481 /* AchievementService.swift */; };
+		88E402C62F73CC76002E2481 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402B72F73CC76002E2481 /* AnalyticsService.swift */; };
+		88E402C72F73CC76002E2481 /* PatternStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402BC2F73CC76002E2481 /* PatternStorageService.swift */; };
+		88E402C82F73CC76002E2481 /* RowCountingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402BD2F73CC76002E2481 /* RowCountingService.swift */; };
+		88E402C92F73CC76002E2481 /* StitchBotService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402BE2F73CC76002E2481 /* StitchBotService.swift */; };
+		88E402CA2F73CC76002E2481 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402BF2F73CC76002E2481 /* SubscriptionManager.swift */; };
+		88E402CB2F73CC76002E2481 /* VoiceCommandManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402C02F73CC76002E2481 /* VoiceCommandManager.swift */; };
+		88E402CC2F73CC76002E2481 /* OpticalFlowDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402BA2F73CC76002E2481 /* OpticalFlowDetector.swift */; };
+		88E402D32F73CECF002E2481 /* ChartComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402D12F73CECF002E2481 /* ChartComponents.swift */; };
+		88E402D82F73D016002E2481 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 88E402D72F73D016002E2481 /* Contents.json */; };
+		88E402DE2F73D064002E2481 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 88E402DB2F73D064002E2481 /* Products.storekit */; };
+		88E402DF2F73D064002E2481 /* abbreviations.json in Resources */ = {isa = PBXBuildFile; fileRef = 88E402D92F73D064002E2481 /* abbreviations.json */; };
+		88E402E42F73D075002E2481 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402E22F73D075002E2481 /* CoreDataManager.swift */; };
+		88E402E52F73D075002E2481 /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402E02F73D075002E2481 /* Entities.swift */; };
 		A1234567890123456789012A /* StitchVisionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012B /* StitchVisionApp.swift */; };
 		A1234567890123456789012C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012D /* ContentView.swift */; };
 		A1234567890123456789012E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012F /* Assets.xcassets */; };
@@ -65,6 +97,39 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		88E4028D2F73CA5D002E2481 /* AbbreviationGlossaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbbreviationGlossaryView.swift; sourceTree = "<group>"; };
+		88E4028E2F73CA5D002E2481 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
+		88E4028F2F73CA5D002E2481 /* PatternImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternImportView.swift; sourceTree = "<group>"; };
+		88E402902F73CA5D002E2481 /* PatternLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternLibraryView.swift; sourceTree = "<group>"; };
+		88E402912F73CA5D002E2481 /* StitchBotChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchBotChatView.swift; sourceTree = "<group>"; };
+		88E402972F73CA73002E2481 /* PatternLibraryPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternLibraryPreviewView.swift; sourceTree = "<group>"; };
+		88E402982F73CA73002E2481 /* ProGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProGateView.swift; sourceTree = "<group>"; };
+		88E402992F73CA73002E2481 /* ValuePropCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropCarouselView.swift; sourceTree = "<group>"; };
+		88E4029D2F73CA95002E2481 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		88E4029F2F73CAB6002E2481 /* KnittingPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnittingPattern.swift; sourceTree = "<group>"; };
+		88E402A02F73CAB6002E2481 /* RowSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowSegment.swift; sourceTree = "<group>"; };
+		88E402A12F73CAB6002E2481 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
+		88E402A52F73CAF7002E2481 /* PatternProgressOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternProgressOverlay.swift; sourceTree = "<group>"; };
+		88E402A62F73CAF7002E2481 /* ProBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProBadgeView.swift; sourceTree = "<group>"; };
+		88E402B52F73CC76002E2481 /* AchievementService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementService.swift; sourceTree = "<group>"; };
+		88E402B62F73CC76002E2481 /* AICoachProService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AICoachProService.swift; sourceTree = "<group>"; };
+		88E402B72F73CC76002E2481 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		88E402B82F73CC76002E2481 /* FeedbackController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackController.swift; sourceTree = "<group>"; };
+		88E402B92F73CC76002E2481 /* MotionAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionAnalyzer.swift; sourceTree = "<group>"; };
+		88E402BA2F73CC76002E2481 /* OpticalFlowDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpticalFlowDetector.swift; sourceTree = "<group>"; };
+		88E402BB2F73CC76002E2481 /* PatternDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternDetectionService.swift; sourceTree = "<group>"; };
+		88E402BC2F73CC76002E2481 /* PatternStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternStorageService.swift; sourceTree = "<group>"; };
+		88E402BD2F73CC76002E2481 /* RowCountingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowCountingService.swift; sourceTree = "<group>"; };
+		88E402BE2F73CC76002E2481 /* StitchBotService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchBotService.swift; sourceTree = "<group>"; };
+		88E402BF2F73CC76002E2481 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
+		88E402C02F73CC76002E2481 /* VoiceCommandManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceCommandManager.swift; sourceTree = "<group>"; };
+		88E402D12F73CECF002E2481 /* ChartComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartComponents.swift; sourceTree = "<group>"; };
+		88E402D72F73D016002E2481 /* Contents.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Contents.json; path = "Preview Assets.xcassets/Contents.json"; sourceTree = "<group>"; };
+		88E402D92F73D064002E2481 /* abbreviations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = abbreviations.json; sourceTree = "<group>"; };
+		88E402DB2F73D064002E2481 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
+		88E402DC2F73D064002E2481 /* StitchVision.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StitchVision.entitlements; sourceTree = "<group>"; };
+		88E402E02F73D075002E2481 /* Entities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
+		88E402E22F73D075002E2481 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		A1234567890123456789012B /* StitchVisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchVisionApp.swift; sourceTree = "<group>"; };
 		A1234567890123456789012D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A1234567890123456789012F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -135,9 +200,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		88E402D22F73CECF002E2481 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				88E402D12F73CECF002E2481 /* ChartComponents.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
+		88E402DA2F73D064002E2481 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				88E402D92F73D064002E2481 /* abbreviations.json */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		88E402DD2F73D064002E2481 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				88E402DA2F73D064002E2481 /* Data */,
+				88E402DB2F73D064002E2481 /* Products.storekit */,
+				88E402DC2F73D064002E2481 /* StitchVision.entitlements */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		88E402E12F73D075002E2481 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				88E402E02F73D075002E2481 /* Entities.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		88E402E32F73D075002E2481 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				88E402E12F73D075002E2481 /* CoreData */,
+				88E402E22F73D075002E2481 /* CoreDataManager.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		A1234567890123456789013E /* StitchVision */ = {
 			isa = PBXGroup;
 			children = (
+				88E402E32F73D075002E2481 /* Data */,
+				88E402DD2F73D064002E2481 /* Resources */,
 				A1234567890123456789012B /* StitchVisionApp.swift */,
 				A1234567890123456789012D /* ContentView.swift */,
 				A1234567890123456789063C /* Info.plist */,
@@ -155,6 +265,9 @@
 		A1234567890123456789013F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				88E4029F2F73CAB6002E2481 /* KnittingPattern.swift */,
+				88E402A02F73CAB6002E2481 /* RowSegment.swift */,
+				88E402A12F73CAB6002E2481 /* Subscription.swift */,
 				A1234567890123456789020B /* AppState.swift */,
 				A1234567890123456789021B /* Project.swift */,
 				A1234567890123456789072D /* UserProfile.swift */,
@@ -167,6 +280,11 @@
 		A1234567890123456789014A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				88E4028D2F73CA5D002E2481 /* AbbreviationGlossaryView.swift */,
+				88E4028E2F73CA5D002E2481 /* AnalyticsView.swift */,
+				88E4028F2F73CA5D002E2481 /* PatternImportView.swift */,
+				88E402902F73CA5D002E2481 /* PatternLibraryView.swift */,
+				88E402912F73CA5D002E2481 /* StitchBotChatView.swift */,
 				A1234567890123456789023B /* SplashView.swift */,
 				A1234567890123456789024B /* DashboardView.swift */,
 				A1234567890123456789045C /* WorkModeView.swift */,
@@ -199,6 +317,18 @@
 		A1234567890123456789014C /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				88E402B52F73CC76002E2481 /* AchievementService.swift */,
+				88E402B62F73CC76002E2481 /* AICoachProService.swift */,
+				88E402B72F73CC76002E2481 /* AnalyticsService.swift */,
+				88E402B82F73CC76002E2481 /* FeedbackController.swift */,
+				88E402B92F73CC76002E2481 /* MotionAnalyzer.swift */,
+				88E402BA2F73CC76002E2481 /* OpticalFlowDetector.swift */,
+				88E402BB2F73CC76002E2481 /* PatternDetectionService.swift */,
+				88E402BC2F73CC76002E2481 /* PatternStorageService.swift */,
+				88E402BD2F73CC76002E2481 /* RowCountingService.swift */,
+				88E402BE2F73CC76002E2481 /* StitchBotService.swift */,
+				88E402BF2F73CC76002E2481 /* SubscriptionManager.swift */,
+				88E402C02F73CC76002E2481 /* VoiceCommandManager.swift */,
 				A1234567890123456789055C /* UserDefaultsManager.swift */,
 				A1234567890123456789056C /* CameraPermissionManager.swift */,
 				A1234567890123456789064D /* CameraManager.swift */,
@@ -211,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				A1234567890123456789013B /* Preview Assets.xcassets */,
+				88E402D72F73D016002E2481 /* Contents.json */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -234,6 +365,9 @@
 		A1234567890123456789030A /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				88E402972F73CA73002E2481 /* PatternLibraryPreviewView.swift */,
+				88E402982F73CA73002E2481 /* ProGateView.swift */,
+				88E402992F73CA73002E2481 /* ValuePropCarouselView.swift */,
 				A1234567890123456789025B /* CraftSelectionView.swift */,
 				A1234567890123456789026B /* SkillLevelView.swift */,
 				A1234567890123456789030C /* StruggleView.swift */,
@@ -258,6 +392,9 @@
 		A1234567890123456789031A /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				88E402D22F73CECF002E2481 /* Charts */,
+				88E402A52F73CAF7002E2481 /* PatternProgressOverlay.swift */,
+				88E402A62F73CAF7002E2481 /* ProBadgeView.swift */,
 				A1234567890123456789028B /* YarnBallMascotView.swift */,
 				A1234567890123456789029B /* FloatingConfettiView.swift */,
 				A1234567890123456789062C /* LoadingScreenView.swift */,
@@ -269,6 +406,7 @@
 		A1234567890123456789064A /* Subscription */ = {
 			isa = PBXGroup;
 			children = (
+				88E4029D2F73CA95002E2481 /* PaywallView.swift */,
 				A1234567890123456789057C /* EnhancedSubscriptionView.swift */,
 				A1234567890123456789058C /* AuthenticationView.swift */,
 				A1234567890123456789059C /* FreeVsProComparisonView.swift */,
@@ -354,6 +492,9 @@
 			files = (
 				A1234567890123456789013A /* Preview Assets.xcassets in Resources */,
 				A1234567890123456789012E /* Assets.xcassets in Resources */,
+				88E402D82F73D016002E2481 /* Contents.json in Resources */,
+				88E402DE2F73D064002E2481 /* Products.storekit in Resources */,
+				88E402DF2F73D064002E2481 /* abbreviations.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,10 +518,23 @@
 				A1234567890123456789028A /* YarnBallMascotView.swift in Sources */,
 				A1234567890123456789029A /* FloatingConfettiView.swift in Sources */,
 				A1234567890123456789030B /* StruggleView.swift in Sources */,
+				88E402C12F73CC76002E2481 /* FeedbackController.swift in Sources */,
+				88E402C22F73CC76002E2481 /* MotionAnalyzer.swift in Sources */,
+				88E402C32F73CC76002E2481 /* AICoachProService.swift in Sources */,
+				88E402C42F73CC76002E2481 /* PatternDetectionService.swift in Sources */,
+				88E402C52F73CC76002E2481 /* AchievementService.swift in Sources */,
+				88E402C62F73CC76002E2481 /* AnalyticsService.swift in Sources */,
+				88E402C72F73CC76002E2481 /* PatternStorageService.swift in Sources */,
+				88E402C82F73CC76002E2481 /* RowCountingService.swift in Sources */,
+				88E402C92F73CC76002E2481 /* StitchBotService.swift in Sources */,
+				88E402CA2F73CC76002E2481 /* SubscriptionManager.swift in Sources */,
+				88E402CB2F73CC76002E2481 /* VoiceCommandManager.swift in Sources */,
+				88E402CC2F73CC76002E2481 /* OpticalFlowDetector.swift in Sources */,
 				A1234567890123456789031B /* StatsProblemView.swift in Sources */,
 				A1234567890123456789032B /* HabitFrequencyView.swift in Sources */,
 				A1234567890123456789033B /* GoalSettingView.swift in Sources */,
 				A1234567890123456789034B /* StatsSolutionView.swift in Sources */,
+				88E4029E2F73CA95002E2481 /* PaywallView.swift in Sources */,
 				A1234567890123456789035B /* LoadingView.swift in Sources */,
 				A1234567890123456789036B /* ResultView.swift in Sources */,
 				A1234567890123456789037B /* CameraPermissionsView.swift in Sources */,
@@ -391,6 +545,8 @@
 				A1234567890123456789042B /* PermissionsView.swift in Sources */,
 				A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */,
 				A1234567890123456789044B /* SubscriptionView.swift in Sources */,
+				88E402E42F73D075002E2481 /* CoreDataManager.swift in Sources */,
+				88E402E52F73D075002E2481 /* Entities.swift in Sources */,
 				A1234567890123456789045B /* WorkModeView.swift in Sources */,
 				A1234567890123456789046B /* SessionSummaryView.swift in Sources */,
 				A1234567890123456789047B /* ProjectDetailView.swift in Sources */,
@@ -407,9 +563,23 @@
 				A1234567890123456789058B /* AuthenticationView.swift in Sources */,
 				A1234567890123456789059B /* FreeVsProComparisonView.swift in Sources */,
 				A1234567890123456789060B /* UpgradePrompts.swift in Sources */,
+				88E402922F73CA5D002E2481 /* AbbreviationGlossaryView.swift in Sources */,
+				88E402932F73CA5D002E2481 /* PatternImportView.swift in Sources */,
+				88E402942F73CA5D002E2481 /* AnalyticsView.swift in Sources */,
+				88E402952F73CA5D002E2481 /* PatternLibraryView.swift in Sources */,
+				88E402962F73CA5D002E2481 /* StitchBotChatView.swift in Sources */,
 				A1234567890123456789061B /* StitchDoctorDiagnosisView.swift in Sources */,
+				88E402A72F73CAF7002E2481 /* PatternProgressOverlay.swift in Sources */,
+				88E402A82F73CAF7002E2481 /* ProBadgeView.swift in Sources */,
 				A1234567890123456789062B /* LoadingScreenView.swift in Sources */,
+				88E402A22F73CAB6002E2481 /* KnittingPattern.swift in Sources */,
+				88E402A32F73CAB6002E2481 /* RowSegment.swift in Sources */,
+				88E402A42F73CAB6002E2481 /* Subscription.swift in Sources */,
+				88E4029A2F73CA73002E2481 /* ValuePropCarouselView.swift in Sources */,
+				88E4029B2F73CA73002E2481 /* PatternLibraryPreviewView.swift in Sources */,
+				88E4029C2F73CA73002E2481 /* ProGateView.swift in Sources */,
 				A1234567890123456789064B /* CameraManager.swift in Sources */,
+				88E402D32F73CECF002E2481 /* ChartComponents.swift in Sources */,
 				A1234567890123456789065B /* CameraPreviewView.swift in Sources */,
 				A1234567890123456789069B /* GeminiVisionService.swift in Sources */,
 				A1234567890123456789070B /* GeminiSettingsView.swift in Sources */,
@@ -550,6 +720,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StitchVision/Preview Content\"";
+				DEVELOPMENT_TEAM = 83UL5VTX5D;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = StitchVision/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -578,6 +749,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"StitchVision/Preview Content\"";
+				DEVELOPMENT_TEAM = 83UL5VTX5D;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = StitchVision/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
