@@ -21,6 +21,7 @@ class WorkModeCameraDelegate: NSObject, CameraManagerDelegate {
 
 struct WorkModeView: View {
     @EnvironmentObject var appState: AppState
+    @EnvironmentObject var projectStore: ProjectStore
     @StateObject private var cameraPermissionManager = CameraPermissionManager.shared
     @StateObject private var cameraManager = CameraManager()
     @StateObject private var rowCountingService = RowCountingService()
@@ -37,6 +38,7 @@ struct WorkModeView: View {
     @State private var showSettings = false
     @State private var showApiKeyAlert = false
     @State private var showVoicePermissionAlert = false
+    @State private var showNoProjectAlert = false
     @State private var selectedPattern: KnittingPattern?
     @State private var showPatternLibrary = false
     @State private var showPaywall = false
@@ -347,6 +349,11 @@ struct WorkModeView: View {
             }
         }
         .onAppear {
+            // Require an active project before starting Work Mode
+            guard projectStore.getActiveProject() != nil else {
+                showNoProjectAlert = true
+                return
+            }
             cameraPermissionManager.checkPermissionStatus()
             if cameraPermissionManager.isPermissionGranted {
                 setupCamera()
@@ -404,6 +411,13 @@ struct WorkModeView: View {
             Button("Skip", role: .cancel) { }
         } message: {
             Text("Enable voice commands for hands-free row counting? Say things like \"row done\" or \"undo\".")
+        }
+        .alert("No Active Project", isPresented: $showNoProjectAlert) {
+            Button("OK") {
+                appState.navigateTo(.dashboard)
+            }
+        } message: {
+            Text("You don't have an active project selected. Please select or create a project before starting a session.")
         }
         .sheet(isPresented: $showPatternLibrary) {
             PatternLibraryView(onPatternSelected: { pattern in
@@ -503,12 +517,21 @@ struct WorkModeView: View {
     }
     
     private func handleExit() {
+        guard let activeProjectId = projectStore.getActiveProject()?.id else {
+            // Stop services and show alert, then navigate back
+            cameraManager.stopSession()
+            voiceCommandManager.stopListening()
+            rowCountingService.stopCounting()
+            showNoProjectAlert = true
+            return
+        }
+        
         let timeSpent = Int(Date().timeIntervalSince(sessionStartTime) / 60)
         let rowsKnit = rowCountingService.rowCount - initialRowCount
 
         // Create and save session
         let session = SessionModel(
-            projectId: appState.currentProject?.id,
+            projectId: activeProjectId,
             rowsKnit: max(0, rowsKnit),
             timeSpent: timeSpent,
             startTime: ISO8601DateFormatter().string(from: sessionStartTime),
@@ -969,3 +992,4 @@ struct StitchDoctorDiagnosisViewSheet: View {
         }
     }
 }
+

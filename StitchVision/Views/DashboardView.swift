@@ -5,6 +5,9 @@ struct DashboardView: View {
     @EnvironmentObject var projectStore: ProjectStore
     @State private var timeOfDay = "Morning"
     @State private var showSettingsMenu = false
+    @State private var showProjectPicker = false
+    @State private var showActiveToast = false
+    @State private var activeToastText = ""
     
     var activeProject: ProjectModel? {
         projectStore.getActiveProject()
@@ -59,6 +62,53 @@ struct DashboardView: View {
                     .padding(.horizontal, 24)
                     .padding(.top, 48)
                     .padding(.bottom, 24)
+                    
+                    // Tip Banner when no active project
+                    if activeProject == nil {
+                        HStack(alignment: .center, spacing: 12) {
+                            Image(systemName: "lightbulb.fill")
+                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .font(.system(size: 16, weight: .semibold))
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Select or create a project to use Work Mode")
+                                    .font(.subheadline)
+                                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                Button(action: {
+                                    appState.navigateTo(.projectSetup)
+                                }) {
+                                    Text("Create Project")
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 6)
+                                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                        .cornerRadius(12)
+                                }
+                                if !projectStore.projects.isEmpty {
+                                    Button(action: {
+                                        showProjectPicker = true
+                                    }) {
+                                        Text("Select Active")
+                                            .font(.caption)
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 6)
+                                            .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+                                            .cornerRadius(12)
+                                    }
+                                }
+                            }
+                            Spacer()
+                        }
+                        .padding(16)
+                        .background(Color.white)
+                        .cornerRadius(16)
+                        .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 16)
+                    }
                     
                     // Active Project Card
                     if let project = activeProject {
@@ -146,6 +196,62 @@ struct DashboardView: View {
                     }
                     .padding(.top, 32)
                     .padding(.bottom, 100)
+                }
+            }
+            
+            // Toast overlay
+            if showActiveToast {
+                VStack {
+                    Spacer()
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.white)
+                        Text(activeToastText)
+                            .foregroundColor(.white)
+                            .font(.subheadline)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(Color.black.opacity(0.8))
+                    .cornerRadius(16)
+                    .padding(.bottom, 24)
+                }
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .animation(.easeInOut, value: showActiveToast)
+            }
+        }
+        .sheet(isPresented: $showProjectPicker) {
+            NavigationView {
+                List {
+                    ForEach(projectStore.projects, id: \.id) { project in
+                        Button(action: {
+                            projectStore.setActiveProject(project.id)
+                            activeToastText = "Active project set to \(project.name)"
+                            showActiveToast = true
+                            showProjectPicker = false
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                withAnimation(.easeInOut) {
+                                    showActiveToast = false
+                                }
+                            }
+                        }) {
+                            HStack {
+                                Text(project.name)
+                                Spacer()
+                                if project.id == projectStore.activeProjectId {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                }
+                            }
+                        }
+                    }
+                }
+                .navigationTitle("Select Active Project")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Close") { showProjectPicker = false }
+                    }
                 }
             }
         }
