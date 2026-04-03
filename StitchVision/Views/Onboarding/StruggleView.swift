@@ -3,6 +3,7 @@ import SwiftUI
 struct StruggleView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedStruggle: String?
+    @State private var animateElements = false
     
     let struggles = [
         ("losing-count", "Losing count", "Having to recount rows constantly"),
@@ -13,21 +14,20 @@ struct StruggleView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Progress bar
-            HStack {
-                Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .clipShape(RoundedRectangle(cornerRadius: 2))
-                    .animation(.easeOut(duration: 0.8), value: selectedStruggle)
-                
-                Rectangle()
-                    .fill(Color.white.opacity(0.5))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity)
+            // Progress bar (step 3 of ~10 = 30%)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.white.opacity(0.5))
+                        .frame(height: 4)
+                    Rectangle()
+                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .frame(width: animateElements ? geo.size.width * 0.3 : 0, height: 4)
+                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                        .animation(.easeOut(duration: 0.8), value: animateElements)
+                }
             }
-            .padding(.horizontal, 0)
+            .frame(height: 4)
             
             // Content
             VStack(spacing: 0) {
@@ -94,6 +94,9 @@ struct StruggleView: View {
         }
         .background(Color(red: 0.976, green: 0.969, blue: 0.949))
         .ignoresSafeArea()
+        .onAppear {
+            animateElements = true
+        }
     }
 }
 

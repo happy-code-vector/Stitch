@@ -13,22 +13,20 @@ struct SkillLevelView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Progress bar
-            HStack {
-                Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .clipShape(RoundedRectangle(cornerRadius: 2))
-                    .scaleEffect(x: 0.2, y: 1, anchor: .leading)
-                    .animation(.easeOut(duration: 0.8), value: animateElements)
-                
-                Rectangle()
-                    .fill(Color.white.opacity(0.5))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity)
+            // Progress bar (step 2 of ~10 = 20%)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.white.opacity(0.5))
+                        .frame(height: 4)
+                    Rectangle()
+                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .frame(width: animateElements ? geo.size.width * 0.2 : 0, height: 4)
+                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                        .animation(.easeOut(duration: 0.8), value: animateElements)
+                }
             }
-            .padding(.horizontal, 0)
+            .frame(height: 4)
             
             // Content
             VStack(spacing: 0) {
@@ -281,53 +279,30 @@ struct StarIcon: View {
     let color: Color
     
     var body: some View {
-        ZStack {
-            // Star shape
-            Path { path in
-                let center = CGPoint(x: 12, y: 12)
-                let outerRadius: CGFloat = 9
-                let innerRadius: CGFloat = 4.5
-                let points = 5
-                
-                for i in 0..<points * 2 {
-                    let angle = Double(i) * .pi / Double(points)
-                    let radius = i % 2 == 0 ? outerRadius : innerRadius
-                    let x = center.x + cos(angle - .pi / 2) * radius
-                    let y = center.y + sin(angle - .pi / 2) * radius
-                    
-                    if i == 0 {
-                        path.move(to: CGPoint(x: x, y: y))
-                    } else {
-                        path.addLine(to: CGPoint(x: x, y: y))
-                    }
-                }
-                path.closeSubpath()
-            }
+        StarShape()
             .fill(color.opacity(0.2))
-            .overlay(
-                Path { path in
-                    let center = CGPoint(x: 12, y: 12)
-                    let outerRadius: CGFloat = 9
-                    let innerRadius: CGFloat = 4.5
-                    let points = 5
-                    
-                    for i in 0..<points * 2 {
-                        let angle = Double(i) * .pi / Double(points)
-                        let radius = i % 2 == 0 ? outerRadius : innerRadius
-                        let x = center.x + cos(angle - .pi / 2) * radius
-                        let y = center.y + sin(angle - .pi / 2) * radius
-                        
-                        if i == 0 {
-                            path.move(to: CGPoint(x: x, y: y))
-                        } else {
-                            path.addLine(to: CGPoint(x: x, y: y))
-                        }
-                    }
-                    path.closeSubpath()
-                }
-                .stroke(color, lineWidth: 1.5)
-            )
+            .overlay(StarShape().stroke(color, lineWidth: 1.5))
+    }
+}
+
+private struct StarShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let center = CGPoint(x: rect.midX, y: rect.midY)
+        let outerRadius: CGFloat = min(rect.width, rect.height) * 0.46
+        let innerRadius: CGFloat = outerRadius * 0.5
+        let points = 5
+
+        for i in 0..<points * 2 {
+            let angle = Double(i) * .pi / Double(points) - .pi / 2
+            let radius: CGFloat = i % 2 == 0 ? outerRadius : innerRadius
+            let x = center.x + CGFloat(cos(angle)) * radius
+            let y = center.y + CGFloat(sin(angle)) * radius
+            if i == 0 { path.move(to: CGPoint(x: x, y: y)) }
+            else       { path.addLine(to: CGPoint(x: x, y: y)) }
         }
+        path.closeSubpath()
+        return path
     }
 }
 
