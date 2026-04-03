@@ -31,13 +31,16 @@ struct SessionSummaryView: View {
                 .ignoresSafeArea()
             
             // Background Sparkles
-            ForEach(Array(sparkles.enumerated()), id: \.offset) { index, sparkle in
-                SessionSparkleView(delay: sparkle.delay)
-                    .position(
-                        x: UIScreen.main.bounds.width * sparkle.x,
-                        y: UIScreen.main.bounds.height * sparkle.y
-                    )
+            GeometryReader { geo in
+                ForEach(Array(sparkles.enumerated()), id: \.offset) { index, sparkle in
+                    SessionSparkleView(delay: sparkle.delay)
+                        .position(
+                            x: geo.size.width * sparkle.x,
+                            y: geo.size.height * sparkle.y
+                        )
+                }
             }
+            .ignoresSafeArea()
             
             VStack(spacing: 32) {
                 Spacer()

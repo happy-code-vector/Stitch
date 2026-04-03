@@ -12,23 +12,26 @@ struct DownsellView: View {
                 .ignoresSafeArea()
             
             // Urgency background elements
-            Circle()
-                .fill(Color(red: 0.831, green: 0.502, blue: 0.435).opacity(0.1))
-                .frame(width: 128, height: 128)
-                .blur(radius: 30)
-                .position(x: UIScreen.main.bounds.width - 80, y: 120)
-                .scaleEffect(urgencyPulse ? 1.3 : 1.0)
-                .opacity(urgencyPulse ? 0.2 : 0.1)
-                .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: urgencyPulse)
-            
-            Circle()
-                .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
-                .frame(width: 160, height: 160)
-                .blur(radius: 40)
-                .position(x: 80, y: UIScreen.main.bounds.height - 160)
-                .scaleEffect(urgencyPulse ? 1.2 : 1.0)
-                .opacity(urgencyPulse ? 0.15 : 0.1)
-                .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true).delay(1), value: urgencyPulse)
+            GeometryReader { geo in
+                Circle()
+                    .fill(Color(red: 0.831, green: 0.502, blue: 0.435).opacity(0.1))
+                    .frame(width: 128, height: 128)
+                    .blur(radius: 30)
+                    .position(x: geo.size.width - 80, y: 120)
+                    .scaleEffect(urgencyPulse ? 1.3 : 1.0)
+                    .opacity(urgencyPulse ? 0.2 : 0.1)
+                    .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: urgencyPulse)
+                
+                Circle()
+                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                    .frame(width: 160, height: 160)
+                    .blur(radius: 40)
+                    .position(x: 80, y: geo.size.height - 160)
+                    .scaleEffect(urgencyPulse ? 1.2 : 1.0)
+                    .opacity(urgencyPulse ? 0.15 : 0.1)
+                    .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true).delay(1), value: urgencyPulse)
+            }
+            .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Progress bar
@@ -251,132 +254,23 @@ struct DownsellView: View {
 struct ExcitedMascotWithTagView: View {
     @State private var tagFloat = false
     @State private var sparkleAnimation = false
-    
+
+    private let sparkleOffsets: [(CGFloat, CGFloat)] = [(0.25, -0.50), (0.50, -0.25), (0.56, -0.44)]
+
     var body: some View {
         ZStack {
             GeometryReader { geo in
                 let size = min(geo.size.width, geo.size.height)
-                let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
+                let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
 
                 ZStack {
-                    // Main yarn ball body with excited expression
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    Color(red: 0.66, green: 0.76, blue: 0.63),
-                                    Color(red: 0.561, green: 0.659, blue: 0.533)
-                                ],
-                                center: .topLeading,
-                                startRadius: size * 0.18,
-                                endRadius: size * 0.5
-                            )
-                        )
-                        .frame(width: size * 0.8, height: size * 0.8)
-                        .position(center)
-                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-
-                    // Yarn texture lines
-                    ForEach(0..<6, id: \.self) { index in
-                        Path { path in
-                            let angle = Double(index) * 30 * .pi / 180
-                            let radius: CGFloat = size * 0.32
-                            let start = CGPoint(
-                                x: center.x + cos(angle) * radius * 0.3,
-                                y: center.y + sin(angle) * radius * 0.3
-                            )
-                            let end = CGPoint(
-                                x: center.x + cos(angle) * radius * 0.7,
-                                y: center.y + sin(angle) * radius * 0.7
-                            )
-                            path.move(to: start)
-                            path.addLine(to: end)
-                        }
-                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                        .opacity(0.6)
-                    }
-
-                    // Excited eyes
-                    Group {
-                        let eyeOffsetY = size * 0.08
-                        let eyeSpacing = size * 0.12
-                        Circle().fill(Color.black).frame(width: size * 0.04, height: size * 0.04)
-                            .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
-                        Circle().fill(Color.black).frame(width: size * 0.04, height: size * 0.04)
-                            .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
-                    }
-
-                    // Big excited smile
-                    Path { path in
-                        path.move(to: CGPoint(x: center.x - size * 0.18, y: center.y + size * 0.12))
-                        path.addQuadCurve(
-                            to: CGPoint(x: center.x + size * 0.18, y: center.y + size * 0.12),
-                            control: CGPoint(x: center.x, y: center.y + size * 0.22)
-                        )
-                    }
-                    .stroke(Color.black, lineWidth: 2.5)
-
-                    // 50% OFF tag (top-right of face)
-                    VStack(spacing: 4) {
-                        Text("50%")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        Text("OFF")
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-                    .background(
-                        LinearGradient(
-                            colors: [
-                                Color(red: 0.91, green: 0.61, blue: 0.55),
-                                Color(red: 0.831, green: 0.502, blue: 0.435),
-                                Color(red: 0.78, green: 0.46, blue: 0.40)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .cornerRadius(16)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16)
-                            .stroke(Color.white, lineWidth: 4)
-                    )
-                    .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-                    .position(x: center.x + size * 0.35, y: center.y - size * 0.35)
-                    .offset(y: tagFloat ? -size * 0.03 : size * 0.03)
-                    .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: tagFloat)
-                    .overlay(
-                        // Tag hole
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: size * 0.09, height: size * 0.09)
-                            .overlay(
-                                Circle().stroke(Color(red: 0.78, green: 0.46, blue: 0.40), lineWidth: 2)
-                            )
-                            .position(x: center.x + size * 0.58, y: center.y - size * 0.47)
-                            .rotationEffect(.degrees(6))
-                    )
-
-                    // Sparkles around tag
-                    ForEach(0..<3, id: \.self) { index in
-                        let positions: [(CGFloat, CGFloat)] = [(0.25, -0.50), (0.50, -0.25), (0.56, -0.44)]
-                        let p = positions[index]
-                        Text("✨")
-                            .font(.caption)
-                            .position(x: center.x + size * p.0, y: center.y + size * p.1)
-                            .scaleEffect(sparkleAnimation ? 1.2 : 0.8)
-                            .opacity(sparkleAnimation ? 1.0 : 0.6)
-                            .animation(
-                                .easeInOut(duration: 1.5)
-                                .repeatForever(autoreverses: true)
-                                .delay(Double(index) * 0.3),
-                                value: sparkleAnimation
-                            )
-                    }
+                    yarnBall(size: size, center: center)
+                    yarnLines(size: size, center: center)
+                    eyes(size: size, center: center)
+                    smile(size: size, center: center)
+                    discountTag(size: size, center: center)
+                    tagHole(size: size, center: center)
+                    sparkles(size: size, center: center)
                 }
             }
         }
@@ -384,6 +278,140 @@ struct ExcitedMascotWithTagView: View {
         .onAppear {
             tagFloat = true
             sparkleAnimation = true
+        }
+    }
+
+    // MARK: - Sub-views
+
+    private func yarnBall(size: CGFloat, center: CGPoint) -> some View {
+        Circle()
+            .fill(
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.66, green: 0.76, blue: 0.63),
+                        Color(red: 0.561, green: 0.659, blue: 0.533)
+                    ],
+                    center: .topLeading,
+                    startRadius: size * 0.18,
+                    endRadius: size * 0.5
+                )
+            )
+            .frame(width: size * 0.8, height: size * 0.8)
+            .position(center)
+            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+    }
+
+    private func yarnLines(size: CGFloat, center: CGPoint) -> some View {
+        ForEach(0..<6, id: \.self) { index in
+            self.yarnLine(index: index, size: size, center: center)
+        }
+    }
+
+    private func yarnLine(index: Int, size: CGFloat, center: CGPoint) -> some View {
+        let angle: Double = Double(index) * 30.0 * .pi / 180.0
+        let radius: CGFloat = size * 0.32
+        let cosAngle: CGFloat = CGFloat(cos(angle))
+        let sinAngle: CGFloat = CGFloat(sin(angle))
+        let startX: CGFloat = center.x + cosAngle * radius * 0.3
+        let startY: CGFloat = center.y + sinAngle * radius * 0.3
+        let endX: CGFloat = center.x + cosAngle * radius * 0.7
+        let endY: CGFloat = center.y + sinAngle * radius * 0.7
+        let start = CGPoint(x: startX, y: startY)
+        let end = CGPoint(x: endX, y: endY)
+        return Path { path in
+            path.move(to: start)
+            path.addLine(to: end)
+        }
+        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+        .opacity(0.6)
+    }
+
+    private func eyes(size: CGFloat, center: CGPoint) -> some View {
+        let eyeOffsetY = size * 0.08
+        let eyeSpacing = size * 0.12
+        return Group {
+            Circle()
+                .fill(Color.black)
+                .frame(width: size * 0.04, height: size * 0.04)
+                .position(x: center.x - eyeSpacing / 2, y: center.y - eyeOffsetY)
+            Circle()
+                .fill(Color.black)
+                .frame(width: size * 0.04, height: size * 0.04)
+                .position(x: center.x + eyeSpacing / 2, y: center.y - eyeOffsetY)
+        }
+    }
+
+    private func smile(size: CGFloat, center: CGPoint) -> some View {
+        Path { path in
+            path.move(to: CGPoint(x: center.x - size * 0.18, y: center.y + size * 0.12))
+            path.addQuadCurve(
+                to: CGPoint(x: center.x + size * 0.18, y: center.y + size * 0.12),
+                control: CGPoint(x: center.x, y: center.y + size * 0.22)
+            )
+        }
+        .stroke(Color.black, lineWidth: 2.5)
+    }
+
+    private func discountTag(size: CGFloat, center: CGPoint) -> some View {
+        VStack(spacing: 4) {
+            Text("50%")
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+            Text("OFF")
+                .font(.headline)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(
+            LinearGradient(
+                colors: [
+                    Color(red: 0.91, green: 0.61, blue: 0.55),
+                    Color(red: 0.831, green: 0.502, blue: 0.435),
+                    Color(red: 0.78, green: 0.46, blue: 0.40)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        )
+        .cornerRadius(16)
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color.white, lineWidth: 4)
+        )
+        .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+        .position(x: center.x + size * 0.35, y: center.y - size * 0.35)
+        .offset(y: tagFloat ? -size * 0.03 : size * 0.03)
+        .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: tagFloat)
+    }
+
+    private func tagHole(size: CGFloat, center: CGPoint) -> some View {
+        Circle()
+            .fill(Color.white)
+            .frame(width: size * 0.09, height: size * 0.09)
+            .overlay(
+                Circle().stroke(Color(red: 0.78, green: 0.46, blue: 0.40), lineWidth: 2)
+            )
+            .position(x: center.x + size * 0.58, y: center.y - size * 0.47)
+            .rotationEffect(.degrees(6))
+    }
+
+    private func sparkles(size: CGFloat, center: CGPoint) -> some View {
+        ForEach(0..<3, id: \.self) { index in
+            let p = sparkleOffsets[index]
+            Text("✨")
+                .font(.caption)
+                .position(x: center.x + size * p.0, y: center.y + size * p.1)
+                .scaleEffect(sparkleAnimation ? 1.2 : 0.8)
+                .opacity(sparkleAnimation ? 1.0 : 0.6)
+                .animation(
+                    .easeInOut(duration: 1.5)
+                    .repeatForever(autoreverses: true)
+                    .delay(Double(index) * 0.3),
+                    value: sparkleAnimation
+                )
         }
     }
 }

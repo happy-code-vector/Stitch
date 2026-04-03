@@ -233,85 +233,101 @@ private struct MascotBallView: View {
     var body: some View {
         GeometryReader { geo in
             let size = ballSize
-            let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
-
-            ZStack {
-                Circle()
-                    .fill(
-                        RadialGradient(
-                            colors: [
-                                Color(red: 0.66, green: 0.76, blue: 0.63),
-                                Color(red: 0.561, green: 0.659, blue: 0.533)
-                            ],
-                            center: .topLeading,
-                            startRadius: size * 0.23,
-                            endRadius: size * 0.46
-                        )
-                    )
-                    .frame(width: size, height: size)
-                    .position(center)
-                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-
-                YarnTextureLines(ballSize: ballSize)
-
-                // Eyes - compact and centered
-                HStack(spacing: size * 0.12) {
-                    Circle()
-                        .fill(Color.black)
-                        .frame(width: size * 0.08, height: size * 0.08)
-                    Circle()
-                        .fill(Color.black)
-                        .frame(width: size * 0.08, height: size * 0.08)
-                }
-                .position(x: center.x, y: center.y - size * 0.04)
-
-                // Eyebrows - very close to eyes
-                HStack(spacing: size * 0.12) {
-                    Path { path in
-                        path.move(to: CGPoint(x: -size * 0.04, y: 0))
-                        path.addQuadCurve(
-                            to: CGPoint(x: size * 0.04, y: 0),
-                            control: CGPoint(x: 0, y: -size * 0.015)
-                        )
-                    }
-                    .stroke(Color.black, lineWidth: 1.5)
-                    .frame(width: size * 0.08, height: size * 0.03)
-                    
-                    Path { path in
-                        path.move(to: CGPoint(x: -size * 0.04, y: 0))
-                        path.addQuadCurve(
-                            to: CGPoint(x: size * 0.04, y: 0),
-                            control: CGPoint(x: 0, y: -size * 0.015)
-                        )
-                    }
-                    .stroke(Color.black, lineWidth: 1.5)
-                    .frame(width: size * 0.08, height: size * 0.03)
-                }
-                .position(x: center.x, y: center.y - size * 0.09)
-
-                // Smile - very close to eyes
-                Path { path in
-                    path.move(to: CGPoint(x: center.x - size * 0.08, y: center.y + size * 0.02))
-                    path.addQuadCurve(
-                        to: CGPoint(x: center.x + size * 0.08, y: center.y + size * 0.02),
-                        control: CGPoint(x: center.x, y: center.y + size * 0.06)
-                    )
-                }
-                .stroke(Color.black, lineWidth: 2)
-
-                // Arms holding folder
-                Ellipse()
-                    .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
-                    .frame(width: size * 0.16, height: size * 0.11)
-                    .position(x: center.x - size * 0.35, y: center.y + size * 0.02)
-
-                Ellipse()
-                    .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
-                    .frame(width: size * 0.16, height: size * 0.11)
-                    .position(x: center.x + size * 0.35, y: center.y + size * 0.02)
-            }
+            let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
+            MascotBallContent(size: size, center: center)
         }
         .frame(width: ballSize, height: ballSize)
+    }
+}
+
+private struct MascotBallContent: View {
+    let size: CGFloat
+    let center: CGPoint
+
+    var body: some View {
+        ZStack {
+            ballBody
+            YarnTextureLines(ballSize: size)
+            eyes
+            eyebrows
+            smile
+            arms
+        }
+    }
+
+    private var ballBody: some View {
+        Circle()
+            .fill(
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.66, green: 0.76, blue: 0.63),
+                        Color(red: 0.561, green: 0.659, blue: 0.533)
+                    ],
+                    center: .topLeading,
+                    startRadius: size * 0.23,
+                    endRadius: size * 0.46
+                )
+            )
+            .frame(width: size, height: size)
+            .position(center)
+            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+    }
+
+    private var eyes: some View {
+        HStack(spacing: size * 0.12) {
+            Circle()
+                .fill(Color.black)
+                .frame(width: size * 0.08, height: size * 0.08)
+            Circle()
+                .fill(Color.black)
+                .frame(width: size * 0.08, height: size * 0.08)
+        }
+        .position(x: center.x, y: center.y - size * 0.04)
+    }
+
+    private var eyebrows: some View {
+        HStack(spacing: size * 0.12) {
+            eyebrowPath
+            eyebrowPath
+        }
+        .position(x: center.x, y: center.y - size * 0.09)
+    }
+
+    private var eyebrowPath: some View {
+        Path { path in
+            path.move(to: CGPoint(x: -size * 0.04, y: 0))
+            path.addQuadCurve(
+                to: CGPoint(x: size * 0.04, y: 0),
+                control: CGPoint(x: 0, y: -size * 0.015)
+            )
+        }
+        .stroke(Color.black, lineWidth: 1.5)
+        .frame(width: size * 0.08, height: size * 0.03)
+    }
+
+    private var smile: some View {
+        Path { path in
+            path.move(to: CGPoint(x: center.x - size * 0.08, y: center.y + size * 0.02))
+            path.addQuadCurve(
+                to: CGPoint(x: center.x + size * 0.08, y: center.y + size * 0.02),
+                control: CGPoint(x: center.x, y: center.y + size * 0.06)
+            )
+        }
+        .stroke(Color.black, lineWidth: 2)
+    }
+
+    private var arms: some View {
+        let armColor = Color(red: 0.62, green: 0.72, blue: 0.59)
+        return Group {
+            Ellipse()
+                .fill(armColor)
+                .frame(width: size * 0.16, height: size * 0.11)
+                .position(x: center.x - size * 0.35, y: center.y + size * 0.02)
+            Ellipse()
+                .fill(armColor)
+                .frame(width: size * 0.16, height: size * 0.11)
+                .position(x: center.x + size * 0.35, y: center.y + size * 0.02)
+        }
     }
 }
 
@@ -320,27 +336,28 @@ private struct YarnTextureLines: View {
 
     var body: some View {
         GeometryReader { geo in
-            let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
-            
+            let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
             ForEach(0..<5, id: \.self) { index in
-                Path { path in
-                    let angle = Double(index) * 36 * .pi / 180
-                    let radius: CGFloat = ballSize * 0.40
-                    let start = CGPoint(
-                        x: center.x + cos(angle) * radius * 0.3,
-                        y: center.y + sin(angle) * radius * 0.3
-                    )
-                    let end = CGPoint(
-                        x: center.x + cos(angle) * radius * 0.7,
-                        y: center.y + sin(angle) * radius * 0.7
-                    )
-                    path.move(to: start)
-                    path.addLine(to: end)
-                }
-                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                .opacity(0.6)
+                self.textureLine(index: index, center: center)
             }
         }
+    }
+
+    private func textureLine(index: Int, center: CGPoint) -> some View {
+        let angle: Double = Double(index) * 36.0 * .pi / 180.0
+        let radius: CGFloat = ballSize * 0.40
+        let cosA: CGFloat = CGFloat(cos(angle))
+        let sinA: CGFloat = CGFloat(sin(angle))
+        let startX: CGFloat = center.x + cosA * radius * 0.3
+        let startY: CGFloat = center.y + sinA * radius * 0.3
+        let endX: CGFloat   = center.x + cosA * radius * 0.7
+        let endY: CGFloat   = center.y + sinA * radius * 0.7
+        return Path { path in
+            path.move(to: CGPoint(x: startX, y: startY))
+            path.addLine(to: CGPoint(x: endX, y: endY))
+        }
+        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+        .opacity(0.6)
     }
 }
 

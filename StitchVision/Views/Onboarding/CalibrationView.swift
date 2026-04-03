@@ -378,143 +378,153 @@ struct PeekingMascotView: View {
     
     var body: some View {
         ZStack {
-            // Mascot peeking over
-            VStack {
-                Spacer()
-                
-                ZStack {
-                    // Top of yarn ball
-                    Ellipse()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    Color(red: 0.66, green: 0.76, blue: 0.63),
-                                    Color(red: 0.561, green: 0.659, blue: 0.533)
-                                ],
-                                center: .topLeading,
-                                startRadius: 15,
-                                endRadius: 35
-                            )
-                        )
-                        .frame(width: 70, height: 60)
-                        .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
-                    
-                    // Yarn texture lines on visible part
-                    GeometryReader { geometry in
-                        ForEach(0..<3, id: \.self) { index in
-                            Path { path in
-                                let y = CGFloat(index + 2) * 12
-                                let centerX = geometry.size.width / 2
-                                path.move(to: CGPoint(x: centerX - 25, y: y))
-                                path.addQuadCurve(to: CGPoint(x: centerX + 25, y: y), control: CGPoint(x: centerX, y: y - 2))
-                            }
-                            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                            .opacity(0.6)
-                        }
-                    }
-                    
-                    // Curious eyes looking down
-                    HStack(spacing: 10) {
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: 4, height: 4)
-                        
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: 4, height: 4)
-                    }
-                    .offset(y: -5)
-                    
-                    // Small curious smile
-                    GeometryReader { geometry in
-                        Path { path in
-                            let centerX = geometry.size.width / 2
-                            path.move(to: CGPoint(x: centerX - 8, y: 50))
-                            path.addQuadCurve(to: CGPoint(x: centerX + 8, y: 50), control: CGPoint(x: centerX, y: 54))
-                        }
-                        .stroke(Color.black, lineWidth: 2)
-                    }
-                    
-                    // Highlight for 3D effect
-                    Ellipse()
-                        .fill(Color.white.opacity(0.3))
-                        .frame(width: 24, height: 16)
-                        .offset(x: -8, y: -12)
-                    
-                    // Little hands/nubs gripping the edge
-                    HStack(spacing: 50) {
-                        Ellipse()
-                            .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
-                            .frame(width: 16, height: 12)
-                            .offset(y: 25)
-                        
-                        Ellipse()
-                            .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
-                            .frame(width: 16, height: 12)
-                            .offset(y: 25)
-                    }
-                }
-                .offset(y: floatAnimation ? -2 : 2)
-                .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: floatAnimation)
-            }
-            .frame(height: 80)
-            
-            // Speech Bubble
+            peekingBall
             if speechBubbleVisible {
-                VStack {
-                    HStack {
-                        Spacer()
-                        
-                        VStack(spacing: 8) {
-                            Text("Place your knitting here!")
-                                .font(.caption)
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 8)
-                                .background(Color.white)
-                                .cornerRadius(16)
-                                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
-                                .overlay(
-                                    // Speech bubble tail
-                                    VStack {
-                                        Spacer()
-                                        
-                                        HStack {
-                                            Spacer()
-                                            
-                                            Path { path in
-                                                path.move(to: CGPoint(x: 0, y: 0))
-                                                path.addLine(to: CGPoint(x: -8, y: 8))
-                                                path.addLine(to: CGPoint(x: 8, y: 8))
-                                                path.closeSubpath()
-                                            }
-                                            .fill(Color.white)
-                                            .frame(width: 16, height: 8)
-                                            .offset(x: -20, y: 4)
-                                            
-                                            Spacer()
-                                        }
-                                    }
-                                )
-                            
-                            Spacer()
-                        }
-                        .offset(x: -60, y: -40)
-                    }
-                    
-                    Spacer()
-                }
-                .opacity(speechBubbleVisible ? 1.0 : 0.0)
-                .scaleEffect(speechBubbleVisible ? 1.0 : 0.8)
-                .animation(.spring(response: 0.5, dampingFraction: 0.6), value: speechBubbleVisible)
+                speechBubble
             }
         }
         .onAppear {
             floatAnimation = true
-            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 speechBubbleVisible = true
             }
         }
     }
+
+    // MARK: - Sub-views
+
+    private var peekingBall: some View {
+        VStack {
+            Spacer()
+            ZStack {
+                ballEllipse
+                PeekingYarnLines()
+                peekingEyes
+                peekingSmile
+                ballHighlight
+                ballHands
+            }
+            .offset(y: floatAnimation ? -2 : 2)
+            .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: floatAnimation)
+        }
+        .frame(height: 80)
+    }
+
+    private var ballEllipse: some View {
+        Ellipse()
+            .fill(
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.66, green: 0.76, blue: 0.63),
+                        Color(red: 0.561, green: 0.659, blue: 0.533)
+                    ],
+                    center: .topLeading,
+                    startRadius: 15,
+                    endRadius: 35
+                )
+            )
+            .frame(width: 70, height: 60)
+            .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+    }
+
+    private var peekingEyes: some View {
+        HStack(spacing: 10) {
+            Circle().fill(Color.black).frame(width: 4, height: 4)
+            Circle().fill(Color.black).frame(width: 4, height: 4)
+        }
+        .offset(y: -5)
+    }
+
+    private var peekingSmile: some View {
+        GeometryReader { geometry in
+            Path { path in
+                let centerX = geometry.size.width / 2
+                path.move(to: CGPoint(x: centerX - 8, y: 50))
+                path.addQuadCurve(to: CGPoint(x: centerX + 8, y: 50), control: CGPoint(x: centerX, y: 54))
+            }
+            .stroke(Color.black, lineWidth: 2)
+        }
+    }
+
+    private var ballHighlight: some View {
+        Ellipse()
+            .fill(Color.white.opacity(0.3))
+            .frame(width: 24, height: 16)
+            .offset(x: -8, y: -12)
+    }
+
+    private var ballHands: some View {
+        HStack(spacing: 50) {
+            Ellipse()
+                .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
+                .frame(width: 16, height: 12)
+                .offset(y: 25)
+            Ellipse()
+                .fill(Color(red: 0.62, green: 0.72, blue: 0.59))
+                .frame(width: 16, height: 12)
+                .offset(y: 25)
+        }
+    }
+
+    private var speechBubble: some View {
+        VStack {
+            HStack {
+                Spacer()
+                speechBubbleContent
+                    .offset(x: -60, y: -40)
+            }
+            Spacer()
+        }
+        .opacity(speechBubbleVisible ? 1.0 : 0.0)
+        .scaleEffect(speechBubbleVisible ? 1.0 : 0.8)
+        .animation(.spring(response: 0.5, dampingFraction: 0.6), value: speechBubbleVisible)
+    }
+
+    private var speechBubbleContent: some View {
+        VStack(spacing: 8) {
+            Text("Place your knitting here!")
+                .font(.caption)
+                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(Color.white)
+                .cornerRadius(16)
+                .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
+                .overlay(speechBubbleTail, alignment: .bottom)
+            Spacer()
+        }
+    }
+
+    private var speechBubbleTail: some View {
+        HStack {
+            Spacer()
+            Path { path in
+                path.move(to: CGPoint(x: 0, y: 0))
+                path.addLine(to: CGPoint(x: -8, y: 8))
+                path.addLine(to: CGPoint(x: 8, y: 8))
+                path.closeSubpath()
+            }
+            .fill(Color.white)
+            .frame(width: 16, height: 8)
+            .offset(x: -20, y: 4)
+            Spacer()
+        }
+    }
 }
+private struct PeekingYarnLines: View {
+    var body: some View {
+        GeometryReader { geometry in
+            ForEach(0..<3, id: \.self) { index in
+                Path { path in
+                    let y = CGFloat(index + 2) * 12
+                    let centerX = geometry.size.width / 2
+                    path.move(to: CGPoint(x: centerX - 25, y: y))
+                    path.addQuadCurve(to: CGPoint(x: centerX + 25, y: y), control: CGPoint(x: centerX, y: y - 2))
+                }
+                .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+                .opacity(0.6)
+            }
+        }
+    }
+}
+

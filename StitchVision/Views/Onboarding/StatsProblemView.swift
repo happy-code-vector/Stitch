@@ -191,119 +191,144 @@ struct EmpathyMascotView: View {
         ZStack {
             GeometryReader { geo in
                 let size = min(geo.size.width, geo.size.height)
-                let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
-
-                ZStack {
-                    // Main yarn ball body with empathetic expression
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    Color(red: 0.66, green: 0.76, blue: 0.63),
-                                    Color(red: 0.561, green: 0.659, blue: 0.533)
-                                ],
-                                center: .topLeading,
-                                startRadius: size * 0.18,
-                                endRadius: size * 0.55
-                            )
-                        )
-                        .frame(width: size * 0.75, height: size * 0.75)
-                        .position(center)
-                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-
-                    // Yarn texture lines
-                    ForEach(0..<6, id: \.self) { index in
-                        Path { path in
-                            let angle = Double(index) * 30 * .pi / 180
-                            let radius: CGFloat = size * 0.31
-                            let start = CGPoint(
-                                x: center.x + cos(angle) * radius * 0.3,
-                                y: center.y + sin(angle) * radius * 0.3
-                            )
-                            let end = CGPoint(
-                                x: center.x + cos(angle) * radius * 0.7,
-                                y: center.y + sin(angle) * radius * 0.7
-                            )
-                            path.move(to: start)
-                            path.addLine(to: end)
-                        }
-                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                        .opacity(0.6)
-                    }
-
-                    // Concerned/empathetic eyes
-                    HStack(spacing: size * 0.09) {
-                        Circle().fill(Color.black).frame(width: size * 0.035, height: size * 0.035)
-                        Circle().fill(Color.black).frame(width: size * 0.035, height: size * 0.035)
-                    }
-                    .position(x: center.x, y: center.y - size * 0.06)
-
-                    // Eyebrows directly above each eye
-                    Group {
-                        // Compute eye centers
-                        let eyeOffsetY = size * 0.06
-                        let eyeSpacing = size * 0.09
-                        let leftEyeCenter = CGPoint(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
-                        let rightEyeCenter = CGPoint(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
-
-                        // Left eyebrow above left eye
-                        Path { path in
-                            let start = CGPoint(x: leftEyeCenter.x - size * 0.05, y: leftEyeCenter.y - size * 0.06)
-                            let end = CGPoint(x: leftEyeCenter.x + size * 0.05, y: leftEyeCenter.y - size * 0.06)
-                            let control = CGPoint(x: leftEyeCenter.x, y: leftEyeCenter.y - size * 0.09)
-                            path.move(to: start)
-                            path.addQuadCurve(to: end, control: control)
-                        }
-                        .stroke(Color.black, lineWidth: 1.5)
-
-                        // Right eyebrow above right eye
-                        Path { path in
-                            let start = CGPoint(x: rightEyeCenter.x - size * 0.05, y: rightEyeCenter.y - size * 0.06)
-                            let end = CGPoint(x: rightEyeCenter.x + size * 0.05, y: rightEyeCenter.y - size * 0.06)
-                            let control = CGPoint(x: rightEyeCenter.x, y: rightEyeCenter.y - size * 0.09)
-                            path.move(to: start)
-                            path.addQuadCurve(to: end, control: control)
-                        }
-                        .stroke(Color.black, lineWidth: 1.5)
-                    }
-
-                    // Empathetic slight frown
-                    Path { path in
-                        path.move(to: CGPoint(x: center.x - size * 0.15, y: center.y + size * 0.12))
-                        path.addQuadCurve(
-                            to: CGPoint(x: center.x + size * 0.15, y: center.y + size * 0.12),
-                            control: CGPoint(x: center.x, y: center.y + size * 0.09)
-                        )
-                    }
-                    .stroke(Color.black, lineWidth: 1.5)
-
-                    // Rosy cheeks
-                    HStack(spacing: size * 0.18) {
-                        Ellipse()
-                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                            .frame(width: size * 0.09, height: size * 0.06)
-                            .opacity(0.3)
-                        Ellipse()
-                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                            .frame(width: size * 0.09, height: size * 0.06)
-                            .opacity(0.3)
-                    }
-                    .position(x: center.x, y: center.y + size * 0.03)
-
-                    // Small floating heart
-                    Text("💚")
-                        .font(.title3)
-                        .position(x: center.x, y: center.y - size * 0.46)
-                        .scaleEffect(heartBeat ? 1.2 : 1.0)
-                        .opacity(heartBeat ? 0.8 : 0.6)
-                        .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: heartBeat)
-                }
+                let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
+                MascotContentView(size: size, center: center, heartBeat: heartBeat)
             }
         }
         .frame(width: 140, height: 140)
         .onAppear {
             heartBeat = true
         }
+    }
+}
+
+private struct MascotContentView: View {
+    let size: CGFloat
+    let center: CGPoint
+    let heartBeat: Bool
+
+    var body: some View {
+        ZStack {
+            yarnBallBody
+            yarnTextureLines
+            eyes
+            eyebrows
+            frown
+            rosyChecks
+            floatingHeart
+        }
+    }
+
+    // MARK: - Sub-views
+
+    private var yarnBallBody: some View {
+        Circle()
+            .fill(
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.66, green: 0.76, blue: 0.63),
+                        Color(red: 0.561, green: 0.659, blue: 0.533)
+                    ],
+                    center: .topLeading,
+                    startRadius: size * 0.18,
+                    endRadius: size * 0.55
+                )
+            )
+            .frame(width: size * 0.75, height: size * 0.75)
+            .position(center)
+            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+    }
+
+    private var yarnTextureLines: some View {
+        ForEach(0..<6, id: \.self) { index in
+            Path { path in
+                let angle: Double = Double(index) * 30.0 * .pi / 180.0
+                let radius: CGFloat = size * 0.31
+                let cosAngle: CGFloat = CGFloat(cos(angle))
+                let sinAngle: CGFloat = CGFloat(sin(angle))
+                let start = CGPoint(
+                    x: center.x + cosAngle * radius * 0.3,
+                    y: center.y + sinAngle * radius * 0.3
+                )
+                let end = CGPoint(
+                    x: center.x + cosAngle * radius * 0.7,
+                    y: center.y + sinAngle * radius * 0.7
+                )
+                path.move(to: start)
+                path.addLine(to: end)
+            }
+            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+            .opacity(0.6)
+        }
+    }
+
+    private var eyes: some View {
+        HStack(spacing: size * 0.09) {
+            Circle().fill(Color.black).frame(width: size * 0.035, height: size * 0.035)
+            Circle().fill(Color.black).frame(width: size * 0.035, height: size * 0.035)
+        }
+        .position(x: center.x, y: center.y - size * 0.06)
+    }
+
+    private var eyebrows: some View {
+        let eyeOffsetY = size * 0.06
+        let eyeSpacing = size * 0.09
+        let leftEye = CGPoint(x: center.x - eyeSpacing / 2, y: center.y - eyeOffsetY)
+        let rightEye = CGPoint(x: center.x + eyeSpacing / 2, y: center.y - eyeOffsetY)
+
+        return Group {
+            Path { path in
+                path.move(to: CGPoint(x: leftEye.x - size * 0.05, y: leftEye.y - size * 0.06))
+                path.addQuadCurve(
+                    to: CGPoint(x: leftEye.x + size * 0.05, y: leftEye.y - size * 0.06),
+                    control: CGPoint(x: leftEye.x, y: leftEye.y - size * 0.09)
+                )
+            }
+            .stroke(Color.black, lineWidth: 1.5)
+
+            Path { path in
+                path.move(to: CGPoint(x: rightEye.x - size * 0.05, y: rightEye.y - size * 0.06))
+                path.addQuadCurve(
+                    to: CGPoint(x: rightEye.x + size * 0.05, y: rightEye.y - size * 0.06),
+                    control: CGPoint(x: rightEye.x, y: rightEye.y - size * 0.09)
+                )
+            }
+            .stroke(Color.black, lineWidth: 1.5)
+        }
+    }
+
+    private var frown: some View {
+        Path { path in
+            path.move(to: CGPoint(x: center.x - size * 0.15, y: center.y + size * 0.12))
+            path.addQuadCurve(
+                to: CGPoint(x: center.x + size * 0.15, y: center.y + size * 0.12),
+                control: CGPoint(x: center.x, y: center.y + size * 0.09)
+            )
+        }
+        .stroke(Color.black, lineWidth: 1.5)
+    }
+
+    private var rosyChecks: some View {
+        HStack(spacing: size * 0.18) {
+            Ellipse()
+                .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                .frame(width: size * 0.09, height: size * 0.06)
+                .opacity(0.3)
+            Ellipse()
+                .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                .frame(width: size * 0.09, height: size * 0.06)
+                .opacity(0.3)
+        }
+        .position(x: center.x, y: center.y + size * 0.03)
+    }
+
+    private var floatingHeart: some View {
+        Text("💚")
+            .font(.title3)
+            .position(x: center.x, y: center.y - size * 0.46)
+            .scaleEffect(heartBeat ? 1.2 : 1.0)
+            .opacity(heartBeat ? 0.8 : 0.6)
+            .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: heartBeat)
     }
 }
 

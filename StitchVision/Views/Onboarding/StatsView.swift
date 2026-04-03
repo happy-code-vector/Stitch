@@ -349,18 +349,16 @@ struct CelebratingMascotView: View {
     private func yarnTexture(size: CGFloat, center: CGPoint) -> some View {
         ForEach(0..<6, id: \.self) { index in
             Path { path in
-                let angle = Double(index) * 30 * .pi / 180
+                let angle: CGFloat = CGFloat(index) * 30 * .pi / 180
                 let radius: CGFloat = size * 0.35
-                let start = CGPoint(
-                    x: center.x + cos(angle) * radius * 0.3,
-                    y: center.y + sin(angle) * radius * 0.3
-                )
-                let end = CGPoint(
-                    x: center.x + cos(angle) * radius * 0.7,
-                    y: center.y + sin(angle) * radius * 0.7
-                )
-                path.move(to: start)
-                path.addLine(to: end)
+                let cosA: CGFloat = cos(angle)
+                let sinA: CGFloat = sin(angle)
+                let startX: CGFloat = center.x + cosA * radius * 0.3
+                let startY: CGFloat = center.y + sinA * radius * 0.3
+                let endX: CGFloat = center.x + cosA * radius * 0.7
+                let endY: CGFloat = center.y + sinA * radius * 0.7
+                path.move(to: CGPoint(x: startX, y: startY))
+                path.addLine(to: CGPoint(x: endX, y: endY))
             }
             .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
             .opacity(0.6)

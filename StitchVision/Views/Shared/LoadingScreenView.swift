@@ -24,44 +24,47 @@ struct LoadingScreenView: View {
             // Yarn Thread becoming Loading Bar
             VStack(spacing: 16) {
                 // Loading Bar
-                ZStack(alignment: .leading) {
-                    // Background
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(Color.white.opacity(0.5))
-                        .frame(height: 12)
-                        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
-                    
-                    // Progress
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color(red: 0.561, green: 0.659, blue: 0.533),
-                                    Color(red: 0.659, green: 0.753, blue: 0.631)
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
+                GeometryReader { geo in
+                    let barWidth = geo.size.width
+                    ZStack(alignment: .leading) {
+                        // Background
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(Color.white.opacity(0.5))
+                            .frame(height: 12)
+                            .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
+                        
+                        // Progress
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 0.561, green: 0.659, blue: 0.533),
+                                        Color(red: 0.659, green: 0.753, blue: 0.631)
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
                             )
-                        )
-                        .frame(width: UIScreen.main.bounds.width * 0.7 * progress, height: 12)
-                    
-                    // Shimmer effect
-                    RoundedRectangle(cornerRadius: 6)
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color.clear,
-                                    Color.white.opacity(0.3),
-                                    Color.clear
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
+                            .frame(width: barWidth * progress, height: 12)
+                        
+                        // Shimmer effect
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color.clear,
+                                        Color.white.opacity(0.3),
+                                        Color.clear
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
                             )
-                        )
-                        .frame(width: 100, height: 12)
-                        .offset(x: -100 + (UIScreen.main.bounds.width * 0.7 + 200) * progress)
+                            .frame(width: 100, height: 12)
+                            .offset(x: -100 + (barWidth + 200) * progress)
+                    }
                 }
-                .frame(width: UIScreen.main.bounds.width * 0.7)
+                .frame(height: 12)
             }
             
             // Cycling Text

@@ -223,7 +223,30 @@ struct AIDetectionVisualView: View {
     
     var body: some View {
         ZStack {
-            // Main camera view background
+            cameraBackground
+            boundingBoxLayer
+            rowCountDisplay
+            confidenceMeter
+        }
+        .onAppear {
+            showBoundingBox = true
+            withAnimation(.linear(duration: 2).repeatForever(autoreverses: false)) {
+                scanningPosition = 140
+            }
+            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+                if confidence >= 95 {
+                    timer.invalidate()
+                } else {
+                    confidence += 2
+                }
+            }
+        }
+    }
+
+    // MARK: - Sub-views
+
+    private var cameraBackground: some View {
+        ZStack {
             RoundedRectangle(cornerRadius: 16)
                 .fill(
                     LinearGradient(
@@ -239,174 +262,169 @@ struct AIDetectionVisualView: View {
                 .frame(maxWidth: .infinity)
                 .aspectRatio(4/3, contentMode: .fit)
                 .shadow(color: .black.opacity(0.3), radius: 12, x: 0, y: 8)
-            
-            // Simulated knitting texture
+
             KnittingTextureView()
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .opacity(0.3)
-            
-            // AI Bounding Box
+        }
+    }
+
+    private var boundingBoxLayer: some View {
+        ZStack {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 4)
                 .padding(32)
                 .scaleEffect(showBoundingBox ? 1.0 : 0.9)
                 .opacity(showBoundingBox ? 1.0 : 0.0)
                 .animation(.easeOut(duration: 0.8).delay(0.3), value: showBoundingBox)
-                .overlay(
-                    // Corner brackets
-                    VStack {
-                        HStack {
-                            CornerBracket(position: .topLeft)
-                            Spacer()
-                            CornerBracket(position: .topRight)
-                        }
-                        Spacer()
-                        HStack {
-                            CornerBracket(position: .bottomLeft)
-                            Spacer()
-                            CornerBracket(position: .bottomRight)
-                        }
-                    }
-                    .padding(40)
-                )
-                .overlay(
-                    // Center crosshair
-                    VStack {
-                        Rectangle()
-                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                            .frame(width: 32, height: 2)
-                        Rectangle()
-                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                            .frame(width: 2, height: 32)
-                            .offset(y: -17)
-                    }
-                    .opacity(showBoundingBox ? 1.0 : 0.0)
-                    .animation(.easeOut(duration: 0.6).delay(0.8), value: showBoundingBox)
-                )
-                .overlay(
-                    // Scanning line
-                    Rectangle()
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color.clear,
-                                    Color(red: 0.561, green: 0.659, blue: 0.533),
-                                    Color.clear
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .frame(height: 4)
-                        .offset(y: scanningPosition)
-                        .opacity(0.6)
-                        .animation(.linear(duration: 2).repeatForever(autoreverses: false), value: scanningPosition)
-                        .padding(.horizontal, 32)
-                )
-            
-            // Row count display
-            VStack {
+
+            cornerBrackets
+            crosshair
+            scanningLine
+        }
+    }
+
+    private var cornerBrackets: some View {
+        VStack {
+            HStack {
+                CornerBracket(position: .topLeft)
                 Spacer()
-                HStack {
-                    Spacer()
-                    VStack(spacing: 4) {
-                        Text("42")
-                            .font(.system(size: 48, weight: .bold, design: .rounded))
-                            .foregroundColor(.white)
-                        Text("ROWS")
-                            .font(.system(size: 12, weight: .medium, design: .rounded))
-                            .foregroundColor(.white.opacity(0.6))
-                            .tracking(2)
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 25)
-                            .fill(.black.opacity(0.6))
-                            .background(.ultraThinMaterial)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 25)
-                                    .stroke(.white.opacity(0.2), lineWidth: 1)
-                            )
-                    )
-                    .scaleEffect(showBoundingBox ? 1.0 : 0.8)
-                    .opacity(showBoundingBox ? 1.0 : 0.0)
-                    .animation(.easeOut(duration: 0.6).delay(0.8), value: showBoundingBox)
-                    Spacer()
-                }
-                .padding(.bottom, 16)
+                CornerBracket(position: .topRight)
             }
-            
-            // Confidence meter
-            VStack {
-                HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Text("Confidence")
-                                .font(.system(size: 12, weight: .medium))
-                                .foregroundColor(.white)
-                            Spacer()
-                            Text("\(Int(confidence))%")
-                                .font(.system(size: 12, weight: .bold))
-                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-                        }
-                        
-                        GeometryReader { geometry in
-                            ZStack(alignment: .leading) {
-                                RoundedRectangle(cornerRadius: 4)
-                                    .fill(.white.opacity(0.2))
-                                    .frame(height: 8)
-                                
-                                RoundedRectangle(cornerRadius: 4)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [
-                                                Color(red: 0.561, green: 0.659, blue: 0.533),
-                                                Color(red: 0.66, green: 0.76, blue: 0.63)
-                                            ],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
-                                    )
-                                    .frame(width: geometry.size.width * (confidence / 100), height: 8)
-                                    .animation(.easeOut(duration: 1).delay(0.8), value: confidence)
-                            }
-                        }
-                        .frame(height: 8)
-                    }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(.black.opacity(0.4))
-                            .background(.ultraThinMaterial)
-                    )
-                    Spacer()
+            Spacer()
+            HStack {
+                CornerBracket(position: .bottomLeft)
+                Spacer()
+                CornerBracket(position: .bottomRight)
+            }
+        }
+        .padding(40)
+    }
+
+    private var crosshair: some View {
+        ZStack {
+            Rectangle()
+                .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                .frame(width: 32, height: 2)
+            Rectangle()
+                .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                .frame(width: 2, height: 32)
+                .offset(y: -17)
+        }
+        .opacity(showBoundingBox ? 1.0 : 0.0)
+        .animation(.easeOut(duration: 0.6).delay(0.8), value: showBoundingBox)
+    }
+
+    private var scanningLine: some View {
+        Rectangle()
+            .fill(
+                LinearGradient(
+                    colors: [Color.clear, Color(red: 0.561, green: 0.659, blue: 0.533), Color.clear],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                )
+            )
+            .frame(height: 4)
+            .offset(y: scanningPosition)
+            .opacity(0.6)
+            .animation(.linear(duration: 2).repeatForever(autoreverses: false), value: scanningPosition)
+            .padding(.horizontal, 32)
+    }
+
+    private var rowCountDisplay: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                VStack(spacing: 4) {
+                    Text("42")
+                        .font(.system(size: 48, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                    Text("ROWS")
+                        .font(.system(size: 12, weight: .medium, design: .rounded))
+                        .foregroundColor(.white.opacity(0.6))
+                        .tracking(2)
                 }
-                .padding(.top, 16)
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 24)
+                .padding(.vertical, 12)
+                .background(rowCountBackground)
+                .scaleEffect(showBoundingBox ? 1.0 : 0.8)
                 .opacity(showBoundingBox ? 1.0 : 0.0)
-                .animation(.easeOut(duration: 0.6).delay(0.5), value: showBoundingBox)
+                .animation(.easeOut(duration: 0.6).delay(0.8), value: showBoundingBox)
                 Spacer()
             }
+            .padding(.bottom, 16)
         }
-        .onAppear {
-            showBoundingBox = true
-            
-            // Animate scanning line
-            withAnimation(.linear(duration: 2).repeatForever(autoreverses: false)) {
-                scanningPosition = 140
-            }
-            
-            // Animate confidence
-            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
-                if confidence >= 95 {
-                    timer.invalidate()
-                } else {
-                    confidence += 2
+    }
+
+    private var rowCountBackground: some View {
+        RoundedRectangle(cornerRadius: 25)
+            .fill(.black.opacity(0.6))
+            .background(.ultraThinMaterial)
+            .overlay(
+                RoundedRectangle(cornerRadius: 25)
+                    .stroke(.white.opacity(0.2), lineWidth: 1)
+            )
+    }
+
+    private var confidenceMeter: some View {
+        VStack {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    confidenceHeader
+                    confidenceBar
                 }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(.black.opacity(0.4))
+                        .background(.ultraThinMaterial)
+                )
+                Spacer()
+            }
+            .padding(.top, 16)
+            .padding(.horizontal, 16)
+            .opacity(showBoundingBox ? 1.0 : 0.0)
+            .animation(.easeOut(duration: 0.6).delay(0.5), value: showBoundingBox)
+            Spacer()
+        }
+    }
+
+    private var confidenceHeader: some View {
+        HStack {
+            Text("Confidence")
+                .font(.system(size: 12, weight: .medium))
+                .foregroundColor(.white)
+            Spacer()
+            Text("\(Int(confidence))%")
+                .font(.system(size: 12, weight: .bold))
+                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+        }
+    }
+
+    private var confidenceBar: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(.white.opacity(0.2))
+                    .frame(height: 8)
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.561, green: 0.659, blue: 0.533),
+                                Color(red: 0.66, green: 0.76, blue: 0.63)
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
+                    .frame(width: geometry.size.width * (confidence / 100), height: 8)
+                    .animation(.easeOut(duration: 1).delay(0.8), value: confidence)
             }
         }
+        .frame(height: 8)
     }
 }
 

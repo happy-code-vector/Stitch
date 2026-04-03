@@ -211,15 +211,17 @@ struct ProudMascotWithTrophyView: View {
                     // Yarn texture lines
                     ForEach(0..<6, id: \.self) { index in
                         Path { path in
-                            let angle = Double(index) * 30 * .pi / 180
+                            let angle: Double = Double(index) * 30.0 * .pi / 180.0
                             let radius: CGFloat = size * 0.35
+                            let cosAngle: CGFloat = CGFloat(cos(angle))
+                            let sinAngle: CGFloat = CGFloat(sin(angle))
                             let start = CGPoint(
-                                x: center.x + cos(angle) * radius * 0.3,
-                                y: center.y + sin(angle) * radius * 0.3
+                                x: center.x + cosAngle * radius * 0.3,
+                                y: center.y + sinAngle * radius * 0.3
                             )
                             let end = CGPoint(
-                                x: center.x + cos(angle) * radius * 0.7,
-                                y: center.y + sin(angle) * radius * 0.7
+                                x: center.x + cosAngle * radius * 0.7,
+                                y: center.y + sinAngle * radius * 0.7
                             )
                             path.move(to: start)
                             path.addLine(to: end)
@@ -311,12 +313,14 @@ struct ProudMascotWithTrophyView: View {
                     .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: trophyFloat)
 
                     // Sparkles around trophy
+                    let sparklePositions: [(CGFloat, CGFloat)] = [(0.22, -0.40), (0.40, -0.28), (0.28, -0.18)]
                     ForEach(0..<3, id: \.self) { index in
-                        let positions: [(CGFloat, CGFloat)] = [(0.22, -0.40), (0.40, -0.28), (0.28, -0.18)]
-                        let p = positions[index]
+                        let p: (CGFloat, CGFloat) = sparklePositions[index]
+                        let px: CGFloat = center.x + size * p.0
+                        let py: CGFloat = center.y + size * p.1
                         Text("✨")
                             .font(.caption)
-                            .position(x: center.x + size * p.0, y: center.y + size * p.1)
+                            .position(x: px, y: py)
                             .scaleEffect(trophyFloat ? 1.2 : 0.8)
                             .opacity(trophyFloat ? 1.0 : 0.6)
                             .animation(

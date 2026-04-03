@@ -11,21 +11,24 @@ struct StatsSolutionView: View {
                 .ignoresSafeArea()
             
             // Background sparkle elements
-            Circle()
-                .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
-                .frame(width: 128, height: 128)
-                .blur(radius: 30)
-                .position(x: UIScreen.main.bounds.width - 80, y: 120)
-                .scaleEffect(animateStats ? 1.2 : 1.0)
-                .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true), value: animateStats)
-            
-            Circle()
-                .fill(Color(red: 0.831, green: 0.686, blue: 0.216).opacity(0.1))
-                .frame(width: 160, height: 160)
-                .blur(radius: 40)
-                .position(x: 80, y: UIScreen.main.bounds.height - 160)
-                .scaleEffect(animateStats ? 1.3 : 1.0)
-                .animation(.easeInOut(duration: 5).repeatForever(autoreverses: true).delay(1), value: animateStats)
+            GeometryReader { geo in
+                Circle()
+                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                    .frame(width: 128, height: 128)
+                    .blur(radius: 30)
+                    .position(x: geo.size.width - 80, y: 120)
+                    .scaleEffect(animateStats ? 1.2 : 1.0)
+                    .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true), value: animateStats)
+                
+                Circle()
+                    .fill(Color(red: 0.831, green: 0.686, blue: 0.216).opacity(0.1))
+                    .frame(width: 160, height: 160)
+                    .blur(radius: 40)
+                    .position(x: 80, y: geo.size.height - 160)
+                    .scaleEffect(animateStats ? 1.3 : 1.0)
+                    .animation(.easeInOut(duration: 5).repeatForever(autoreverses: true).delay(1), value: animateStats)
+            }
+            .ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Progress bar
@@ -292,19 +295,17 @@ private struct MascotContentView: View {
     }
 
     private func yarnLine(for index: Int) -> some View {
-        let angle = Double(index) * 30 * .pi / 180
+        let angle: Double = Double(index) * 30.0 * .pi / 180.0
         let radius: CGFloat = size * 0.35
+        let cosA: CGFloat = CGFloat(cos(angle))
+        let sinA: CGFloat = CGFloat(sin(angle))
+        let startX: CGFloat = center.x + cosA * radius * 0.3
+        let startY: CGFloat = center.y + sinA * radius * 0.3
+        let endX: CGFloat   = center.x + cosA * radius * 0.7
+        let endY: CGFloat   = center.y + sinA * radius * 0.7
         return Path { path in
-            let start = CGPoint(
-                x: center.x + cos(angle) * radius * 0.3,
-                y: center.y + sin(angle) * radius * 0.3
-            )
-            let end = CGPoint(
-                x: center.x + cos(angle) * radius * 0.7,
-                y: center.y + sin(angle) * radius * 0.7
-            )
-            path.move(to: start)
-            path.addLine(to: end)
+            path.move(to: CGPoint(x: startX, y: startY))
+            path.addLine(to: CGPoint(x: endX, y: endY))
         }
         .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
         .opacity(0.6)
