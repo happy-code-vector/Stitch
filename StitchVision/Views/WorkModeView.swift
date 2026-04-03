@@ -22,12 +22,12 @@ class WorkModeCameraDelegate: NSObject, CameraManagerDelegate {
 struct WorkModeView: View {
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var projectStore: ProjectStore
-    @StateObject private var cameraPermissionManager = CameraPermissionManager.shared
+    @ObservedObject private var cameraPermissionManager = CameraPermissionManager.shared
     @StateObject private var cameraManager = CameraManager()
     @StateObject private var rowCountingService = RowCountingService()
     @StateObject private var voiceCommandManager = VoiceCommandManager()
     @StateObject private var feedbackController = FeedbackController()
-    @StateObject private var subscriptionManager = SubscriptionManager.shared
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var cameraDelegate = WorkModeCameraDelegate()
     
     @State private var isPaused = false
@@ -434,13 +434,14 @@ struct WorkModeView: View {
     
     private func setupCamera() {
         cameraManager.delegate = cameraDelegate
+        let rowCounter = rowCountingService
         cameraDelegate.onFrameReceived = { pixelBuffer in
             guard !self.isPaused else { return }
-            self.rowCountingService.processFrame(pixelBuffer)
+            rowCounter.processFrame(pixelBuffer)
 
             // Update pattern progress if pattern is selected
             if let pattern = self.selectedPattern {
-                let currentRow = self.rowCountingService.rowCount
+                let currentRow = rowCounter.rowCount
                 var completedRows = pattern.completedRows
                 if currentRow > 0 {
                     completedRows.insert(currentRow - 1)
@@ -466,35 +467,34 @@ struct WorkModeView: View {
     private func setupVoiceCommands() {
         voiceCommandManager.requestAuthorization()
 
-        voiceCommandManager.onCommandReceived = { [weak self] command in
-            guard let self = self else { return }
+        voiceCommandManager.onCommandReceived = { command in
 
             switch command {
             case .countRow:
-                self.rowCountingService.voiceIncrement()
-                self.feedbackController.provideFeedback(.rowCounted)
+                rowCountingService.voiceIncrement()
+                feedbackController.provideFeedback(.rowCounted)
 
             case .undo:
-                self.rowCountingService.manualDecrement()
-                self.feedbackController.provideFeedback(.undo)
+                rowCountingService.manualDecrement()
+                feedbackController.provideFeedback(.undo)
 
             case .pause:
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                    self.isPaused = true
+                    isPaused = true
                 }
-                self.rowCountingService.stopCounting()
+                rowCountingService.stopCounting()
 
             case .resume:
                 withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                    self.isPaused = false
+                    isPaused = false
                 }
-                self.rowCountingService.startCounting()
+                rowCountingService.startCounting()
 
             case .endSession:
-                self.handleExit()
+                handleExit()
 
             case .addMarker(let name):
-                self.feedbackController.provideFeedback(.markerAdded)
+                feedbackController.provideFeedback(.markerAdded)
                 print("Marker added: \(name)")
 
             case .unknown(let text):

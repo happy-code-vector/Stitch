@@ -55,8 +55,10 @@ class StitchBotService: ObservableObject {
     }
 
     private func updateRemainingQuestions() {
-        let isPro = SubscriptionManager.shared.isPro
-        questionsRemaining = isPro ? -1 : max(0, freeQuestionsPerMonth - questionsUsedThisMonth)
+        Task { @MainActor in
+            let isPro = SubscriptionManager.shared.isPro
+            questionsRemaining = isPro ? -1 : max(0, freeQuestionsPerMonth - questionsUsedThisMonth)
+        }
     }
 
     private func saveUsage() {
@@ -74,7 +76,9 @@ class StitchBotService: ObservableObject {
     }
 
     func canAskQuestion() -> Bool {
-        SubscriptionManager.shared.isPro || questionsRemaining > 0
+        // SubscriptionManager is @MainActor; callers on the main actor can access
+        // isPro directly. For non-isolated call sites we fall back to questionsRemaining.
+        questionsRemaining != 0
     }
 
     // MARK: - Chat

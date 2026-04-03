@@ -233,159 +233,185 @@ struct SolutionStatCardView: View {
 
 struct ExcitedMascotView: View {
     @State private var sparkleAnimation = false
-    
+
     var body: some View {
-        ZStack {
-            GeometryReader { geo in
-                let size = min(geo.size.width, geo.size.height)
-                let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
-
-                ZStack {
-                    // Main yarn ball body with excited expression
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    Color(red: 0.66, green: 0.76, blue: 0.63),
-                                    Color(red: 0.561, green: 0.659, blue: 0.533)
-                                ],
-                                center: .topLeading,
-                                startRadius: size * 0.18,
-                                endRadius: size * 0.6
-                            )
-                        )
-                        .frame(width: size * 0.8, height: size * 0.8)
-                        .position(center)
-                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-
-                    // Yarn texture lines
-                    ForEach(0..<6, id: \.self) { index in
-                        Path { path in
-                            let angle = Double(index) * 30 * .pi / 180
-                            let radius: CGFloat = size * 0.35
-                            let start = CGPoint(
-                                x: center.x + cos(angle) * radius * 0.3,
-                                y: center.y + sin(angle) * radius * 0.3
-                            )
-                            let end = CGPoint(
-                                x: center.x + cos(angle) * radius * 0.7,
-                                y: center.y + sin(angle) * radius * 0.7
-                            )
-                            path.move(to: start)
-                            path.addLine(to: end)
-                        }
-                        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-                        .opacity(0.6)
-                    }
-
-                    // Eyes
-                    Group {
-                        let eyeOffsetY = size * 0.08
-                        let eyeSpacing = size * 0.12
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: size * 0.04, height: size * 0.04)
-                            .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: size * 0.04, height: size * 0.04)
-                            .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
-                    }
-
-                    // Raised excited eyebrows above each eye
-                    Group {
-                        let eyeOffsetY = size * 0.08
-                        let eyeSpacing = size * 0.12
-                        let leftEyeCenter = CGPoint(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
-                        let rightEyeCenter = CGPoint(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
-
-                        Path { path in
-                            let start = CGPoint(x: leftEyeCenter.x - size * 0.06, y: leftEyeCenter.y - size * 0.07)
-                            let end = CGPoint(x: leftEyeCenter.x + size * 0.06, y: leftEyeCenter.y - size * 0.07)
-                            let control = CGPoint(x: leftEyeCenter.x, y: leftEyeCenter.y - size * 0.11)
-                            path.move(to: start)
-                            path.addQuadCurve(to: end, control: control)
-                        }
-                        .stroke(Color.black, lineWidth: 2)
-
-                        Path { path in
-                            let start = CGPoint(x: rightEyeCenter.x - size * 0.06, y: rightEyeCenter.y - size * 0.07)
-                            let end = CGPoint(x: rightEyeCenter.x + size * 0.06, y: rightEyeCenter.y - size * 0.07)
-                            let control = CGPoint(x: rightEyeCenter.x, y: rightEyeCenter.y - size * 0.11)
-                            path.move(to: start)
-                            path.addQuadCurve(to: end, control: control)
-                        }
-                        .stroke(Color.black, lineWidth: 2)
-                    }
-
-                    // Big happy smile
-                    Path { path in
-                        path.move(to: CGPoint(x: center.x - size * 0.20, y: center.y + size * 0.14))
-                        path.addQuadCurve(
-                            to: CGPoint(x: center.x + size * 0.20, y: center.y + size * 0.14),
-                            control: CGPoint(x: center.x, y: center.y + size * 0.26)
-                        )
-                    }
-                    .stroke(Color.black, lineWidth: 3)
-
-                    // Rosy excited cheeks
-                    Group {
-                        Ellipse()
-                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                            .frame(width: size * 0.12, height: size * 0.07)
-                            .opacity(0.4)
-                            .position(x: center.x - size * 0.22, y: center.y + size * 0.10)
-
-                        Ellipse()
-                            .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                            .frame(width: size * 0.12, height: size * 0.07)
-                            .opacity(0.4)
-                            .position(x: center.x + size * 0.22, y: center.y + size * 0.10)
-                    }
-
-                    // Raised arms in celebration
-                    Path { path in
-                        path.move(to: CGPoint(x: center.x - size * 0.30, y: center.y - size * 0.06))
-                        path.addQuadCurve(
-                            to: CGPoint(x: center.x - size * 0.46, y: center.y - size * 0.22),
-                            control: CGPoint(x: center.x - size * 0.40, y: center.y - size * 0.08)
-                        )
-                    }
-                    .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
-                    .opacity(0.8)
-
-                    Path { path in
-                        path.move(to: CGPoint(x: center.x + size * 0.30, y: center.y - size * 0.06))
-                        path.addQuadCurve(
-                            to: CGPoint(x: center.x + size * 0.46, y: center.y - size * 0.22),
-                            control: CGPoint(x: center.x + size * 0.40, y: center.y - size * 0.08)
-                        )
-                    }
-                    .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
-                    .opacity(0.8)
-
-                    // Sparkles around mascot
-                    ForEach(0..<4, id: \.self) { index in
-                        let positions: [(CGFloat, CGFloat)] = [(-0.32, -0.20), (0.32, -0.20), (-0.28, 0.22), (0.32, 0.22)]
-                        let p = positions[index]
-                        Text("✨")
-                            .font(.title2)
-                            .position(x: center.x + size * p.0, y: center.y + size * p.1)
-                            .scaleEffect(sparkleAnimation ? 1.5 : 0.5)
-                            .opacity(sparkleAnimation ? 1.0 : 0.0)
-                            .animation(
-                                .easeInOut(duration: 2)
-                                .repeatForever(autoreverses: true)
-                                .delay(Double(index) * 0.2),
-                                value: sparkleAnimation
-                            )
-                    }
-                }
-            }
+        GeometryReader { geo in
+            let size = min(geo.size.width, geo.size.height)
+            let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
+            MascotContentView(size: size, center: center, sparkleAnimation: sparkleAnimation)
         }
         .frame(width: 160, height: 160)
         .onAppear {
             sparkleAnimation = true
+        }
+    }
+}
+
+private struct MascotContentView: View {
+    let size: CGFloat
+    let center: CGPoint
+    let sparkleAnimation: Bool
+
+    var body: some View {
+        ZStack {
+            yarnBallBody
+            yarnTextureLines
+            eyes
+            eyebrows
+            smile
+            cheeks
+            arms
+            sparkles
+        }
+    }
+
+    // MARK: - Sub-views
+
+    private var yarnBallBody: some View {
+        Circle()
+            .fill(
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.66, green: 0.76, blue: 0.63),
+                        Color(red: 0.561, green: 0.659, blue: 0.533)
+                    ],
+                    center: .topLeading,
+                    startRadius: size * 0.18,
+                    endRadius: size * 0.6
+                )
+            )
+            .frame(width: size * 0.8, height: size * 0.8)
+            .position(center)
+            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+    }
+
+    private var yarnTextureLines: some View {
+        ForEach(0..<6, id: \.self) { index in
+            yarnLine(for: index)
+        }
+    }
+
+    private func yarnLine(for index: Int) -> some View {
+        let angle = Double(index) * 30 * .pi / 180
+        let radius: CGFloat = size * 0.35
+        return Path { path in
+            let start = CGPoint(
+                x: center.x + cos(angle) * radius * 0.3,
+                y: center.y + sin(angle) * radius * 0.3
+            )
+            let end = CGPoint(
+                x: center.x + cos(angle) * radius * 0.7,
+                y: center.y + sin(angle) * radius * 0.7
+            )
+            path.move(to: start)
+            path.addLine(to: end)
+        }
+        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
+        .opacity(0.6)
+    }
+
+    private var eyes: some View {
+        let eyeOffsetY = size * 0.08
+        let eyeSpacing = size * 0.12
+        return Group {
+            Circle()
+                .fill(Color.black)
+                .frame(width: size * 0.04, height: size * 0.04)
+                .position(x: center.x - eyeSpacing / 2, y: center.y - eyeOffsetY)
+            Circle()
+                .fill(Color.black)
+                .frame(width: size * 0.04, height: size * 0.04)
+                .position(x: center.x + eyeSpacing / 2, y: center.y - eyeOffsetY)
+        }
+    }
+
+    private var eyebrows: some View {
+        let eyeOffsetY = size * 0.08
+        let eyeSpacing = size * 0.12
+        let leftEye = CGPoint(x: center.x - eyeSpacing / 2, y: center.y - eyeOffsetY)
+        let rightEye = CGPoint(x: center.x + eyeSpacing / 2, y: center.y - eyeOffsetY)
+        return Group {
+            eyebrowPath(eyeCenter: leftEye)
+            eyebrowPath(eyeCenter: rightEye)
+        }
+    }
+
+    private func eyebrowPath(eyeCenter: CGPoint) -> some View {
+        Path { path in
+            let start = CGPoint(x: eyeCenter.x - size * 0.06, y: eyeCenter.y - size * 0.07)
+            let end   = CGPoint(x: eyeCenter.x + size * 0.06, y: eyeCenter.y - size * 0.07)
+            let ctrl  = CGPoint(x: eyeCenter.x,               y: eyeCenter.y - size * 0.11)
+            path.move(to: start)
+            path.addQuadCurve(to: end, control: ctrl)
+        }
+        .stroke(Color.black, lineWidth: 2)
+    }
+
+    private var smile: some View {
+        Path { path in
+            path.move(to: CGPoint(x: center.x - size * 0.20, y: center.y + size * 0.14))
+            path.addQuadCurve(
+                to: CGPoint(x: center.x + size * 0.20, y: center.y + size * 0.14),
+                control: CGPoint(x: center.x, y: center.y + size * 0.26)
+            )
+        }
+        .stroke(Color.black, lineWidth: 3)
+    }
+
+    private var cheeks: some View {
+        Group {
+            Ellipse()
+                .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                .frame(width: size * 0.12, height: size * 0.07)
+                .opacity(0.4)
+                .position(x: center.x - size * 0.22, y: center.y + size * 0.10)
+            Ellipse()
+                .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                .frame(width: size * 0.12, height: size * 0.07)
+                .opacity(0.4)
+                .position(x: center.x + size * 0.22, y: center.y + size * 0.10)
+        }
+    }
+
+    private var arms: some View {
+        Group {
+            Path { path in
+                path.move(to: CGPoint(x: center.x - size * 0.30, y: center.y - size * 0.06))
+                path.addQuadCurve(
+                    to: CGPoint(x: center.x - size * 0.46, y: center.y - size * 0.22),
+                    control: CGPoint(x: center.x - size * 0.40, y: center.y - size * 0.08)
+                )
+            }
+            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
+            .opacity(0.8)
+
+            Path { path in
+                path.move(to: CGPoint(x: center.x + size * 0.30, y: center.y - size * 0.06))
+                path.addQuadCurve(
+                    to: CGPoint(x: center.x + size * 0.46, y: center.y - size * 0.22),
+                    control: CGPoint(x: center.x + size * 0.40, y: center.y - size * 0.08)
+                )
+            }
+            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 8)
+            .opacity(0.8)
+        }
+    }
+
+    private var sparkles: some View {
+        let positions: [(CGFloat, CGFloat)] = [(-0.32, -0.20), (0.32, -0.20), (-0.28, 0.22), (0.32, 0.22)]
+        return ForEach(0..<4, id: \.self) { index in
+            let p = positions[index]
+            Text("✨")
+                .font(.title2)
+                .position(x: center.x + size * p.0, y: center.y + size * p.1)
+                .scaleEffect(sparkleAnimation ? 1.5 : 0.5)
+                .opacity(sparkleAnimation ? 1.0 : 0.0)
+                .animation(
+                    .easeInOut(duration: 2)
+                    .repeatForever(autoreverses: true)
+                    .delay(Double(index) * 0.2),
+                    value: sparkleAnimation
+                )
         }
     }
 }

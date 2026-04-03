@@ -61,7 +61,7 @@ class AICoachProService: ObservableObject {
     // MARK: - Public Methods
 
     /// Analyze tension in knitting
-    func analyzeTension(image: UIImage, completion: @escaping (CoachResponse?) -> Void) {
+    @MainActor func analyzeTension(image: UIImage, completion: @escaping (CoachResponse?) -> Void) {
         guard canAnalyze() else {
             completion(nil)
             return
@@ -71,7 +71,7 @@ class AICoachProService: ObservableObject {
     }
 
     /// Detect mistakes in knitting
-    func detectMistakes(image: UIImage, completion: @escaping (CoachResponse?) -> Void) {
+    @MainActor func detectMistakes(image: UIImage, completion: @escaping (CoachResponse?) -> Void) {
         guard canAnalyze() else {
             completion(nil)
             return
@@ -140,7 +140,7 @@ class AICoachProService: ObservableObject {
 
     // MARK: - Private Methods
 
-    private func canAnalyze() -> Bool {
+    @MainActor private func canAnalyze() -> Bool {
         // Check Pro subscription
         guard SubscriptionManager.shared.canUseAICoach else {
             errorMessage = "AI Coach is a Pro feature. Please upgrade to use."

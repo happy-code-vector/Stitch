@@ -3,8 +3,8 @@ import PhotosUI
 
 struct PatternImportView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var detectionService = PatternDetectionService.shared
-    @StateObject private var storageService = PatternStorageService.shared
+    private let detectionService = PatternDetectionService.shared
+    @ObservedObject private var storageService = PatternStorageService.shared
 
     @State private var selectedImage: UIImage?
     @State private var isLoading = false
@@ -28,7 +28,7 @@ struct PatternImportView: View {
                 }
                 .padding()
             }
-            .navigationTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {

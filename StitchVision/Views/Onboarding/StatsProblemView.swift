@@ -50,7 +50,7 @@ struct StatsProblemView: View {
                     
                     // Stats Cards
                     VStack(spacing: 16) {
-                        StatCardView(
+                        ProblemStatCardView(
                             icon: "clock.fill",
                             statNumber: "4+ hours",
                             statLabel: "wasted per project",
@@ -58,7 +58,7 @@ struct StatsProblemView: View {
                             delay: 0.4
                         )
                         
-                        StatCardView(
+                        ProblemStatCardView(
                             icon: "exclamationmark.circle.fill",
                             statNumber: "73%",
                             statLabel: "lose track at least once",
@@ -66,7 +66,7 @@ struct StatsProblemView: View {
                             delay: 0.5
                         )
                         
-                        StatCardView(
+                        ProblemStatCardView(
                             icon: "face.dashed.fill",
                             statNumber: "1 in 3",
                             statLabel: "projects go unfinished",
@@ -123,7 +123,7 @@ struct StatsProblemView: View {
     }
 }
 
-struct StatCardView: View {
+struct ProblemStatCardView: View {
     let icon: String
     let statNumber: String
     let statLabel: String
@@ -163,23 +163,18 @@ struct StatCardView: View {
             Spacer()
         }
         .padding(20)
-        .background(Color.white)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white)
+                .overlay(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 3)
+                        .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
+                        .frame(width: 4)
+                        .padding(.vertical, 8)
+                }
+        )
         .cornerRadius(16)
         .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
-        .overlay(
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(Color(red: 0.831, green: 0.502, blue: 0.435), lineWidth: 3)
-                .padding(.leading, 0)
-                .clipShape(
-                    RoundedRectangle(cornerRadius: 16)
-                        .inset(by: 1.5)
-                )
-                .mask(
-                    Rectangle()
-                        .frame(width: 4)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                )
-        )
         .opacity(animate ? 1.0 : 0.0)
         .offset(x: animate ? 0 : -30)
         .animation(.easeOut(duration: 0.6).delay(delay), value: animate)

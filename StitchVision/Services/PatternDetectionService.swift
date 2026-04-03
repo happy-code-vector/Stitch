@@ -125,10 +125,10 @@ class PatternDetectionService {
     private func extractHorizontalLines(from contours: VNContoursObservation, imageHeight: CGFloat) -> [(y: CGFloat, length: CGFloat)] {
         var horizontalLines: [(y: CGFloat, length: CGFloat)] = []
 
-        let topLevelContours = contours.topLevelChildCount
+        let topLevelContours = contours.contourCount
 
         for i in 0..<topLevelContours {
-            guard let contour = try? contours.childContour(atParentIndex: i) else { continue }
+            guard let contour = try? contours.contour(at: i) else { continue }
 
             // Check if contour is roughly horizontal
             if let line = analyzeContour(contour, imageHeight: imageHeight) {
@@ -152,11 +152,11 @@ class PatternDetectionService {
         var maxX: CGFloat = -CGFloat.infinity
 
         for i in 0..<points.count {
-            let point = points.point(at: i)
-            minY = min(minY, point.y)
-            maxY = max(maxY, point.y)
-            minX = min(minX, point.x)
-            maxX = max(maxX, point.x)
+            let point = points[i]
+            minY = min(minY, CGFloat(point.y))
+            maxY = max(maxY, CGFloat(point.y))
+            minX = min(minX, CGFloat(point.x))
+            maxX = max(maxX, CGFloat(point.x))
         }
 
         let height = maxY - minY

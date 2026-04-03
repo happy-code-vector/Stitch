@@ -272,13 +272,14 @@ class AchievementService: ObservableObject {
         completedProjects: Int,
         totalHours: Double,
         patternCount: Int,
-        sessions: [SessionEntity]
+        sessions: [SessionEntity],
+        isPro: Bool
     ) {
         var newUnlocks: [Achievement] = []
 
         for var achievement in allAchievements {
             if achievement.isUnlocked { continue }
-            if achievement.isProOnly && !SubscriptionManager.shared.isPro { continue }
+            if achievement.isProOnly && !isPro { continue }
 
             let shouldUnlock = checkRequirement(
                 achievement.requirement,

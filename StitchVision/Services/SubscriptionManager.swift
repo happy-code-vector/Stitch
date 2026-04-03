@@ -170,8 +170,9 @@ class SubscriptionManager: ObservableObject {
 
     /// Track StitchBot question usage
     func incrementStitchBotUsage() {
-        stitchBotQuestionsUsedThisMonth += 1
-        UserDefaults.standard.set(stitchBotQuestionsUsedThisMonth, forKey: "stitchbot_questions_\(currentMonthKey)")
+        let key = "stitchbot_questions_\(currentMonthKey)"
+        let current = UserDefaults.standard.integer(forKey: key)
+        UserDefaults.standard.set(current + 1, forKey: key)
     }
 
     // MARK: - StitchBot Usage Tracking

@@ -1,4 +1,5 @@
 import Foundation
+import Foundation
 import Vision
 import CoreImage
 import Combine
@@ -31,15 +32,9 @@ class OpticalFlowDetector: ObservableObject {
     // MARK: - Private Properties
 
     private let processingQueue = DispatchQueue(label: "com.stitchvision.opticalflow", qos: .userInitiated)
+    private let sequenceHandler = VNSequenceRequestHandler()
     private var previousPixelBuffer: CVPixelBuffer?
     private var lastAnalysisTime: Date?
-    private var ciContext: CIContext?
-
-    // MARK: - Initialization
-
-    init() {
-        self.ciContext = CIContext(options: [.useSoftwareRenderer: false])
-    }
 
     // MARK: - Public Methods
 
@@ -90,25 +85,19 @@ class OpticalFlowDetector: ObservableObject {
     private func calculateOpticalFlow(previous: CVPixelBuffer, current: CVPixelBuffer) -> OpticalFlowResult {
         let startTime = CFAbsoluteTimeGetCurrent()
 
-        // Create Vision requests
-        let flowRequest = VNGenerateOpticalFlowRequest()
+        // Create optical flow request targeting the current frame
+        let flowRequest = VNGenerateOpticalFlowRequest(targetedCVPixelBuffer: current)
 
         do {
-            // Create request handler with both frames
-            let handler = VNSequenceRequestHandler(
-                pixelBuffer: previous,
-                pixelBuffer: current,
-                options: [:]
-            )
+            // Perform optical flow on the previous frame; Vision compares it against the target
+            try sequenceHandler.perform([flowRequest], on: previous)
 
-            // Perform optical flow
-            try handler.perform([flowRequest], on: current)
-
-            // Get flow results
-            guard let flowObservation = flowRequest.results?.first as? VNPixelBufferObservation,
-                  let flowBuffer = flowObservation.pixelBuffer else {
+            // Get flow results — pixelBuffer on VNPixelBufferObservation is non-optional
+            guard let flowObservation = flowRequest.results?.first as? VNPixelBufferObservation else {
                 return createEmptyResult()
             }
+
+            let flowBuffer = flowObservation.pixelBuffer
 
             // Analyze the flow vectors in ROI
             let result = analyzeFlowVectors(flowBuffer)

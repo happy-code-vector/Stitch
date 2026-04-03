@@ -129,6 +129,7 @@ struct OverviewCardsSection: View {
 
 struct ChartsSection: View {
     @ObservedObject var analyticsService = AnalyticsService.shared
+    @ObservedObject var subscriptionManager = SubscriptionManager.shared
 
     var body: some View {
         VStack(spacing: 20) {

@@ -3,6 +3,7 @@ import UIKit
 import Combine
 
 /// Manages persistence of knitting patterns
+@MainActor
 class PatternStorageService: ObservableObject {
 
     // MARK: - Published Properties
@@ -43,12 +44,10 @@ class PatternStorageService: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        DispatchQueue.global().asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            guard let self = self else { return }
-
-            let savedPatterns = self.loadPatternsFromDefaults()
-
-            DispatchQueue.main.async {
+        Task.detached { [weak self] in
+            guard let self else { return }
+            let savedPatterns = await self.loadPatternsFromDefaults()
+            await MainActor.run {
                 self.patterns = savedPatterns
                 self.isLoading = false
             }
@@ -59,7 +58,6 @@ class PatternStorageService: ObservableObject {
     /// Returns true if successful, false if limit reached
     @discardableResult
     func savePattern(_ pattern: KnittingPattern) -> Bool {
-        // Check if this is a new pattern
         let isNew = !patterns.contains { $0.id == pattern.id }
 
         if isNew && !canAddPattern() {
@@ -67,23 +65,23 @@ class PatternStorageService: ObservableObject {
             return false
         }
 
+        let currentPatterns = self.patterns
         isLoading = true
 
-        DispatchQueue.global().async { [weak self] in
-            guard let self = self else { return }
+        Task.detached { [weak self] in
+            guard let self else { return }
 
-            var savedPatterns = self.patterns
+            var savedPatterns = currentPatterns
 
-            // Update or add pattern
             if let index = savedPatterns.firstIndex(where: { $0.id == pattern.id }) {
                 savedPatterns[index] = pattern
             } else {
                 savedPatterns.append(pattern)
             }
 
-            self.savePatternsToDefaults(savedPatterns)
+            await self.savePatternsToDefaults(savedPatterns)
 
-            DispatchQueue.main.async {
+            await MainActor.run {
                 self.patterns = savedPatterns
                 self.isLoading = false
             }
@@ -96,10 +94,11 @@ class PatternStorageService: ObservableObject {
     func deletePattern(_ patternId: UUID) {
         var savedPatterns = patterns
         savedPatterns.removeAll { $0.id == patternId }
-        savePatternsToDefaults(savedPatterns)
+        patterns = savedPatterns
 
-        DispatchQueue.main.async {
-            self.patterns = savedPatterns
+        Task.detached { [weak self] in
+            guard let self else { return }
+            await self.savePatternsToDefaults(savedPatterns)
         }
     }
 
@@ -120,7 +119,7 @@ class PatternStorageService: ObservableObject {
 
     // MARK: - Private Methods
 
-    private func loadPatternsFromDefaults() -> [KnittingPattern] {
+    private nonisolated func loadPatternsFromDefaults() -> [KnittingPattern] {
         guard let data = UserDefaults.standard.data(forKey: patternsKey) else {
             return []
         }
@@ -134,7 +133,7 @@ class PatternStorageService: ObservableObject {
         }
     }
 
-    private func savePatternsToDefaults(_ patterns: [KnittingPattern]) {
+    private nonisolated func savePatternsToDefaults(_ patterns: [KnittingPattern]) {
         do {
             let encoder = JSONEncoder()
             let data = try encoder.encode(patterns)
