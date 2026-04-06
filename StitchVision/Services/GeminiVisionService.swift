@@ -24,14 +24,14 @@ class GeminiVisionService: ObservableObject {
     private let session: URLSession
     
     init(apiKey: String = "") {
-        // Load API key from UserDefaults if not provided
+        // Load API key from Keychain if not provided at call site
         if apiKey.isEmpty {
-            self.apiKey = UserDefaults.standard.string(forKey: "geminiApiKey") ?? ""
+            self.apiKey = KeychainManager.get(forKey: KeychainManager.Keys.geminiAPIKey) ?? ""
         } else {
             self.apiKey = apiKey
         }
         
-        // Load analysis interval from UserDefaults
+        // Load analysis interval from UserDefaults (not sensitive)
         let savedInterval = UserDefaults.standard.double(forKey: "geminiAnalysisInterval")
         if savedInterval > 0 {
             self.analysisInterval = savedInterval
@@ -267,7 +267,8 @@ class GeminiVisionService: ObservableObject {
     
     func updateApiKey(_ key: String) {
         apiKey = key
-        UserDefaults.standard.set(key, forKey: "geminiApiKey")
+        // Store in Keychain, not UserDefaults — API keys are sensitive credentials
+        KeychainManager.set(key.isEmpty ? nil : key, forKey: KeychainManager.Keys.geminiAPIKey)
     }
     
     // MARK: - Helper Methods

@@ -10,7 +10,8 @@ struct GeminiSettingsView: View {
     init(geminiService: GeminiVisionService) {
         self.geminiService = geminiService
         _analysisInterval = State(initialValue: UserDefaults.standard.double(forKey: "geminiAnalysisInterval") > 0 ? UserDefaults.standard.double(forKey: "geminiAnalysisInterval") : 3.0)
-        _apiKey = State(initialValue: UserDefaults.standard.string(forKey: "geminiApiKey") ?? "")
+        // Read from Keychain, not UserDefaults
+        _apiKey = State(initialValue: KeychainManager.get(forKey: KeychainManager.Keys.geminiAPIKey) ?? "")
     }
     
     var body: some View {
@@ -138,8 +139,9 @@ struct GeminiSettingsView: View {
     private func saveSettings() {
         geminiService.setAnalysisInterval(analysisInterval)
         geminiService.updateApiKey(apiKey)
+        // analysisInterval is not sensitive — UserDefaults is fine
         UserDefaults.standard.set(analysisInterval, forKey: "geminiAnalysisInterval")
-        UserDefaults.standard.set(apiKey, forKey: "geminiApiKey")
+        // API key is stored to Keychain via updateApiKey(_:) — do NOT write to UserDefaults here
     }
     
     private func timeAgo(_ date: Date) -> String {

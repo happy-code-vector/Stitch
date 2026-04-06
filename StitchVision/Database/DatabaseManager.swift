@@ -1,6 +1,28 @@
 import Foundation
 import SQLite3
 
+// MARK: - Error Type
+
+/// Typed errors surfaced by DatabaseManager operations.
+/// Previously all failures were silent `print()` statements returning `false`/`nil`.
+/// Call sites that need to show UI can switch on this type; call sites that
+/// don't care can continue to use the `Bool`/optional-returning wrappers.
+enum DatabaseError: LocalizedError {
+    case connectionFailed
+    case prepareFailed(String)
+    case executionFailed(String)
+    case notFound
+
+    var errorDescription: String? {
+        switch self {
+        case .connectionFailed:       return "Could not open the local database."
+        case .prepareFailed(let msg): return "Query preparation failed: \(msg)"
+        case .executionFailed(let msg): return "Query execution failed: \(msg)"
+        case .notFound:               return "The requested record was not found."
+        }
+    }
+}
+
 class DatabaseManager {
     static let shared = DatabaseManager()
     
@@ -137,26 +159,37 @@ class DatabaseManager {
     }
     
     // MARK: - Execute Query
-    
+
+    /// Executes a DDL/DML statement that produces no rows.
+    /// Returns `true` on success; logs a typed `DatabaseError` on failure.
     @discardableResult
     private func executeQuery(_ query: String) -> Bool {
+        do {
+            try executeQueryThrowing(query)
+            return true
+        } catch {
+            // Surface the typed error to the console; call sites that need
+            // user-facing handling should call executeQueryThrowing directly.
+            print("[DatabaseManager] \(error.localizedDescription)")
+            return false
+        }
+    }
+
+    /// Throwing variant — use this from call sites that want to propagate errors.
+    private func executeQueryThrowing(_ query: String) throws {
         var statement: OpaquePointer?
-        
-        if sqlite3_prepare_v2(db, query, -1, &statement, nil) != SQLITE_OK {
-            let errorMessage = String(cString: sqlite3_errmsg(db))
-            print("Error preparing query: \(errorMessage)")
-            return false
+
+        guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
+            let msg = String(cString: sqlite3_errmsg(db))
+            throw DatabaseError.prepareFailed(msg)
         }
-        
-        if sqlite3_step(statement) != SQLITE_DONE {
-            let errorMessage = String(cString: sqlite3_errmsg(db))
-            print("Error executing query: \(errorMessage)")
-            sqlite3_finalize(statement)
-            return false
+
+        defer { sqlite3_finalize(statement) }
+
+        guard sqlite3_step(statement) == SQLITE_DONE else {
+            let msg = String(cString: sqlite3_errmsg(db))
+            throw DatabaseError.executionFailed(msg)
         }
-        
-        sqlite3_finalize(statement)
-        return true
     }
     
     // MARK: - User Operations
