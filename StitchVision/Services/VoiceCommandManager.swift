@@ -1,8 +1,6 @@
 import Foundation
 import Speech
 import AVFoundation
-import Combine
-import UIKit
 
 /// Supported voice commands
 enum VoiceCommand: Equatable, Hashable {
@@ -13,19 +11,8 @@ enum VoiceCommand: Equatable, Hashable {
     case endSession
     case addMarker(String)
     case unknown(String)
-
-    static func == (lhs: VoiceCommand, rhs: VoiceCommand) -> Bool {
-        switch (lhs, rhs) {
-        case (.countRow, .countRow): return true
-        case (.undo, .undo): return true
-        case (.pause, .pause): return true
-        case (.resume, .resume): return true
-        case (.endSession, .endSession): return true
-        case (.addMarker(let a), .addMarker(let b)): return a == b
-        case (.unknown(let a), .unknown(let b)): return a == b
-        default: return false
-        }
-    }
+    // Equatable and Hashable are synthesized automatically — all associated
+    // value types are String, which is already Equatable and Hashable.
 }
 
 /// Manages speech recognition and command parsing
@@ -49,7 +36,10 @@ class VoiceCommandManager: ObservableObject {
     private var speechRecognizer: SFSpeechRecognizer?
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
-    private let processingQueue = DispatchQueue(label: "com.stitchvoice.voicecommand")
+
+    // Tracks consecutive restart attempts to prevent an infinite restart loop (Fix 11).
+    private var restartAttempts = 0
+    private static let maxRestartAttempts = 5
 
     // MARK: - Command Phrases
 
@@ -82,10 +72,8 @@ class VoiceCommandManager: ObservableObject {
         speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))
 
         // Prefer on-device recognition if available
-        if #available(iOS 13, *) {
-            if let recognizer = speechRecognizer, recognizer.supportsOnDeviceRecognition {
-                recognizer.defaultTaskHint = .dictation
-            }
+        if let recognizer = speechRecognizer, recognizer.supportsOnDeviceRecognition {
+            recognizer.defaultTaskHint = .dictation
         }
     }
 
@@ -128,8 +116,8 @@ class VoiceCommandManager: ObservableObject {
 
         guard !isListening else { return }
 
-        // Cancel any existing task
-        stopListening()
+        // Tear down any existing session without flipping `isListening`.
+        tearDownSession()
 
         // Configure audio session
         do {
@@ -148,10 +136,11 @@ class VoiceCommandManager: ObservableObject {
             return
         }
 
-        recognitionRequest.shouldReportPartialResults = true
+        recognitionRequest.shouldReportPartialResults = false
 
-        // Enable on-device recognition if available
-        if #available(iOS 13, *) {
+        // Only require on-device recognition when the recognizer supports it;
+        // otherwise fall back to server-based recognition rather than failing silently.
+        if let recognizer = speechRecognizer, recognizer.supportsOnDeviceRecognition {
             recognitionRequest.requiresOnDeviceRecognition = true
         }
 
@@ -216,23 +205,46 @@ class VoiceCommandManager: ObservableObject {
     }
 
     func stopListening() {
-        audioEngine.stop()
-        audioEngine.inputNode.removeTap(onBus: 0)
-        recognitionRequest?.endAudio()
-        recognitionTask?.cancel()
+        restartAttempts = 0
+        tearDownSession()
 
-        recognitionRequest = nil
-        recognitionTask = nil
+        // Deactivate the audio session so other apps can reclaim audio hardware.
+        do {
+            try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        } catch {
+            print("VoiceCommandManager: failed to deactivate audio session: \(error)")
+        }
 
         DispatchQueue.main.async {
             self.isListening = false
         }
     }
 
-    private func restartListening() {
-        stopListening()
+    /// Cleans up the recognition task and audio engine tap without touching
+    /// `isListening` or the audio session. Called from both `startListening`
+    /// (to reset a previous session) and `stopListening`.
+    private func tearDownSession() {
+        audioEngine.stop()
+        audioEngine.inputNode.removeTap(onBus: 0)
+        recognitionRequest?.endAudio()
+        recognitionTask?.cancel()
+        recognitionRequest = nil
+        recognitionTask = nil
+    }
 
-        // Small delay before restarting
+    private func restartListening() {
+        // Give up after too many consecutive failures to avoid an infinite loop.
+        guard restartAttempts < Self.maxRestartAttempts else {
+            DispatchQueue.main.async {
+                self.isListening = false
+                self.errorMessage = "Speech recognition failed repeatedly. Tap the microphone to try again."
+            }
+            restartAttempts = 0
+            return
+        }
+        restartAttempts += 1
+        tearDownSession()
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             self?.startListening()
         }
@@ -271,19 +283,8 @@ class VoiceCommandManager: ObservableObject {
     private func handleCommand(_ command: VoiceCommand) {
         DispatchQueue.main.async {
             self.lastCommand = command
-
-            // Provide haptic feedback
-            let generator = UINotificationFeedbackGenerator()
-            generator.prepare()
-
-            switch command {
-            case .unknown:
-                generator.notificationOccurred(.warning)
-            default:
-                generator.notificationOccurred(.success)
-            }
-
-            // Call callback
+            // Haptic feedback is the caller's responsibility via `onCommandReceived`
+            // and FeedbackController — this manager stays free of UIKit.
             self.onCommandReceived?(command)
         }
     }
@@ -291,6 +292,12 @@ class VoiceCommandManager: ObservableObject {
     // MARK: - Cleanup
 
     deinit {
-        stopListening()
+        // Synchronous teardown only — calling `stopListening()` here would
+        // dispatch async work that captures `self` while it is being deallocated.
+        audioEngine.stop()
+        audioEngine.inputNode.removeTap(onBus: 0)
+        recognitionRequest?.endAudio()
+        recognitionTask?.cancel()
+        try? AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
     }
 }

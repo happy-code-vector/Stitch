@@ -10,13 +10,15 @@ struct PatternImportView: View {
     @State private var isLoading = false
     @State private var detectionResult: PatternDetectionResult?
     @State private var errorMessage: String?
-    @State private var patternName: String = ""
+    @State private var patternName = ""
     @State private var selectedItem: PhotosPickerItem?
+    @State private var loadImageTask: Task<Void, Never>?
+    @State private var detectRowsTask: Task<Void, Never>?
 
-    let onPatternSaved: ((KnittingPattern) -> Void)?
+    var onPatternSaved: ((KnittingPattern) -> Void)? = nil
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
                     if selectedImage == nil {
@@ -28,22 +30,23 @@ struct PatternImportView: View {
                 }
                 .padding()
             }
+            .navigationTitle("Import Pattern")
             .navigationBarTitleDisplayMode(.inline)
+            .onDisappear {
+                loadImageTask?.cancel()
+                detectRowsTask?.cancel()
+            }
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
+                ToolbarItem(placement: .topBarLeading) {
                     Button("Cancel") {
                         dismiss()
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if selectedImage != nil && detectionResult != nil {
-                        Button("Save") {
-                            if !isLoading {
-                                savePattern()
-                            }
-                        }
-                        .disabled(isLoading || detectionResult == nil)
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Save") {
+                        savePattern()
                     }
+                    .disabled(isLoading || selectedImage == nil || detectionResult == nil)
                 }
             }
         }
@@ -53,7 +56,7 @@ struct PatternImportView: View {
         VStack(spacing: 16) {
             Image(systemName: "photo.on.rectangle")
                 .font(.system(size: 60))
-                .foregroundColor(.gray)
+                .foregroundStyle(.gray)
 
             Text("Import Pattern")
                 .font(.title2)
@@ -61,19 +64,19 @@ struct PatternImportView: View {
 
             Text("Select a pattern image from your photo library to track your progress")
                 .font(.body)
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 
             PhotosPicker(selection: $selectedItem, matching: .images) {
                 Text("Choose from Photos")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color(red: 0.561, green: 0.659, blue: 0.533))
-                    .cornerRadius(12)
+                    .clipShape(.rect(cornerRadius: 12))
             }
-            .onChange(of: selectedItem) { newItem in
+            .onChange(of: selectedItem) { _, newItem in
                 loadImage(from: newItem)
             }
         }
@@ -81,23 +84,21 @@ struct PatternImportView: View {
 
     private var imagePreviewSection: some View {
         VStack(spacing: 16) {
-            // Image preview
-            if let image = selectedImage {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxHeight: 200)
-                    .cornerRadius(12)
-            }
+            // Image preview — only shown when selectedImage is non-nil
+            Image(uiImage: selectedImage!)
+                .resizable()
+                .scaledToFit()
+                .frame(maxHeight: 200)
+                .clipShape(.rect(cornerRadius: 12))
 
             // Pattern name input
             VStack(alignment: .leading) {
                 Text("Pattern Name")
                     .font(.caption)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
 
                 TextField("Enter pattern name", text: $patternName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .textFieldStyle(.roundedBorder)
             }
 
             // Detect button
@@ -105,17 +106,17 @@ struct PatternImportView: View {
                 HStack {
                     if isLoading {
                         ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
+                            .progressViewStyle(.circular)
                     } else {
                         Image(systemName: "wand.and.stars")
                     }
-                    Text(isLoading ? "Detecting..." : "Detect Rows")
+                    Text("Detect Rows")
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(Color(red: 0.561, green: 0.659, blue: 0.533))
-                .foregroundColor(.white)
-                .cornerRadius(12)
+                .foregroundStyle(.white)
+                .clipShape(.rect(cornerRadius: 12))
             }
             .disabled(isLoading)
         }
@@ -138,7 +139,7 @@ struct PatternImportView: View {
         VStack(spacing: 12) {
             Image(systemName: "checkmark.circle.fill")
                 .font(.system(size: 50))
-                .foregroundColor(.green)
+                .foregroundStyle(.green)
 
             Text("Pattern Detected")
                 .font(.title2)
@@ -150,7 +151,7 @@ struct PatternImportView: View {
 
                 Text("Confidence: \(Int(result.confidence * 100))%")
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
         }
     }
@@ -159,7 +160,7 @@ struct PatternImportView: View {
         VStack(spacing: 12) {
             Image(systemName: "exclamationmark.triangle.fill")
                 .font(.system(size: 50))
-                .foregroundColor(.orange)
+                .foregroundStyle(.orange)
 
             Text("Detection Issue")
                 .font(.title2)
@@ -167,30 +168,39 @@ struct PatternImportView: View {
 
             Text(message)
                 .font(.body)
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
     }
 
     private func loadImage(from item: PhotosPickerItem?) {
-        guard let item = item else { return }
+        guard let item else { return }
 
+        // Fix 10: Clear the previous image immediately so the UI doesn't show
+        // a stale image while the new one loads.
+        selectedImage = nil
+        detectionResult = nil
+        errorMessage = nil
         isLoading = true
 
-        Task {
-            if let data = try? await item.loadTransferable(type: Data.self),
-               let uiImage = UIImage(data: data) {
-                await MainActor.run {
+        // Fix 12: Cancel any in-flight load before starting a new one.
+        loadImageTask?.cancel()
+        loadImageTask = Task {
+            do {
+                if let data = try await item.loadTransferable(type: Data.self),
+                   let uiImage = UIImage(data: data) {
+                    guard !Task.isCancelled else { return }
                     selectedImage = uiImage
                     isLoading = false
-                    detectionResult = nil
-                    errorMessage = nil
-                }
-            } else {
-                await MainActor.run {
+                } else {
+                    guard !Task.isCancelled else { return }
                     isLoading = false
                     errorMessage = "Failed to load image"
                 }
+            } catch {
+                guard !Task.isCancelled else { return }
+                isLoading = false
+                errorMessage = "Failed to load image: \(error.localizedDescription)"
             }
         }
     }
@@ -201,15 +211,25 @@ struct PatternImportView: View {
         isLoading = true
         errorMessage = nil
 
-        detectionService.detectRows(in: image) { result in
+        // Fix 12: Cancel any in-flight detection before starting a new one.
+        detectRowsTask?.cancel()
+        detectRowsTask = Task {
+            // Fix 4 & 11: Use a proper async wrapper so all state mutations
+            // happen after the await, on the main actor, with no loose
+            // trailing work after continuation.resume().
+            let result = await withCheckedContinuation { (continuation: CheckedContinuation<PatternDetectionResult, Never>) in
+                detectionService.detectRows(in: image) { result in
+                    continuation.resume(returning: result)
+                }
+            }
+
+            guard !Task.isCancelled else { return }
+
             detectionResult = result
             isLoading = false
 
-            if result.isSuccess {
-                // Auto-fill pattern name if empty
-                if patternName.isEmpty {
-                    patternName = "Pattern (\(result.totalRows) rows)"
-                }
+            if result.isSuccess && patternName.isEmpty {
+                patternName = "Pattern (\(result.totalRows) rows)"
             }
         }
     }
@@ -226,7 +246,11 @@ struct PatternImportView: View {
             totalRows: result.totalRows
         )
 
-        storageService.savePattern(pattern)
+        let saved = storageService.savePattern(pattern)
+        guard saved else {
+            errorMessage = storageService.errorMessage ?? "Failed to save pattern."
+            return
+        }
         onPatternSaved?(pattern)
         dismiss()
     }
