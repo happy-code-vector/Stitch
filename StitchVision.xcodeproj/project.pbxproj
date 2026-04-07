@@ -37,8 +37,6 @@
 		88E402D82F73D016002E2481 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = 88E402D72F73D016002E2481 /* Contents.json */; };
 		88E402DE2F73D064002E2481 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 88E402DB2F73D064002E2481 /* Products.storekit */; };
 		88E402DF2F73D064002E2481 /* abbreviations.json in Resources */ = {isa = PBXBuildFile; fileRef = 88E402D92F73D064002E2481 /* abbreviations.json */; };
-		88E402E42F73D075002E2481 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402E22F73D075002E2481 /* CoreDataManager.swift */; };
-		88E402E52F73D075002E2481 /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402E02F73D075002E2481 /* Entities.swift */; };
 		88E402EF2F83688F002E2481 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402EE2F83688F002E2481 /* KeychainManager.swift */; };
 		A1234567890123456789012A /* StitchVisionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012B /* StitchVisionApp.swift */; };
 		A1234567890123456789012C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012D /* ContentView.swift */; };
@@ -129,8 +127,6 @@
 		88E402D92F73D064002E2481 /* abbreviations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = abbreviations.json; sourceTree = "<group>"; };
 		88E402DB2F73D064002E2481 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		88E402DC2F73D064002E2481 /* StitchVision.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StitchVision.entitlements; sourceTree = "<group>"; };
-		88E402E02F73D075002E2481 /* Entities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
-		88E402E22F73D075002E2481 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		88E402EE2F83688F002E2481 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		A1234567890123456789012B /* StitchVisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchVisionApp.swift; sourceTree = "<group>"; };
 		A1234567890123456789012D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -228,27 +224,9 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		88E402E12F73D075002E2481 /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				88E402E02F73D075002E2481 /* Entities.swift */,
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
-		88E402E32F73D075002E2481 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				88E402E12F73D075002E2481 /* CoreData */,
-				88E402E22F73D075002E2481 /* CoreDataManager.swift */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
 		A1234567890123456789013E /* StitchVision */ = {
 			isa = PBXGroup;
 			children = (
-				88E402E32F73D075002E2481 /* Data */,
 				88E402DD2F73D064002E2481 /* Resources */,
 				A1234567890123456789012B /* StitchVisionApp.swift */,
 				A1234567890123456789012D /* ContentView.swift */,
@@ -548,8 +526,6 @@
 				A1234567890123456789042B /* PermissionsView.swift in Sources */,
 				A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */,
 				A1234567890123456789044B /* SubscriptionView.swift in Sources */,
-				88E402E42F73D075002E2481 /* CoreDataManager.swift in Sources */,
-				88E402E52F73D075002E2481 /* Entities.swift in Sources */,
 				A1234567890123456789045B /* WorkModeView.swift in Sources */,
 				A1234567890123456789046B /* SessionSummaryView.swift in Sources */,
 				A1234567890123456789047B /* ProjectDetailView.swift in Sources */,
