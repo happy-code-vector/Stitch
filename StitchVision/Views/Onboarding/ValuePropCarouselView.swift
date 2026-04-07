@@ -39,6 +39,22 @@ struct ValuePropCarouselView: View {
             .ignoresSafeArea()
 
             VStack(spacing: 0) {
+                // Back button (top-left, visible on all pages)
+                HStack {
+                    Button(action: { appState.goBack() }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 17, weight: .semibold))
+                            Text("Back")
+                                .font(.system(size: 17))
+                        }
+                        .foregroundColor(.white.opacity(0.9))
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 16)
+
                 Spacer()
 
                 // Page content
@@ -86,7 +102,7 @@ struct ValuePropCarouselView: View {
                 .padding(.bottom, 50)
             }
         }
-        .navigationBarHidden(true)
+        .navigationBarHidden(false)
     }
 }
 

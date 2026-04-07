@@ -30,7 +30,7 @@ struct ProjectSetupView: View {
                 // Header
                 HStack {
                     Button(action: {
-                        appState.navigateTo(.dashboard)
+                        appState.goBack()
                     }) {
                         Text("Cancel")
                             .font(.body)

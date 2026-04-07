@@ -20,6 +20,22 @@ struct PatternLibraryPreviewView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
+                // Back button row
+                HStack {
+                    Button(action: { appState.goBack() }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 17, weight: .semibold))
+                            Text("Back")
+                                .font(.system(size: 17))
+                        }
+                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 16)
+
                 // Header
                 VStack(spacing: 12) {
                     Text("🧶")
@@ -78,7 +94,7 @@ struct PatternLibraryPreviewView: View {
                 .padding(.bottom, 50)
             }
         }
-        .navigationBarHidden(true)
+        .navigationBarHidden(false)
         .sheet(isPresented: $showPaywall) {
             PaywallView(feature: "Access Pattern Library")
         }

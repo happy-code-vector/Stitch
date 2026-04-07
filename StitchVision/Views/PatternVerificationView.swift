@@ -24,12 +24,29 @@ struct PatternVerificationView: View {
                 // Header
                 VStack(spacing: 16) {
                     HStack {
+                        Button(action: { appState.goBack() }) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 17, weight: .semibold))
+                                Text("Back")
+                                    .font(.system(size: 17))
+                            }
+                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        }
+
+                        Spacer()
+
                         Text("Pattern Check")
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                        
+
                         Spacer()
+
+                        // Balance the back button for centering
+                        Text("Back")
+                            .font(.system(size: 17))
+                            .foregroundColor(.clear)
                     }
                     
                     Text("Review parsed instructions")
