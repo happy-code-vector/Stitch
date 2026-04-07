@@ -31,6 +31,14 @@ struct GoalSettingView: View {
             
             // Content
             VStack(spacing: 0) {
+                // Back button
+                HStack {
+                    BackButton()
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 8)
+
                 // Header
                 VStack(spacing: 16) {
                     Text("What's your main goal?")

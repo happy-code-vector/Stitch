@@ -1,6 +1,25 @@
 import SwiftUI
 
-// MARK: - Helper Views
+// MARK: - Back Button
+
+/// A consistent back button used across all screens.
+/// Calls `appState.goBack()` so it always returns to the real previous screen
+/// rather than a hardcoded destination.
+struct BackButton: View {
+    @EnvironmentObject var appState: AppState
+
+    var body: some View {
+        Button(action: { appState.goBack() }) {
+            HStack(spacing: 4) {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 17, weight: .semibold))
+                Text("Back")
+                    .font(.system(size: 17, weight: .regular))
+            }
+            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+        }
+    }
+}
 struct PlaceholderView: View {
     let title: String
     let nextScreen: ScreenType

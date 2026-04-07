@@ -179,13 +179,29 @@ class VoiceCommandManager: ObservableObject {
             }
         }
 
-        // Configure audio input
+        // Configure audio input — must use inputFormat, not outputFormat.
+        // outputFormat(forBus:) can return a zero sample-rate format before
+        // the engine is prepared, which triggers the assertion failure.
         let inputNode = audioEngine.inputNode
-        let recordingFormat = inputNode.outputFormat(forBus: 0)
+        let recordingFormat = inputNode.inputFormat(forBus: 0)
 
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { buffer, _ in
-            self.recognitionRequest?.append(buffer)
+        // Guard against a zero sample rate, which indicates the audio session
+        // hasn't fully activated yet (e.g. simulator with no mic, or session
+        // category not supporting input).
+        guard recordingFormat.sampleRate > 0 else {
+            DispatchQueue.main.async {
+                self.errorMessage = "Audio input unavailable (sample rate = 0). Check microphone permissions."
+            }
+            return
         }
+
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] buffer, _ in
+            self?.recognitionRequest?.append(buffer)
+        }
+
+        // Prepare the engine before starting so the audio graph is fully
+        // resolved and hardware resources are allocated.
+        audioEngine.prepare()
 
         // Start audio engine
         do {

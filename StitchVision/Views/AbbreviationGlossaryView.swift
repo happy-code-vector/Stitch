@@ -66,6 +66,7 @@ class AbbreviationGlossaryService: ObservableObject {
 }
 
 struct AbbreviationGlossaryView: View {
+    @EnvironmentObject var appState: AppState
     @StateObject private var service = AbbreviationGlossaryService.shared
     @State private var searchText = ""
     @State private var selectedCraft: CraftType = .both
@@ -152,6 +153,19 @@ struct AbbreviationGlossaryView: View {
             .background(Color(red: 0.976, green: 0.969, blue: 0.949))
             .navigationTitle("Abbreviation Guide")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { appState.goBack() }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 17, weight: .semibold))
+                            Text("Back")
+                                .font(.system(size: 17))
+                        }
+                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    }
+                }
+            }
         }
     }
 

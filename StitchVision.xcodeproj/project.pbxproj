@@ -40,10 +40,6 @@
 		88E402E42F73D075002E2481 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402E22F73D075002E2481 /* CoreDataManager.swift */; };
 		88E402E52F73D075002E2481 /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402E02F73D075002E2481 /* Entities.swift */; };
 		88E402EF2F83688F002E2481 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402EE2F83688F002E2481 /* KeychainManager.swift */; };
-		88E402F12F8368B6002E2481 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402F02F8368B6002E2481 /* CoreDataManager.swift */; };
-		88E402F32F8368BB002E2481 /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402F22F8368BB002E2481 /* Entities.swift */; };
-		88E402F52F8368C2002E2481 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402F42F8368C2002E2481 /* Project.swift */; };
-		88E402F72F8368E5002E2481 /* StitchVisionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402F62F8368E5002E2481 /* StitchVisionTests.swift */; };
 		A1234567890123456789012A /* StitchVisionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012B /* StitchVisionApp.swift */; };
 		A1234567890123456789012C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012D /* ContentView.swift */; };
 		A1234567890123456789012E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012F /* Assets.xcassets */; };
@@ -136,10 +132,6 @@
 		88E402E02F73D075002E2481 /* Entities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
 		88E402E22F73D075002E2481 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		88E402EE2F83688F002E2481 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
-		88E402F02F8368B6002E2481 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		88E402F22F8368BB002E2481 /* Entities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
-		88E402F42F8368C2002E2481 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
-		88E402F62F8368E5002E2481 /* StitchVisionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchVisionTests.swift; sourceTree = "<group>"; };
 		A1234567890123456789012B /* StitchVisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchVisionApp.swift; sourceTree = "<group>"; };
 		A1234567890123456789012D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A1234567890123456789012F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -344,10 +336,6 @@
 				A1234567890123456789064D /* CameraManager.swift */,
 				A1234567890123456789069D /* GeminiVisionService.swift */,
 				88E402EE2F83688F002E2481 /* KeychainManager.swift */,
-				88E402F02F8368B6002E2481 /* CoreDataManager.swift */,
-				88E402F22F8368BB002E2481 /* Entities.swift */,
-				88E402F42F8368C2002E2481 /* Project.swift */,
-				88E402F62F8368E5002E2481 /* StitchVisionTests.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -540,12 +528,10 @@
 				88E402C52F73CC76002E2481 /* AchievementService.swift in Sources */,
 				88E402C62F73CC76002E2481 /* AnalyticsService.swift in Sources */,
 				88E402C72F73CC76002E2481 /* PatternStorageService.swift in Sources */,
-				88E402F32F8368BB002E2481 /* Entities.swift in Sources */,
 				88E402C82F73CC76002E2481 /* RowCountingService.swift in Sources */,
 				88E402C92F73CC76002E2481 /* StitchBotService.swift in Sources */,
 				88E402CA2F73CC76002E2481 /* SubscriptionManager.swift in Sources */,
 				88E402CB2F73CC76002E2481 /* VoiceCommandManager.swift in Sources */,
-				88E402F52F8368C2002E2481 /* Project.swift in Sources */,
 				88E402CC2F73CC76002E2481 /* OpticalFlowDetector.swift in Sources */,
 				A1234567890123456789031B /* StatsProblemView.swift in Sources */,
 				A1234567890123456789032B /* HabitFrequencyView.swift in Sources */,
@@ -576,7 +562,6 @@
 				A1234567890123456789054B /* ProfileEditorView.swift in Sources */,
 				A1234567890123456789055B /* UserDefaultsManager.swift in Sources */,
 				A1234567890123456789056B /* CameraPermissionManager.swift in Sources */,
-				88E402F12F8368B6002E2481 /* CoreDataManager.swift in Sources */,
 				A1234567890123456789057B /* EnhancedSubscriptionView.swift in Sources */,
 				A1234567890123456789058B /* AuthenticationView.swift in Sources */,
 				A1234567890123456789059B /* FreeVsProComparisonView.swift in Sources */,
@@ -597,7 +582,6 @@
 				88E4029A2F73CA73002E2481 /* ValuePropCarouselView.swift in Sources */,
 				88E4029B2F73CA73002E2481 /* PatternLibraryPreviewView.swift in Sources */,
 				88E4029C2F73CA73002E2481 /* ProGateView.swift in Sources */,
-				88E402F72F8368E5002E2481 /* StitchVisionTests.swift in Sources */,
 				A1234567890123456789064B /* CameraManager.swift in Sources */,
 				88E402D32F73CECF002E2481 /* ChartComponents.swift in Sources */,
 				A1234567890123456789065B /* CameraPreviewView.swift in Sources */,

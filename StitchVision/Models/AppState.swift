@@ -43,6 +43,7 @@ enum ScreenType: CaseIterable {
 
 class AppState: ObservableObject {
     @Published var currentScreen: ScreenType
+    @Published var navigationHistory: [ScreenType] = []
     @Published var sessionData = SessionData(rowsKnit: 0, timeSpent: 0)
     @Published var isPro = false
     @Published var selectedProjectId: Int?
@@ -101,8 +102,20 @@ class AppState: ObservableObject {
     }
     
     func navigateTo(_ screen: ScreenType) {
+        // Push current screen onto the history stack before navigating,
+        // but don't allow going "back" to splash or dashboard mid-onboarding.
+        navigationHistory.append(currentScreen)
         currentScreen = screen
     }
+
+    /// Navigate back to the previous screen if one exists.
+    func goBack() {
+        guard let previous = navigationHistory.popLast() else { return }
+        currentScreen = previous
+    }
+
+    /// Whether a back destination exists.
+    var canGoBack: Bool { !navigationHistory.isEmpty }
     
     func updateSessionData(rowsKnit: Int, timeSpent: Int) {
         sessionData = SessionData(rowsKnit: rowsKnit, timeSpent: timeSpent)
@@ -146,11 +159,12 @@ class AppState: ObservableObject {
             hasCompletedOnboarding: true
         )
         _ = db.saveUser(user)
-        
-        // Navigate to dashboard
+
+        // Clear history — dashboard is the new root
+        navigationHistory.removeAll()
         navigateTo(.dashboard)
     }
-    
+
     func resetOnboarding() {
         _ = db.updateOnboardingStatus(completed: false)
         selectedCraft = nil
@@ -158,6 +172,7 @@ class AppState: ObservableObject {
         struggles = []
         habitFrequency = nil
         goal = nil
+        navigationHistory.removeAll()
         navigateTo(.splash)
     }
     

@@ -31,7 +31,7 @@ struct ProjectDetailView: View {
                         // Header
                         HStack {
                             Button(action: {
-                                appState.navigateTo(.dashboard)
+                                appState.goBack()
                             }) {
                                 Image(systemName: "chevron.left")
                                     .font(.title2)
@@ -216,7 +216,7 @@ struct ProjectDetailView: View {
                         .fontWeight(.bold)
                     
                     Button("Go Back") {
-                        appState.navigateTo(.dashboard)
+                        appState.goBack()
                     }
                     .padding()
                 }
@@ -227,7 +227,7 @@ struct ProjectDetailView: View {
             Button("Delete", role: .destructive) {
                 if let projectId = appState.selectedProjectId {
                     projectStore.deleteProject(projectId)
-                    appState.navigateTo(.dashboard)
+                    appState.goBack()
                 }
             }
         } message: {

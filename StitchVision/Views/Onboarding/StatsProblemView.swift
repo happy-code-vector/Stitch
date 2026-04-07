@@ -20,7 +20,15 @@ struct StatsProblemView: View {
                     .frame(maxWidth: .infinity)
             }
             .padding(.horizontal, 0)
-            
+
+            // Back button
+            HStack {
+                BackButton()
+                Spacer()
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 8)
+
             ScrollView {
                 VStack(spacing: 24) {
                     // Empathy Mascot

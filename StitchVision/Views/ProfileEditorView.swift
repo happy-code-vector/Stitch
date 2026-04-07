@@ -20,7 +20,7 @@ struct ProfileEditorView: View {
                 // Header
                 HStack {
                     Button(action: {
-                        appState.navigateTo(.settings)
+                        appState.goBack()
                     }) {
                         Text("Cancel")
                             .font(.body)
@@ -39,7 +39,7 @@ struct ProfileEditorView: View {
                     Button(action: {
                         // Save profile changes to database
                         appState.updateUserProfile(name: displayName, email: email)
-                        appState.navigateTo(.settings)
+                        appState.goBack()
                     }) {
                         Text("Save")
                             .font(.body)

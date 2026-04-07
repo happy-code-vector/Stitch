@@ -40,6 +40,14 @@ struct HowItWorksView: View {
             .frame(height: 8)
             
             VStack(spacing: 0) {
+                // Back button
+                HStack {
+                    BackButton()
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 8)
+
                 // Header
                 VStack(spacing: 8) {
                     Text("How It Works")

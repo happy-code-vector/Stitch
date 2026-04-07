@@ -17,7 +17,7 @@ struct SettingsView: View {
                 // Header
                 HStack {
                     Button(action: {
-                        appState.navigateTo(.dashboard)
+                        appState.goBack()
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .medium))

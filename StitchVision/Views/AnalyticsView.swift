@@ -6,7 +6,6 @@ struct AnalyticsView: View {
     @StateObject private var achievementService = AchievementService.shared
     @StateObject private var subscriptionManager = SubscriptionManager.shared
     @EnvironmentObject var appState: AppState
-    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
@@ -37,7 +36,7 @@ struct AnalyticsView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Close") {
-                        dismiss()
+                        appState.goBack()
                     }
                     .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                 }

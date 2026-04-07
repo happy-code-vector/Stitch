@@ -30,6 +30,14 @@ struct SkillLevelView: View {
             
             // Content
             VStack(spacing: 0) {
+                // Back button
+                HStack {
+                    BackButton()
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 8)
+
                 // Header
                 Text("What's your skill level?")
                     .font(.title2)
