@@ -43,6 +43,7 @@ struct ProjectDetailView: View {
                             Menu {
                                 Button(action: {
                                     projectStore.setActiveProject(project.id)
+                                    appState.selectedProjectId = project.id
                                     appState.navigateTo(.workMode)
                                 }) {
                                     Label("Start Session", systemImage: "play.fill")
@@ -187,6 +188,7 @@ struct ProjectDetailView: View {
                         // Action Button
                         Button(action: {
                             projectStore.setActiveProject(project.id)
+                            appState.selectedProjectId = project.id
                             appState.navigateTo(.workMode)
                         }) {
                             HStack {

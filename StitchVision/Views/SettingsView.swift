@@ -4,7 +4,7 @@ struct SettingsView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var cameraManager = CameraPermissionManager.shared
     @StateObject private var geminiService = GeminiVisionService()
-    @State private var isPro = false
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var showPermissionAlert = false
     @State private var showGeminiSettings = false
     
@@ -75,7 +75,7 @@ struct SettingsView: View {
                                     
                                     HStack(spacing: 8) {
                                         HStack(spacing: 4) {
-                                            if isPro {
+                                            if appState.isPro {
                                                 Image(systemName: "crown.fill")
                                                     .font(.system(size: 12))
                                                     .foregroundColor(.white)
@@ -91,7 +91,7 @@ struct SettingsView: View {
                                         .padding(.horizontal, 12)
                                         .padding(.vertical, 4)
                                         .background(
-                                            isPro 
+                                            appState.isPro 
                                             ? LinearGradient(
                                                 colors: [
                                                     Color(red: 0.83, green: 0.69, blue: 0.22),
@@ -120,7 +120,7 @@ struct SettingsView: View {
                         .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
                         
                         // Upgrade Card - Only show if not Pro
-                        if !isPro {
+                        if !appState.isPro {
                             VStack(spacing: 16) {
                                 HStack(spacing: 8) {
                                     Image(systemName: "crown")
@@ -157,7 +157,7 @@ struct SettingsView: View {
                                         .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                                 }
                                 .scaleEffect(1.0)
-                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isPro)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: appState.isPro)
                             }
                             .padding(.horizontal, 24)
                             .padding(.vertical, 24)
@@ -363,6 +363,9 @@ struct SettingsView: View {
         }
         .onAppear {
             cameraManager.checkPermissionStatus()
+            Task {
+                await subscriptionManager.checkSubscriptionStatus()
+            }
         }
         .sheet(isPresented: $showGeminiSettings) {
             GeminiSettingsView(geminiService: geminiService)

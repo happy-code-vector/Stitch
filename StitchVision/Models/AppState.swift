@@ -26,7 +26,6 @@ enum ScreenType: CaseIterable {
     case workMode
     case sessionSummary
     case settings
-    case patternVerification
     case projectSetup
     case projectDetail
     case patternUpload
@@ -63,14 +62,13 @@ class AppState: ObservableObject {
     init() {
         // Initialize currentScreen first
         self.currentScreen = .splash
-        
+
         // Migrate from UserDefaults to SQLite if needed
         migrateFromUserDefaults()
-        
+
         // Load user data from database
         if let user = db.getUser() {
             self.currentScreen = user.hasCompletedOnboarding ? .dashboard : .splash
-            self.isPro = user.isPro
             self.selectedCraft = user.craftType.isEmpty ? nil : user.craftType
             self.skillLevel = user.skillLevel.isEmpty ? nil : user.skillLevel
             self.struggles = user.struggles
@@ -78,6 +76,20 @@ class AppState: ObservableObject {
             self.goal = user.goal.isEmpty ? nil : user.goal
             self.userName = user.name.isEmpty ? nil : user.name
             self.userEmail = user.email.isEmpty ? nil : user.email
+        }
+
+        // Sync Pro status from SubscriptionManager (StoreKit source of truth)
+        syncProStatus()
+    }
+
+    /// Sync isPro from SubscriptionManager and persist to database
+    func syncProStatus() {
+        let isProFromSubscription = SubscriptionManager.shared.subscription.isPro
+        self.isPro = isProFromSubscription
+        // Persist to database
+        if var user = db.getUser() {
+            user.isPro = isProFromSubscription
+            _ = db.saveUser(user)
         }
     }
     

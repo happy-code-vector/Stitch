@@ -2,6 +2,7 @@ import SwiftUI
 
 struct EnhancedSubscriptionView: View {
     @EnvironmentObject var appState: AppState
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var selectedPlan: PlanType = .proYearly
     @State private var selectedTier: PlanTier = .pro
     @State private var animateElements = false
@@ -124,11 +125,21 @@ struct EnhancedSubscriptionView: View {
             VStack(spacing: 12) {
                 Button(action: {
                     if selectedTier == .pro {
-                        // Pro selected - go to calibration
-                        appState.updateProStatus(true)
-                        appState.navigateTo(.calibration)
+                        // Fix 5: Purchase through SubscriptionManager instead
+                        // of bypassing StoreKit with appState.updateProStatus(true).
+                        Task {
+                            let productID = selectedPlan == .proYearly
+                                ? SubscriptionManager.yearlyProID
+                                : SubscriptionManager.monthlyProID
+                            guard let product = subscriptionManager.products.first(where: { $0.id == productID }) else {
+                                return
+                            }
+                            let success = await subscriptionManager.purchase(product)
+                            if success {
+                                appState.navigateTo(.calibration)
+                            }
+                        }
                     } else {
-                        // Free selected - go to downsell
                         appState.navigateTo(.downsell)
                     }
                 }) {
@@ -161,7 +172,13 @@ struct EnhancedSubscriptionView: View {
                 // Footer Links
                 HStack(spacing: 8) {
                     Button("Restore Purchases") {
-                        // Restore purchases logic
+                        // Fix 6: Actually call restorePurchases instead of leaving empty.
+                        Task {
+                            await subscriptionManager.restorePurchases()
+                            if subscriptionManager.isPro {
+                                appState.navigateTo(.calibration)
+                            }
+                        }
                     }
                     .font(.caption2)
                     .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))

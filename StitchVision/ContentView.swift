@@ -63,8 +63,6 @@ struct ContentView: View {
                 )
             case .settings:
                 SettingsView()
-            case .patternVerification:
-                PatternVerificationView()
             case .projectSetup:
                 ProjectSetupView()
             case .projectDetail:

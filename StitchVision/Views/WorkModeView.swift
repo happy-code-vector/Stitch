@@ -517,7 +517,7 @@ struct WorkModeView: View {
     }
     
     private func handleExit() {
-        guard let activeProjectId = projectStore.getActiveProject()?.id else {
+        guard projectStore.getActiveProject() != nil else {
             // Stop services and show alert, then navigate back
             cameraManager.stopSession()
             voiceCommandManager.stopListening()
@@ -525,25 +525,12 @@ struct WorkModeView: View {
             showNoProjectAlert = true
             return
         }
-        
+
         let timeSpent = Int(Date().timeIntervalSince(sessionStartTime) / 60)
         let rowsKnit = rowCountingService.rowCount - initialRowCount
 
-        // Create and save session
-        let session = SessionModel(
-            projectId: activeProjectId,
-            rowsKnit: max(0, rowsKnit),
-            timeSpent: timeSpent,
-            startTime: ISO8601DateFormatter().string(from: sessionStartTime),
-            endTime: ISO8601DateFormatter().string(from: Date())
-        )
-
-        // Save to database
-        if DatabaseManager.shared.saveSession(session) {
-            print("Session saved: \(rowsKnit) rows, \(timeSpent) minutes")
-        }
-
-        // Update app state
+        // Update app state with session data (actual save happens in SessionSummaryView)
+        appState.selectedProjectId = projectStore.getActiveProject()?.id
         appState.updateSessionData(rowsKnit: max(0, rowsKnit), timeSpent: timeSpent)
 
         // Save pattern progress if pattern is selected

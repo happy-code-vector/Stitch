@@ -144,7 +144,8 @@ struct SubscriptionView: View {
                     // CTA Buttons
                     VStack(spacing: 16) {
                         Button(action: {
-                            appState.navigateTo(.downsell)
+                            // Fix 7: Navigate to the real purchase screen instead of downsell.
+                            appState.navigateTo(.enhancedSubscription)
                         }) {
                             Text("Start Pro Trial")
                                 .font(.headline)

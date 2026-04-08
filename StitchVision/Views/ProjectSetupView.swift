@@ -5,6 +5,7 @@ struct ProjectSetupView: View {
     @EnvironmentObject var projectStore: ProjectStore
     @State private var projectName = ""
     @State private var needleSize = ""
+    @State private var totalRowsText = ""
     @State private var selectedYarn: YarnStashItem? = nil
     @State private var aiCountingEnabled = true
     @State private var showYarnSelector = false
@@ -98,15 +99,39 @@ struct ProjectSetupView: View {
                                             .font(.system(size: 14, weight: .medium))
                                             .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
                                             .frame(width: 128, alignment: .leading)
-                                        
+
                                         Spacer()
-                                        
+
                                         TextField("5.0 mm", text: $needleSize)
                                             .font(.system(size: 14, weight: .regular))
                                             .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
                                             .multilineTextAlignment(.trailing)
                                             .disableAutocorrection(true)
                                             .keyboardType(.decimalPad)
+                                    }
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 12)
+                                }
+
+                                Divider()
+                                    .background(Color(red: 0.867, green: 0.867, blue: 0.867))
+
+                                // Total Rows Input
+                                VStack(spacing: 0) {
+                                    HStack {
+                                        Text("Total Rows")
+                                            .font(.system(size: 14, weight: .medium))
+                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .frame(width: 128, alignment: .leading)
+
+                                        Spacer()
+
+                                        TextField("e.g. 100", text: $totalRowsText)
+                                            .font(.system(size: 14, weight: .regular))
+                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .multilineTextAlignment(.trailing)
+                                            .disableAutocorrection(true)
+                                            .keyboardType(.numberPad)
                                     }
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 12)
@@ -318,6 +343,7 @@ struct ProjectSetupView: View {
     
     private func handleCreate() {
         if isFormValid {
+            let rows = Int(totalRowsText) ?? 0
             // Create new project and save to database
             let newProject = ProjectModel(
                 name: projectName,
@@ -326,11 +352,11 @@ struct ProjectSetupView: View {
                 yarnType: selectedYarn?.name ?? "",
                 yarnColor: selectedYarn?.color ?? "",
                 patternName: "",
-                totalRows: 0,
+                totalRows: rows,
                 currentRow: 0,
                 status: "active"
             )
-            
+
             projectStore.addProject(newProject)
             appState.navigateTo(.dashboard)
         }

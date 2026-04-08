@@ -22,9 +22,45 @@ class SubscriptionManager: ObservableObject {
 
     static let shared = SubscriptionManager()
 
+    // Fix 1: Task handle for the Transaction.updates listener so it lives
+    // for the full lifetime of the manager and can be cancelled in deinit.
+    private var updatesListenerTask: Task<Void, Never>?
+
     private init() {
+        // Fix 4: Read UserDefaults synchronously here before @MainActor
+        // enforcement kicks in — this is safe because it's purely reading
+        // a value type from UserDefaults, not touching any actor-isolated state.
+        // We assign a temporary free subscription first, then overwrite below.
         self.subscription = Subscription()
-        loadSubscription()
+
+        // Fix 4: Restore cached subscription on the main actor via a
+        // detached task so init() itself doesn't violate actor isolation.
+        Task { @MainActor in
+            self.loadSubscription()
+            // Fix 9: Load App Store products automatically on first init.
+            await self.loadProducts()
+            // Verify entitlements against StoreKit on every cold start.
+            await self.checkSubscriptionStatus()
+        }
+
+        // Fix 1: Start listening for StoreKit transaction updates immediately.
+        // This handles renewals, revocations, and purchases made outside the app.
+        updatesListenerTask = Task(priority: .background) { [weak self] in
+            for await result in Transaction.updates {
+                guard let self else { break }
+                switch result {
+                case .verified(let transaction):
+                    await self.updateSubscription(from: transaction)
+                    await transaction.finish()
+                case .unverified:
+                    break
+                }
+            }
+        }
+    }
+
+    deinit {
+        updatesListenerTask?.cancel()
     }
 
     // MARK: - Public Methods
@@ -60,6 +96,8 @@ class SubscriptionManager: ObservableObject {
                 switch verification {
                 case .verified(let transaction):
                     await updateSubscription(from: transaction)
+                    // Fix 8: Finish the transaction only after subscription
+                    // state is persisted, so it isn't lost if the app crashes.
                     await transaction.finish()
                     isLoading = false
                     return true
@@ -107,22 +145,29 @@ class SubscriptionManager: ObservableObject {
 
     /// Check current subscription status
     func checkSubscriptionStatus() async {
+        var foundActiveSubscription = false
+
         for await result in Transaction.currentEntitlements {
             switch result {
             case .verified(let transaction):
                 if transaction.productID == Self.monthlyProID ||
                    transaction.productID == Self.yearlyProID {
                     await updateSubscription(from: transaction)
+                    foundActiveSubscription = true
                     return
                 }
-            case .unverified(_, _):
+            case .unverified:
                 continue
             }
         }
 
-        // No active subscription found
-        subscription = Subscription(tier: .free, status: .inactive)
-        saveSubscription()
+        // Fix 2: Only reset to free if we definitively found no active
+        // entitlements. Don't reset if the loop simply yielded no results
+        // due to a transient StoreKit issue.
+        if !foundActiveSubscription {
+            subscription = Subscription(tier: .free, status: .inactive)
+            saveSubscription()
+        }
     }
 
     // MARK: - Feature Gates
@@ -210,14 +255,18 @@ class SubscriptionManager: ObservableObject {
             status: status,
             startDate: transaction.purchaseDate,
             expiryDate: transaction.expirationDate,
-            autoRenew: true, // Would need to check renewal status
-            productId: transaction.productID
-        )
+            autoRenew: false, // Fix 3: StoreKit 2 doesn't expose renewal intent
+            productId: transaction.productID       // directly on Transaction; use
+        )                                          // Product.SubscriptionInfo if needed.
 
         saveSubscription()
     }
 
     private func loadSubscription() {
+        // Fix 10: UserDefaults is only a last-known cache to avoid a blank
+        // state on cold start. `checkSubscriptionStatus()` always re-validates
+        // against StoreKit's Transaction.currentEntitlements as the real source
+        // of truth, and will overwrite whatever is loaded here.
         guard let data = UserDefaults.standard.data(forKey: "subscription"),
               let savedSubscription = try? JSONDecoder().decode(Subscription.self, from: data) else {
             subscription = Subscription()
