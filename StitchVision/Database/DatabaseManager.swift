@@ -429,6 +429,39 @@ class DatabaseManager {
         return success
     }
     
+    func getAllSessions() -> [SessionModel] {
+        let query = "SELECT * FROM Sessions ORDER BY created_at DESC;"
+        var statement: OpaquePointer?
+        var sessions: [SessionModel] = []
+
+        guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
+            return sessions
+        }
+
+        while sqlite3_step(statement) == SQLITE_ROW {
+            let id = Int(sqlite3_column_int(statement, 0))
+            let projectId = Int(sqlite3_column_int(statement, 1))
+            let rowsKnit = Int(sqlite3_column_int(statement, 2))
+            let timeSpent = Int(sqlite3_column_int(statement, 3))
+            let startTime = String(cString: sqlite3_column_text(statement, 4))
+            let endTime = String(cString: sqlite3_column_text(statement, 5))
+
+            let session = SessionModel(
+                id: id,
+                projectId: projectId,
+                rowsKnit: rowsKnit,
+                timeSpent: timeSpent,
+                startTime: startTime,
+                endTime: endTime
+            )
+
+            sessions.append(session)
+        }
+
+        sqlite3_finalize(statement)
+        return sessions
+    }
+
     func getSessionsForProject(projectId: Int) -> [SessionModel] {
         let query = "SELECT * FROM Sessions WHERE project_id = ? ORDER BY created_at DESC;"
         var statement: OpaquePointer?

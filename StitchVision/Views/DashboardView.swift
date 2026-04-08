@@ -335,6 +335,7 @@ struct ActiveProjectCardView: View {
                     }
                     
                     Button(action: {
+                        appState.selectedProjectId = project.id
                         appState.navigateTo(.workMode)
                     }) {
                         HStack {

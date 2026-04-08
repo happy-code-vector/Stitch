@@ -272,7 +272,7 @@ class AchievementService: ObservableObject {
         completedProjects: Int,
         totalHours: Double,
         patternCount: Int,
-        sessions: [SessionEntity],
+        sessions: [SessionModel],
         isPro: Bool
     ) {
         var newUnlocks: [Achievement] = []
@@ -333,8 +333,10 @@ class AchievementService: ObservableObject {
         completedProjects: Int,
         totalHours: Double,
         patternCount: Int,
-        sessions: [SessionEntity]
+        sessions: [SessionModel]
     ) -> Bool {
+        let isoFormatter = ISO8601DateFormatter()
+
         switch requirement {
         case .totalRows(let count):
             return totalRows >= count
@@ -352,11 +354,11 @@ class AchievementService: ObservableObject {
             return Int(totalHours) >= hours
 
         case .rowsInSession(let count):
-            return sessions.contains { Int($0.rowsKnit) >= count }
+            return sessions.contains { $0.rowsKnit >= count }
 
         case .sessionsAtHour(let requiredCount, let targetHour):
             let matchingSessions = sessions.filter { session in
-                guard let date = session.startTime else { return false }
+                guard let date = isoFormatter.date(from: session.startTime) else { return false }
                 let hour = Calendar.current.component(.hour, from: date)
                 return hour >= targetHour && hour < targetHour + 1
             }

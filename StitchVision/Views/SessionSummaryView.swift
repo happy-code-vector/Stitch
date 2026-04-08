@@ -201,7 +201,7 @@ struct SessionSummaryView: View {
             projectStore.saveSession(
                 projectId: projectId,
                 rowsKnit: rowsKnit,
-                timeSpent: timeSpent * 60 // Convert minutes to seconds
+                timeSpent: timeSpent // Already in minutes from WorkModeView
             )
         }
         appState.navigateTo(.dashboard)

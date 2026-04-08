@@ -1,6 +1,5 @@
 import Foundation
 import Combine
-import CoreData
 
 /// Time period for analytics filtering
 enum AnalyticsPeriod: String, CaseIterable {
@@ -62,6 +61,8 @@ class AnalyticsService: ObservableObject {
     @Published var lastUpdated: Date?
 
     private var cancellables = Set<AnyCancellable>()
+    private let db = DatabaseManager.shared
+    private let isoFormatter = ISO8601DateFormatter()
 
     private init() {
         // Refresh stats when period changes
@@ -74,7 +75,7 @@ class AnalyticsService: ObservableObject {
 
     // MARK: - Public Methods
 
-    /// Refresh all statistics from CoreData
+    /// Refresh all statistics from DatabaseManager
     func refreshStats() {
         isLoading = true
 
@@ -91,10 +92,9 @@ class AnalyticsService: ObservableObject {
     // MARK: - Private Calculation Methods
 
     private func calculateAllStats() {
-        let sessions = CoreDataManager.shared.getAllSessions()
-        let projects = CoreDataManager.shared.getAllProjects()
+        let sessions = db.getAllSessions()
+        let projects = db.getAllProjects()
 
-        // Calculate totals
         calculateTotals(sessions: sessions)
         calculateStreaks(sessions: sessions)
         calculateProjectStats(projects: projects)
@@ -105,12 +105,16 @@ class AnalyticsService: ObservableObject {
         calculateSpeedTrend(sessions: sessions)
     }
 
-    private func calculateTotals(sessions: [SessionEntity]) {
+    private func parseDate(_ isoString: String) -> Date? {
+        return isoFormatter.date(from: isoString)
+    }
+
+    private func calculateTotals(sessions: [SessionModel]) {
         var totalRows = 0
         var totalTime: TimeInterval = 0
 
         for session in sessions {
-            totalRows += Int(session.rowsKnit)
+            totalRows += session.rowsKnit
             totalTime += Double(session.timeSpent)
         }
 
@@ -120,7 +124,7 @@ class AnalyticsService: ObservableObject {
         }
     }
 
-    private func calculateStreaks(sessions: [SessionEntity]) {
+    private func calculateStreaks(sessions: [SessionModel]) {
         guard !sessions.isEmpty else {
             DispatchQueue.main.async {
                 self.currentStreak = 0
@@ -134,7 +138,7 @@ class AnalyticsService: ObservableObject {
         var daysWithSessions = Set<Date>()
 
         for session in sessions {
-            if let date = session.startTime {
+            if let date = parseDate(session.startTime) {
                 let dayStart = calendar.startOfDay(for: date)
                 daysWithSessions.insert(dayStart)
             }
@@ -199,7 +203,7 @@ class AnalyticsService: ObservableObject {
         }
     }
 
-    private func calculateAverages(sessions: [SessionEntity]) {
+    private func calculateAverages(sessions: [SessionModel]) {
         guard !sessions.isEmpty else {
             DispatchQueue.main.async {
                 self.averageRowsPerSession = 0
@@ -208,7 +212,7 @@ class AnalyticsService: ObservableObject {
             return
         }
 
-        let totalRows = sessions.reduce(0) { $0 + Int($1.rowsKnit) }
+        let totalRows = sessions.reduce(0) { $0 + $1.rowsKnit }
         let totalTime = sessions.reduce(0.0) { $0 + Double($1.timeSpent) }
         let count = Double(sessions.count)
 
@@ -218,11 +222,11 @@ class AnalyticsService: ObservableObject {
         }
     }
 
-    private func calculatePeakHour(sessions: [SessionEntity]) {
+    private func calculatePeakHour(sessions: [SessionModel]) {
         var hourCounts = [Int: Int]()
 
         for session in sessions {
-            if let date = session.startTime {
+            if let date = parseDate(session.startTime) {
                 let hour = Calendar.current.component(.hour, from: date)
                 hourCounts[hour, default: 0] += 1
             }
@@ -235,7 +239,7 @@ class AnalyticsService: ObservableObject {
         }
     }
 
-    private func calculateDailyStats(sessions: [SessionEntity]) {
+    private func calculateDailyStats(sessions: [SessionModel]) {
         let calendar = Calendar.current
         let now = Date()
         var startDate = now
@@ -244,7 +248,7 @@ class AnalyticsService: ObservableObject {
             startDate = calendar.date(byAdding: .day, value: -days, to: now) ?? now
         } else {
             // All time - find earliest session
-            if let earliest = sessions.compactMap({ $0.startTime }).min() {
+            if let earliest = sessions.compactMap({ parseDate($0.startTime) }).min() {
                 startDate = earliest
             }
         }
@@ -253,11 +257,11 @@ class AnalyticsService: ObservableObject {
         var dailyData = [Date: (rows: Int, time: TimeInterval, count: Int)]()
 
         for session in sessions {
-            guard let date = session.startTime, date >= startDate else { continue }
+            guard let date = parseDate(session.startTime), date >= startDate else { continue }
             let dayStart = calendar.startOfDay(for: date)
 
             var existing = dailyData[dayStart, default: (0, 0, 0)]
-            existing.rows += Int(session.rowsKnit)
+            existing.rows += session.rowsKnit
             existing.time += Double(session.timeSpent)
             existing.count += 1
             dailyData[dayStart] = existing
@@ -273,19 +277,19 @@ class AnalyticsService: ObservableObject {
         }
     }
 
-    private func calculateWeeklyStats(sessions: [SessionEntity]) {
+    private func calculateWeeklyStats(sessions: [SessionModel]) {
         let calendar = Calendar.current
         var weeklyData = [Date: (rows: Int, time: TimeInterval, sessions: Int)]()
 
         for session in sessions {
-            guard let date = session.startTime else { continue }
+            guard let date = parseDate(session.startTime) else { continue }
 
             // Get start of week
             let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date)
             guard let weekStart = calendar.date(from: components) else { continue }
 
             var existing = weeklyData[weekStart, default: (0, 0, 0)]
-            existing.rows += Int(session.rowsKnit)
+            existing.rows += session.rowsKnit
             existing.time += Double(session.timeSpent)
             existing.sessions += 1
             weeklyData[weekStart] = existing
@@ -306,10 +310,10 @@ class AnalyticsService: ObservableObject {
         }
     }
 
-    private func calculateSpeedTrend(sessions: [SessionEntity]) {
+    private func calculateSpeedTrend(sessions: [SessionModel]) {
         // Calculate rows per hour for each session (last 30 sessions)
         let recentSessions = sessions
-            .sorted { ($0.startTime ?? Date.distantPast) > ($1.startTime ?? Date.distantPast) }
+            .sorted { (parseDate($0.startTime) ?? Date.distantPast) > (parseDate($1.startTime) ?? Date.distantPast) }
             .prefix(30)
 
         let trend = recentSessions.compactMap { session -> Double? in
