@@ -34,6 +34,9 @@ struct WorkModeView: View {
     @State private var sessionStartTime = Date()
     @State private var initialRowCount = 0
     @State private var showDiagnosis = false
+    @State private var isDiagnosing = false
+    @State private var diagnosisResult: String?
+    @State private var latestFrame: CVPixelBuffer?
     @State private var showPermissionAlert = false
     @State private var showSettings = false
     @State private var showApiKeyAlert = false
@@ -321,16 +324,22 @@ struct WorkModeView: View {
                         // Stitch Doctor Button (Pro Feature)
                         Button(action: {
                             if subscriptionManager.canUseAICoach {
-                                showDiagnosis = true
+                                runStitchDoctor()
                             } else {
                                 proFeatureRequested = "AI Coach"
                                 showPaywall = true
                             }
                         }) {
                             HStack(spacing: 8) {
-                                Image(systemName: "camera")
-                                    .font(.system(size: 16, weight: .medium))
-                                Text("Check for Mistakes")
+                                if isDiagnosing {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .scaleEffect(0.8)
+                                } else {
+                                    Image(systemName: "camera")
+                                        .font(.system(size: 16, weight: .medium))
+                                }
+                                Text(isDiagnosing ? "Analyzing..." : "Check for Mistakes")
                                     .font(.system(size: 16, weight: .medium))
                             }
                             .foregroundColor(.white)
@@ -377,7 +386,7 @@ struct WorkModeView: View {
             StitchDoctorDiagnosisViewSheet(
                 onClose: { showDiagnosis = false },
                 onSaveToNotes: nil,
-                diagnosisText: nil
+                diagnosisText: diagnosisResult
             )
         }
         .alert("Camera Access Required", isPresented: $showPermissionAlert) {
@@ -431,12 +440,34 @@ struct WorkModeView: View {
     }
     
     // MARK: - Helper Methods
-    
+
+    private func runStitchDoctor() {
+        guard let pixelBuffer = latestFrame else { return }
+
+        // Convert frame to UIImage
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let context = CIContext()
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent),
+              let image = UIImage(data: UIImage(cgImage: cgImage).jpegData(compressionQuality: 0.8)!) else { return }
+
+        isDiagnosing = true
+        diagnosisResult = nil
+        showDiagnosis = true
+
+        AICoachProService.shared.detectMistakes(image: image) { response in
+            DispatchQueue.main.async {
+                self.isDiagnosing = false
+                self.diagnosisResult = response?.message ?? "Unable to analyze. Please try again."
+            }
+        }
+    }
+
     private func setupCamera() {
         cameraManager.delegate = cameraDelegate
         let rowCounter = rowCountingService
         cameraDelegate.onFrameReceived = { pixelBuffer in
             guard !self.isPaused else { return }
+            self.latestFrame = pixelBuffer
             rowCounter.processFrame(pixelBuffer)
 
             // Update pattern progress if pattern is selected
@@ -948,26 +979,45 @@ struct StitchDoctorDiagnosisViewSheet: View {
     let onClose: () -> Void
     let onSaveToNotes: (() -> Void)?
     let diagnosisText: String?
-    
+
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: 24) {
+                Image(systemName: diagnosisText == nil ? "stethoscope" : "checkmark.circle.fill")
+                    .font(.system(size: 48))
+                    .foregroundColor(diagnosisText == nil ? Color(red: 0.4, green: 0.4, blue: 0.4) : Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .padding(.top, 32)
+
                 Text("Stitch Doctor")
-                    .font(.title)
+                    .font(.title2)
+                    .fontWeight(.bold)
+
+                if let text = diagnosisText {
+                    ScrollView {
+                        Text(text)
+                            .font(.body)
+                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .padding()
+                    }
+                } else {
+                    VStack(spacing: 16) {
+                        ProgressView()
+                            .scaleEffect(1.2)
+                        Text("Analyzing your stitches...")
+                            .font(.body)
+                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    }
                     .padding()
-                
-                Text(diagnosisText ?? "Camera-based mistake detection coming soon!")
-                    .font(.body)
-                    .foregroundColor(.gray)
-                    .padding()
-                
+                }
+
                 Spacer()
-                
-                if let saveAction = onSaveToNotes {
+
+                if let saveAction = onSaveToNotes, diagnosisText != nil {
                     Button("Save to Notes") {
                         saveAction()
                     }
-                    .padding()
+                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .padding(.bottom, 8)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

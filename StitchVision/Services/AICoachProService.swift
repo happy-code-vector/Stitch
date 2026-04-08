@@ -249,11 +249,15 @@ class AICoachProService: ObservableObject {
 // MARK: - GeminiVisionService Extension
 
 extension GeminiVisionService {
+    /// Analyze an image with a custom prompt using Gemini. Calls the real API.
     func analyzeImage(_ image: UIImage, prompt: String, completion: @escaping (Result<String, Error>) -> Void) {
-        // This would be implemented to call Gemini API with custom prompt
-        // For now, return a placeholder
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            completion(.success("Tension looks even. No significant issues detected."))
+        Task {
+            do {
+                let result = try await analyzeWithPrompt(image: image, prompt: prompt)
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
         }
     }
 }

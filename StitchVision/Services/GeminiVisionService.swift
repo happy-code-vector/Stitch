@@ -261,6 +261,70 @@ class GeminiVisionService: ObservableObject {
         analysisInterval = interval
     }
 
+    // MARK: - Custom Prompt Analysis (used by Stitch Doctor / AI Coach)
+
+    /// Send an image with a custom prompt to Gemini and return the raw text response.
+    func analyzeWithPrompt(image: UIImage, prompt: String) async throws -> String {
+        let resizedImage = image.resized(to: CGSize(width: 512, height: 512))
+
+        guard let imageData = resizedImage.jpegData(compressionQuality: 0.7) else {
+            throw NSError(domain: "GeminiVisionService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to convert image"])
+        }
+        let base64Image = imageData.base64EncodedString()
+
+        let requestBody: [String: Any] = [
+            "contents": [
+                [
+                    "parts": [
+                        ["text": prompt],
+                        [
+                            "inline_data": [
+                                "mime_type": "image/jpeg",
+                                "data": base64Image
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            "generationConfig": [
+                "temperature": 0.4,
+                "topK": 32,
+                "topP": 1,
+                "maxOutputTokens": 300
+            ]
+        ]
+
+        let url = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=\(apiKey)")!
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
+
+        let (data, response) = try await session.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NSError(domain: "GeminiVisionService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid response"])
+        }
+
+        guard httpResponse.statusCode == 200 else {
+            let body = String(data: data, encoding: .utf8) ?? "unknown"
+            throw NSError(domain: "GeminiVisionService", code: httpResponse.statusCode, userInfo: [NSLocalizedDescriptionKey: "API error \(httpResponse.statusCode): \(body)"])
+        }
+
+        // Parse response text
+        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let candidates = json["candidates"] as? [[String: Any]],
+              let firstCandidate = candidates.first,
+              let content = firstCandidate["content"] as? [String: Any],
+              let parts = content["parts"] as? [[String: Any]],
+              let text = parts.first?["text"] as? String else {
+            throw NSError(domain: "GeminiVisionService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse Gemini response"])
+        }
+
+        return text
+    }
+
     // MARK: - Helper Methods
     
     private func pixelBufferToUIImage(_ pixelBuffer: CVPixelBuffer) -> UIImage? {
