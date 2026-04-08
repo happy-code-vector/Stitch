@@ -79,11 +79,13 @@ class AppState: ObservableObject {
         }
 
         // Sync Pro status from SubscriptionManager (StoreKit source of truth)
-        syncProStatus()
+        Task { @MainActor in
+            syncProStatus()
+        }
     }
 
     /// Sync isPro from SubscriptionManager and persist to database
-    func syncProStatus() {
+    @MainActor func syncProStatus() {
         let isProFromSubscription = SubscriptionManager.shared.subscription.isPro
         self.isPro = isProFromSubscription
         // Persist to database
