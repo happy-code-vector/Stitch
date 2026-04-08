@@ -358,14 +358,14 @@ struct ProTierCard: View {
                                 .fontWeight(.medium)
                                 .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
 
-                            Text("$3.33/mo")
+                            Text(SubscriptionPricing.yearlyPerMonthDisplay)
                                 .font(.headline)
                                 .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                         }
 
                         Spacer()
 
-                        Text("$39.99/year")
+                        Text(SubscriptionPricing.yearlyDisplay)
                             .font(.caption)
                             .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                     }
@@ -401,7 +401,7 @@ struct ProTierCard: View {
                             .fontWeight(.medium)
                             .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
 
-                        Text("$7.99/mo")
+                        Text(SubscriptionPricing.monthlyDisplay)
                             .font(.headline)
                             .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                     }

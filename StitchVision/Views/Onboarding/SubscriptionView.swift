@@ -68,7 +68,7 @@ struct SubscriptionView: View {
                         // Pro Plan Card
                         PlanCard(
                             title: "Pro Plan",
-                            price: selectedPlan == .proYearly ? "$99.99/year" : "$9.99/month",
+                            price: selectedPlan == .proYearly ? SubscriptionPricing.yearlyDisplay : SubscriptionPricing.monthlyDisplay,
                             features: proFeatures,
                             isRecommended: true,
                             isSelected: true
@@ -117,7 +117,7 @@ struct SubscriptionView: View {
                                     Text("Yearly")
                                         .font(.body)
                                     
-                                    Text("Save 20%")
+                                    Text(SubscriptionPricing.yearlySavingsText)
                                         .font(.caption)
                                         .fontWeight(.bold)
                                         .padding(.horizontal, 8)

@@ -1,5 +1,19 @@
 import Foundation
 
+/// Centralized pricing constants — single source of truth for all screens.
+enum SubscriptionPricing {
+    static let yearlyPrice: Double = 39.99
+    static let monthlyPrice: Double = 7.99
+
+    static let yearlyDisplay = "$39.99/year"
+    static let monthlyDisplay = "$7.99/mo"
+    static let yearlyPerMonthDisplay = "$3.33/mo"
+    static let yearlyPerMonthAmount = "$3.33"
+
+    /// Approximate savings text (yearly vs monthly)
+    static let yearlySavingsText = "Save 58%"
+}
+
 /// Subscription tier
 enum SubscriptionTier: String, Codable, CaseIterable {
     case free = "free"
@@ -15,7 +29,7 @@ enum SubscriptionTier: String, Codable, CaseIterable {
     var price: String {
         switch self {
         case .free: return "Free"
-        case .pro: return "$4.99/mo"
+        case .pro: return SubscriptionPricing.monthlyDisplay
         }
     }
 

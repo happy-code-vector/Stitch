@@ -69,7 +69,7 @@ struct DownsellView: View {
                             .animation(.easeOut(duration: 0.5).delay(0.2), value: animateElements)
                         
                         // Subtext
-                        Text("We want you to experience the magic of AI knitting. Get your first year of Pro for half off.")
+                        Text("We want you to experience the magic of AI knitting. Get Pro at the annual rate — just \(SubscriptionPricing.yearlyPerMonthDisplay).")
                             .font(.body)
                             .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                             .multilineTextAlignment(.center)
@@ -108,37 +108,37 @@ struct DownsellView: View {
                             VStack(spacing: 12) {
                                 // Old Price
                                 HStack {
-                                    Text("$19.99/mo")
+                                    Text(SubscriptionPricing.monthlyDisplay)
                                         .font(.title3)
                                         .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                                         .strikethrough(true, color: Color(red: 0.831, green: 0.502, blue: 0.435))
-                                    
+
                                     Spacer()
                                 }
-                                
+
                                 // New Price
                                 HStack {
-                                    Text("$9.99")
+                                    Text(SubscriptionPricing.yearlyPerMonthAmount)
                                         .font(.system(size: 48, weight: .bold))
                                         .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
-                                    
+
                                     Text("/mo")
                                         .font(.title)
                                         .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
-                                    
+
                                     Spacer()
                                 }
-                                
+
                                 // Savings callout
                                 HStack {
-                                    Text("Save $120 per year")
+                                    Text("Billed annually — Save 58%")
                                         .font(.headline)
                                         .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 8)
                                         .background(Color(red: 0.831, green: 0.502, blue: 0.435).opacity(0.1))
                                         .cornerRadius(12)
-                                    
+
                                     Spacer()
                                 }
                             }

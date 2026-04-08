@@ -126,15 +126,15 @@ struct FreeVsProComparisonView: View {
                 
                 // Pricing Card
                 VStack(spacing: 12) {
-                    Text("$6.67/mo")
+                    Text(SubscriptionPricing.yearlyPerMonthDisplay)
                         .font(.system(size: 32, weight: .bold))
                         .foregroundColor(.white)
-                    
-                    Text("billed annually at $79.99/year")
+
+                    Text("billed annually at \(SubscriptionPricing.yearlyDisplay)")
                         .font(.caption)
                         .foregroundColor(.white.opacity(0.9))
-                    
-                    Text("or $12.99/month")
+
+                    Text("or \(SubscriptionPricing.monthlyDisplay)")
                         .font(.caption2)
                         .foregroundColor(.white.opacity(0.75))
                     
