@@ -3,33 +3,17 @@ import SwiftUI
 struct GeminiSettingsView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var geminiService: GeminiVisionService
-    
+
     @State private var analysisInterval: Double = 3.0
-    @State private var apiKey: String = ""
-    
+
     init(geminiService: GeminiVisionService) {
         self.geminiService = geminiService
         _analysisInterval = State(initialValue: UserDefaults.standard.double(forKey: "geminiAnalysisInterval") > 0 ? UserDefaults.standard.double(forKey: "geminiAnalysisInterval") : 3.0)
-        // Read from Keychain, not UserDefaults
-        _apiKey = State(initialValue: KeychainManager.get(forKey: KeychainManager.Keys.geminiAPIKey) ?? "")
     }
-    
+
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("API Configuration")) {
-                    TextField("Gemini API Key", text: $apiKey)
-                        .textContentType(.password)
-                        .autocapitalization(.none)
-                        .disableAutocorrection(true)
-                        .keyboardType(.asciiCapable)
-                        .submitLabel(.done)
-                    
-                    Link("Get API Key", destination: URL(string: "https://makersuite.google.com/app/apikey")!)
-                        .font(.caption)
-                        .foregroundColor(.blue)
-                }
-                
                 Section(header: Text("Analysis Settings")) {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
@@ -44,7 +28,7 @@ struct GeminiSettingsView: View {
                             .foregroundColor(.secondary)
                     }
                 }
-                
+
                 Section(header: Text("Current Status")) {
                     HStack {
                         Text("Row Count")
@@ -52,14 +36,14 @@ struct GeminiSettingsView: View {
                         Text("\(geminiService.currentCount)")
                             .foregroundColor(.secondary)
                     }
-                    
+
                     HStack {
                         Text("Confidence")
                         Spacer()
                         Text("\(Int(geminiService.confidence * 100))%")
                             .foregroundColor(confidenceColor)
                     }
-                    
+
                     HStack {
                         Text("Status")
                         Spacer()
@@ -74,7 +58,7 @@ struct GeminiSettingsView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
-                    
+
                     if let lastAnalysis = geminiService.lastAnalysisTime {
                         HStack {
                             Text("Last Analysis")
@@ -84,7 +68,7 @@ struct GeminiSettingsView: View {
                         }
                     }
                 }
-                
+
                 Section {
                     Button(action: {
                         geminiService.resetCount()
@@ -96,7 +80,7 @@ struct GeminiSettingsView: View {
                         .foregroundColor(.red)
                     }
                 }
-                
+
                 Section(header: Text("About")) {
                     Text("StitchVision uses Google Gemini AI to analyze your knitting in real-time. Images are sent to Google's servers for processing.")
                         .font(.caption)
@@ -114,7 +98,7 @@ struct GeminiSettingsView: View {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
-                
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
                         saveSettings()
@@ -125,7 +109,7 @@ struct GeminiSettingsView: View {
             }
         }
     }
-    
+
     private var confidenceColor: Color {
         if geminiService.confidence >= 0.90 {
             return Color(red: 0.561, green: 0.659, blue: 0.533)
@@ -135,15 +119,12 @@ struct GeminiSettingsView: View {
             return Color(red: 0.79, green: 0.43, blue: 0.37)
         }
     }
-    
+
     private func saveSettings() {
         geminiService.setAnalysisInterval(analysisInterval)
-        geminiService.updateApiKey(apiKey)
-        // analysisInterval is not sensitive — UserDefaults is fine
         UserDefaults.standard.set(analysisInterval, forKey: "geminiAnalysisInterval")
-        // API key is stored to Keychain via updateApiKey(_:) — do NOT write to UserDefaults here
     }
-    
+
     private func timeAgo(_ date: Date) -> String {
         let seconds = Int(Date().timeIntervalSince(date))
         if seconds < 60 {
@@ -153,7 +134,7 @@ struct GeminiSettingsView: View {
             return "\(minutes)m ago"
         }
     }
-    
+
     private func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }

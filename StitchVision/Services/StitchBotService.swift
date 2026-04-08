@@ -23,10 +23,7 @@ class StitchBotService: ObservableObject {
     private let usageKey = "stitchbot_questions_used"
     private let lastResetKey = "stitchbot_last_reset"
 
-    private var apiKey: String {
-        // TODO: Move to environment/config
-        return "YOUR_GEMINI_API_KEY"
-    }
+    private let apiKey: String = Bundle.main.infoDictionary?["GeminiAPIKey"] as? String ?? ""
 
     private init() {
         checkAndResetMonthlyUsage()

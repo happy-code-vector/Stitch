@@ -16,6 +16,8 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>GeminiAPIKey</key>
+	<string>YOUR_GEMINI_API_KEY</string>
 	<key>NSCameraUsageDescription</key>
 	<string>StitchVision needs camera access to count your stitches, detect patterns, and provide real-time AI assistance while you knit or crochet.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

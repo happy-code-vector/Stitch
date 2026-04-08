@@ -17,26 +17,22 @@ class GeminiVisionService: ObservableObject {
     @Published var isAnalyzing: Bool = false
     @Published var lastAnalysisTime: Date?
     
-    private var apiKey: String
+    private let apiKey: String
     private var analysisInterval: TimeInterval = 3.0
     private var lastFrameAnalyzed: Date?
-    
+
     private let session: URLSession
-    
-    init(apiKey: String = "") {
-        // Load API key from Keychain if not provided at call site
-        if apiKey.isEmpty {
-            self.apiKey = KeychainManager.get(forKey: KeychainManager.Keys.geminiAPIKey) ?? ""
-        } else {
-            self.apiKey = apiKey
-        }
-        
+
+    init() {
+        // Load API key from Info.plist (app's own key, not user-supplied)
+        self.apiKey = Bundle.main.infoDictionary?["GeminiAPIKey"] as? String ?? ""
+
         // Load analysis interval from UserDefaults (not sensitive)
         let savedInterval = UserDefaults.standard.double(forKey: "geminiAnalysisInterval")
         if savedInterval > 0 {
             self.analysisInterval = savedInterval
         }
-        
+
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 30
         config.timeoutIntervalForResource = 60
@@ -264,13 +260,7 @@ class GeminiVisionService: ObservableObject {
     func setAnalysisInterval(_ interval: TimeInterval) {
         analysisInterval = interval
     }
-    
-    func updateApiKey(_ key: String) {
-        apiKey = key
-        // Store in Keychain, not UserDefaults — API keys are sensitive credentials
-        KeychainManager.set(key.isEmpty ? nil : key, forKey: KeychainManager.Keys.geminiAPIKey)
-    }
-    
+
     // MARK: - Helper Methods
     
     private func pixelBufferToUIImage(_ pixelBuffer: CVPixelBuffer) -> UIImage? {
