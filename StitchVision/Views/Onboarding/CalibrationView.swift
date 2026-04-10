@@ -239,8 +239,8 @@ struct CalibrationView: View {
                 appState.navigateTo(.enhancedSubscription)
             }, onSkip: {
                 showProGate = false
-                // Skip calibration, go to subscription/downsell
-                appState.navigateTo(.downsell)
+                // Free user skips calibration — go to dashboard via freeTierWelcome
+                appState.navigateTo(.freeTierWelcome)
             })
         }
     }

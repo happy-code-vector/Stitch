@@ -177,9 +177,9 @@ class SubscriptionManager: ObservableObject {
         return subscription.isPro
     }
 
-    /// Check if AI Coach is available
+    /// Check if AI Coach is available (Pro: always, Free: up to 3 uses)
     var canUseAICoach: Bool {
-        return subscription.isPro
+        return canUseStitchDoctor
     }
 
     /// Check if cloud sync is available
@@ -187,9 +187,19 @@ class SubscriptionManager: ObservableObject {
         return subscription.isPro
     }
 
-    /// Get maximum patterns allowed
+    /// Get maximum patterns allowed (Free: 1, Pro: unlimited)
     var maxPatterns: Int {
-        return subscription.isPro ? Int.max : 3
+        return subscription.isPro ? Int.max : 1
+    }
+
+    /// Get maximum active projects allowed (Free: 1, Pro: unlimited)
+    var maxProjects: Int {
+        return subscription.isPro ? Int.max : 1
+    }
+
+    /// Check if user can create more projects
+    func canCreateProject(currentCount: Int) -> Bool {
+        return currentCount < maxProjects
     }
 
     /// Get maximum markers per session
@@ -231,6 +241,34 @@ class SubscriptionManager: ObservableObject {
     private var stitchBotQuestionsUsedThisMonth: Int {
         let key = "stitchbot_questions_\(currentMonthKey)"
         return UserDefaults.standard.integer(forKey: key)
+    }
+
+    // MARK: - Stitch Doctor Free-Tier Usage (3 total, not monthly)
+
+    private static let stitchDoctorUsageKey = "stitch_doctor_uses"
+
+    /// Maximum free Stitch Doctor uses (lifetime, not monthly)
+    var maxStitchDoctorFreeUses: Int { 3 }
+
+    /// How many Stitch Doctor uses the free user has made
+    var stitchDoctorUsesUsed: Int {
+        UserDefaults.standard.integer(forKey: Self.stitchDoctorUsageKey)
+    }
+
+    /// Remaining free Stitch Doctor uses
+    var stitchDoctorUsesRemaining: Int {
+        return subscription.isPro ? Int.max : max(0, maxStitchDoctorFreeUses - stitchDoctorUsesUsed)
+    }
+
+    /// Increment Stitch Doctor usage counter
+    func incrementStitchDoctorUsage() {
+        let current = stitchDoctorUsesUsed
+        UserDefaults.standard.set(current + 1, forKey: Self.stitchDoctorUsageKey)
+    }
+
+    /// Check if Stitch Doctor can be used (Pro: always, Free: up to 3 uses)
+    var canUseStitchDoctor: Bool {
+        return subscription.isPro || stitchDoctorUsesRemaining > 0
     }
 
     // MARK: - Private Methods

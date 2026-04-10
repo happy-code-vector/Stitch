@@ -73,7 +73,7 @@ struct GoalSettingView: View {
                 Button(action: {
                     // Save selected goal
                     appState.goal = selectedGoal
-                    appState.navigateTo(.statsSolution)
+                    appState.navigateTo(.patternLibraryPreview)
                 }) {
                     Text("Continue")
                         .font(.headline)

@@ -342,24 +342,30 @@ struct ProjectSetupView: View {
     }
     
     private func handleCreate() {
-        if isFormValid {
-            let rows = Int(totalRowsText) ?? 0
-            // Create new project and save to database
-            let newProject = ProjectModel(
-                name: projectName,
-                craftType: appState.selectedCraft ?? "Knitting",
-                needleSize: needleSize,
-                yarnType: selectedYarn?.name ?? "",
-                yarnColor: selectedYarn?.color ?? "",
-                patternName: "",
-                totalRows: rows,
-                currentRow: 0,
-                status: "active"
-            )
+        guard isFormValid else { return }
 
-            projectStore.addProject(newProject)
-            appState.navigateTo(.dashboard)
+        // Enforce free-tier project limit
+        let subManager = SubscriptionManager.shared
+        if !subManager.canCreateProject(currentCount: projectStore.projects.count) {
+            appState.navigateTo(.proGate)
+            return
         }
+
+        let rows = Int(totalRowsText) ?? 0
+        let newProject = ProjectModel(
+            name: projectName,
+            craftType: appState.selectedCraft ?? "Knitting",
+            needleSize: needleSize,
+            yarnType: selectedYarn?.name ?? "",
+            yarnColor: selectedYarn?.color ?? "",
+            patternName: "",
+            totalRows: rows,
+            currentRow: 0,
+            status: "active"
+        )
+
+        projectStore.addProject(newProject)
+        appState.navigateTo(.dashboard)
     }
 }
 

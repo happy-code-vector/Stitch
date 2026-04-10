@@ -454,6 +454,9 @@ struct WorkModeView: View {
         diagnosisResult = nil
         showDiagnosis = true
 
+        // Count usage for free-tier limit (Pro has unlimited)
+        subscriptionManager.incrementStitchDoctorUsage()
+
         AICoachProService.shared.detectMistakes(image: image) { response in
             DispatchQueue.main.async {
                 self.isDiagnosing = false

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PermissionsView: View {
     @EnvironmentObject var appState: AppState
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var animateElements = false
     @State private var animateBackground = false
     
@@ -114,8 +115,12 @@ struct PermissionsView: View {
                     // Buttons
                     VStack(spacing: 16) {
                         Button(action: {
-                            // Request notification permission here
-                            appState.navigateTo(.freeTierWelcome)
+                            // Pro users → calibration, free users → freeTierWelcome
+                            if subscriptionManager.isPro {
+                                appState.navigateTo(.calibration)
+                            } else {
+                                appState.navigateTo(.freeTierWelcome)
+                            }
                         }) {
                             Text("Allow")
                                 .font(.headline)
@@ -126,9 +131,13 @@ struct PermissionsView: View {
                                 .cornerRadius(25)
                                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                         }
-                        
+
                         Button(action: {
-                            appState.navigateTo(.freeTierWelcome)
+                            if subscriptionManager.isPro {
+                                appState.navigateTo(.calibration)
+                            } else {
+                                appState.navigateTo(.freeTierWelcome)
+                            }
                         }) {
                             Text("Maybe Later")
                                 .font(.subheadline)
