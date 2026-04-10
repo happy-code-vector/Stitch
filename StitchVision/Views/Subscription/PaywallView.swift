@@ -3,6 +3,7 @@ import StoreKit
 
 struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var appState: AppState
     @StateObject private var subscriptionManager = SubscriptionManager.shared
 
     @State private var selectedProduct: Product?
@@ -137,6 +138,7 @@ struct PaywallView: View {
             Task {
                 await subscriptionManager.restorePurchases()
                 if subscriptionManager.isPro {
+                    appState.syncProStatus()
                     dismiss()
                 }
             }
@@ -155,6 +157,7 @@ struct PaywallView: View {
             isPurchasing = false
 
             if success {
+                appState.syncProStatus()
                 dismiss()
             }
         }

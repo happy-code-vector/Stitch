@@ -125,17 +125,17 @@ struct EnhancedSubscriptionView: View {
             VStack(spacing: 12) {
                 Button(action: {
                     if selectedTier == .pro {
-                        // Fix 5: Purchase through SubscriptionManager instead
-                        // of bypassing StoreKit with appState.updateProStatus(true).
                         Task {
                             let productID = selectedPlan == .proYearly
                                 ? SubscriptionManager.yearlyProID
                                 : SubscriptionManager.monthlyProID
                             guard let product = subscriptionManager.products.first(where: { $0.id == productID }) else {
+                                subscriptionManager.errorMessage = "Products not loaded yet. Please wait or check your connection."
                                 return
                             }
                             let success = await subscriptionManager.purchase(product)
                             if success {
+                                appState.syncProStatus()
                                 appState.navigateTo(.calibration)
                             }
                         }
@@ -172,10 +172,10 @@ struct EnhancedSubscriptionView: View {
                 // Footer Links
                 HStack(spacing: 8) {
                     Button("Restore Purchases") {
-                        // Fix 6: Actually call restorePurchases instead of leaving empty.
                         Task {
                             await subscriptionManager.restorePurchases()
                             if subscriptionManager.isPro {
+                                appState.syncProStatus()
                                 appState.navigateTo(.calibration)
                             }
                         }
@@ -211,6 +211,18 @@ struct EnhancedSubscriptionView: View {
         .ignoresSafeArea()
         .onAppear {
             animateElements = true
+            Task {
+                await subscriptionManager.loadProducts()
+            }
+        }
+        .alert("Subscription Error", isPresented: .constant(subscriptionManager.errorMessage != nil)) {
+            Button("OK") {
+                subscriptionManager.errorMessage = nil
+            }
+        } message: {
+            if let error = subscriptionManager.errorMessage {
+                Text(error)
+            }
         }
     }
 }
