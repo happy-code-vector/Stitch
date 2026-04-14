@@ -76,7 +76,12 @@ class StitchBotService: ObservableObject {
     }
 
     func canAskQuestion() -> Bool {
-        let isPro = SubscriptionManager.shared.isPro
+        let isPro: Bool
+        if Thread.isMainThread {
+            isPro = SubscriptionManager.shared.isPro
+        } else {
+            isPro = DispatchQueue.main.sync { SubscriptionManager.shared.isPro }
+        }
 
         if isPro {
             // Pro: check daily cap

@@ -181,14 +181,20 @@ class DatabaseManager {
         var statement: OpaquePointer?
 
         guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
-            let msg = String(cString: sqlite3_errmsg(db))
+            let msg: String = {
+                guard let err = sqlite3_errmsg(db) else { return "unknown prepare error" }
+                return String(cString: err)
+            }()
             throw DatabaseError.prepareFailed(msg)
         }
 
         defer { sqlite3_finalize(statement) }
 
         guard sqlite3_step(statement) == SQLITE_DONE else {
-            let msg = String(cString: sqlite3_errmsg(db))
+            let msg: String = {
+                guard let err = sqlite3_errmsg(db) else { return "unknown execution error" }
+                return String(cString: err)
+            }()
             throw DatabaseError.executionFailed(msg)
         }
     }
@@ -228,27 +234,27 @@ class DatabaseManager {
     func getUser() -> UserProfile? {
         let query = "SELECT * FROM User ORDER BY id DESC LIMIT 1;"
         var statement: OpaquePointer?
-        
+
         guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
             print("Error preparing user select")
             return nil
         }
-        
+
         var user: UserProfile?
-        
+
         if sqlite3_step(statement) == SQLITE_ROW {
             let id = Int(sqlite3_column_int(statement, 0))
-            let name = String(cString: sqlite3_column_text(statement, 1))
-            let email = String(cString: sqlite3_column_text(statement, 2))
-            let craftType = String(cString: sqlite3_column_text(statement, 3))
-            let skillLevel = String(cString: sqlite3_column_text(statement, 4))
-            let strugglesString = String(cString: sqlite3_column_text(statement, 5))
+            let name = columnString(statement, 1)
+            let email = columnString(statement, 2)
+            let craftType = columnString(statement, 3)
+            let skillLevel = columnString(statement, 4)
+            let strugglesString = columnString(statement, 5)
             let struggles = strugglesString.split(separator: ",").map(String.init)
-            let habitFrequency = String(cString: sqlite3_column_text(statement, 6))
-            let goal = String(cString: sqlite3_column_text(statement, 7))
+            let habitFrequency = columnString(statement, 6)
+            let goal = columnString(statement, 7)
             let isPro = sqlite3_column_int(statement, 8) == 1
             let hasCompletedOnboarding = sqlite3_column_int(statement, 9) == 1
-            
+
             user = UserProfile(
                 id: id,
                 name: name,
@@ -262,7 +268,7 @@ class DatabaseManager {
                 hasCompletedOnboarding: hasCompletedOnboarding
             )
         }
-        
+
         sqlite3_finalize(statement)
         return user
     }
@@ -329,16 +335,16 @@ class DatabaseManager {
         
         while sqlite3_step(statement) == SQLITE_ROW {
             let id = Int(sqlite3_column_int(statement, 0))
-            let name = String(cString: sqlite3_column_text(statement, 2))
-            let craftType = String(cString: sqlite3_column_text(statement, 3))
-            let needleSize = String(cString: sqlite3_column_text(statement, 4))
-            let yarnType = String(cString: sqlite3_column_text(statement, 5))
-            let yarnColor = String(cString: sqlite3_column_text(statement, 6))
-            let patternName = String(cString: sqlite3_column_text(statement, 7))
+            let name = columnString(statement, 2)
+            let craftType = columnString(statement, 3)
+            let needleSize = columnString(statement, 4)
+            let yarnType = columnString(statement, 5)
+            let yarnColor = columnString(statement, 6)
+            let patternName = columnString(statement, 7)
             let totalRows = Int(sqlite3_column_int(statement, 8))
             let currentRow = Int(sqlite3_column_int(statement, 9))
-            let status = String(cString: sqlite3_column_text(statement, 10))
-            
+            let status = columnString(statement, 10)
+
             let project = ProjectModel(
                 id: id,
                 name: name,
@@ -351,10 +357,10 @@ class DatabaseManager {
                 currentRow: currentRow,
                 status: status
             )
-            
+
             projects.append(project)
         }
-        
+
         sqlite3_finalize(statement)
         return projects
     }
@@ -444,8 +450,8 @@ class DatabaseManager {
             let projectId = Int(sqlite3_column_int(statement, 1))
             let rowsKnit = Int(sqlite3_column_int(statement, 2))
             let timeSpent = Int(sqlite3_column_int(statement, 3))
-            let startTime = String(cString: sqlite3_column_text(statement, 4))
-            let endTime = String(cString: sqlite3_column_text(statement, 5))
+            let startTime = columnString(statement, 4)
+            let endTime = columnString(statement, 5)
 
             let session = SessionModel(
                 id: id,
@@ -467,20 +473,20 @@ class DatabaseManager {
         let query = "SELECT * FROM Sessions WHERE project_id = ? ORDER BY created_at DESC;"
         var statement: OpaquePointer?
         var sessions: [SessionModel] = []
-        
+
         guard sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK else {
             return sessions
         }
-        
+
         sqlite3_bind_int(statement, 1, Int32(projectId))
-        
+
         while sqlite3_step(statement) == SQLITE_ROW {
             let id = Int(sqlite3_column_int(statement, 0))
             let projectId = Int(sqlite3_column_int(statement, 1))
             let rowsKnit = Int(sqlite3_column_int(statement, 2))
             let timeSpent = Int(sqlite3_column_int(statement, 3))
-            let startTime = String(cString: sqlite3_column_text(statement, 4))
-            let endTime = String(cString: sqlite3_column_text(statement, 5))
+            let startTime = columnString(statement, 4)
+            let endTime = columnString(statement, 5)
             
             let session = SessionModel(
                 id: id,
@@ -601,8 +607,8 @@ class DatabaseManager {
         }
 
         while sqlite3_step(statement) == SQLITE_ROW {
-            let idString = String(cString: sqlite3_column_text(statement, 0))
-            let name = String(cString: sqlite3_column_text(statement, 1))
+            let idString = columnString(statement, 0)
+            let name = columnString(statement, 1)
 
             // Get blob data
             var imageData = Data()
@@ -675,5 +681,13 @@ class DatabaseManager {
         sqlite3_finalize(statement)
 
         return success
+    }
+
+    // MARK: - Safe Column Helpers
+
+    /// Safely reads a TEXT column, returning "" for NULL instead of crashing.
+    private func columnString(_ statement: OpaquePointer?, _ index: Int32) -> String {
+        guard let text = sqlite3_column_text(statement, index) else { return "" }
+        return String(cString: text)
     }
 }

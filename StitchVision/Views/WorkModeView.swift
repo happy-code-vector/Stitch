@@ -481,8 +481,10 @@ struct WorkModeView: View {
 
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         let context = CIContext()
-        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent),
-              let image = UIImage(data: UIImage(cgImage: cgImage).jpegData(compressionQuality: 0.8)!) else { return }
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else { return }
+        let uiImage = UIImage(cgImage: cgImage)
+        guard let jpegData = uiImage.jpegData(compressionQuality: 0.8),
+              let image = UIImage(data: jpegData) else { return }
 
         isDiagnosing = true
         diagnosisType = .mistake
@@ -502,8 +504,10 @@ struct WorkModeView: View {
 
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         let context = CIContext()
-        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent),
-              let image = UIImage(data: UIImage(cgImage: cgImage).jpegData(compressionQuality: 0.8)!) else { return }
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else { return }
+        let uiImage = UIImage(cgImage: cgImage)
+        guard let jpegData = uiImage.jpegData(compressionQuality: 0.8),
+              let image = UIImage(data: jpegData) else { return }
 
         isDiagnosing = true
         diagnosisType = .tension
