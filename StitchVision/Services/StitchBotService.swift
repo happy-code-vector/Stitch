@@ -8,6 +8,7 @@ struct ChatMessage: Identifiable {
     let timestamp = Date()
 }
 
+@MainActor
 class StitchBotService: ObservableObject {
     static let shared = StitchBotService()
 
@@ -55,10 +56,8 @@ class StitchBotService: ObservableObject {
     }
 
     private func updateRemainingQuestions() {
-        Task { @MainActor in
-            let isPro = SubscriptionManager.shared.isPro
-            questionsRemaining = isPro ? -1 : max(0, freeQuestionsPerMonth - questionsUsedThisMonth)
-        }
+        let isPro = SubscriptionManager.shared.isPro
+        questionsRemaining = isPro ? -1 : max(0, freeQuestionsPerMonth - questionsUsedThisMonth)
     }
 
     private func saveUsage() {
@@ -119,21 +118,17 @@ class StitchBotService: ObservableObject {
 
         // Check if user can ask questions
         guard canAskQuestion() else {
-            await MainActor.run {
-                let isPro = SubscriptionManager.shared.isPro
-                self.errorMessage = isPro
-                    ? "Daily limit of \(self.proDailyLimit) questions reached. Come back tomorrow!"
-                    : "You've used all your free questions this month. Upgrade to Pro for more access."
-            }
+            let isPro = SubscriptionManager.shared.isPro
+            errorMessage = isPro
+                ? "Daily limit of \(proDailyLimit) questions reached. Come back tomorrow!"
+                : "You've used all your free questions this month. Upgrade to Pro for more access."
             return
         }
 
         // Add user message
-        await MainActor.run {
-            messages.append(ChatMessage(content: text, isUser: true))
-            isLoading = true
-            errorMessage = nil
-        }
+        messages.append(ChatMessage(content: text, isUser: true))
+        isLoading = true
+        errorMessage = nil
 
         // Build conversation context (last 5 messages for context)
         let recentMessages = messages.suffix(5)
@@ -149,18 +144,14 @@ class StitchBotService: ObservableObject {
         do {
             let response = try await callGeminiAPI(question: text, history: conversationHistory)
 
-            await MainActor.run {
-                messages.append(ChatMessage(content: response, isUser: false))
-                questionsUsedThisMonth += 1
-                incrementDailyUsage()
-                saveUsage()
-                isLoading = false
-            }
+            messages.append(ChatMessage(content: response, isUser: false))
+            questionsUsedThisMonth += 1
+            incrementDailyUsage()
+            saveUsage()
+            isLoading = false
         } catch {
-            await MainActor.run {
-                errorMessage = "Failed to get response. Please try again."
-                isLoading = false
-            }
+            errorMessage = "Failed to get response. Please try again."
+            isLoading = false
         }
     }
 
