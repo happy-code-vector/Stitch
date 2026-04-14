@@ -20,8 +20,11 @@ class StitchBotService: ObservableObject {
     @Published var questionsRemaining: Int = 10
 
     private let freeQuestionsPerMonth = 10
+    let proDailyLimit = 50
     private let usageKey = "stitchbot_questions_used"
     private let lastResetKey = "stitchbot_last_reset"
+    private let dailyUsageKey = "stitchbot_daily_count"
+    private let dailyResetKey = "stitchbot_daily_date"
 
     private let apiKey: String = Bundle.main.infoDictionary?["GeminiAPIKey"] as? String ?? ""
 
@@ -73,9 +76,35 @@ class StitchBotService: ObservableObject {
     }
 
     func canAskQuestion() -> Bool {
-        // SubscriptionManager is @MainActor; callers on the main actor can access
-        // isPro directly. For non-isolated call sites we fall back to questionsRemaining.
-        questionsRemaining != 0
+        let isPro = SubscriptionManager.shared.isPro
+
+        if isPro {
+            // Pro: check daily cap
+            return todayUsageCount() < proDailyLimit
+        } else {
+            // Free: check monthly cap
+            return questionsRemaining > 0
+        }
+    }
+
+    func todayUsageCount() -> Int {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let savedDate = UserDefaults.standard.object(forKey: dailyResetKey) as? Date
+
+        if savedDate == nil || !calendar.isDate(savedDate!, inSameDayAs: today) {
+            // New day — reset
+            UserDefaults.standard.set(0, forKey: dailyUsageKey)
+            UserDefaults.standard.set(today, forKey: dailyResetKey)
+            return 0
+        }
+
+        return UserDefaults.standard.integer(forKey: dailyUsageKey)
+    }
+
+    private func incrementDailyUsage() {
+        let count = todayUsageCount() + 1
+        UserDefaults.standard.set(count, forKey: dailyUsageKey)
     }
 
     // MARK: - Chat
@@ -86,7 +115,10 @@ class StitchBotService: ObservableObject {
         // Check if user can ask questions
         guard canAskQuestion() else {
             await MainActor.run {
-                errorMessage = "You've used all your free questions this month. Upgrade to Pro for unlimited access."
+                let isPro = SubscriptionManager.shared.isPro
+                self.errorMessage = isPro
+                    ? "Daily limit of \(self.proDailyLimit) questions reached. Come back tomorrow!"
+                    : "You've used all your free questions this month. Upgrade to Pro for more access."
             }
             return
         }
@@ -115,6 +147,7 @@ class StitchBotService: ObservableObject {
             await MainActor.run {
                 messages.append(ChatMessage(content: response, isUser: false))
                 questionsUsedThisMonth += 1
+                incrementDailyUsage()
                 saveUsage()
                 isLoading = false
             }

@@ -57,24 +57,32 @@ struct StitchBotChatView: View {
     private var usageIndicator: some View {
         HStack {
             Image(systemName: "bubble.left.and.bubble.right")
-                .foregroundColor(service.questionsRemaining <= 3 ? .orange : Color(red: 0.561, green: 0.659, blue: 0.533))
+                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
 
-            Text(service.questionsRemaining > 0
-                 ? "\(service.questionsRemaining) questions left this month"
-                 : "No questions remaining")
-                .font(.caption)
-                .foregroundColor(service.questionsRemaining <= 3 ? .orange : Color(red: 0.4, green: 0.4, blue: 0.4))
+            if subscription.isPro {
+                Text("Pro: \(service.proDailyLimit - service.todayUsageCount()) questions left today")
+                    .font(.caption)
+                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+            } else {
+                Text(service.questionsRemaining > 0
+                     ? "\(service.questionsRemaining) questions left this month"
+                     : "No questions remaining")
+                    .font(.caption)
+                    .foregroundColor(service.questionsRemaining <= 3 ? .orange : Color(red: 0.4, green: 0.4, blue: 0.4))
+
+                Spacer()
+
+                if service.questionsRemaining <= 3 {
+                    Button("Upgrade") {
+                        showPaywall = true
+                    }
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                }
+            }
 
             Spacer()
-
-            if service.questionsRemaining <= 3 {
-                Button("Upgrade") {
-                    showPaywall = true
-                }
-                .font(.caption)
-                .fontWeight(.semibold)
-                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-            }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 8)

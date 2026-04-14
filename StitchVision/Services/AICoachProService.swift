@@ -39,8 +39,8 @@ class AICoachProService: ObservableObject {
     /// Minimum time between analyses (throttling)
     var analysisThrottle: TimeInterval = 30.0
 
-    /// Maximum analyses per day
-    var maxAnalysesPerDay: Int = 50
+    /// Maximum analyses per day (covers Stitch Doctor + Tension Check)
+    var maxAnalysesPerDay: Int = 20
 
     // MARK: - Private Properties
 
