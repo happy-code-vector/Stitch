@@ -25,13 +25,14 @@ class MotionAnalyzer: ObservableObject {
     // MARK: - Configuration
 
     /// Minimum horizontal motion threshold to consider (pixels per frame)
-    var motionThreshold: Float = 2.0
+    var motionThreshold: Float = 1.5
 
     /// Required confidence level to trigger turn detection
-    var confidenceThreshold: Float = 0.5
+    var confidenceThreshold: Float = 0.4
 
-    /// Minimum time between turn detections (seconds) - 15 second debounce
-    var turnDebounceTime: TimeInterval = 15.0
+    /// Minimum time between turn detections (seconds) — fast knitters can do
+    /// a row in ~3s, so 2s debounce allows detection while filtering noise
+    var turnDebounceTime: TimeInterval = 2.0
 
     /// Number of consecutive frames with consistent motion to confirm turn
     var confirmationFrames: Int = 3
@@ -112,7 +113,7 @@ class MotionAnalyzer: ObservableObject {
         // Determine motion direction
         let isRightward = sample.motionX > motionThreshold
         let isLeftward = sample.motionX < -motionThreshold
-        let isMostlyHorizontal = abs(sample.motionX) > abs(sample.motionY) * 1.5
+        let isMostlyHorizontal = abs(sample.motionX) > abs(sample.motionY) * 1.0
 
         guard isMostlyHorizontal && (isRightward || isLeftward) else {
             // Reset confirmation if motion isn't clearly horizontal

@@ -37,6 +37,9 @@ struct WorkModeView: View {
     @State private var isDiagnosing = false
     @State private var diagnosisResult: String?
     @State private var latestFrame: CVPixelBuffer?
+
+    private enum DiagnosisKind { case mistake, tension }
+    @State private var diagnosisType: DiagnosisKind = .mistake
     @State private var showPermissionAlert = false
     @State private var showSettings = false
     @State private var showApiKeyAlert = false
@@ -320,7 +323,7 @@ struct WorkModeView: View {
                             .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 24)
-                        
+
                         // Stitch Doctor Button (Pro Feature)
                         Button(action: {
                             if subscriptionManager.canUseAICoach {
@@ -331,7 +334,7 @@ struct WorkModeView: View {
                             }
                         }) {
                             HStack(spacing: 8) {
-                                if isDiagnosing {
+                                if isDiagnosing && diagnosisType == .mistake {
                                     ProgressView()
                                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                         .scaleEffect(0.8)
@@ -339,7 +342,7 @@ struct WorkModeView: View {
                                     Image(systemName: "camera")
                                         .font(.system(size: 16, weight: .medium))
                                 }
-                                Text(isDiagnosing ? "Analyzing..." : "Check for Mistakes")
+                                Text(isDiagnosing && diagnosisType == .mistake ? "Analyzing..." : "Check for Mistakes")
                                     .font(.system(size: 16, weight: .medium))
                             }
                             .foregroundColor(.white)
@@ -350,6 +353,36 @@ struct WorkModeView: View {
                             .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                         }
                         .padding(.top, 24)
+
+                        // Tension Check Button (Pro Feature)
+                        Button(action: {
+                            if subscriptionManager.canUseAICoach {
+                                runTensionCheck()
+                            } else {
+                                proFeatureRequested = "AI Coach"
+                                showPaywall = true
+                            }
+                        }) {
+                            HStack(spacing: 8) {
+                                if isDiagnosing && diagnosisType == .tension {
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                        .scaleEffect(0.8)
+                                } else {
+                                    Image(systemName: "gauge.with.dots.needle.33percent")
+                                        .font(.system(size: 16, weight: .medium))
+                                }
+                                Text(isDiagnosing && diagnosisType == .tension ? "Analyzing..." : "Check Tension")
+                                    .font(.system(size: 16, weight: .medium))
+                            }
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 24)
+                            .padding(.vertical, 12)
+                            .background(subscriptionManager.canUseAICoach ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.gray)
+                            .cornerRadius(25)
+                            .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
+                        }
+                        .padding(.top, 8)
                         .padding(.bottom, 32)
                     }
                     .background(Color.white)
@@ -386,7 +419,9 @@ struct WorkModeView: View {
             StitchDoctorDiagnosisViewSheet(
                 onClose: { showDiagnosis = false },
                 onSaveToNotes: nil,
-                diagnosisText: diagnosisResult
+                diagnosisText: diagnosisResult,
+                title: diagnosisType == .tension ? "Tension Analysis" : "Stitch Doctor",
+                icon: diagnosisType == .tension ? "gauge.with.dots.needle.33percent" : "stethoscope"
             )
         }
         .alert("Camera Access Required", isPresented: $showPermissionAlert) {
@@ -444,23 +479,41 @@ struct WorkModeView: View {
     private func runStitchDoctor() {
         guard let pixelBuffer = latestFrame else { return }
 
-        // Convert frame to UIImage
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         let context = CIContext()
         guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent),
               let image = UIImage(data: UIImage(cgImage: cgImage).jpegData(compressionQuality: 0.8)!) else { return }
 
         isDiagnosing = true
+        diagnosisType = .mistake
         diagnosisResult = nil
         showDiagnosis = true
-
-        // Count usage for free-tier limit (Pro has unlimited)
-        subscriptionManager.incrementStitchDoctorUsage()
 
         AICoachProService.shared.detectMistakes(image: image) { response in
             DispatchQueue.main.async {
                 self.isDiagnosing = false
                 self.diagnosisResult = response?.message ?? "Unable to analyze. Please try again."
+            }
+        }
+    }
+
+    private func runTensionCheck() {
+        guard let pixelBuffer = latestFrame else { return }
+
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let context = CIContext()
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent),
+              let image = UIImage(data: UIImage(cgImage: cgImage).jpegData(compressionQuality: 0.8)!) else { return }
+
+        isDiagnosing = true
+        diagnosisType = .tension
+        diagnosisResult = nil
+        showDiagnosis = true
+
+        AICoachProService.shared.analyzeTension(image: image) { response in
+            DispatchQueue.main.async {
+                self.isDiagnosing = false
+                self.diagnosisResult = response?.message ?? "Unable to analyze tension. Please try again."
             }
         }
     }
@@ -982,16 +1035,18 @@ struct StitchDoctorDiagnosisViewSheet: View {
     let onClose: () -> Void
     let onSaveToNotes: (() -> Void)?
     let diagnosisText: String?
+    var title: String = "Stitch Doctor"
+    var icon: String = "stethoscope"
 
     var body: some View {
         NavigationView {
             VStack(spacing: 24) {
-                Image(systemName: diagnosisText == nil ? "stethoscope" : "checkmark.circle.fill")
+                Image(systemName: diagnosisText == nil ? icon : "checkmark.circle.fill")
                     .font(.system(size: 48))
                     .foregroundColor(diagnosisText == nil ? Color(red: 0.4, green: 0.4, blue: 0.4) : Color(red: 0.561, green: 0.659, blue: 0.533))
                     .padding(.top, 32)
 
-                Text("Stitch Doctor")
+                Text(title)
                     .font(.title2)
                     .fontWeight(.bold)
 
@@ -1006,7 +1061,7 @@ struct StitchDoctorDiagnosisViewSheet: View {
                     VStack(spacing: 16) {
                         ProgressView()
                             .scaleEffect(1.2)
-                        Text("Analyzing your stitches...")
+                        Text("Analyzing your knitting...")
                             .font(.body)
                             .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
                     }
