@@ -70,20 +70,22 @@ class ProjectStore: ObservableObject {
         }
     }
     
-    func saveSession(projectId: Int, rowsKnit: Int, timeSpent: Int) {
+    func saveSession(projectId: Int, rowsKnit: Int, timeSpent: Int, startTime: Date? = nil) {
         let dateFormatter = ISO8601DateFormatter()
         let now = dateFormatter.string(from: Date())
-        
+
+        let start = startTime != nil ? dateFormatter.string(from: startTime!) : now
+
         let session = SessionModel(
             projectId: projectId,
             rowsKnit: rowsKnit,
-            timeSpent: timeSpent,
-            startTime: now,
+            timeSpent: timeSpent, // in seconds
+            startTime: start,
             endTime: now
         )
-        
+
         _ = db.saveSession(session)
-        
+
         // Update project progress
         updateProjectProgress(projectId: projectId, currentRow: (getProject(by: projectId)?.currentRow ?? 0) + rowsKnit)
     }

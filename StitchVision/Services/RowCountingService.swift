@@ -1,5 +1,4 @@
 import Foundation
-import Combine
 import UIKit
 
 /// Unified service for row counting - coordinates optical flow and motion analysis
@@ -24,13 +23,11 @@ class RowCountingService: ObservableObject {
 
     private let opticalFlowDetector = OpticalFlowDetector()
     private let motionAnalyzer = MotionAnalyzer()
-    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Initialization
 
     init(initialCount: Int = 0) {
         self.rowCount = initialCount
-        setupBindings()
     }
 
     // MARK: - Public Methods
@@ -139,13 +136,6 @@ class RowCountingService: ObservableObject {
         let generator = UIImpactFeedbackGenerator(style: style)
         generator.prepare()
         generator.impactOccurred()
-    }
-
-    private func setupBindings() {
-        // Bind optical flow detector state
-        opticalFlowDetector.$isProcessing
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$isCounting)
     }
 
     // MARK: - Debug/Stats

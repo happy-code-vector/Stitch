@@ -59,7 +59,8 @@ struct ContentView: View {
             case .sessionSummary:
                 SessionSummaryView(
                     rowsKnit: appState.sessionData.rowsKnit,
-                    timeSpent: appState.sessionData.timeSpent
+                    timeSpent: appState.sessionData.timeSpent,
+                    sessionStartTime: appState.sessionData.startTime
                 )
             case .settings:
                 SettingsView()

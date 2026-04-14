@@ -1,8 +1,7 @@
 import Foundation
 import UIKit
-import Combine
 
-/// Manages persistence of knitting patterns
+/// Manages persistence of knitting patterns using DatabaseManager (SQLite).
 @MainActor
 class PatternStorageService: ObservableObject {
 
@@ -14,8 +13,7 @@ class PatternStorageService: ObservableObject {
 
     // MARK: - Private Properties
 
-    private let patternsKey = "knittingPatterns"
-    private var cancellables = Set<AnyCancellable>()
+    private let db = DatabaseManager.shared
 
     // MARK: - Singleton
 
@@ -39,19 +37,12 @@ class PatternStorageService: ObservableObject {
         return max(0, maxPatterns - patterns.count)
     }
 
-    /// Load all patterns from storage
+    /// Load all patterns from database
     func loadPatterns() {
         isLoading = true
         errorMessage = nil
-
-        Task.detached { [weak self] in
-            guard let self else { return }
-            let savedPatterns = await self.loadPatternsFromDefaults()
-            await MainActor.run {
-                self.patterns = savedPatterns
-                self.isLoading = false
-            }
-        }
+        patterns = db.getPatterns()
+        isLoading = false
     }
 
     /// Save a pattern (with Pro limit check)
@@ -65,26 +56,16 @@ class PatternStorageService: ObservableObject {
             return false
         }
 
-        let currentPatterns = self.patterns
-        isLoading = true
+        guard db.savePattern(pattern) else {
+            errorMessage = "Failed to save pattern."
+            return false
+        }
 
-        Task.detached { [weak self] in
-            guard let self else { return }
-
-            var savedPatterns = currentPatterns
-
-            if let index = savedPatterns.firstIndex(where: { $0.id == pattern.id }) {
-                savedPatterns[index] = pattern
-            } else {
-                savedPatterns.append(pattern)
-            }
-
-            await self.savePatternsToDefaults(savedPatterns)
-
-            await MainActor.run {
-                self.patterns = savedPatterns
-                self.isLoading = false
-            }
+        // Update in-memory list
+        if let index = patterns.firstIndex(where: { $0.id == pattern.id }) {
+            patterns[index] = pattern
+        } else {
+            patterns.append(pattern)
         }
 
         return true
@@ -92,14 +73,8 @@ class PatternStorageService: ObservableObject {
 
     /// Delete a pattern
     func deletePattern(_ patternId: UUID) {
-        var savedPatterns = patterns
-        savedPatterns.removeAll { $0.id == patternId }
-        patterns = savedPatterns
-
-        Task.detached { [weak self] in
-            guard let self else { return }
-            await self.savePatternsToDefaults(savedPatterns)
-        }
+        _ = db.deletePattern(id: patternId)
+        patterns.removeAll { $0.id == patternId }
     }
 
     /// Get pattern by ID
@@ -115,31 +90,5 @@ class PatternStorageService: ObservableObject {
         pattern.completedRows = completedRows
 
         savePattern(pattern)
-    }
-
-    // MARK: - Private Methods
-
-    private nonisolated func loadPatternsFromDefaults() -> [KnittingPattern] {
-        guard let data = UserDefaults.standard.data(forKey: patternsKey) else {
-            return []
-        }
-
-        do {
-            let decoder = JSONDecoder()
-            return try decoder.decode([KnittingPattern].self, from: data)
-        } catch {
-            print("Failed to decode patterns: \(error)")
-            return []
-        }
-    }
-
-    private nonisolated func savePatternsToDefaults(_ patterns: [KnittingPattern]) {
-        do {
-            let encoder = JSONEncoder()
-            let data = try encoder.encode(patterns)
-            UserDefaults.standard.set(data, forKey: patternsKey)
-        } catch {
-            print("Failed to encode patterns: \(error)")
-        }
     }
 }

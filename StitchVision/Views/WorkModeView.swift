@@ -560,12 +560,12 @@ struct WorkModeView: View {
             return
         }
 
-        let timeSpent = Int(Date().timeIntervalSince(sessionStartTime) / 60)
+        let timeSpentSeconds = Int(Date().timeIntervalSince(sessionStartTime))
         let rowsKnit = rowCountingService.rowCount - initialRowCount
 
         // Update app state with session data (actual save happens in SessionSummaryView)
         appState.selectedProjectId = projectStore.getActiveProject()?.id
-        appState.updateSessionData(rowsKnit: max(0, rowsKnit), timeSpent: timeSpent)
+        appState.updateSessionData(rowsKnit: max(0, rowsKnit), timeSpent: timeSpentSeconds, startTime: sessionStartTime)
 
         // Save pattern progress if pattern is selected
         if let pattern = selectedPattern {

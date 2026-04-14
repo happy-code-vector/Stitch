@@ -43,7 +43,7 @@ enum ScreenType: CaseIterable {
 class AppState: ObservableObject {
     @Published var currentScreen: ScreenType
     @Published var navigationHistory: [ScreenType] = []
-    @Published var sessionData = SessionData(rowsKnit: 0, timeSpent: 0)
+    @Published var sessionData = SessionData(rowsKnit: 0, timeSpent: 0, startTime: nil)
     @Published var isPro = false
     @Published var selectedProjectId: Int?
     
@@ -131,8 +131,8 @@ class AppState: ObservableObject {
     /// Whether a back destination exists.
     var canGoBack: Bool { !navigationHistory.isEmpty }
     
-    func updateSessionData(rowsKnit: Int, timeSpent: Int) {
-        sessionData = SessionData(rowsKnit: rowsKnit, timeSpent: timeSpent)
+    func updateSessionData(rowsKnit: Int, timeSpent: Int, startTime: Date? = nil) {
+        sessionData = SessionData(rowsKnit: rowsKnit, timeSpent: timeSpent, startTime: startTime)
     }
     
     // MARK: - Onboarding Methods
@@ -237,5 +237,6 @@ class AppState: ObservableObject {
 
 struct SessionData {
     let rowsKnit: Int
-    let timeSpent: Int
+    let timeSpent: Int // in seconds
+    let startTime: Date?
 }

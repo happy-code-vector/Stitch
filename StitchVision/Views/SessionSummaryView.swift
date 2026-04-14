@@ -4,15 +4,21 @@ struct SessionSummaryView: View {
     @EnvironmentObject var appState: AppState
     @EnvironmentObject var projectStore: ProjectStore
     let rowsKnit: Int
-    let timeSpent: Int // in minutes
+    let timeSpent: Int // in seconds
+    let sessionStartTime: Date?
     
+    // Convert seconds to minutes for display
+    private var timeSpentMinutes: Int {
+        max(1, Int(ceil(Double(timeSpent) / 60.0)))
+    }
+
     // Calculate time saved (assuming 30 seconds per row without AI)
     private var timeWithoutAI: Int {
         Int(Double(rowsKnit) * 0.5) // minutes
     }
-    
+
     private var timeSaved: Int {
-        max(0, timeWithoutAI - timeSpent)
+        max(0, timeWithoutAI - timeSpentMinutes)
     }
     
     // Sparkle positions for background
@@ -106,14 +112,14 @@ struct SessionSummaryView: View {
                                                 endPoint: .top
                                             )
                                         )
-                                        .frame(width: 80, height: max(60, CGFloat(timeSpent) / CGFloat(max(timeWithoutAI, 1)) * 140))
-                                        .animation(.easeOut(duration: 0.8).delay(1), value: timeSpent)
+                                        .frame(width: 80, height: max(60, CGFloat(timeSpentMinutes) / CGFloat(max(timeWithoutAI, 1)) * 140))
+                                        .animation(.easeOut(duration: 0.8).delay(1), value: timeSpentMinutes)
                                     
                                     VStack(spacing: 2) {
                                         Text("StitchVision")
                                             .font(.system(size: 12, weight: .regular))
                                             .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                                        Text("\(timeSpent)m")
+                                        Text("\(timeSpentMinutes)m")
                                             .font(.system(size: 14, weight: .semibold))
                                             .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                                     }
@@ -201,7 +207,8 @@ struct SessionSummaryView: View {
             projectStore.saveSession(
                 projectId: projectId,
                 rowsKnit: rowsKnit,
-                timeSpent: timeSpent // Already in minutes from WorkModeView
+                timeSpent: timeSpent, // in seconds
+                startTime: sessionStartTime
             )
         }
         appState.navigateTo(.dashboard)
