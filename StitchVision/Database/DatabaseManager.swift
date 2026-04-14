@@ -150,6 +150,7 @@ class DatabaseManager {
             current_row INTEGER DEFAULT 0,
             completed_rows TEXT,
             project_id TEXT,
+            imported_at TEXT DEFAULT CURRENT_TIMESTAMP,
             created_at TEXT DEFAULT CURRENT_TIMESTAMP,
             updated_at TEXT DEFAULT CURRENT_TIMESTAMP
         );
@@ -543,8 +544,8 @@ class DatabaseManager {
 
     func savePattern(_ pattern: KnittingPattern) -> Bool {
         let query = """
-        INSERT OR REPLACE INTO Patterns (id, name, image_data, total_rows, current_row, completed_rows, project_id, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'));
+        INSERT OR REPLACE INTO Patterns (id, name, image_data, total_rows, current_row, completed_rows, project_id, imported_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'));
         """
 
         var statement: OpaquePointer?
@@ -578,6 +579,11 @@ class DatabaseManager {
         } else {
             sqlite3_bind_text(statement, 7, nil, -1, nil)
         }
+
+        // Bind imported_at
+        let isoFormatter = ISO8601DateFormatter()
+        let importedAtString = isoFormatter.string(from: pattern.importedAt)
+        sqlite3_bind_text(statement, 8, (importedAtString as NSString).utf8String, -1, nil)
 
         let success = sqlite3_step(statement) == SQLITE_DONE
         sqlite3_finalize(statement)
@@ -624,6 +630,16 @@ class DatabaseManager {
                 projectId = UUID(uuidString: projectIdString)
             }
 
+            // Read imported_at
+            var importedAt = Date()
+            if let importedAtText = sqlite3_column_text(statement, 7) {
+                let importedAtString = String(cString: importedAtText)
+                let isoFormatter = ISO8601DateFormatter()
+                if let date = isoFormatter.date(from: importedAtString) {
+                    importedAt = date
+                }
+            }
+
             guard let id = UUID(uuidString: idString) else { continue }
 
             let pattern = KnittingPattern(
@@ -632,6 +648,7 @@ class DatabaseManager {
                 imageData: imageData,
                 detectedRows: [],
                 totalRows: totalRows,
+                importedAt: importedAt,
                 currentRow: currentRow,
                 completedRows: completedRows,
                 projectId: projectId
