@@ -27,24 +27,20 @@ class SubscriptionManager: ObservableObject {
     private var updatesListenerTask: Task<Void, Never>?
 
     private init() {
-        // Fix 4: Read UserDefaults synchronously here before @MainActor
-        // enforcement kicks in — this is safe because it's purely reading
-        // a value type from UserDefaults, not touching any actor-isolated state.
-        // We assign a temporary free subscription first, then overwrite below.
         self.subscription = Subscription()
 
-        // Fix 4: Restore cached subscription on the main actor via a
-        // detached task so init() itself doesn't violate actor isolation.
+        // Defer all async StoreKit work to avoid crashes during init.
         Task { @MainActor in
             self.loadSubscription()
-            // Fix 9: Load App Store products automatically on first init.
             await self.loadProducts()
-            // Verify entitlements against StoreKit on every cold start.
             await self.checkSubscriptionStatus()
+            // Start listener only after initial load completes safely.
+            self.startTransactionListener()
         }
+    }
 
-        // Fix 1: Start listening for StoreKit transaction updates immediately.
-        // This handles renewals, revocations, and purchases made outside the app.
+    private func startTransactionListener() {
+        guard updatesListenerTask == nil else { return }
         updatesListenerTask = Task(priority: .background) { [weak self] in
             for await result in Transaction.updates {
                 guard let self else { break }
@@ -147,21 +143,25 @@ class SubscriptionManager: ObservableObject {
     func checkSubscriptionStatus() async {
         var foundActiveSubscription = false
 
-        for await result in Transaction.currentEntitlements {
-            switch result {
-            case .verified(let transaction):
-                if transaction.productID == Self.monthlyProID ||
-                   transaction.productID == Self.yearlyProID {
-                    await updateSubscription(from: transaction)
-                    foundActiveSubscription = true
-                    return
+        do {
+            for await result in Transaction.currentEntitlements {
+                switch result {
+                case .verified(let transaction):
+                    if transaction.productID == Self.monthlyProID ||
+                       transaction.productID == Self.yearlyProID {
+                        await updateSubscription(from: transaction)
+                        foundActiveSubscription = true
+                        return
+                    }
+                case .unverified:
+                    continue
                 }
-            case .unverified:
-                continue
             }
+        } catch {
+            print("[SubscriptionManager] checkSubscriptionStatus error: \(error)")
         }
 
-        // Fix 2: Only reset to free if we definitively found no active
+        // Only reset to free if we definitively found no active
         // entitlements. Don't reset if the loop simply yielded no results
         // due to a transient StoreKit issue.
         if !foundActiveSubscription {
