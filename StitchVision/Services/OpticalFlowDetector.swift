@@ -2,6 +2,7 @@ import Foundation
 import Vision
 import CoreImage
 import Combine
+import Accelerate
 
 /// Result of optical flow analysis
 struct OpticalFlowResult {
@@ -31,15 +32,13 @@ class OpticalFlowDetector: ObservableObject {
     // MARK: - Private Properties
 
     private let processingQueue = DispatchQueue(label: "com.stitchvision.opticalflow", qos: .userInitiated)
-    private var sequenceHandler: VNSequenceRequestHandler?
     private var previousPixelBuffer: CVPixelBuffer?
     private var lastAnalysisTime: Date?
+    private let ciContext = CIContext()
 
     // MARK: - Public Methods
 
     /// Process a new frame and detect motion
-    /// - Parameter pixelBuffer: The current video frame
-    /// - Returns: Optical flow result if enough time has passed since last analysis
     func processFrame(_ pixelBuffer: CVPixelBuffer) -> OpticalFlowResult? {
         // Throttle analysis
         if let lastTime = lastAnalysisTime {
@@ -51,17 +50,23 @@ class OpticalFlowDetector: ObservableObject {
 
         // Need previous frame for comparison
         guard let previousBuffer = previousPixelBuffer else {
-            previousPixelBuffer = pixelBuffer
+            // Deep-copy the first frame so the camera can recycle the original
+            previousPixelBuffer = copyPixelBuffer(pixelBuffer)
             return nil
         }
 
         lastAnalysisTime = Date()
 
-        // Perform optical flow calculation
-        let result = calculateOpticalFlow(previous: previousBuffer, current: pixelBuffer)
+        // Deep-copy the current frame before Vision uses it
+        guard let currentCopy = copyPixelBuffer(pixelBuffer) else {
+            return nil
+        }
 
-        // Store current frame for next comparison
-        previousPixelBuffer = pixelBuffer
+        // Perform optical flow calculation
+        let result = calculateOpticalFlow(previous: previousBuffer, current: currentCopy)
+
+        // Store the deep-copied current frame for next comparison
+        previousPixelBuffer = currentCopy
 
         DispatchQueue.main.async {
             self.lastFlowResult = result
@@ -74,7 +79,6 @@ class OpticalFlowDetector: ObservableObject {
     func reset() {
         previousPixelBuffer = nil
         lastAnalysisTime = nil
-        sequenceHandler = nil  // Re-create on next use to avoid stale state
         DispatchQueue.main.async {
             self.lastFlowResult = nil
         }
@@ -82,28 +86,80 @@ class OpticalFlowDetector: ObservableObject {
 
     // MARK: - Private Methods
 
+    /// Create a deep copy of a CVPixelBuffer that we own exclusively.
+    /// Camera pixel buffers belong to the capture session's buffer pool and
+    /// can be recycled/overwritten even while we hold a Swift reference.
+    private func copyPixelBuffer(_ source: CVPixelBuffer) -> CVPixelBuffer? {
+        let width = CVPixelBufferGetWidth(source)
+        let height = CVPixelBufferGetHeight(source)
+        let format = CVPixelBufferGetPixelFormatType(source)
+
+        guard width > 0, height > 0 else { return nil }
+
+        var pixelBuffer: CVPixelBuffer?
+        let attrs: [String: Any] = [
+            kCVPixelBufferIOSurfacePropertiesKey as String: [:] as [String: Any]
+        ]
+
+        let status = CVPixelBufferCreate(
+            kCFAllocatorDefault,
+            width, height,
+            format,
+            attrs as CFDictionary,
+            &pixelBuffer
+        )
+
+        guard status == kCVReturnSuccess, let copy = pixelBuffer else {
+            return nil
+        }
+
+        CVPixelBufferLockBaseAddress(source, .readOnly)
+        CVPixelBufferLockBaseAddress(copy, [])
+
+        defer {
+            CVPixelBufferUnlockBaseAddress(copy, [])
+            CVPixelBufferUnlockBaseAddress(source, .readOnly)
+        }
+
+        guard let srcBase = CVPixelBufferGetBaseAddress(source),
+              let dstBase = CVPixelBufferGetBaseAddress(copy) else {
+            return nil
+        }
+
+        let srcBytesPerRow = CVPixelBufferGetBytesPerRow(source)
+        let dstBytesPerRow = CVPixelBufferGetBytesPerRow(copy)
+
+        if srcBytesPerRow == dstBytesPerRow {
+            // Fast path — identical stride, memcpy the whole buffer
+            let totalBytes = srcBytesPerRow * height
+            memcpy(dstBase, srcBase, totalBytes)
+        } else {
+            // Row-by-row copy to handle stride mismatch
+            let copyBytes = min(srcBytesPerRow, dstBytesPerRow)
+            for y in 0..<height {
+                let srcRow = srcBase.advanced(by: y * srcBytesPerRow)
+                let dstRow = dstBase.advanced(by: y * dstBytesPerRow)
+                memcpy(dstRow, srcRow, copyBytes)
+            }
+        }
+
+        return copy
+    }
+
     private func calculateOpticalFlow(previous: CVPixelBuffer, current: CVPixelBuffer) -> OpticalFlowResult {
         let startTime = CFAbsoluteTimeGetCurrent()
 
-        // Create a fresh sequence handler each time to avoid thread-safety issues
-        // with VNSequenceRequestHandler being accessed from different threads.
         let handler = VNSequenceRequestHandler()
-
-        // Create optical flow request targeting the current frame
         let flowRequest = VNGenerateOpticalFlowRequest(targetedCVPixelBuffer: current)
 
         do {
-            // Perform optical flow on the previous frame; Vision compares it against the target
             try handler.perform([flowRequest], on: previous)
 
-            // Get flow results
             guard let flowObservation = flowRequest.results?.first as? VNPixelBufferObservation else {
                 return createEmptyResult()
             }
 
             let flowBuffer = flowObservation.pixelBuffer
-
-            // Analyze the flow vectors in ROI
             let result = analyzeFlowVectors(flowBuffer)
 
             let elapsed = CFAbsoluteTimeGetCurrent() - startTime
@@ -122,7 +178,6 @@ class OpticalFlowDetector: ObservableObject {
         let height = CVPixelBufferGetHeight(flowBuffer)
         let bytesPerRow = CVPixelBufferGetBytesPerRow(flowBuffer)
 
-        // Guard against invalid buffer dimensions
         guard width > 0, height > 0, bytesPerRow > 0 else {
             return createEmptyResult()
         }
@@ -147,9 +202,6 @@ class OpticalFlowDetector: ObservableObject {
             return createEmptyResult()
         }
 
-        // Total accessible Float32 elements in a row
-        let maxElementsInRow = bytesPerRow / MemoryLayout<Float32>.size
-        // Each pixel has 2 floats (x, y motion)
         let floatsPerPixel = 2
 
         var totalMotionX: Float = 0
@@ -157,18 +209,15 @@ class OpticalFlowDetector: ObservableObject {
         var validPixels: Int = 0
         var totalConfidence: Float = 0
 
-        // Sample pixels in ROI (skip every other pixel for performance)
         for y in stride(from: roiStartY, to: roiStartY + roiHeight, by: 2) {
             for x in stride(from: roiStartX, to: roiStartX + roiWidth, by: 2) {
                 let offset = y * strideElements + x * floatsPerPixel
 
-                // Bounds check to prevent out-of-buffer access
-                guard offset + 1 < maxElementsInRow * height else { continue }
+                guard offset + 1 < strideElements * height else { continue }
 
                 let motionX = pointer[offset]
                 let motionY = pointer[offset + 1]
 
-                // Filter out invalid/zero motion (NaN check included)
                 guard motionX.isFinite, motionY.isFinite else { continue }
                 let magnitude = sqrt(motionX * motionX + motionY * motionY)
                 guard magnitude > 0.1 && magnitude < 50 else { continue }
