@@ -31,7 +31,7 @@ class OpticalFlowDetector: ObservableObject {
     // MARK: - Private Properties
 
     private let processingQueue = DispatchQueue(label: "com.stitchvision.opticalflow", qos: .userInitiated)
-    private let sequenceHandler = VNSequenceRequestHandler()
+    private var sequenceHandler: VNSequenceRequestHandler?
     private var previousPixelBuffer: CVPixelBuffer?
     private var lastAnalysisTime: Date?
 
@@ -74,6 +74,7 @@ class OpticalFlowDetector: ObservableObject {
     func reset() {
         previousPixelBuffer = nil
         lastAnalysisTime = nil
+        sequenceHandler = nil  // Re-create on next use to avoid stale state
         DispatchQueue.main.async {
             self.lastFlowResult = nil
         }
@@ -84,14 +85,18 @@ class OpticalFlowDetector: ObservableObject {
     private func calculateOpticalFlow(previous: CVPixelBuffer, current: CVPixelBuffer) -> OpticalFlowResult {
         let startTime = CFAbsoluteTimeGetCurrent()
 
+        // Create a fresh sequence handler each time to avoid thread-safety issues
+        // with VNSequenceRequestHandler being accessed from different threads.
+        let handler = VNSequenceRequestHandler()
+
         // Create optical flow request targeting the current frame
         let flowRequest = VNGenerateOpticalFlowRequest(targetedCVPixelBuffer: current)
 
         do {
             // Perform optical flow on the previous frame; Vision compares it against the target
-            try sequenceHandler.perform([flowRequest], on: previous)
+            try handler.perform([flowRequest], on: previous)
 
-            // Get flow results — pixelBuffer on VNPixelBufferObservation is non-optional
+            // Get flow results
             guard let flowObservation = flowRequest.results?.first as? VNPixelBufferObservation else {
                 return createEmptyResult()
             }
@@ -113,24 +118,39 @@ class OpticalFlowDetector: ObservableObject {
     }
 
     private func analyzeFlowVectors(_ flowBuffer: CVPixelBuffer) -> OpticalFlowResult {
-        CVPixelBufferLockBaseAddress(flowBuffer, .readOnly)
-        defer { CVPixelBufferUnlockBaseAddress(flowBuffer, .readOnly) }
-
         let width = CVPixelBufferGetWidth(flowBuffer)
         let height = CVPixelBufferGetHeight(flowBuffer)
         let bytesPerRow = CVPixelBufferGetBytesPerRow(flowBuffer)
+
+        // Guard against invalid buffer dimensions
+        guard width > 0, height > 0, bytesPerRow > 0 else {
+            return createEmptyResult()
+        }
+
+        CVPixelBufferLockBaseAddress(flowBuffer, .readOnly)
+        defer { CVPixelBufferUnlockBaseAddress(flowBuffer, .readOnly) }
 
         guard let baseAddress = CVPixelBufferGetBaseAddress(flowBuffer) else {
             return createEmptyResult()
         }
 
         let pointer = baseAddress.assumingMemoryBound(to: Float32.self)
+        let strideElements = bytesPerRow / MemoryLayout<Float32>.size
 
-        // Calculate ROI pixel bounds
-        let roiStartX = Int(Float(width) * Float(regionOfInterest.origin.x))
-        let roiStartY = Int(Float(height) * Float(regionOfInterest.origin.y))
-        let roiWidth = Int(Float(width) * Float(regionOfInterest.width))
-        let roiHeight = Int(Float(height) * Float(regionOfInterest.height))
+        // Calculate ROI pixel bounds (clamped to buffer dimensions)
+        let roiStartX = max(0, min(Int(Float(width) * Float(regionOfInterest.origin.x)), width - 1))
+        let roiStartY = max(0, min(Int(Float(height) * Float(regionOfInterest.origin.y)), height - 1))
+        let roiWidth = min(Int(Float(width) * Float(regionOfInterest.width)), width - roiStartX)
+        let roiHeight = min(Int(Float(height) * Float(regionOfInterest.height)), height - roiStartY)
+
+        guard roiWidth > 0, roiHeight > 0 else {
+            return createEmptyResult()
+        }
+
+        // Total accessible Float32 elements in a row
+        let maxElementsInRow = bytesPerRow / MemoryLayout<Float32>.size
+        // Each pixel has 2 floats (x, y motion)
+        let floatsPerPixel = 2
 
         var totalMotionX: Float = 0
         var totalMotionY: Float = 0
@@ -140,12 +160,16 @@ class OpticalFlowDetector: ObservableObject {
         // Sample pixels in ROI (skip every other pixel for performance)
         for y in stride(from: roiStartY, to: roiStartY + roiHeight, by: 2) {
             for x in stride(from: roiStartX, to: roiStartX + roiWidth, by: 2) {
-                let offset = y * (bytesPerRow / MemoryLayout<Float32>.size) + x * 2
+                let offset = y * strideElements + x * floatsPerPixel
+
+                // Bounds check to prevent out-of-buffer access
+                guard offset + 1 < maxElementsInRow * height else { continue }
 
                 let motionX = pointer[offset]
                 let motionY = pointer[offset + 1]
 
-                // Filter out invalid/zero motion
+                // Filter out invalid/zero motion (NaN check included)
+                guard motionX.isFinite, motionY.isFinite else { continue }
                 let magnitude = sqrt(motionX * motionX + motionY * motionY)
                 guard magnitude > 0.1 && magnitude < 50 else { continue }
 
