@@ -7,19 +7,19 @@ struct StatsProblemView: View {
     var body: some View {
         VStack(spacing: 0) {
             // Progress bar
-            HStack {
-                Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .clipShape(RoundedRectangle(cornerRadius: 2))
-                
-                Rectangle()
-                    .fill(Color.white.opacity(0.5))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.white.opacity(0.5))
+                        .frame(height: 4)
+                    Rectangle()
+                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .frame(width: animateStats ? geo.size.width * 0.4 : 0, height: 4)
+                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                        .animation(.easeOut(duration: 0.8), value: animateStats)
+                }
             }
-            .padding(.horizontal, 0)
+            .frame(height: 4)
 
             // Back button
             HStack {

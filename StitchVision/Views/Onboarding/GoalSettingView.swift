@@ -3,6 +3,7 @@ import SwiftUI
 struct GoalSettingView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedGoal: String?
+    @State private var animateProgress = false
     
     let goals = [
         ("finish-more", "Finish more projects", "🎯"),
@@ -14,20 +15,19 @@ struct GoalSettingView: View {
     var body: some View {
         VStack(spacing: 0) {
             // Progress bar
-            HStack {
-                Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .clipShape(RoundedRectangle(cornerRadius: 2))
-                    .animation(.easeOut(duration: 0.8), value: selectedGoal)
-                
-                Rectangle()
-                    .fill(Color.white.opacity(0.5))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.white.opacity(0.5))
+                        .frame(height: 4)
+                    Rectangle()
+                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .frame(width: animateProgress ? geo.size.width * 0.6 : 0, height: 4)
+                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                        .animation(.easeOut(duration: 0.8), value: animateProgress)
+                }
             }
-            .padding(.horizontal, 0)
+            .frame(height: 4)
             
             // Content
             VStack(spacing: 0) {
@@ -95,6 +95,7 @@ struct GoalSettingView: View {
         }
         .background(Color(red: 0.976, green: 0.969, blue: 0.949))
         .ignoresSafeArea()
+        .onAppear { animateProgress = true }
     }
 }
 

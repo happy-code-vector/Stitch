@@ -2,6 +2,7 @@ import SwiftUI
 
 struct PatternLibraryPreviewView: View {
     @EnvironmentObject var appState: AppState
+    @State private var animateProgress = false
 
     private let previewPatterns: [(name: String, category: String, difficulty: String, emoji: String)] = [
         ("Beginner Scarf", "Accessories", "Easy", "🧣"),
@@ -18,30 +19,30 @@ struct PatternLibraryPreviewView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-            // Progress bar
-            HStack {
-                Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .clipShape(RoundedRectangle(cornerRadius: 2))
+                // Progress bar
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(height: 4)
+                        Rectangle()
+                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .frame(width: animateProgress ? geo.size.width * 0.7 : 0, height: 4)
+                            .clipShape(RoundedRectangle(cornerRadius: 2))
+                            .animation(.easeOut(duration: 0.8), value: animateProgress)
+                    }
+                }
+                .frame(height: 4)
 
-                Rectangle()
-                    .fill(Color.white.opacity(0.5))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity)
-            }
-            .padding(.horizontal, 0)
+                // Back button
+                HStack {
+                    BackButton()
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 8)
 
-            // Back button
-            HStack {
-                BackButton()
-                Spacer()
-            }
-            .padding(.horizontal, 24)
-            .padding(.top, 8)
-
-            ScrollView {
+                ScrollView {
                     VStack(spacing: 24) {
                         // Header
                         VStack(spacing: 12) {
@@ -98,6 +99,7 @@ struct PatternLibraryPreviewView: View {
                 }
             }
         }
+        .onAppear { animateProgress = true }
     }
 }
 
