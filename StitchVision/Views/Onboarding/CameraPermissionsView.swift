@@ -134,7 +134,7 @@ struct CameraPermissionsView: View {
                         .animation(.easeOut(duration: 0.6).delay(0.9), value: animateElements)
                         
                         Button(action: {
-                            appState.navigateTo(.subscription)
+                            appState.navigateTo(.freeTierWelcome)
                         }) {
                             Text("Maybe Later")
                                 .font(.headline)
@@ -178,16 +178,13 @@ struct CameraPermissionsView: View {
     private func handleCameraPermission() {
         switch cameraManager.permissionStatus {
         case .granted:
-            // Already granted, proceed to paywall first
-            appState.navigateTo(.enhancedSubscription)
+            appState.completeOnboarding()
 
         case .notDetermined:
-            // Request permission
             cameraManager.requestCameraPermission { granted in
                 if granted {
-                    appState.navigateTo(.enhancedSubscription)
+                    appState.completeOnboarding()
                 } else {
-                    // User denied permission
                     showingSettingsAlert = true
                 }
             }

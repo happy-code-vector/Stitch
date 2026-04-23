@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l StitchVision/**/*.swift StitchVision/**/**/*.swift)",
+      "Bash(xbuild)",
+      "Bash(swift build:*)"
+    ]
+  }
+}

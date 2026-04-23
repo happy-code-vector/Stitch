@@ -200,7 +200,7 @@ struct CalibrationView: View {
                     // CTA Button
                     Button(action: {
                         // After calibration, go to paywall/downsell
-                        appState.navigateTo(.downsell)
+                        appState.completeOnboarding()
                     }) {
                         Text("Calibration Complete")
                             .font(.headline)
@@ -236,11 +236,10 @@ struct CalibrationView: View {
         .fullScreenCover(isPresented: $showProGate) {
             ProGateView(onUpgrade: {
                 showProGate = false
-                appState.navigateTo(.enhancedSubscription)
+                appState.completeOnboarding()
             }, onSkip: {
                 showProGate = false
-                // Free user skips calibration — go to dashboard via freeTierWelcome
-                appState.navigateTo(.freeTierWelcome)
+                appState.completeOnboarding()
             })
         }
     }

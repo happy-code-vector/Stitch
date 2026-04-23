@@ -115,12 +115,7 @@ struct PermissionsView: View {
                     // Buttons
                     VStack(spacing: 16) {
                         Button(action: {
-                            // Pro users → calibration, free users → freeTierWelcome
-                            if subscriptionManager.isPro {
-                                appState.navigateTo(.calibration)
-                            } else {
-                                appState.navigateTo(.freeTierWelcome)
-                            }
+                            appState.completeOnboarding()
                         }) {
                             Text("Allow")
                                 .font(.headline)
@@ -133,11 +128,7 @@ struct PermissionsView: View {
                         }
 
                         Button(action: {
-                            if subscriptionManager.isPro {
-                                appState.navigateTo(.calibration)
-                            } else {
-                                appState.navigateTo(.freeTierWelcome)
-                            }
+                            appState.completeOnboarding()
                         }) {
                             Text("Maybe Later")
                                 .font(.subheadline)
