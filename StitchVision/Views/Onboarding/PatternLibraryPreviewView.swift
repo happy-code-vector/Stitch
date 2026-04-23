@@ -18,21 +18,27 @@ struct PatternLibraryPreviewView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
+                // Progress bar
+                HStack {
+                    Rectangle()
+                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .clipShape(RoundedRectangle(cornerRadius: 2))
+
+                    Rectangle()
+                        .fill(Color.white.opacity(0.5))
+                        .frame(height: 4)
+                        .frame(maxWidth: .infinity)
+                }
+
                 // Back button
                 HStack {
-                    Button(action: { appState.goBack() }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 17, weight: .semibold))
-                            Text("Back")
-                                .font(.system(size: 17))
-                        }
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-                    }
+                    BackButton()
                     Spacer()
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 16)
+                .padding(.top, 8)
 
                 ScrollView {
                     VStack(spacing: 24) {
@@ -51,7 +57,6 @@ struct PatternLibraryPreviewView: View {
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 40)
                         }
-                        .padding(.top, 24)
 
                         // Pattern Grid
                         LazyVGrid(columns: [
@@ -63,34 +68,33 @@ struct PatternLibraryPreviewView: View {
                             }
                         }
                         .padding(.horizontal, 24)
-                    }
-                }
 
-                // Continue button — pinned at bottom
-                Button(action: {
-                    appState.navigateTo(.cameraPermissions)
-                }) {
-                    Text("Continue")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
-                        .background(
-                            LinearGradient(
-                                colors: [
-                                    Color(red: 0.561, green: 0.659, blue: 0.533),
-                                    Color(red: 0.49, green: 0.57, blue: 0.46)
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
-                        .cornerRadius(14)
+                        // Continue button
+                        Button(action: {
+                            appState.navigateTo(.cameraPermissions)
+                        }) {
+                            Text("Continue")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    LinearGradient(
+                                        colors: [
+                                            Color(red: 0.561, green: 0.659, blue: 0.533),
+                                            Color(red: 0.49, green: 0.57, blue: 0.46)
+                                        ],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                                .cornerRadius(14)
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 50)
+                    }
+                    .padding(.vertical, 40)
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 50)
-                .padding(.top, 16)
-                .background(Color(red: 0.976, green: 0.969, blue: 0.949))
             }
         }
     }
