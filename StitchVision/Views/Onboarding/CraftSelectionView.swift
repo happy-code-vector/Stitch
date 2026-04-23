@@ -12,7 +12,11 @@ struct CraftSelectionView: View {
     ]
 
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack {
+            Color(red: 0.976, green: 0.969, blue: 0.949)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
             // Progress bar (step 1 of ~10 = 10%)
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
@@ -95,9 +99,8 @@ struct CraftSelectionView: View {
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
             }
+            }
         }
-        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
-        .ignoresSafeArea()
         .onAppear {
             animateElements = true
         }
