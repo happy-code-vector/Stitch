@@ -3,7 +3,6 @@ import SwiftUI
 struct PatternLibraryPreviewView: View {
     @EnvironmentObject var appState: AppState
 
-    // Sample patterns for preview
     private let previewPatterns: [(name: String, category: String, difficulty: String, emoji: String)] = [
         ("Beginner Scarf", "Accessories", "Easy", "🧣"),
         ("Cozy Beanie", "Hats", "Easy", "🧢"),
@@ -35,38 +34,39 @@ struct PatternLibraryPreviewView: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 16)
 
-                // Header
-                VStack(spacing: 12) {
-                    Text("🧶")
-                        .font(.system(size: 48))
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Header
+                        VStack(spacing: 12) {
+                            Text("🧶")
+                                .font(.system(size: 48))
 
-                    Text("Pattern Library")
-                        .font(.system(size: 28, weight: .bold))
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            Text("Pattern Library")
+                                .font(.system(size: 28, weight: .bold))
+                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
 
-                    Text("Browse 80+ patterns after setup — beginner to advanced")
-                        .font(.subheadline)
-                        .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
-                }
-                .padding(.top, 40)
-                .padding(.bottom, 24)
+                            Text("Browse 80+ patterns after setup — beginner to advanced")
+                                .font(.subheadline)
+                                .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 40)
+                        }
+                        .padding(.top, 24)
 
-                // Pattern Grid
-                LazyVGrid(columns: [
-                    GridItem(.flexible(), spacing: 12),
-                    GridItem(.flexible(), spacing: 12)
-                ], spacing: 12) {
-                    ForEach(previewPatterns, id: \.name) { pattern in
-                        PatternPreviewCard(pattern: pattern)
+                        // Pattern Grid
+                        LazyVGrid(columns: [
+                            GridItem(.flexible(), spacing: 12),
+                            GridItem(.flexible(), spacing: 12)
+                        ], spacing: 12) {
+                            ForEach(previewPatterns, id: \.name) { pattern in
+                                PatternPreviewCard(pattern: pattern)
+                            }
+                        }
+                        .padding(.horizontal, 24)
                     }
                 }
-                .padding(.horizontal, 24)
 
-                Spacer()
-
-                // Continue button
+                // Continue button — pinned at bottom
                 Button(action: {
                     appState.navigateTo(.cameraPermissions)
                 }) {
@@ -89,6 +89,8 @@ struct PatternLibraryPreviewView: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 50)
+                .padding(.top, 16)
+                .background(Color(red: 0.976, green: 0.969, blue: 0.949))
             }
         }
     }
@@ -108,7 +110,6 @@ struct PatternPreviewCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // Pattern image placeholder
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(
