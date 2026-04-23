@@ -13,34 +13,31 @@ struct PatternLibraryPreviewView: View {
     ]
 
     var body: some View {
-        ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
-                .ignoresSafeArea()
+        VStack(spacing: 0) {
+            // Progress bar
+            HStack {
+                Rectangle()
+                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .frame(height: 4)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .clipShape(RoundedRectangle(cornerRadius: 2))
 
-            VStack(spacing: 0) {
-                // Progress bar
-                HStack {
-                    Rectangle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                        .frame(height: 4)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .clipShape(RoundedRectangle(cornerRadius: 2))
+                Rectangle()
+                    .fill(Color.white.opacity(0.5))
+                    .frame(height: 4)
+                    .frame(maxWidth: .infinity)
+            }
+            .padding(.horizontal, 0)
 
-                    Rectangle()
-                        .fill(Color.white.opacity(0.5))
-                        .frame(height: 4)
-                        .frame(maxWidth: .infinity)
-                }
+            // Back button
+            HStack {
+                BackButton()
+                Spacer()
+            }
+            .padding(.horizontal, 24)
+            .padding(.top, 8)
 
-                // Back button
-                HStack {
-                    BackButton()
-                    Spacer()
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 8)
-
-                ScrollView {
+            ScrollView {
                     VStack(spacing: 24) {
                         // Header
                         VStack(spacing: 12) {
@@ -97,6 +94,8 @@ struct PatternLibraryPreviewView: View {
                 }
             }
         }
+        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
+        .ignoresSafeArea()
     }
 }
 
