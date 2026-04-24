@@ -13,7 +13,11 @@ struct StruggleView: View {
     ]
     
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack {
+            Color(red: 0.976, green: 0.969, blue: 0.949)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
             // Progress bar (step 3 of ~10 = 30%)
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
@@ -100,8 +104,6 @@ struct StruggleView: View {
                 .padding(.bottom, 50)
             }
         }
-        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
-        .ignoresSafeArea()
         .onAppear {
             animateElements = true
         }

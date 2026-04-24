@@ -12,9 +12,13 @@ struct SkillLevelView: View {
     ]
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Progress bar (step 2 of ~10 = 20%)
-            GeometryReader { geo in
+        ZStack {
+            Color(red: 0.976, green: 0.969, blue: 0.949)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                // Progress bar
+                GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Rectangle()
                         .fill(Color.white.opacity(0.5))
@@ -97,8 +101,6 @@ struct SkillLevelView: View {
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
             }
         }
-        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
-        .ignoresSafeArea()
         .onAppear {
             animateElements = true
         }

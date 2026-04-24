@@ -8,7 +8,11 @@ struct CameraPermissionsView: View {
     @State private var animateProgress = false
     
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack {
+            Color(red: 0.976, green: 0.969, blue: 0.949)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
             // Progress bar
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
@@ -158,8 +162,6 @@ struct CameraPermissionsView: View {
                 .padding(.vertical, 40)
             }
         }
-        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
-        .ignoresSafeArea()
         .onAppear {
             animateElements = true
             animateProgress = true
