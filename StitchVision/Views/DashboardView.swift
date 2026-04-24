@@ -194,7 +194,6 @@ struct DashboardView: View {
                     .padding(.bottom, 100)
                 }
             }
-        }
         .background(Color(red: 0.976, green: 0.969, blue: 0.949).ignoresSafeArea())
         .overlay(
             Group {
