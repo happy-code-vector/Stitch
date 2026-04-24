@@ -27,8 +27,8 @@ struct DashboardView: View {
                             .fill(
                                 LinearGradient(
                                     colors: [
-                                        Color(red: 0.561, green: 0.659, blue: 0.533),
-                                        Color(red: 0.49, green: 0.57, blue: 0.46)
+                                        ThemeColors.primary,
+                                        ThemeColors.primaryPressed
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -41,7 +41,7 @@ struct DashboardView: View {
                             Text("Good \(timeOfDay), \(appState.userName ?? "Creator")")
                                 .font(.title2)
                                 .fontWeight(.medium)
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                .foregroundColor(ThemeColors.textPrimary)
                         }
                     }
 
@@ -52,7 +52,7 @@ struct DashboardView: View {
                     }) {
                         Image(systemName: "gearshape")
                             .font(.title2)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                     }
                 }
                 .padding(.horizontal, 24)
@@ -63,12 +63,12 @@ struct DashboardView: View {
                     if activeProject == nil {
                         HStack(alignment: .center, spacing: 12) {
                             Image(systemName: "lightbulb.fill")
-                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .foregroundColor(ThemeColors.primary)
                                 .font(.system(size: 16, weight: .semibold))
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Select or create a project to use Work Mode")
                                     .font(.subheadline)
-                                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                    .foregroundColor(ThemeColors.textPrimary)
                                 Button(action: {
                                     appState.navigateTo(.projectSetup)
                                 }) {
@@ -78,7 +78,7 @@ struct DashboardView: View {
                                         .foregroundColor(.white)
                                         .padding(.horizontal, 12)
                                         .padding(.vertical, 6)
-                                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                        .background(ThemeColors.primary)
                                         .cornerRadius(12)
                                 }
                                 if !projectStore.projects.isEmpty {
@@ -88,7 +88,7 @@ struct DashboardView: View {
                                         Text("Select Active")
                                             .font(.caption)
                                             .fontWeight(.semibold)
-                                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                            .foregroundColor(ThemeColors.primary)
                                             .padding(.horizontal, 12)
                                             .padding(.vertical, 6)
                                             .background(Color(red: 0.95, green: 0.95, blue: 0.95))
@@ -112,6 +112,50 @@ struct DashboardView: View {
                     } else {
                         NoActiveProjectCardView(appState: appState)
                     }
+
+                    // Quick Access Cards
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 12) {
+                            // Quick Count Card
+                            Button(action: {
+                                appState.navigateTo(.workMode)
+                            }) {
+                                VStack(spacing: 8) {
+                                    Image(systemName: "camera.circle.fill")
+                                        .font(.system(size: 28))
+                                        .foregroundColor(Color(red: 0.4, green: 0.6, blue: 0.8))
+                                    Text("Quick Count")
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(ThemeColors.textPrimary)
+                                }
+                                .frame(width: 100, height: 80)
+                                .background(Color.white)
+                                .cornerRadius(16)
+                                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                            }
+
+                            // Add to Stash Card
+                            Button(action: {
+                                appState.navigateTo(.projectSetup)
+                            }) {
+                                VStack(spacing: 8) {
+                                    Image(systemName: "shippingbox.circle.fill")
+                                        .font(.system(size: 28))
+                                        .foregroundColor(Color(red: 0.949, green: 0.631, blue: 0.286))
+                                    Text("Add to Stash")
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(ThemeColors.textPrimary)
+                                }
+                                .frame(width: 100, height: 80)
+                                .background(Color.white)
+                                .cornerRadius(16)
+                                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                            }
+                        }
+                        .padding(.horizontal, 24)
+                    }
                     
                     // Project Stash
                     if !otherProjects.isEmpty {
@@ -119,7 +163,7 @@ struct DashboardView: View {
                             Text("Your Project Stash")
                                 .font(.title3)
                                 .fontWeight(.bold)
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                .foregroundColor(ThemeColors.textPrimary)
                                 .padding(.horizontal, 24)
                             
                             ScrollView(.horizontal, showsIndicators: false) {
@@ -139,7 +183,7 @@ struct DashboardView: View {
                         Text("Quick Actions")
                             .font(.title3)
                             .fontWeight(.bold)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
                             .padding(.horizontal, 24)
                         
                         VStack(spacing: 12) {
@@ -194,7 +238,7 @@ struct DashboardView: View {
                     .padding(.bottom, 100)
             }
         }
-        .background(Color(red: 0.976, green: 0.969, blue: 0.949).ignoresSafeArea())
+        .background(ThemeColors.background.ignoresSafeArea())
         .overlay(
             Group {
                 if showActiveToast {
@@ -238,7 +282,7 @@ struct DashboardView: View {
                                 Spacer()
                                 if project.id == projectStore.activeProjectId {
                                     Image(systemName: "checkmark")
-                                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                        .foregroundColor(ThemeColors.primary)
                                 }
                             }
                         }
@@ -306,25 +350,25 @@ struct ActiveProjectCardView: View {
                             
                             Text("\(Int(progress * 100))%")
                                 .font(.system(size: 18, weight: .bold))
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                .foregroundColor(ThemeColors.textPrimary)
                         }
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text(project.name)
                                 .font(.title2)
                                 .fontWeight(.bold)
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                .foregroundColor(ThemeColors.textPrimary)
                             
                             Text("Row \(project.currentRow) of \(project.totalRows)")
                                 .font(.subheadline)
-                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .foregroundColor(ThemeColors.textSecondary)
                             
                             if !project.yarnColor.isEmpty {
                                 HStack(spacing: 4) {
                                     Text("🧶")
                                     Text(project.yarnColor)
                                         .font(.caption)
-                                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                        .foregroundColor(ThemeColors.textSecondary)
                                 }
                             }
                         }
@@ -344,7 +388,7 @@ struct ActiveProjectCardView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .background(Color(red: 0.788, green: 0.427, blue: 0.373))
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                     }
@@ -378,11 +422,11 @@ struct NoActiveProjectCardView: View {
                         Text("No Active Project")
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
                         
                         Text("Start a new project to begin tracking your knitting progress")
                             .font(.subheadline)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 16)
                     }
@@ -398,7 +442,7 @@ struct NoActiveProjectCardView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .background(Color(red: 0.788, green: 0.427, blue: 0.373))
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                     }
@@ -442,12 +486,12 @@ struct ProjectStashCard: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(project.name)
                         .font(.headline)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        .foregroundColor(ThemeColors.textPrimary)
                         .lineLimit(1)
                     
                     Text("\(project.currentRow)/\(project.totalRows) rows")
                         .font(.caption)
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        .foregroundColor(ThemeColors.textSecondary)
                 }
                 
                 GeometryReader { geometry in
@@ -507,18 +551,18 @@ struct QuickActionButton: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(.headline)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        .foregroundColor(ThemeColors.textPrimary)
                     
                     Text(subtitle)
                         .font(.caption)
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        .foregroundColor(ThemeColors.textSecondary)
                 }
                 
                 Spacer()
                 
                 Image(systemName: "chevron.right")
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .foregroundColor(ThemeColors.textSecondary)
             }
             .padding(16)
             .background(Color.white)

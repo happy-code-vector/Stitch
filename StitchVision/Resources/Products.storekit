@@ -80,7 +80,7 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "7.99",
+          "displayPrice" : "12.99",
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "com.stitchvision.pro.monthly_1700001",
@@ -114,7 +114,7 @@
           "codeOffers" : [
 
           ],
-          "displayPrice" : "39.99",
+          "displayPrice" : "79.99",
           "familyShareable" : false,
           "groupNumber" : 1,
           "internalID" : "com.stitchvision.pro.yearly_1700002",
@@ -126,7 +126,7 @@
           },
           "localizations" : [
             {
-              "description" : "Unlock AI Coach, unlimited patterns, cloud sync, and more. Save 50% with annual billing!",
+              "description" : "Unlock AI Coach, unlimited patterns, cloud sync, and more. Save 49% with annual billing!",
               "displayName" : "Pro Yearly",
               "locale" : "en_US"
             }

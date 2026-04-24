@@ -38,6 +38,7 @@ enum ScreenType: CaseIterable {
     case valuePropCarousel
     case patternLibraryPreview
     case proGate
+    case proActivationConfirmation
 }
 
 class AppState: ObservableObject {
@@ -161,6 +162,7 @@ class AppState: ObservableObject {
     
     func completeOnboarding() {
         // Save all onboarding data first
+        StitchAnalytics.onboardingCompleted(isPro: isPro, completedCalibration: false)
         let user = UserProfile(
             name: userName ?? "",
             email: userEmail ?? "",
@@ -194,6 +196,7 @@ class AppState: ObservableObject {
     
     func updateProStatus(_ isPro: Bool) {
         self.isPro = isPro
+        StitchAnalytics.subscriptionStarted(plan: isPro ? "pro" : "free", price: 0, source: "update")
         if var user = db.getUser() {
             user.isPro = isPro
             _ = db.saveUser(user)

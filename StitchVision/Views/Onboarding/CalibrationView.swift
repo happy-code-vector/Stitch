@@ -6,8 +6,15 @@ struct CalibrationView: View {
     @State private var animateElements = false
     @State private var scanningPosition: CGFloat = -100
     @State private var confidence: Double = 0
-    @State private var rowCount = 42
+    @State private var rowCount = 0
     @State private var showProGate = false
+    @State private var isCalibrating = false
+    @State private var calibrationComplete = false
+    @State private var detectedTurns = 0
+    @State private var requiredTurns = 3
+
+    private let opticalFlowDetector = OpticalFlowDetector()
+    private let feedbackController = FeedbackController()
 
     var body: some View {
         ZStack {
@@ -126,14 +133,14 @@ struct CalibrationView: View {
                     // Row count display
                     HStack {
                         Spacer()
-                        
+
                         VStack(spacing: 4) {
-                            Text("\(rowCount)")
+                            Text("\(detectedTurns)")
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundColor(.white)
-                            
-                            Text("ROWS")
+
+                            Text("TURNS DETECTED")
                                 .font(.caption2)
                                 .fontWeight(.medium)
                                 .foregroundColor(.white.opacity(0.6))
@@ -146,7 +153,7 @@ struct CalibrationView: View {
                                 .fill(Color.black.opacity(0.6))
                                 .background(.ultraThinMaterial)
                         )
-                        
+
                         Spacer()
                     }
                     
@@ -198,20 +205,48 @@ struct CalibrationView: View {
                     .padding(.horizontal, 16)
                     
                     // CTA Button
-                    Button(action: {
-                        // After calibration, go to paywall/downsell
-                        appState.completeOnboarding()
-                    }) {
-                        Text("Calibration Complete")
+                    if calibrationComplete {
+                        Button(action: {
+                            feedbackController.provideFeedback(.calibrationSuccess)
+                            StitchAnalytics.calibrationSucceeded(durationSeconds: 30, craftType: appState.selectedCraft ?? "knitting")
+                            appState.completeOnboarding()
+                        }) {
+                            Text("Calibration Complete!")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(Color(red: 0.788, green: 0.427, blue: 0.373))
+                                .cornerRadius(25)
+                                .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                        }
+                        .padding(.horizontal, 32)
+                    } else if isCalibrating {
+                        Text("Detecting turns... \(detectedTurns)/\(requiredTurns)")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.white.opacity(0.8))
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
-                            .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .background(Color.black.opacity(0.4))
                             .cornerRadius(25)
-                            .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                            .padding(.horizontal, 32)
+                    } else {
+                        Button(action: {
+                            isCalibrating = true
+                            StitchAnalytics.calibrationStarted(craftType: appState.selectedCraft ?? "knitting")
+                            startCalibrationSimulation()
+                        }) {
+                            Text("Start Calibration")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .cornerRadius(25)
+                                .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                        }
+                        .padding(.horizontal, 32)
                     }
-                    .padding(.horizontal, 32)
                     .opacity(animateElements ? 1.0 : 0.0)
                     .offset(y: animateElements ? 0 : 20)
                     .animation(.easeOut(duration: 0.6).delay(1.2), value: animateElements)
@@ -220,18 +255,12 @@ struct CalibrationView: View {
             }
         }
         .onAppear {
-            // Check Pro status - calibration is Pro-only
             if !subscriptionManager.isPro {
                 showProGate = true
                 return
             }
 
             animateElements = true
-
-            // Animate confidence meter
-            withAnimation(.easeOut(duration: 1).delay(0.8)) {
-                confidence = 95
-            }
         }
         .fullScreenCover(isPresented: $showProGate) {
             ProGateView(onUpgrade: {
@@ -241,6 +270,34 @@ struct CalibrationView: View {
                 showProGate = false
                 appState.completeOnboarding()
             })
+        }
+    }
+
+    // MARK: - Calibration Logic
+
+    /// Simulates turn detection with staggered timing.
+    /// In production, replace with real OpticalFlowDetector frame processing from camera.
+    private func startCalibrationSimulation() {
+        // Simulate 3 turns detected over ~10 seconds
+        let turnIntervals: [TimeInterval] = [3.0, 3.5, 4.0]
+
+        for (index, interval) in turnIntervals.enumerated() {
+            let cumulativeDelay = turnIntervals[0..<index].reduce(0, +) + interval
+            DispatchQueue.main.asyncAfter(deadline: .now() + cumulativeDelay) {
+                guard isCalibrating && !calibrationComplete else { return }
+
+                detectedTurns += 1
+                feedbackController.provideFeedback(.rowCounted)
+
+                withAnimation(.easeOut(duration: 0.3)) {
+                    confidence = Double(detectedTurns) / Double(requiredTurns) * 100
+                }
+
+                if detectedTurns >= requiredTurns {
+                    calibrationComplete = true
+                    isCalibrating = false
+                }
+            }
         }
     }
 }

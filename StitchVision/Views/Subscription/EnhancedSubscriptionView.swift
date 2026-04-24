@@ -47,7 +47,7 @@ struct EnhancedSubscriptionView: View {
                     Text("Unlock Full Power")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        .foregroundColor(ThemeColors.textPrimary)
                         .multilineTextAlignment(.center)
                         .opacity(animateElements ? 1.0 : 0.0)
                         .offset(y: animateElements ? 0 : -20)
@@ -57,7 +57,7 @@ struct EnhancedSubscriptionView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         Text("What makes Pro worth it?")
                             .font(.headline)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
                             .frame(maxWidth: .infinity, alignment: .center)
                         
                         ForEach(Array(keyDifferentiators.enumerated()), id: \.offset) { index, diff in
@@ -85,7 +85,7 @@ struct EnhancedSubscriptionView: View {
                         Button(action: { selectedTier = .free }) {
                             Text("Free")
                                 .font(.headline)
-                                .foregroundColor(selectedTier == .free ? .white : Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .foregroundColor(selectedTier == .free ? .white : ThemeColors.textSecondary)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 12)
                                 .background(selectedTier == .free ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear)
@@ -95,7 +95,7 @@ struct EnhancedSubscriptionView: View {
                         Button(action: { selectedTier = .pro }) {
                             Text("Pro")
                                 .font(.headline)
-                                .foregroundColor(selectedTier == .pro ? .white : Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .foregroundColor(selectedTier == .pro ? .white : ThemeColors.textSecondary)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 12)
                                 .background(selectedTier == .pro ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear)
@@ -136,7 +136,7 @@ struct EnhancedSubscriptionView: View {
                             let success = await subscriptionManager.purchase(product)
                             if success {
                                 appState.syncProStatus()
-                                appState.navigateTo(.calibration)
+                                appState.navigateTo(.proActivationConfirmation)
                             }
                         }
                     } else {
@@ -148,7 +148,7 @@ struct EnhancedSubscriptionView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .background(Color(red: 0.788, green: 0.427, blue: 0.373))
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
@@ -156,7 +156,7 @@ struct EnhancedSubscriptionView: View {
                 if selectedTier == .pro {
                     Text("Cancel anytime • No commitment")
                         .font(.caption)
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        .foregroundColor(ThemeColors.textSecondary)
                 }
 
                 Button(action: {
@@ -165,7 +165,7 @@ struct EnhancedSubscriptionView: View {
                 }) {
                     Text(selectedTier == .free ? "Skip" : "Skip trial")
                         .font(.subheadline)
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        .foregroundColor(ThemeColors.textSecondary)
                         .underline()
                 }
                 
@@ -181,33 +181,33 @@ struct EnhancedSubscriptionView: View {
                         }
                     }
                     .font(.caption2)
-                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .foregroundColor(ThemeColors.textSecondary)
                     
                     Text("•")
                         .font(.caption2)
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        .foregroundColor(ThemeColors.textSecondary)
                     
                     Button("Terms") {
                         // Open Terms
                     }
                     .font(.caption2)
-                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .foregroundColor(ThemeColors.textSecondary)
                     
                     Text("•")
                         .font(.caption2)
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        .foregroundColor(ThemeColors.textSecondary)
                     
                     Button("Privacy") {
                         // Open Privacy
                     }
                     .font(.caption2)
-                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .foregroundColor(ThemeColors.textSecondary)
                 }
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 20)
         }
-        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
+        .background(ThemeColors.background)
         .ignoresSafeArea()
         .onAppear {
             animateElements = true
@@ -254,11 +254,11 @@ struct DifferentiatorCard: View {
                 Text(name)
                     .font(.subheadline)
                     .fontWeight(.medium)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                    .foregroundColor(ThemeColors.textPrimary)
                 
                 Text("Free: \(free) → Pro: \(pro)")
                     .font(.caption)
-                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .foregroundColor(ThemeColors.textSecondary)
                 
                 HStack(spacing: 4) {
                     Text("✨")
@@ -274,7 +274,7 @@ struct DifferentiatorCard: View {
             }
         }
         .padding(16)
-        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
+        .background(ThemeColors.background)
         .cornerRadius(16)
         .opacity(animate ? 1.0 : 0.0)
         .offset(x: animate ? 0 : -20)
@@ -290,20 +290,20 @@ struct FreeTierCard: View {
         VStack(spacing: 16) {
             Text("$0")
                 .font(.system(size: 48, weight: .bold))
-                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                .foregroundColor(ThemeColors.textPrimary)
             
             Text("Free Forever")
                 .font(.subheadline)
-                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                .foregroundColor(ThemeColors.textSecondary)
             
             VStack(spacing: 8) {
                 Text("Try StitchVision")
                     .font(.headline)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                    .foregroundColor(ThemeColors.textPrimary)
                 
                 Text("Full AI counting for 1 project")
                     .font(.subheadline)
-                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .foregroundColor(ThemeColors.textSecondary)
             }
             .padding(16)
             .frame(maxWidth: .infinity)
@@ -320,7 +320,7 @@ struct FreeTierCard: View {
             Text("No credit card required")
                 .font(.caption)
                 .italic()
-                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                .foregroundColor(ThemeColors.textSecondary)
         }
         .padding(32)
         .background(Color.white)
@@ -368,7 +368,7 @@ struct ProTierCard: View {
                             Text("Yearly Pro")
                                 .font(.subheadline)
                                 .fontWeight(.medium)
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                .foregroundColor(ThemeColors.textPrimary)
 
                             Text(SubscriptionPricing.yearlyPerMonthDisplay)
                                 .font(.headline)
@@ -379,7 +379,7 @@ struct ProTierCard: View {
 
                         Text(SubscriptionPricing.yearlyDisplay)
                             .font(.caption)
-                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                            .foregroundColor(ThemeColors.textSecondary)
                     }
                     .padding(24)
                 }
@@ -411,11 +411,11 @@ struct ProTierCard: View {
                         Text("Monthly Pro")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
 
                         Text(SubscriptionPricing.monthlyDisplay)
                             .font(.headline)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                     }
                     
                     Spacer()
@@ -435,7 +435,7 @@ struct ProTierCard: View {
                 Text("Everything Pro includes:")
                     .font(.subheadline)
                     .fontWeight(.medium)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                    .foregroundColor(ThemeColors.textPrimary)
                 
                 VStack(spacing: 8) {
                     ProFeatureRow(icon: "sparkles", text: "Unlimited AI Projects")
@@ -470,7 +470,7 @@ struct FeatureRow: View {
             
             Text(text)
                 .font(.caption)
-                .foregroundColor(isIncluded ? Color(red: 0.4, green: 0.4, blue: 0.4) : Color(red: 0.6, green: 0.6, blue: 0.6))
+                .foregroundColor(isIncluded ? ThemeColors.textSecondary : ThemeColors.textSecondary)
         }
     }
 }
@@ -487,7 +487,7 @@ struct ProFeatureRow: View {
             
             Text(text)
                 .font(.caption)
-                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                .foregroundColor(ThemeColors.textSecondary)
         }
     }
 }

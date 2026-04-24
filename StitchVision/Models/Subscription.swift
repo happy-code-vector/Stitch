@@ -2,16 +2,15 @@ import Foundation
 
 /// Centralized pricing constants — single source of truth for all screens.
 enum SubscriptionPricing {
-    static let yearlyPrice: Double = 39.99
-    static let monthlyPrice: Double = 7.99
+    static let yearlyPrice: Double = 79.99
+    static let monthlyPrice: Double = 12.99
 
-    static let yearlyDisplay = "$39.99/year"
-    static let monthlyDisplay = "$7.99/mo"
-    static let yearlyPerMonthDisplay = "$3.33/mo"
-    static let yearlyPerMonthAmount = "$3.33"
+    static let yearlyDisplay = "$79.99/year"
+    static let monthlyDisplay = "$12.99/mo"
+    static let yearlyPerMonthDisplay = "$6.67/mo"
+    static let yearlyPerMonthAmount = "$6.67"
 
-    /// Approximate savings text (yearly vs monthly)
-    static let yearlySavingsText = "Save 58%"
+    static let yearlySavingsText = "Save 49%"
 }
 
 /// Subscription tier
@@ -37,19 +36,21 @@ enum SubscriptionTier: String, Codable, CaseIterable {
         switch self {
         case .free:
             return [
-                "On-device row counting",
-                "Voice commands",
-                "Pattern import (3 patterns)",
-                "Basic progress tracking"
+                "AI Row Counting (unlimited)",
+                "1 Active Project",
+                "Basic Stitch Doctor (3 lifetime)",
+                "1 Pattern Upload (lifetime)",
+                "StitchBot (10 questions/month)"
             ]
         case .pro:
             return [
-                "AI Coach with tension analysis",
-                "Mistake detection",
-                "Unlimited patterns",
-                "Cloud sync",
-                "Advanced analytics",
-                "Priority support"
+                "AI Row Counting (unlimited)",
+                "Unlimited Projects",
+                "Advanced Stitch Doctor (50/month)",
+                "Pattern Uploads (5/month)",
+                "Unlimited StitchBot",
+                "Cloud Sync",
+                "Pattern Library Access"
             ]
         }
     }

@@ -133,6 +133,19 @@ struct WorkModeView: View {
                     // Yarn Detection Bounding Box
                     YarnDetectionBoxView(isPaused: isPaused)
 
+                    // HUD Yellow Guide Line at 50% height
+                    if !isPaused {
+                        GeometryReader { geo in
+                            Path { path in
+                                let y = geo.size.height * 0.5
+                                path.move(to: CGPoint(x: 0, y: y))
+                                path.addLine(to: CGPoint(x: geo.size.width, y: y))
+                            }
+                            .stroke(Color(red: 0.922, green: 1.0, blue: 0.0), style: StrokeStyle(lineWidth: 2, dash: [12, 8]))
+                            .opacity(0.7)
+                        }
+                    }
+
                     // Pattern thumbnail (if selected)
                     if let pattern = selectedPattern {
                         VStack {

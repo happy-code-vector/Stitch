@@ -1,0 +1,195 @@
+[
+    {
+        "id": "starter_001", "title": "Basic Garter Scarf", "difficulty": "Beginner",
+        "category": "Scarves & Cowls", "craft_type": "knitting", "estimated_hours": 4,
+        "yarn_weight": "worsted", "needle_size": "US 8", "hook_size": null,
+        "gauge": "18 sts x 24 rows = 4in", "source_credit": "Public Domain (pre-1927)",
+        "tags": ["beginner", "gift", "quick"], "is_featured": true, "supports_rounds": false,
+        "steps": [
+            {"row": 1, "text": "Cast on 30 stitches.", "type": "setup", "is_round": false},
+            {"row": 2, "text": "Knit all stitches.", "type": "main", "is_round": false},
+            {"row": 3, "text": "Knit all stitches.", "type": "main", "is_round": false},
+            {"row": 4, "text": "Continue knitting every row until work measures 60 inches.", "type": "main", "is_round": false},
+            {"row": 5, "text": "Bind off all stitches loosely.", "type": "finish", "is_round": false}
+        ]
+    },
+    {
+        "id": "starter_002", "title": "Ribbed Watch Cap", "difficulty": "Easy",
+        "category": "Hats & Beanies", "craft_type": "knitting", "estimated_hours": 6,
+        "yarn_weight": "worsted", "needle_size": "US 7", "hook_size": null,
+        "gauge": "20 sts x 26 rows = 4in", "source_credit": "Public Domain (pre-1927)",
+        "tags": ["hat", "gift", "winter"], "is_featured": true, "supports_rounds": true,
+        "steps": [
+            {"row": 1, "text": "Cast on 80 stitches. Join in the round.", "type": "setup", "is_round": true},
+            {"row": 2, "text": "K2, P2 around.", "type": "main", "is_round": true},
+            {"row": 3, "text": "K2, P2 around.", "type": "main", "is_round": true},
+            {"row": 4, "text": "Continue K2, P2 ribbing for 7 inches.", "type": "main", "is_round": true},
+            {"row": 5, "text": "K2tog around. (40 sts)", "type": "main", "is_round": true},
+            {"row": 6, "text": "K2tog around. (20 sts)", "type": "main", "is_round": true},
+            {"row": 7, "text": "K2tog around. (10 sts)", "type": "main", "is_round": true},
+            {"row": 8, "text": "Cut yarn, thread through remaining stitches, pull tight.", "type": "finish", "is_round": true}
+        ]
+    },
+    {
+        "id": "starter_003", "title": "Stockinette Baby Blanket", "difficulty": "Beginner",
+        "category": "Baby Items", "craft_type": "knitting", "estimated_hours": 20,
+        "yarn_weight": "bulky", "needle_size": "US 10", "hook_size": null,
+        "gauge": "14 sts x 20 rows = 4in", "source_credit": "Public Domain (pre-1927)",
+        "tags": ["baby", "gift", "blanket"], "is_featured": false, "supports_rounds": false,
+        "steps": [
+            {"row": 1, "text": "Cast on 100 stitches.", "type": "setup", "is_round": false},
+            {"row": 2, "text": "Knit all stitches (garter border).", "type": "main", "is_round": false},
+            {"row": 3, "text": "Knit all stitches (garter border).", "type": "main", "is_round": false},
+            {"row": 4, "text": "Knit all stitches (garter border).", "type": "main", "is_round": false},
+            {"row": 5, "text": "Knit 5, purl to last 5 stitches, knit 5.", "type": "main", "is_round": false},
+            {"row": 6, "text": "Knit all stitches.", "type": "main", "is_round": false},
+            {"row": 7, "text": "Repeat rows 5-6 until blanket measures 30 inches.", "type": "main", "is_round": false},
+            {"row": 8, "text": "Knit 3 rows (garter border).", "type": "main", "is_round": false},
+            {"row": 9, "text": "Bind off all stitches loosely.", "type": "finish", "is_round": false}
+        ]
+    },
+    {
+        "id": "starter_004", "title": "Grandmother's Dishcloth", "difficulty": "Beginner",
+        "category": "Dishcloths & Squares", "craft_type": "knitting", "estimated_hours": 2,
+        "yarn_weight": "worsted", "needle_size": "US 7", "hook_size": null,
+        "gauge": "18 sts x 24 rows = 4in", "source_credit": "Public Domain (pre-1927)",
+        "tags": ["beginner", "kitchen", "quick"], "is_featured": true, "supports_rounds": false,
+        "steps": [
+            {"row": 1, "text": "Cast on 4 stitches.", "type": "setup", "is_round": false},
+            {"row": 2, "text": "K2, yo, k to end.", "type": "main", "is_round": false},
+            {"row": 3, "text": "Repeat row 2 until 44 stitches.", "type": "main", "is_round": false},
+            {"row": 4, "text": "K1, k2tog, yo, k2tog, k to end.", "type": "main", "is_round": false},
+            {"row": 5, "text": "Repeat row 4 until 4 stitches remain.", "type": "main", "is_round": false},
+            {"row": 6, "text": "Bind off.", "type": "finish", "is_round": false}
+        ]
+    },
+    {
+        "id": "starter_005", "title": "Simple Cuffed Mittens", "difficulty": "Easy",
+        "category": "Mittens & Gloves", "craft_type": "knitting", "estimated_hours": 5,
+        "yarn_weight": "worsted", "needle_size": "US 7", "hook_size": null,
+        "gauge": "20 sts x 26 rows = 4in", "source_credit": "Public Domain (pre-1927)",
+        "tags": ["mittens", "winter", "gift"], "is_featured": false, "supports_rounds": true,
+        "steps": [
+            {"row": 1, "text": "Cast on 28 stitches. Join in round.", "type": "setup", "is_round": true},
+            {"row": 2, "text": "K1, P1 ribbing for 12 rounds.", "type": "main", "is_round": true},
+            {"row": 3, "text": "Knit every round for 14 rounds (stockinette).", "type": "main", "is_round": true},
+            {"row": 4, "text": "K14, place marker, k14.", "type": "main", "is_round": true},
+            {"row": 5, "text": "K to 2 sts before marker, k2tog; slip marker, ssk, k to end.", "type": "main", "is_round": true},
+            {"row": 6, "text": "Knit 1 round even.", "type": "main", "is_round": true},
+            {"row": 7, "text": "Repeat rounds 5-6 until 8 sts remain.", "type": "main", "is_round": true},
+            {"row": 8, "text": "K2tog around twice. Cut yarn, pull through.", "type": "finish", "is_round": true}
+        ]
+    },
+    {
+        "id": "starter_006", "title": "Easy Crochet Granny Square", "difficulty": "Beginner",
+        "category": "Dishcloths & Squares", "craft_type": "crochet", "estimated_hours": 1,
+        "yarn_weight": "worsted", "needle_size": null, "hook_size": "5.0mm",
+        "gauge": null, "source_credit": "Public Domain (pre-1927)",
+        "tags": ["granny", "square", "beginner"], "is_featured": false, "supports_rounds": true,
+        "steps": [
+            {"row": 1, "text": "Ch 4, sl st to form ring.", "type": "setup", "is_round": true},
+            {"row": 2, "text": "Ch 3, 2 dc in ring, ch 2, [3 dc, ch 2] 3 times, sl st to top of ch-3.", "type": "main", "is_round": true},
+            {"row": 3, "text": "Sl st to ch-2 sp, ch 3, 2 dc, ch 2, 3 dc in same sp. Ch 1, [3 dc, ch 2, 3 dc] in next ch-2 sp. Repeat around.", "type": "main", "is_round": true},
+            {"row": 4, "text": "Continue pattern, working 3 dc groups in each ch-1 sp and corners in ch-2 sps.", "type": "main", "is_round": true},
+            {"row": 5, "text": "Continue until square is desired size. Sl st to finish.", "type": "finish", "is_round": true}
+        ]
+    },
+    {
+        "id": "starter_007", "title": "Basic Crochet Scarf", "difficulty": "Beginner",
+        "category": "Scarves & Cowls", "craft_type": "crochet", "estimated_hours": 5,
+        "yarn_weight": "worsted", "needle_size": null, "hook_size": "5.5mm",
+        "gauge": "12 sc x 14 rows = 4in", "source_credit": "Public Domain (pre-1927)",
+        "tags": ["scarf", "beginner", "gift"], "is_featured": false, "supports_rounds": false,
+        "steps": [
+            {"row": 1, "text": "Ch 21.", "type": "setup", "is_round": false},
+            {"row": 2, "text": "Sc in 2nd ch from hook, sc across. (20 sc)", "type": "main", "is_round": false},
+            {"row": 3, "text": "Ch 1, turn. Sc in each sc across.", "type": "main", "is_round": false},
+            {"row": 4, "text": "Repeat row 3 until scarf measures 60 inches.", "type": "main", "is_round": false},
+            {"row": 5, "text": "Fasten off and weave in ends.", "type": "finish", "is_round": false}
+        ]
+    },
+    {
+        "id": "starter_008", "title": "Crochet Beanie", "difficulty": "Easy",
+        "category": "Hats & Beanies", "craft_type": "crochet", "estimated_hours": 3,
+        "yarn_weight": "worsted", "needle_size": null, "hook_size": "5.0mm",
+        "gauge": "12 dc x 8 rows = 4in", "source_credit": "Public Domain (pre-1927)",
+        "tags": ["hat", "crochet", "winter"], "is_featured": false, "supports_rounds": true,
+        "steps": [
+            {"row": 1, "text": "Magic ring, ch 2, 10 dc in ring. Pull tight. (10 dc)", "type": "setup", "is_round": true},
+            {"row": 2, "text": "Ch 2, 2 dc in each dc around. (20 dc)", "type": "main", "is_round": true},
+            {"row": 3, "text": "Ch 2, [2 dc in next dc, dc in next dc] around. (30 dc)", "type": "main", "is_round": true},
+            {"row": 4, "text": "Ch 2, [2 dc in next dc, dc in next 2 dc] around. (40 dc)", "type": "main", "is_round": true},
+            {"row": 5, "text": "Ch 2, dc in each dc around. (40 dc)", "type": "main", "is_round": true},
+            {"row": 6, "text": "Repeat round 5 until hat measures 7 inches from crown.", "type": "main", "is_round": true},
+            {"row": 7, "text": "Ch 1, sc in each dc around. Repeat for 2 rounds (brim).", "type": "main", "is_round": true},
+            {"row": 8, "text": "Fasten off and weave in ends.", "type": "finish", "is_round": true}
+        ]
+    },
+    {
+        "id": "starter_009", "title": "Vanilla Socks", "difficulty": "Intermediate",
+        "category": "Socks", "craft_type": "knitting", "estimated_hours": 12,
+        "yarn_weight": "fingering", "needle_size": "US 1", "hook_size": null,
+        "gauge": "32 sts x 44 rows = 4in", "source_credit": "Public Domain (pre-1927)",
+        "tags": ["socks", "intermediate", "circular"], "is_featured": false, "supports_rounds": true,
+        "steps": [
+            {"row": 1, "text": "Cast on 64 stitches. Join in round.", "type": "setup", "is_round": true},
+            {"row": 2, "text": "K2, P2 ribbing for 16 rounds.", "type": "main", "is_round": true},
+            {"row": 3, "text": "Knit every round for 48 rounds (stockinette leg).", "type": "main", "is_round": true},
+            {"row": 4, "text": "Heel flap: Knit 32 sts. Turn. Sl 1, purl back.", "type": "main", "is_round": false},
+            {"row": 5, "text": "Repeat sl 1, k1 on RS; sl 1, purl back on WS for 32 rows.", "type": "main", "is_round": false},
+            {"row": 6, "text": "Heel turn: Sl 1, k17, ssk, k1, turn. Sl 1, p5, p2tog, p1, turn.", "type": "main", "is_round": false},
+            {"row": 7, "text": "Continue heel turn until all sts worked. (18 sts)", "type": "main", "is_round": false},
+            {"row": 8, "text": "Pick up 16 sts along each side of heel flap. Knit across instep. Join round.", "type": "main", "is_round": true},
+            {"row": 9, "text": "Gusset: K to 3 sts before instep, k2tog, k1. K instep. K1, ssk, k to end.", "type": "main", "is_round": true},
+            {"row": 10, "text": "Repeat gusset decreases every other round until 64 sts remain.", "type": "main", "is_round": true},
+            {"row": 11, "text": "Knit even until foot measures 7.5 inches from heel.", "type": "main", "is_round": true},
+            {"row": 12, "text": "Toe: K to 3 sts before end of needle, k2tog, k1. Repeat on each needle.", "type": "main", "is_round": true},
+            {"row": 13, "text": "Repeat toe decreases every round until 16 sts remain. Graft with Kitchener stitch.", "type": "finish", "is_round": true}
+        ]
+    },
+    {
+        "id": "starter_010", "title": "Simple Garter Shawl", "difficulty": "Easy",
+        "category": "Shawls", "craft_type": "knitting", "estimated_hours": 15,
+        "yarn_weight": "dk", "needle_size": "US 6", "hook_size": null,
+        "gauge": "22 sts x 30 rows = 4in", "source_credit": "Public Domain (pre-1927)",
+        "tags": ["shawl", "easy", "triangular"], "is_featured": false, "supports_rounds": false,
+        "steps": [
+            {"row": 1, "text": "Cast on 3 stitches.", "type": "setup", "is_round": false},
+            {"row": 2, "text": "Kfb, k to end.", "type": "main", "is_round": false},
+            {"row": 3, "text": "Kfb, k to end.", "type": "main", "is_round": false},
+            {"row": 4, "text": "Repeat row 2 until shawl measures 60 inches along top edge.", "type": "main", "is_round": false},
+            {"row": 5, "text": "Bind off loosely.", "type": "finish", "is_round": false}
+        ]
+    },
+    {
+        "id": "starter_011", "title": "Amigurumi Ball", "difficulty": "Beginner",
+        "category": "Amigurumi", "craft_type": "crochet", "estimated_hours": 2,
+        "yarn_weight": "worsted", "needle_size": null, "hook_size": "4.0mm",
+        "gauge": null, "source_credit": "Public Domain (pre-1927)",
+        "tags": ["amigurumi", "toy", "beginner"], "is_featured": false, "supports_rounds": true,
+        "steps": [
+            {"row": 1, "text": "Magic ring, 6 sc in ring. (6)", "type": "setup", "is_round": true},
+            {"row": 2, "text": "2 sc in each st around. (12)", "type": "main", "is_round": true},
+            {"row": 3, "text": "[Sc in next st, 2 sc in next st] around. (18)", "type": "main", "is_round": true},
+            {"row": 4, "text": "[Sc in next 2 sts, 2 sc in next st] around. (24)", "type": "main", "is_round": true},
+            {"row": 5, "text": "[Sc in next 3 sts, 2 sc in next st] around. (30)", "type": "main", "is_round": true},
+            {"row": 6, "text": "Sc in each st around for 6 rounds. (30)", "type": "main", "is_round": true},
+            {"row": 7, "text": "[Sc in next 3 sts, sc2tog] around. (24)", "type": "main", "is_round": true},
+            {"row": 8, "text": "[Sc in next 2 sts, sc2tog] around. Stuff firmly. (18)", "type": "main", "is_round": true},
+            {"row": 9, "text": "[Sc in next st, sc2tog] around. (12)", "type": "main", "is_round": true},
+            {"row": 10, "text": "Sc2tog around. (6). Fasten off, weave through remaining sts, pull tight.", "type": "finish", "is_round": true}
+        ]
+    },
+    {
+        "id": "starter_012", "title": "Knit Pillow Cover", "difficulty": "Beginner",
+        "category": "Home Decor", "craft_type": "knitting", "estimated_hours": 6,
+        "yarn_weight": "bulky", "needle_size": "US 10", "hook_size": null,
+        "gauge": "14 sts x 20 rows = 4in", "source_credit": "Public Domain (pre-1927)",
+        "tags": ["home", "pillow", "beginner"], "is_featured": false, "supports_rounds": false,
+        "steps": [
+            {"row": 1, "text": "Cast on 50 stitches.", "type": "setup", "is_round": false},
+            {"row": 2, "text": "Knit every row (garter stitch) for 60 rows.", "type": "main", "is_round": false},
+            {"row": 3, "text": "Bind off. Fold in half and seam sides.", "type": "finish", "is_round": false}
+        ]
+    }
+]

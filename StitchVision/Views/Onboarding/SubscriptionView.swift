@@ -1,4 +1,5 @@
 import SwiftUI
+import StoreKit
 
 struct SubscriptionView: View {
     @EnvironmentObject var appState: AppState
@@ -25,7 +26,7 @@ struct SubscriptionView: View {
     
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -51,7 +52,7 @@ struct SubscriptionView: View {
                         Text("Choose Your Plan")
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
                             .multilineTextAlignment(.center)
                             .opacity(animateElements ? 1.0 : 0.0)
                             .offset(y: animateElements ? 0 : -20)
@@ -59,7 +60,7 @@ struct SubscriptionView: View {
                         
                         Text("Start your knitting journey with AI assistance")
                             .font(.body)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                             .multilineTextAlignment(.center)
                             .opacity(animateElements ? 1.0 : 0.0)
                             .offset(y: animateElements ? 0 : 10)
@@ -99,7 +100,7 @@ struct SubscriptionView: View {
                     VStack(spacing: 12) {
                         Text("Billing Period")
                             .font(.headline)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
                         
                         HStack(spacing: 0) {
                             Button(action: {
@@ -156,7 +157,7 @@ struct SubscriptionView: View {
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
-                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .background(Color(red: 0.788, green: 0.427, blue: 0.373))
                                 .cornerRadius(25)
                                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                         }
@@ -166,9 +167,20 @@ struct SubscriptionView: View {
                         }) {
                             Text("Continue with Free")
                                 .font(.body)
-                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .foregroundColor(ThemeColors.textSecondary)
                                 .underline()
                         }
+
+                        Button(action: {
+                            Task {
+                                try? await AppStore.sync()
+                            }
+                        }) {
+                            Text("Restore Purchases")
+                                .font(.caption)
+                                .foregroundColor(ThemeColors.textSecondary)
+                        }
+                        .padding(.top, 8)
                     }
                     .padding(.horizontal, 32)
                     .opacity(animateElements ? 1.0 : 0.0)
@@ -210,7 +222,7 @@ struct PlanCard: View {
                 Text(title)
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                    .foregroundColor(ThemeColors.textPrimary)
                 
                 Text(price)
                     .font(.title)
@@ -228,7 +240,7 @@ struct PlanCard: View {
                         
                         Text(feature)
                             .font(.body)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
                         
                         Spacer()
                     }

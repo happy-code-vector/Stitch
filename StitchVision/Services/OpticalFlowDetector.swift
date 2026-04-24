@@ -11,6 +11,12 @@ struct OpticalFlowResult {
     let timestamp: Date
 }
 
+/// Craft mode — determines detection algorithm
+enum CraftMode {
+    case knitting
+    case crochet
+}
+
 /// Detects motion patterns using frame differencing.
 /// Compares consecutive camera frames to detect horizontal knitting motion
 /// without using Vision's VNGenerateOpticalFlowRequest (which crashes).
@@ -29,6 +35,9 @@ class OpticalFlowDetector: ObservableObject {
     /// Minimum time between frame analyses (seconds)
     var analysisThrottle: TimeInterval = 0.1 // 10 FPS max
 
+    /// Craft mode — changes detection algorithm
+    var craftMode: CraftMode = .knitting
+
     // MARK: - Private Properties
 
     private var previousFrameData: [UInt8]?
@@ -36,6 +45,13 @@ class OpticalFlowDetector: ObservableObject {
     private var previousHeight: Int = 0
     private var lastAnalysisTime: Date?
     private let ciContext = CIContext(options: [.useSoftwareRenderer: false])
+
+    // Crochet flow-valley detection state
+    private var flowMagnitudeBuffer: [Float] = []
+    private var inFlowValley: Bool = false
+    private var valleyStartFrame: Int = 0
+    private var currentFrameIndex: Int = 0
+    private let flowBufferCapacity = 60 // 2 seconds at 30fps
 
     // MARK: - Public Methods
 
@@ -89,9 +105,57 @@ class OpticalFlowDetector: ObservableObject {
         previousWidth = 0
         previousHeight = 0
         lastAnalysisTime = nil
+        flowMagnitudeBuffer.removeAll()
+        inFlowValley = false
+        valleyStartFrame = 0
+        currentFrameIndex = 0
         DispatchQueue.main.async {
             self.lastFlowResult = nil
         }
+    }
+
+    // MARK: - Crochet Detection (Flow-Valley + Upward Vector)
+
+    /// Check if crochet row-end signature is detected from the optical flow result.
+    /// Returns true when both conditions are met: flow valley followed by upward vector.
+    func detectCrochetRowEnd(from result: OpticalFlowResult) -> Bool {
+        currentFrameIndex += 1
+        flowMagnitudeBuffer.append(result.motionMagnitude)
+        if flowMagnitudeBuffer.count > flowBufferCapacity {
+            flowMagnitudeBuffer.removeFirst()
+        }
+
+        guard flowMagnitudeBuffer.count >= 10 else { return false }
+
+        // Average magnitude of preceding frames
+        let recentCount = min(30, flowMagnitudeBuffer.count - 1)
+        let recentAvg = flowMagnitudeBuffer.suffix(recentCount).reduce(0, +) / Float(recentCount)
+
+        // Detect flow valley: magnitude drops below 20% of recent average
+        let isValley = result.motionMagnitude < (recentAvg * 0.20) && recentAvg > 0.3
+
+        if isValley && !inFlowValley {
+            inFlowValley = true
+            valleyStartFrame = currentFrameIndex
+        }
+
+        // After valley, detect upward vector event
+        if inFlowValley {
+            let isUpward = result.averageMotionY > 1.5
+            let framesSinceValley = currentFrameIndex - valleyStartFrame
+
+            if isUpward && framesSinceValley < 36 { // within 1.2s at 30fps
+                inFlowValley = false
+                return true
+            }
+
+            // Timeout — valley didn't lead to upward event
+            if framesSinceValley > 36 {
+                inFlowValley = false
+            }
+        }
+
+        return false
     }
 
     // MARK: - Private Methods

@@ -1,4 +1,5 @@
 import SwiftUI
+import StoreKit
 
 struct FreeVsProComparisonView: View {
     @EnvironmentObject var appState: AppState
@@ -22,7 +23,7 @@ struct FreeVsProComparisonView: View {
     
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
 
             ScrollView {
@@ -32,14 +33,14 @@ struct FreeVsProComparisonView: View {
                     Text("Free vs Pro")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        .foregroundColor(ThemeColors.textPrimary)
                         .opacity(animateElements ? 1.0 : 0.0)
                         .offset(y: animateElements ? 0 : -20)
                         .animation(.easeOut(duration: 0.6), value: animateElements)
                     
                     Text("See what you unlock with Pro")
                         .font(.body)
-                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                        .foregroundColor(ThemeColors.textSecondary)
                         .opacity(animateElements ? 1.0 : 0.0)
                         .offset(y: animateElements ? 0 : -10)
                         .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
@@ -53,13 +54,13 @@ struct FreeVsProComparisonView: View {
                         Text("Feature")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
                         Text("Free")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
                             .frame(width: 80)
                         
                         Text("Pro")
@@ -100,7 +101,7 @@ struct FreeVsProComparisonView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Why Upgrade to Pro?")
                         .font(.headline)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        .foregroundColor(ThemeColors.textPrimary)
                         .frame(maxWidth: .infinity, alignment: .center)
                     
                     ValueHighlight(
@@ -168,17 +169,28 @@ struct FreeVsProComparisonView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
-                            .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .background(Color(red: 0.788, green: 0.427, blue: 0.373))
                             .cornerRadius(25)
                             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                     }
-                    
+
                     if let dismiss = onDismiss {
                         Button(action: dismiss) {
                             Text("Continue with Free")
                                 .font(.subheadline)
-                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .foregroundColor(ThemeColors.textSecondary)
                         }
+
+                        Button(action: {
+                            Task {
+                                try? await AppStore.sync()
+                            }
+                        }) {
+                            Text("Restore Purchases")
+                                .font(.caption)
+                                .foregroundColor(ThemeColors.textSecondary)
+                        }
+                        .padding(.top, 8)
                     }
                 }
                 .opacity(animateElements ? 1.0 : 0.0)
@@ -218,7 +230,7 @@ struct ComparisonRow: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(name)
                         .font(.subheadline)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        .foregroundColor(ThemeColors.textPrimary)
                     
                     if highlight {
                         Text("★ Key Differentiator")
@@ -234,7 +246,7 @@ struct ComparisonRow: View {
                 StatusIcon(status: free)
                 Text(freeDetail)
                     .font(.caption2)
-                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .foregroundColor(ThemeColors.textSecondary)
                     .multilineTextAlignment(.center)
             }
             .frame(width: 80)
@@ -244,7 +256,7 @@ struct ComparisonRow: View {
                 StatusIcon(status: pro)
                 Text(proDetail)
                     .font(.caption2)
-                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .foregroundColor(ThemeColors.textSecondary)
                     .multilineTextAlignment(.center)
             }
             .frame(width: 80)
@@ -277,7 +289,7 @@ struct StatusIcon: View {
             case .basic:
                 Text("Basic")
                     .font(.caption)
-                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .foregroundColor(ThemeColors.textSecondary)
             case .advanced:
                 Text("Advanced")
                     .font(.caption)
@@ -285,7 +297,7 @@ struct StatusIcon: View {
             case .simple:
                 Text("Simple")
                     .font(.caption)
-                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .foregroundColor(ThemeColors.textSecondary)
             case .complex:
                 Text("Complex")
                     .font(.caption)
@@ -317,11 +329,11 @@ struct ValueHighlight: View {
                 Text(title)
                     .font(.subheadline)
                     .fontWeight(.bold)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                    .foregroundColor(ThemeColors.textPrimary)
                 
                 Text(description)
                     .font(.caption)
-                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .foregroundColor(ThemeColors.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
         }

@@ -92,6 +92,8 @@ struct ContentView: View {
                 }, onSkip: {
                     appState.navigateTo(.downsell)
                 })
+            case .proActivationConfirmation:
+                ProActivationConfirmationView()
             }
         }
         .environmentObject(appState)
