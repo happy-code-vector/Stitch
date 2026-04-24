@@ -21,7 +21,8 @@ struct DashboardView: View {
         ZStack {
             Color(red: 0.976, green: 0.969, blue: 0.949)
                 .ignoresSafeArea()
-            
+
+            VStack(spacing: 0) {
             ScrollView {
                 VStack(spacing: 0) {
                     // Header
@@ -198,7 +199,8 @@ struct DashboardView: View {
                     .padding(.bottom, 100)
                 }
             }
-            
+            }
+
             // Toast overlay
             if showActiveToast {
                 VStack {
