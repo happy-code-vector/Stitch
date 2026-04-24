@@ -26,7 +26,7 @@ struct StruggleView: View {
                         .frame(height: 4)
                     Rectangle()
                         .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                        .frame(width: animateElements ? geo.size.width * 0.375 : 0, height: 4)
+                        .frame(width: animateElements ? geo.size.width * 0.375 : geo.size.width * 0.25, height: 4)
                         .clipShape(RoundedRectangle(cornerRadius: 2))
                         .animation(.easeOut(duration: 0.8), value: animateElements)
                 }
