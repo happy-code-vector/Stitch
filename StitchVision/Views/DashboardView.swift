@@ -18,51 +18,46 @@ struct DashboardView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
-                .ignoresSafeArea()
-
+        ScrollView {
             VStack(spacing: 0) {
-            ScrollView {
-                VStack(spacing: 0) {
-                    // Header
-                    HStack {
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [
-                                            Color(red: 0.561, green: 0.659, blue: 0.533),
-                                            Color(red: 0.49, green: 0.57, blue: 0.46)
-                                        ],
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
+                // Header
+                HStack {
+                    HStack(spacing: 16) {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [
+                                        Color(red: 0.561, green: 0.659, blue: 0.533),
+                                        Color(red: 0.49, green: 0.57, blue: 0.46)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
                                 )
-                                .frame(width: 48, height: 48)
-                                .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
-                            
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("Good \(timeOfDay), \(appState.userName ?? "Creator")")
-                                    .font(.title2)
-                                    .fontWeight(.medium)
-                                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                            }
-                        }
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            appState.navigateTo(.settings)
-                        }) {
-                            Image(systemName: "gearshape")
+                            )
+                            .frame(width: 48, height: 48)
+                            .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Good \(timeOfDay), \(appState.userName ?? "Creator")")
                                 .font(.title2)
-                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .fontWeight(.medium)
+                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
                         }
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 16)
-                    .padding(.bottom, 24)
+
+                    Spacer()
+
+                    Button(action: {
+                        appState.navigateTo(.settings)
+                    }) {
+                        Image(systemName: "gearshape")
+                            .font(.title2)
+                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    }
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 16)
+                .padding(.bottom, 24)
                     
                     // Tip Banner when no active project
                     if activeProject == nil {
@@ -199,29 +194,31 @@ struct DashboardView: View {
                     .padding(.bottom, 100)
                 }
             }
-            }
-
-            // Toast overlay
-            if showActiveToast {
-                VStack {
-                    Spacer()
-                    HStack {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundColor(.white)
-                        Text(activeToastText)
-                            .foregroundColor(.white)
-                            .font(.subheadline)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-                    .background(Color.black.opacity(0.8))
-                    .cornerRadius(16)
-                    .padding(.bottom, 24)
-                }
-                .transition(.move(edge: .bottom).combined(with: .opacity))
-                .animation(.easeInOut, value: showActiveToast)
-            }
         }
+        .background(Color(red: 0.976, green: 0.969, blue: 0.949).ignoresSafeArea())
+        .overlay(
+            Group {
+                if showActiveToast {
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(.white)
+                            Text(activeToastText)
+                                .foregroundColor(.white)
+                                .font(.subheadline)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(Color.black.opacity(0.8))
+                        .cornerRadius(16)
+                        .padding(.bottom, 24)
+                    }
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .animation(.easeInOut, value: showActiveToast)
+                }
+            }
+        )
         .sheet(isPresented: $showProjectPicker) {
             NavigationView {
                 List {
