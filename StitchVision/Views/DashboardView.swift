@@ -18,12 +18,7 @@ struct DashboardView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
-                .ignoresSafeArea()
-
-            VStack(spacing: 0) {
-                ScrollView {
+        ScrollView {
             VStack(spacing: 0) {
                 // Header
                 HStack {
@@ -197,10 +192,9 @@ struct DashboardView: View {
                     }
                     .padding(.top, 32)
                     .padding(.bottom, 100)
-                }
-            }
             }
         }
+        .background(Color(red: 0.976, green: 0.969, blue: 0.949).ignoresSafeArea())
         .overlay(
             Group {
                 if showActiveToast {
