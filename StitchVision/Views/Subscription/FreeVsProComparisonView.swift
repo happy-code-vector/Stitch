@@ -21,7 +21,11 @@ struct FreeVsProComparisonView: View {
     }
     
     var body: some View {
-        ScrollView {
+        ZStack {
+            Color(red: 0.976, green: 0.969, blue: 0.949)
+                .ignoresSafeArea()
+
+            ScrollView {
             VStack(spacing: 24) {
                 // Header
                 VStack(spacing: 12) {
@@ -184,8 +188,7 @@ struct FreeVsProComparisonView: View {
             }
             .padding(.horizontal, 24)
         }
-        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
-        .ignoresSafeArea()
+        }
         .onAppear {
             animateElements = true
         }

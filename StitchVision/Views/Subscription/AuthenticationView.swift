@@ -7,7 +7,11 @@ struct AuthenticationView: View {
     @State private var floatAnimation = false
     
     var body: some View {
-        VStack(spacing: 0) {
+        ZStack {
+            Color(red: 0.976, green: 0.969, blue: 0.949)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
             // Progress bar
             HStack {
                 Rectangle()
@@ -159,8 +163,7 @@ struct AuthenticationView: View {
             .opacity(animateElements ? 1.0 : 0.0)
             .animation(.easeOut(duration: 0.6).delay(0.7), value: animateElements)
         }
-        .background(Color(red: 0.976, green: 0.969, blue: 0.949))
-        .ignoresSafeArea()
+        }
         .onAppear {
             animateElements = true
             floatAnimation = true
