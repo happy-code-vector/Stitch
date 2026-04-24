@@ -60,7 +60,7 @@ struct DashboardView: View {
                         }
                     }
                     .padding(.horizontal, 24)
-                    .padding(.top, 48)
+                    .padding(.top, 16)
                     .padding(.bottom, 24)
                     
                     // Tip Banner when no active project
