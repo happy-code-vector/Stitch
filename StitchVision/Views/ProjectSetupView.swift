@@ -24,9 +24,9 @@ struct ProjectSetupView: View {
     
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 // Header
                 HStack {
@@ -35,18 +35,18 @@ struct ProjectSetupView: View {
                     }) {
                         Text("Cancel")
                             .font(.body)
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                     }
-                    
+
                     Spacer()
-                    
+
                     Text("New Project")
                         .font(.headline)
                         .fontWeight(.semibold)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                    
+                        .foregroundColor(ThemeColors.textPrimary)
+
                     Spacer()
-                    
+
                     // Spacer for centering
                     Text("Cancel")
                         .font(.body)
@@ -54,7 +54,7 @@ struct ProjectSetupView: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 16)
-                .background(Color.white)
+                .background(ThemeColors.surface)
                 .shadow(color: .black.opacity(0.05), radius: 1, x: 0, y: 1)
                 
                 // Scrollable Form Content
@@ -64,7 +64,7 @@ struct ProjectSetupView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("DETAILS")
                                 .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .foregroundColor(ThemeColors.textSecondary)
                                 .tracking(1)
                                 .padding(.horizontal, 16)
                             
@@ -74,14 +74,14 @@ struct ProjectSetupView: View {
                                     HStack {
                                         Text("Project Name")
                                             .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .foregroundColor(ThemeColors.textPrimary)
                                             .frame(width: 128, alignment: .leading)
-                                        
+
                                         Spacer()
-                                        
+
                                         TextField("Cozy Scarf", text: $projectName)
                                             .font(.system(size: 14, weight: .regular))
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .foregroundColor(ThemeColors.textPrimary)
                                             .multilineTextAlignment(.trailing)
                                             .disableAutocorrection(true)
                                     }
@@ -90,21 +90,21 @@ struct ProjectSetupView: View {
                                 }
                                 
                                 Divider()
-                                    .background(Color(red: 0.867, green: 0.867, blue: 0.867))
+                                    .background(ThemeColors.border)
                                 
                                 // Needle Size Input
                                 VStack(spacing: 0) {
                                     HStack {
                                         Text("Needle Size")
                                             .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .foregroundColor(ThemeColors.textPrimary)
                                             .frame(width: 128, alignment: .leading)
 
                                         Spacer()
 
                                         TextField("5.0 mm", text: $needleSize)
                                             .font(.system(size: 14, weight: .regular))
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .foregroundColor(ThemeColors.textPrimary)
                                             .multilineTextAlignment(.trailing)
                                             .disableAutocorrection(true)
                                             .keyboardType(.decimalPad)
@@ -114,21 +114,21 @@ struct ProjectSetupView: View {
                                 }
 
                                 Divider()
-                                    .background(Color(red: 0.867, green: 0.867, blue: 0.867))
+                                    .background(ThemeColors.border)
 
                                 // Total Rows Input
                                 VStack(spacing: 0) {
                                     HStack {
                                         Text("Total Rows")
                                             .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .foregroundColor(ThemeColors.textPrimary)
                                             .frame(width: 128, alignment: .leading)
 
                                         Spacer()
 
                                         TextField("e.g. 100", text: $totalRowsText)
                                             .font(.system(size: 14, weight: .regular))
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .foregroundColor(ThemeColors.textPrimary)
                                             .multilineTextAlignment(.trailing)
                                             .disableAutocorrection(true)
                                             .keyboardType(.numberPad)
@@ -137,16 +137,16 @@ struct ProjectSetupView: View {
                                     .padding(.vertical, 12)
                                 }
                             }
-                            .background(Color.white)
+                            .background(ThemeColors.surface)
                             .cornerRadius(16)
                             .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
                         }
-                        
+
                         // Section 2: Materials
                         VStack(alignment: .leading, spacing: 12) {
                             Text("MATERIALS")
                                 .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .foregroundColor(ThemeColors.textSecondary)
                                 .tracking(1)
                                 .padding(.horizontal, 16)
                             
@@ -160,20 +160,20 @@ struct ProjectSetupView: View {
                                     HStack(spacing: 12) {
                                         Text("Yarn")
                                             .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                                        
+                                            .foregroundColor(ThemeColors.textPrimary)
+
                                         if let selectedYarn = selectedYarn {
                                             HStack(spacing: 8) {
                                                 Text(selectedYarn.thumbnail)
                                                     .font(.title3)
-                                                
+
                                                 VStack(alignment: .leading, spacing: 2) {
                                                     Text(selectedYarn.name)
                                                         .font(.system(size: 14, weight: .medium))
-                                                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                                        .foregroundColor(ThemeColors.textPrimary)
                                                     Text("\(selectedYarn.color) • \(selectedYarn.weight)")
                                                         .font(.system(size: 12, weight: .regular))
-                                                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                                        .foregroundColor(ThemeColors.textSecondary)
                                                 }
                                             }
                                         }
@@ -182,7 +182,7 @@ struct ProjectSetupView: View {
                                         
                                         Image(systemName: "chevron.right")
                                             .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(Color(red: 0.867, green: 0.867, blue: 0.867))
+                                            .foregroundColor(ThemeColors.textSecondary)
                                     }
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 12)
@@ -192,7 +192,7 @@ struct ProjectSetupView: View {
                                 if showYarnSelector {
                                     VStack(spacing: 0) {
                                         Divider()
-                                            .background(Color(red: 0.867, green: 0.867, blue: 0.867))
+                                            .background(ThemeColors.border)
                                         
                                         ScrollView {
                                             VStack(spacing: 0) {
@@ -210,10 +210,10 @@ struct ProjectSetupView: View {
                                                             VStack(alignment: .leading, spacing: 2) {
                                                                 Text(yarn.name)
                                                                     .font(.system(size: 14, weight: .medium))
-                                                                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                                                    .foregroundColor(ThemeColors.textPrimary)
                                                                 Text("\(yarn.color) • \(yarn.weight)")
                                                                     .font(.system(size: 12, weight: .regular))
-                                                                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                                                    .foregroundColor(ThemeColors.textSecondary)
                                                             }
                                                             
                                                             Spacer()
@@ -226,12 +226,12 @@ struct ProjectSetupView: View {
                                                         }
                                                         .padding(.horizontal, 16)
                                                         .padding(.vertical, 12)
-                                                        .background(Color(red: 0.976, green: 0.969, blue: 0.949).opacity(0.5))
+                                                        .background(ThemeColors.background.opacity(0.5))
                                                     }
                                                     
                                                     if yarn.id != yarnStash.last?.id {
                                                         Divider()
-                                                            .background(Color(red: 0.867, green: 0.867, blue: 0.867))
+                                                            .background(ThemeColors.border)
                                                     }
                                                 }
                                             }
@@ -241,16 +241,16 @@ struct ProjectSetupView: View {
                                     .transition(.opacity.combined(with: .scale(scale: 1.0, anchor: .top)))
                                 }
                             }
-                            .background(Color.white)
+                            .background(ThemeColors.surface)
                             .cornerRadius(16)
                             .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
                         }
-                        
+
                         // Section 3: Pattern
                         VStack(alignment: .leading, spacing: 12) {
                             Text("PATTERN")
                                 .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .foregroundColor(ThemeColors.textSecondary)
                                 .tracking(1)
                                 .padding(.horizontal, 16)
                             
@@ -260,10 +260,10 @@ struct ProjectSetupView: View {
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text("Enable AI Counting")
                                             .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .foregroundColor(ThemeColors.textPrimary)
                                         Text("Let AI track your rows automatically")
                                             .font(.system(size: 12, weight: .regular))
-                                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                            .foregroundColor(ThemeColors.textSecondary)
                                     }
                                     
                                     Spacer()
@@ -276,7 +276,7 @@ struct ProjectSetupView: View {
                                     }) {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 14)
-                                                .fill(aiCountingEnabled ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.867, green: 0.867, blue: 0.867))
+                                                .fill(aiCountingEnabled ? Color(red: 0.561, green: 0.659, blue: 0.533) : ThemeColors.border)
                                                 .frame(width: 48, height: 28)
                                             
                                             Circle()
@@ -291,15 +291,15 @@ struct ProjectSetupView: View {
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 12)
                             }
-                            .background(Color.white)
+                            .background(ThemeColors.surface)
                             .cornerRadius(16)
                             .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
                         }
-                        
+
                         // Help Text
                         Text("Link your yarn stash to track usage and get accurate project estimates.")
                             .font(.system(size: 12, weight: .regular))
-                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                            .foregroundColor(ThemeColors.textSecondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 16)
                     }
@@ -317,10 +317,10 @@ struct ProjectSetupView: View {
                     Text("Create Project")
                         .font(.headline)
                         .fontWeight(.semibold)
-                        .foregroundColor(isFormValid ? .white : Color(red: 0.5, green: 0.5, blue: 0.5))
+                        .foregroundColor(isFormValid ? .white : ThemeColors.textSecondary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(isFormValid ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.8, green: 0.8, blue: 0.8))
+                        .background(isFormValid ? ThemeColors.primary : ThemeColors.textSecondary.opacity(0.4))
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(isFormValid ? 0.15 : 0.05), radius: isFormValid ? 8 : 2, x: 0, y: isFormValid ? 4 : 1)
                 }
@@ -331,7 +331,7 @@ struct ProjectSetupView: View {
                 .padding(.bottom, 32)
                 .background(
                     LinearGradient(
-                        colors: [Color.white.opacity(0.8), Color.white],
+                        colors: [ThemeColors.surface.opacity(0.8), ThemeColors.surface],
                         startPoint: .top,
                         endPoint: .bottom
                     )

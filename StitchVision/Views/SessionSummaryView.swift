@@ -33,7 +33,7 @@ struct SessionSummaryView: View {
     
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
             
             // Background Sparkles
@@ -58,11 +58,11 @@ struct SessionSummaryView: View {
                         VStack(spacing: 8) {
                             Text("+\(rowsKnit) Rows")
                                 .font(.system(size: 60, weight: .bold, design: .rounded))
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                            
+                                .foregroundColor(ThemeColors.textPrimary)
+
                             Text("Progress made this session")
                                 .font(.body)
-                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .foregroundColor(ThemeColors.textSecondary)
                         }
                         .padding(.top, 24)
                         
@@ -70,7 +70,7 @@ struct SessionSummaryView: View {
                         VStack(spacing: 16) {
                             Text("Time Comparison")
                                 .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .foregroundColor(ThemeColors.textSecondary)
                             
                             HStack(alignment: .bottom, spacing: 32) {
                                 // Manual Count Bar (Taller, Gray)
@@ -92,10 +92,10 @@ struct SessionSummaryView: View {
                                     VStack(spacing: 2) {
                                         Text("Manual")
                                             .font(.system(size: 12, weight: .regular))
-                                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                            .foregroundColor(ThemeColors.textSecondary)
                                         Text("\(timeWithoutAI)m")
                                             .font(.system(size: 14, weight: .semibold))
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .foregroundColor(ThemeColors.textPrimary)
                                     }
                                 }
                                 
@@ -118,7 +118,7 @@ struct SessionSummaryView: View {
                                     VStack(spacing: 2) {
                                         Text("StitchVision")
                                             .font(.system(size: 12, weight: .regular))
-                                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                            .foregroundColor(ThemeColors.textSecondary)
                                         Text("\(timeSpentMinutes)m")
                                             .font(.system(size: 14, weight: .semibold))
                                             .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
@@ -130,7 +130,7 @@ struct SessionSummaryView: View {
                     }
                     .padding(.horizontal, 32)
                     .padding(.bottom, 32)
-                    .background(Color.white)
+                    .background(ThemeColors.surface)
                     .cornerRadius(24)
                     .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
                     .overlay(
@@ -189,7 +189,7 @@ struct SessionSummaryView: View {
                     }) {
                         Text("Discard Session")
                             .font(.body)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                             .padding(.vertical, 12)
                     }
                     .scaleEffect(1.0)

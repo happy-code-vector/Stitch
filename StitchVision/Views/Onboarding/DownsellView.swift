@@ -8,7 +8,7 @@ struct DownsellView: View {
     var body: some View {
         ZStack {
             // Background
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
             
             // Urgency background elements
@@ -62,16 +62,16 @@ struct DownsellView: View {
                         Text("Wait! Don't Miss Out.")
                             .font(.title)
                             .fontWeight(.bold)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
                             .multilineTextAlignment(.center)
                             .opacity(animateElements ? 1.0 : 0.0)
                             .offset(y: animateElements ? 0 : -20)
                             .animation(.easeOut(duration: 0.5).delay(0.2), value: animateElements)
-                        
+
                         // Subtext
                         Text("We want you to experience the magic of AI knitting. Get Pro at the annual rate — just \(SubscriptionPricing.yearlyPerMonthDisplay).")
                             .font(.body)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                             .multilineTextAlignment(.center)
                             .opacity(animateElements ? 1.0 : 0.0)
                             .offset(y: animateElements ? 0 : 10)
@@ -110,7 +110,7 @@ struct DownsellView: View {
                                 HStack {
                                     Text(SubscriptionPricing.monthlyDisplay)
                                         .font(.title3)
-                                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                        .foregroundColor(ThemeColors.textSecondary)
                                         .strikethrough(true, color: Color(red: 0.831, green: 0.502, blue: 0.435))
 
                                     Spacer()
@@ -147,7 +147,7 @@ struct DownsellView: View {
                             VStack(alignment: .leading, spacing: 12) {
                                 Text("Everything Pro includes:")
                                     .font(.headline)
-                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .foregroundColor(ThemeColors.textSecondary)
                                     .frame(maxWidth: .infinity, alignment: .center)
                                 
                                 VStack(spacing: 8) {
@@ -158,31 +158,31 @@ struct DownsellView: View {
                                         
                                         Text("AI Row Counting")
                                             .font(.body)
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                                        
+                                            .foregroundColor(ThemeColors.textPrimary)
+
                                         Spacer()
                                     }
-                                    
+
                                     HStack(spacing: 8) {
                                         Circle()
                                             .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
                                             .frame(width: 8, height: 8)
-                                        
+
                                         Text("Stitch Doctor")
                                             .font(.body)
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                                        
+                                            .foregroundColor(ThemeColors.textPrimary)
+
                                         Spacer()
                                     }
-                                    
+
                                     HStack(spacing: 8) {
                                         Circle()
                                             .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
                                             .frame(width: 8, height: 8)
-                                        
+
                                         Text("Unlimited Projects")
                                             .font(.body)
-                                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                            .foregroundColor(ThemeColors.textPrimary)
                                         
                                         Spacer()
                                     }
@@ -191,14 +191,14 @@ struct DownsellView: View {
                             .padding(.top, 16)
                             .overlay(
                                 Rectangle()
-                                    .fill(Color(red: 0.976, green: 0.969, blue: 0.949))
+                                    .fill(ThemeColors.background)
                                     .frame(height: 2)
                                     .padding(.horizontal, -24),
                                 alignment: .top
                             )
                         }
                         .padding(24)
-                        .background(Color.white)
+                        .background(ThemeColors.surface)
                         .cornerRadius(24)
                         .overlay(
                             RoundedRectangle(cornerRadius: 24)
@@ -232,7 +232,7 @@ struct DownsellView: View {
                         }) {
                             Text("No thanks, continue with limited Free Plan")
                                 .font(.body)
-                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .foregroundColor(ThemeColors.textSecondary)
                                 .underline()
                                 .multilineTextAlignment(.center)
                         }

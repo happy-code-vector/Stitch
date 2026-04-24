@@ -22,7 +22,7 @@ struct StitchBotChatView: View {
                 // Input area
                 inputArea
             }
-            .background(Color(red: 0.976, green: 0.969, blue: 0.949))
+            .background(ThemeColors.background)
             .navigationTitle("Ask StitchBot")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -62,13 +62,13 @@ struct StitchBotChatView: View {
             if subscription.isPro {
                 Text("Pro: \(service.proDailyLimit - service.todayUsageCount()) questions left today")
                     .font(.caption)
-                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .foregroundColor(ThemeColors.textSecondary)
             } else {
                 Text(service.questionsRemaining > 0
                      ? "\(service.questionsRemaining) questions left this month"
                      : "No questions remaining")
                     .font(.caption)
-                    .foregroundColor(service.questionsRemaining <= 3 ? .orange : Color(red: 0.4, green: 0.4, blue: 0.4))
+                    .foregroundColor(service.questionsRemaining <= 3 ? .orange : ThemeColors.textSecondary)
 
                 Spacer()
 
@@ -86,7 +86,7 @@ struct StitchBotChatView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
-        .background(Color(red: 0.96, green: 0.96, blue: 0.96))
+        .background(ThemeColors.surfaceRaised)
     }
 
     // MARK: - Messages View
@@ -109,7 +109,7 @@ struct StitchBotChatView: View {
                                     .padding()
                                 Text("StitchBot is thinking...")
                                     .font(.subheadline)
-                                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                    .foregroundColor(ThemeColors.textSecondary)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
@@ -134,11 +134,11 @@ struct StitchBotChatView: View {
         VStack(spacing: 20) {
             Image(systemName: "bubble.left.and.exclamationmark.bubble.right")
                 .font(.system(size: 60))
-                .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.7))
+                .foregroundColor(ThemeColors.textSecondary)
 
             Text("Ask me anything about knitting or crochet!")
                 .font(.headline)
-                .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                .foregroundColor(ThemeColors.textPrimary)
                 .multilineTextAlignment(.center)
 
             VStack(alignment: .leading, spacing: 12) {
@@ -164,12 +164,12 @@ struct StitchBotChatView: View {
                     .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                 Text(text)
                     .font(.subheadline)
-                    .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                    .foregroundColor(ThemeColors.textPrimary)
                 Spacer()
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-            .background(Color.white)
+            .background(ThemeColors.surface)
             .cornerRadius(12)
         }
     }
@@ -186,7 +186,7 @@ struct StitchBotChatView: View {
                 TextField("Ask about knitting or crochet...", text: $inputText, axis: .vertical)
                     .textFieldStyle(PlainTextFieldStyle())
                     .padding(12)
-                    .background(Color.white)
+                    .background(ThemeColors.surface)
                     .cornerRadius(20)
                     .focused($isInputFocused)
                     .lineLimit(1...5)
@@ -205,8 +205,8 @@ struct StitchBotChatView: View {
                     ZStack {
                         Circle()
                             .fill(inputText.isEmpty || service.isLoading
-                                  ? Color(red: 0.8, green: 0.8, blue: 0.8)
-                                  : Color(red: 0.561, green: 0.659, blue: 0.533))
+                                  ? ThemeColors.border
+                                  : ThemeColors.primary)
                             .frame(width: 44, height: 44)
 
                         if service.isLoading {
@@ -223,7 +223,7 @@ struct StitchBotChatView: View {
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-            .background(Color.white)
+            .background(ThemeColors.surface)
             .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: -2)
         }
     }
@@ -235,7 +235,7 @@ struct StitchBotChatView: View {
 
             Text(message)
                 .font(.caption)
-                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                .foregroundColor(ThemeColors.textSecondary)
 
             Spacer()
 
@@ -281,19 +281,19 @@ struct MessageBubble: View {
                         Text("StitchBot")
                             .font(.caption)
                             .fontWeight(.semibold)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                     }
                 }
 
                 Text(message.content)
                     .font(.subheadline)
-                    .foregroundColor(message.isUser ? .white : Color(red: 0.2, green: 0.2, blue: 0.2))
+                    .foregroundColor(message.isUser ? .white : ThemeColors.textPrimary)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
                     .background(
                         message.isUser
-                            ? Color(red: 0.561, green: 0.659, blue: 0.533)
-                            : Color.white
+                            ? ThemeColors.primary
+                            : ThemeColors.surface
                     )
                     .cornerRadius(16)
             }

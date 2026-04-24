@@ -78,7 +78,7 @@ struct AbbreviationGlossaryView: View {
                 // Search Bar
                 HStack {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        .foregroundColor(ThemeColors.textSecondary)
 
                     TextField("Search abbreviations...", text: $searchText)
                         .textFieldStyle(PlainTextFieldStyle())
@@ -86,12 +86,12 @@ struct AbbreviationGlossaryView: View {
                     if !searchText.isEmpty {
                         Button(action: { searchText = "" }) {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .foregroundColor(ThemeColors.textSecondary)
                         }
                     }
                 }
                 .padding(12)
-                .background(Color(red: 0.96, green: 0.96, blue: 0.96))
+                .background(ThemeColors.surfaceRaised)
                 .cornerRadius(10)
                 .padding(.horizontal)
                 .padding(.top, 8)
@@ -114,15 +114,15 @@ struct AbbreviationGlossaryView: View {
                     VStack(spacing: 16) {
                         Image(systemName: "magnifyingglass")
                             .font(.system(size: 48))
-                            .foregroundColor(Color(red: 0.7, green: 0.7, blue: 0.7))
+                            .foregroundColor(ThemeColors.textSecondary)
 
                         Text("No abbreviations found")
                             .font(.headline)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
 
                         Text("Try a different search term")
                             .font(.subheadline)
-                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                            .foregroundColor(ThemeColors.textSecondary)
                     }
                     .frame(maxHeight: .infinity)
                 } else {
@@ -144,13 +144,13 @@ struct AbbreviationGlossaryView: View {
                                 }
                             }
                         }
-                        .background(Color.white)
+                        .background(ThemeColors.surface)
                         .cornerRadius(12)
                         .padding(.horizontal)
                     }
                 }
             }
-            .background(Color(red: 0.976, green: 0.969, blue: 0.949))
+            .background(ThemeColors.background)
             .navigationTitle("Abbreviation Guide")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -188,21 +188,21 @@ struct AbbreviationRow: View {
                         HStack(spacing: 8) {
                             Text(abbreviation.abbr)
                                 .font(.system(size: 18, weight: .semibold))
-                                .foregroundColor(Color(red: 0.2, green: 0.2, blue: 0.2))
+                                .foregroundColor(ThemeColors.textPrimary)
 
                             CraftBadge(craftType: abbreviation.craftType)
                         }
 
                         Text(abbreviation.full_term)
                             .font(.subheadline)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                     }
 
                     Spacer()
 
                     Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        .foregroundColor(ThemeColors.textSecondary)
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 12)
@@ -218,11 +218,11 @@ struct AbbreviationRow: View {
 
                     Text(abbreviation.description)
                         .font(.subheadline)
-                        .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                        .foregroundColor(ThemeColors.textPrimary)
                         .padding(.horizontal, 16)
                         .padding(.bottom, 12)
                 }
-                .background(Color(red: 0.98, green: 0.98, blue: 0.96))
+                .background(ThemeColors.surfaceRaised)
             }
         }
     }

@@ -9,7 +9,7 @@ struct ProGateView: View {
     var body: some View {
         ZStack {
             // Background
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
 
             VStack(spacing: 32) {
@@ -43,7 +43,7 @@ struct ProGateView: View {
                     Text("AI Calibration")
                         .font(.title)
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        .foregroundColor(ThemeColors.textPrimary)
 
                     Text("is a Pro Feature")
                         .font(.title2)
@@ -105,7 +105,7 @@ struct ProGateView: View {
                     Button(action: onSkip) {
                         Text("Skip for Now")
                             .font(.subheadline)
-                            .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
+                            .foregroundColor(ThemeColors.textSecondary)
                     }
                 }
                 .padding(.horizontal, 32)
@@ -139,7 +139,7 @@ struct ProGateBenefitRow: View {
 
             Text(text)
                 .font(.body)
-                .foregroundColor(Color(red: 0.3, green: 0.3, blue: 0.3))
+                .foregroundColor(ThemeColors.textPrimary)
 
             Spacer()
 

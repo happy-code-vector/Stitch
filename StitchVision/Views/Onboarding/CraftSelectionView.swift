@@ -13,7 +13,7 @@ struct CraftSelectionView: View {
 
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -46,7 +46,7 @@ struct CraftSelectionView: View {
                 Text("What is your main craft?")
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                    .foregroundColor(ThemeColors.textPrimary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
                     .padding(.top, 32)
@@ -127,13 +127,13 @@ struct CraftCardView: View {
                     .fontWeight(.medium)
                     .foregroundColor(
                         isSelected
-                        ? Color(red: 0.173, green: 0.173, blue: 0.173)
-                        : Color(red: 0.4, green: 0.4, blue: 0.4)
+                        ? ThemeColors.textPrimary
+                        : ThemeColors.textSecondary
                     )
             }
             .frame(maxWidth: .infinity)
             .frame(height: 100)
-            .background(Color.white)
+            .background(ThemeColors.surface)
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
@@ -168,7 +168,7 @@ struct CraftIconView: View {
     var iconColor: Color {
         isSelected
         ? Color(red: 0.561, green: 0.659, blue: 0.533)
-        : Color(red: 0.4, green: 0.4, blue: 0.4)
+        : ThemeColors.textSecondary
     }
 
     var body: some View {

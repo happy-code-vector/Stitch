@@ -15,7 +15,7 @@ struct PatternLibraryPreviewView: View {
 
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -51,11 +51,11 @@ struct PatternLibraryPreviewView: View {
 
                             Text("Pattern Library")
                                 .font(.system(size: 28, weight: .bold))
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                .foregroundColor(ThemeColors.textPrimary)
 
                             Text("Browse 80+ patterns after setup — beginner to advanced")
                                 .font(.subheadline)
-                                .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
+                                .foregroundColor(ThemeColors.textSecondary)
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 40)
                         }
@@ -121,7 +121,7 @@ struct PatternPreviewCard: View {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(
                         LinearGradient(
-                            colors: [Color(red: 0.95, green: 0.95, blue: 0.95), Color(red: 0.9, green: 0.9, blue: 0.9)],
+                            colors: [ThemeColors.surfaceRaised, ThemeColors.border],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -136,13 +136,13 @@ struct PatternPreviewCard: View {
                 Text(pattern.name)
                     .font(.subheadline)
                     .fontWeight(.medium)
-                    .foregroundColor(Color(red: 0.2, green: 0.2, blue: 0.2))
+                    .foregroundColor(ThemeColors.textPrimary)
                     .lineLimit(1)
 
                 HStack {
                     Text(pattern.category)
                         .font(.caption)
-                        .foregroundColor(Color(red: 0.5, green: 0.5, blue: 0.5))
+                        .foregroundColor(ThemeColors.textSecondary)
 
                     Spacer()
 
@@ -158,7 +158,7 @@ struct PatternPreviewCard: View {
             }
         }
         .padding(12)
-        .background(Color.white)
+        .background(ThemeColors.surface)
         .cornerRadius(16)
         .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
     }

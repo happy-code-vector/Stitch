@@ -50,9 +50,13 @@ struct WorkModeView: View {
     @State private var showPaywall = false
     @State private var proFeatureRequested: String?
 
+    var activeProject: ProjectModel? {
+        projectStore.getActiveProject()
+    }
+
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
             
             VStack(spacing: 0) {
@@ -100,7 +104,7 @@ struct WorkModeView: View {
                                 .foregroundColor(.white)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
-                                .background(voiceCommandManager.isListening ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.black.opacity(0.4))
+                                .background(voiceCommandManager.isListening ? ThemeColors.primary : Color.black.opacity(0.4))
                                 .cornerRadius(16)
                             }
                         }
@@ -171,19 +175,35 @@ struct WorkModeView: View {
                     // Row Count Display - Large and prominent
                     VStack {
                         Spacer()
-                        
+
                         VStack(spacing: 4) {
-                            Text("Current Row")
-                                .font(.system(size: 12, weight: .medium))
-                                .foregroundColor(.white.opacity(0.7))
-                            
+                            if activeProject?.countingMode == "rounds" {
+                                Text("Round \(activeProject?.currentRound ?? 0)")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.7))
+                            } else {
+                                Text("Current Row")
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.7))
+                            }
+
                             Text("\(rowCountingService.rowCount)")
                                 .font(.system(size: 72, weight: .bold, design: .rounded))
                                 .foregroundColor(.white)
                                 .scaleEffect(1.0)
                                 .animation(.spring(response: 0.3, dampingFraction: 0.6), value: rowCountingService.rowCount)
-                            
-                            if rowCountingService.lastCountTime != nil {
+
+                            if let project = activeProject, project.countingMode == "rounds" {
+                                if let repeats = project.repeatsPerRound {
+                                    Text("Repeat \(project.currentRepeat)/\(repeats)")
+                                        .font(.system(size: 12, weight: .medium))
+                                        .foregroundColor(ThemeColors.primary)
+                                } else {
+                                    Text("Round \(project.currentRound)")
+                                        .font(.system(size: 12, weight: .medium))
+                                        .foregroundColor(.white.opacity(0.6))
+                                }
+                            } else if rowCountingService.lastCountTime != nil {
                                 Text("Row counted \(timeAgo(rowCountingService.lastCountTime!))")
                                     .font(.system(size: 10, weight: .regular))
                                     .foregroundColor(.white.opacity(0.6))
@@ -196,7 +216,7 @@ struct WorkModeView: View {
                                 .fill(.black.opacity(0.6))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 16)
-                                        .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 2)
+                                        .stroke(ThemeColors.primary, lineWidth: 2)
                                 )
                         )
                         .padding(.bottom, 24)
@@ -227,7 +247,7 @@ struct WorkModeView: View {
                 VStack(spacing: 0) {
                     // Top curve
                     RoundedRectangle(cornerRadius: 24)
-                        .fill(Color.white)
+                        .fill(ThemeColors.surface)
                         .frame(height: 24)
                         .offset(y: -12)
                     
@@ -242,9 +262,9 @@ struct WorkModeView: View {
                             }) {
                                 Image(systemName: cameraManager.isTorchOn ? "flashlight.on.fill" : "flashlight.off.fill")
                                     .font(.system(size: 20))
-                                    .foregroundColor(cameraManager.isTorchOn ? .white : Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .foregroundColor(cameraManager.isTorchOn ? .white : ThemeColors.textSecondary)
                                     .frame(width: 44, height: 44)
-                                    .background(cameraManager.isTorchOn ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.95, green: 0.95, blue: 0.95))
+                                    .background(cameraManager.isTorchOn ? ThemeColors.primary : ThemeColors.surfaceRaised)
                                     .clipShape(Circle())
                                     .shadow(color: .black.opacity(cameraManager.isTorchOn ? 0.2 : 0.05), radius: cameraManager.isTorchOn ? 8 : 2, x: 0, y: cameraManager.isTorchOn ? 4 : 1)
                             }
@@ -255,9 +275,9 @@ struct WorkModeView: View {
                             }) {
                                 Image(systemName: "gearshape.fill")
                                     .font(.system(size: 20))
-                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .foregroundColor(ThemeColors.textSecondary)
                                     .frame(width: 44, height: 44)
-                                    .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+                                    .background(ThemeColors.surfaceRaised)
                                     .clipShape(Circle())
                                     .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
                             }
@@ -266,9 +286,9 @@ struct WorkModeView: View {
                             Button(action: { showPatternLibrary = true }) {
                                 Image(systemName: selectedPattern != nil ? "photo.fill" : "photo")
                                     .font(.system(size: 20))
-                                    .foregroundColor(selectedPattern != nil ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .foregroundColor(selectedPattern != nil ? ThemeColors.primary : ThemeColors.textSecondary)
                                     .frame(width: 44, height: 44)
-                                    .background(Color(red: 0.95, green: 0.95, blue: 0.95))
+                                    .background(ThemeColors.surfaceRaised)
                                     .clipShape(Circle())
                                     .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
                             }
@@ -286,11 +306,11 @@ struct WorkModeView: View {
                             }) {
                                 Image(systemName: "minus")
                                     .font(.system(size: 24, weight: .bold))
-                                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .foregroundColor(ThemeColors.primary)
                                     .frame(width: 64, height: 64)
                                     .background(
                                         Circle()
-                                            .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 4)
+                                            .stroke(ThemeColors.primary, lineWidth: 4)
                                     )
                                     .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                             }
@@ -308,7 +328,7 @@ struct WorkModeView: View {
                                         .foregroundColor(.white)
                                 }
                                 .frame(width: 128, height: 128)
-                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .background(ThemeColors.primary)
                                 .clipShape(Circle())
                                 .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 6)
                             }
@@ -319,11 +339,11 @@ struct WorkModeView: View {
                             }) {
                                 Image(systemName: "plus")
                                     .font(.system(size: 24, weight: .bold))
-                                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .foregroundColor(ThemeColors.primary)
                                     .frame(width: 64, height: 64)
                                     .background(
                                         Circle()
-                                            .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 4)
+                                            .stroke(ThemeColors.primary, lineWidth: 4)
                                     )
                                     .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                             }
@@ -333,7 +353,7 @@ struct WorkModeView: View {
                         // Status Text
                         Text(isPaused ? "Counting paused. Tap Resume to continue." : rowCountingService.isCounting ? "Detecting rows..." : "Ready to count")
                             .font(.system(size: 14, weight: .regular))
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 24)
 
@@ -391,14 +411,14 @@ struct WorkModeView: View {
                             .foregroundColor(.white)
                             .padding(.horizontal, 24)
                             .padding(.vertical, 12)
-                            .background(subscriptionManager.canUseAICoach ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.gray)
+                            .background(subscriptionManager.canUseAICoach ? ThemeColors.primary : Color.gray)
                             .cornerRadius(25)
                             .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                         }
                         .padding(.top, 8)
                         .padding(.bottom, 32)
                     }
-                    .background(Color.white)
+                    .background(ThemeColors.surface)
                     .offset(y: -12)
                 }
             }
@@ -491,6 +511,13 @@ struct WorkModeView: View {
 
     private func runStitchDoctor() {
         guard let pixelBuffer = latestFrame else { return }
+
+        if !subscriptionManager.isPro {
+            subscriptionManager.incrementStitchDoctorUsage()
+            StitchAnalytics.stitchDoctorUsed(isPro: false)
+        } else {
+            StitchAnalytics.stitchDoctorUsed(isPro: true)
+        }
 
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         let context = CIContext()
@@ -701,7 +728,7 @@ struct YarnDetectionBoxView: View {
         ZStack {
             // Bounding box
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 4)
+                .stroke(ThemeColors.primary, lineWidth: 4)
                 .frame(width: 256, height: 192)
                 .scaleEffect(isPaused ? 1.0 : (1.0 + sin(animationOffset) * 0.02))
                 .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: animationOffset)
@@ -725,10 +752,10 @@ struct YarnDetectionBoxView: View {
             // Center crosshair
             VStack {
                 Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .fill(ThemeColors.primary)
                     .frame(width: 24, height: 2)
                 Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .fill(ThemeColors.primary)
                     .frame(width: 2, height: 24)
                     .offset(y: -13)
             }
@@ -736,9 +763,9 @@ struct YarnDetectionBoxView: View {
             // Scanning line
             if !isPaused {
                 Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .fill(ThemeColors.primary)
                     .frame(width: 240, height: 2)
-                    .shadow(color: Color(red: 0.561, green: 0.659, blue: 0.533), radius: 4)
+                    .shadow(color: ThemeColors.primary, radius: 4)
                     .offset(y: animationOffset)
                     .animation(.linear(duration: 3).repeatForever(autoreverses: false), value: animationOffset)
             }
@@ -751,7 +778,7 @@ struct YarnDetectionBoxView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 4)
-                    .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .background(ThemeColors.primary)
                     .cornerRadius(12)
                     .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
                     .offset(y: 32)
@@ -810,7 +837,7 @@ struct CornerBracketView: View {
                 path.addLine(to: CGPoint(x: 0, y: size))
             }
         }
-        .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 4)
+        .stroke(ThemeColors.primary, lineWidth: 4)
         .frame(width: 30, height: 30)
     }
 }
@@ -830,8 +857,8 @@ struct ARTrustLineView: View {
                 path.addQuadCurve(to: CGPoint(x: 200, y: 20), control: CGPoint(x: 100, y: 15))
                 path.addQuadCurve(to: CGPoint(x: 400, y: 20), control: CGPoint(x: 300, y: 25))
             }
-            .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 3)
-            .shadow(color: Color(red: 0.561, green: 0.659, blue: 0.533), radius: glowIntensity * 20)
+            .stroke(ThemeColors.primary, lineWidth: 3)
+            .shadow(color: ThemeColors.primary, radius: glowIntensity * 20)
             .opacity(0.5 + glowIntensity * 0.3)
             .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: glowIntensity)
             .padding(.horizontal, 32)
@@ -848,7 +875,7 @@ struct ARTrustLineView: View {
                                 .fill(.black.opacity(0.7))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.3), lineWidth: 1)
+                                        .stroke(ThemeColors.primary.opacity(0.3), lineWidth: 1)
                                 )
                         )
                         .offset(y: floatingOffset - 48)
@@ -1060,7 +1087,7 @@ struct StitchDoctorDiagnosisViewSheet: View {
             VStack(spacing: 24) {
                 Image(systemName: diagnosisText == nil ? icon : "checkmark.circle.fill")
                     .font(.system(size: 48))
-                    .foregroundColor(diagnosisText == nil ? Color(red: 0.4, green: 0.4, blue: 0.4) : Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(diagnosisText == nil ? ThemeColors.textSecondary : ThemeColors.primary)
                     .padding(.top, 32)
 
                 Text(title)
@@ -1071,7 +1098,7 @@ struct StitchDoctorDiagnosisViewSheet: View {
                     ScrollView {
                         Text(text)
                             .font(.body)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
                             .padding()
                     }
                 } else {
@@ -1080,7 +1107,7 @@ struct StitchDoctorDiagnosisViewSheet: View {
                             .scaleEffect(1.2)
                         Text("Analyzing your knitting...")
                             .font(.body)
-                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                            .foregroundColor(ThemeColors.textSecondary)
                     }
                     .padding()
                 }
@@ -1091,7 +1118,7 @@ struct StitchDoctorDiagnosisViewSheet: View {
                     Button("Save to Notes") {
                         saveAction()
                     }
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
                     .padding(.bottom, 8)
                 }
             }

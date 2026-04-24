@@ -10,9 +10,9 @@ struct SettingsView: View {
     
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
-            
+
             VStack(spacing: 0) {
                 // Header
                 HStack {
@@ -21,18 +21,18 @@ struct SettingsView: View {
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                     }
-                    
+
                     Spacer()
-                    
+
                     Text("Settings")
                         .font(.headline)
                         .fontWeight(.semibold)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                    
+                        .foregroundColor(ThemeColors.textPrimary)
+
                     Spacer()
-                    
+
                     // Spacer for centering
                     Image(systemName: "chevron.left")
                         .font(.system(size: 20, weight: .medium))
@@ -40,7 +40,7 @@ struct SettingsView: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 16)
-                .background(Color.white)
+                .background(ThemeColors.surface)
                 .shadow(color: .black.opacity(0.05), radius: 1, x: 0, y: 1)
                 
                 ScrollView {
@@ -71,7 +71,7 @@ struct SettingsView: View {
                                     Text("Creator")
                                         .font(.title2)
                                         .fontWeight(.bold)
-                                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                        .foregroundColor(ThemeColors.textPrimary)
                                     
                                     HStack(spacing: 8) {
                                         HStack(spacing: 4) {
@@ -85,7 +85,7 @@ struct SettingsView: View {
                                             } else {
                                                 Text("Free Plan")
                                                     .font(.system(size: 12, weight: .medium))
-                                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                                    .foregroundColor(ThemeColors.textSecondary)
                                             }
                                         }
                                         .padding(.horizontal, 12)
@@ -115,10 +115,10 @@ struct SettingsView: View {
                         }
                         .padding(.horizontal, 24)
                         .padding(.vertical, 24)
-                        .background(Color.white)
+                        .background(ThemeColors.surface)
                         .cornerRadius(16)
                         .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
-                        
+
                         // Upgrade Card - Only show if not Pro
                         if !appState.isPro {
                             VStack(spacing: 16) {
@@ -194,7 +194,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("PREFERENCES")
                                 .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .foregroundColor(ThemeColors.textSecondary)
                                 .tracking(1)
                                 .padding(.horizontal, 8)
                             
@@ -246,7 +246,7 @@ struct SettingsView: View {
                                         VStack(alignment: .leading, spacing: 2) {
                                             Text("Camera Permission")
                                                 .font(.system(size: 16, weight: .medium))
-                                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                                .foregroundColor(ThemeColors.textPrimary)
                                             
                                             Text(cameraManager.isPermissionGranted ? "Granted" : "Not granted")
                                                 .font(.system(size: 14, weight: .regular))
@@ -267,16 +267,16 @@ struct SettingsView: View {
                                         } else {
                                             Image(systemName: "chevron.right")
                                                 .font(.system(size: 14, weight: .medium))
-                                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                                .foregroundColor(ThemeColors.textSecondary)
                                         }
                                     }
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 16)
-                                    .background(Color.white)
+                                    .background(ThemeColors.surface)
                                     .cornerRadius(12)
                                     .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
                                 }
-                                
+
                                 SettingsItemView(
                                     icon: "camera",
                                     title: "Calibrate Camera",
@@ -310,7 +310,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("ACCOUNT")
                                 .font(.system(size: 12, weight: .semibold))
-                                .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                .foregroundColor(ThemeColors.textSecondary)
                                 .tracking(1)
                                 .padding(.horizontal, 8)
                             
@@ -349,10 +349,10 @@ struct SettingsView: View {
                         VStack(spacing: 4) {
                             Text("Version 1.0.0")
                                 .font(.system(size: 14, weight: .regular))
-                                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                .foregroundColor(ThemeColors.textSecondary)
                             Text("© 2024 StitchVision")
                                 .font(.system(size: 12, weight: .regular))
-                                .foregroundColor(Color(red: 0.8, green: 0.8, blue: 0.8))
+                                .foregroundColor(ThemeColors.textSecondary)
                         }
                         .padding(.vertical, 32)
                     }
@@ -432,15 +432,15 @@ struct SettingsItemView: View {
                     Text(title)
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(
-                            isDestructive 
+                            isDestructive
                             ? Color(red: 0.79, green: 0.43, blue: 0.37)
-                            : Color(red: 0.173, green: 0.173, blue: 0.173)
+                            : ThemeColors.textPrimary
                         )
                     
                     if !description.isEmpty {
                         Text(description)
                             .font(.system(size: 14, weight: .regular))
-                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                            .foregroundColor(ThemeColors.textSecondary)
                     }
                 }
                 
@@ -450,14 +450,14 @@ struct SettingsItemView: View {
                 Image(systemName: "chevron.right")
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(
-                        isDestructive 
+                        isDestructive
                         ? Color(red: 0.79, green: 0.43, blue: 0.37).opacity(0.5)
-                        : Color(red: 0.6, green: 0.6, blue: 0.6)
+                        : ThemeColors.textSecondary
                     )
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
-            .background(Color.white)
+            .background(ThemeColors.surface)
             .cornerRadius(12)
             .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
         }

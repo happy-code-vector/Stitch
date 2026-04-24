@@ -22,7 +22,7 @@ struct ProjectDetailView: View {
     
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
             
             if let project = project {
@@ -35,7 +35,7 @@ struct ProjectDetailView: View {
                             }) {
                                 Image(systemName: "chevron.left")
                                     .font(.title2)
-                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .foregroundColor(ThemeColors.textSecondary)
                             }
                             
                             Spacer()
@@ -57,7 +57,7 @@ struct ProjectDetailView: View {
                             } label: {
                                 Image(systemName: "ellipsis.circle")
                                     .font(.title2)
-                                    .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    .foregroundColor(ThemeColors.textSecondary)
                             }
                         }
                         .padding(.horizontal, 24)
@@ -68,7 +68,7 @@ struct ProjectDetailView: View {
                             // Progress Ring
                             ZStack {
                                 Circle()
-                                    .stroke(Color(red: 0.898, green: 0.898, blue: 0.898), lineWidth: 12)
+                                    .stroke(ThemeColors.border, lineWidth: 12)
                                     .frame(width: 160, height: 160)
                                 
                                 Circle()
@@ -83,11 +83,11 @@ struct ProjectDetailView: View {
                                 VStack(spacing: 4) {
                                     Text("\(Int(progress * 100))%")
                                         .font(.system(size: 36, weight: .bold))
-                                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                                    
+                                        .foregroundColor(ThemeColors.textPrimary)
+
                                     Text("Complete")
                                         .font(.caption)
-                                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                                        .foregroundColor(ThemeColors.textSecondary)
                                 }
                             }
                             
@@ -95,7 +95,7 @@ struct ProjectDetailView: View {
                             Text(project.name)
                                 .font(.title)
                                 .fontWeight(.bold)
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                .foregroundColor(ThemeColors.textPrimary)
                             
                             // Stats Grid
                             HStack(spacing: 24) {
@@ -126,17 +126,17 @@ struct ProjectDetailView: View {
                             .padding(.vertical, 16)
                         }
                         .padding(24)
-                        .background(Color.white)
+                        .background(ThemeColors.surface)
                         .cornerRadius(24)
                         .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
                         .padding(.horizontal, 24)
-                        
+
                         // Project Details
                         VStack(alignment: .leading, spacing: 16) {
                             Text("Project Details")
                                 .font(.title3)
                                 .fontWeight(.bold)
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                .foregroundColor(ThemeColors.textPrimary)
                             
                             VStack(spacing: 12) {
                                 if !project.craftType.isEmpty {
@@ -162,19 +162,19 @@ struct ProjectDetailView: View {
                                 DetailRow(label: "Status", value: project.status.capitalized)
                             }
                             .padding(16)
-                            .background(Color.white)
+                            .background(ThemeColors.surface)
                             .cornerRadius(16)
                             .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
                         }
                         .padding(.horizontal, 24)
-                        
+
                         // Session History
                         if !sessions.isEmpty {
                             VStack(alignment: .leading, spacing: 16) {
                                 Text("Session History")
                                     .font(.title3)
                                     .fontWeight(.bold)
-                                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                                    .foregroundColor(ThemeColors.textPrimary)
                                 
                                 VStack(spacing: 12) {
                                     ForEach(sessions.prefix(10), id: \.id) { session in
@@ -211,7 +211,7 @@ struct ProjectDetailView: View {
                 VStack(spacing: 16) {
                     Image(systemName: "exclamationmark.triangle")
                         .font(.system(size: 48))
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                        .foregroundColor(ThemeColors.textSecondary)
                     
                     Text("Project Not Found")
                         .font(.title2)
@@ -254,11 +254,11 @@ struct StatItem: View {
             Text(value)
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-            
+                .foregroundColor(ThemeColors.textPrimary)
+
             Text(label)
                 .font(.caption)
-                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                .foregroundColor(ThemeColors.textSecondary)
         }
     }
 }
@@ -271,14 +271,14 @@ struct DetailRow: View {
         HStack {
             Text(label)
                 .font(.subheadline)
-                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
-            
+                .foregroundColor(ThemeColors.textSecondary)
+
             Spacer()
-            
+
             Text(value)
                 .font(.subheadline)
                 .fontWeight(.medium)
-                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                .foregroundColor(ThemeColors.textPrimary)
         }
     }
 }
@@ -303,11 +303,11 @@ struct SessionHistoryRow: View {
                 Text(formattedDate)
                     .font(.subheadline)
                     .fontWeight(.medium)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                
+                    .foregroundColor(ThemeColors.textPrimary)
+
                 Text("\(session.rowsKnit) rows • \(session.timeSpent / 60) min")
                     .font(.caption)
-                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .foregroundColor(ThemeColors.textSecondary)
             }
             
             Spacer()
@@ -316,7 +316,7 @@ struct SessionHistoryRow: View {
                 .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
         }
         .padding(12)
-        .background(Color.white)
+        .background(ThemeColors.surface)
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
     }

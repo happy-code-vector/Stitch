@@ -30,7 +30,7 @@ struct AnalyticsView: View {
                 .padding(.top, 16)
                 .padding(.bottom, 100)
             }
-            .background(Color(red: 0.976, green: 0.969, blue: 0.949))
+            .background(ThemeColors.background)
             .navigationTitle("Analytics")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
@@ -72,9 +72,9 @@ struct PeriodSelectorView: View {
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                         .background(selectedPeriod == period ?
-                                    Color(red: 0.561, green: 0.659, blue: 0.533) :
-                                    Color.white)
-                        .foregroundColor(selectedPeriod == period ? .white : Color(red: 0.4, green: 0.4, blue: 0.4))
+                                    ThemeColors.primary :
+                                    ThemeColors.surface)
+                        .foregroundColor(selectedPeriod == period ? .white : ThemeColors.textSecondary)
                         .cornerRadius(20)
                 }
             }
@@ -136,14 +136,14 @@ struct ChartsSection: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Rows Over Time")
                     .font(.headline)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                    .foregroundColor(ThemeColors.textPrimary)
 
                 if analyticsService.dailyStats.isEmpty {
                     EmptyChartView(message: "No data yet. Start knitting!")
                 } else {
                     RowTrendChart(stats: analyticsService.dailyStats)
                         .frame(height: 200)
-                        .background(Color.white)
+                        .background(ThemeColors.surface)
                         .cornerRadius(16)
                 }
             }
@@ -152,14 +152,14 @@ struct ChartsSection: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Weekly Summary")
                     .font(.headline)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                    .foregroundColor(ThemeColors.textPrimary)
 
                 if analyticsService.weeklyStats.isEmpty {
                     EmptyChartView(message: "No weekly data yet")
                 } else {
                     WeeklyBarChart(stats: Array(analyticsService.weeklyStats.suffix(8)))
                         .frame(height: 180)
-                        .background(Color.white)
+                        .background(ThemeColors.surface)
                         .cornerRadius(16)
                 }
             }
@@ -170,7 +170,7 @@ struct ChartsSection: View {
                     HStack {
                         Text("Speed Trend")
                             .font(.headline)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                            .foregroundColor(ThemeColors.textPrimary)
 
                         Spacer()
 
@@ -182,7 +182,7 @@ struct ChartsSection: View {
                     } else {
                         SpeedTrendChart(trend: analyticsService.speedTrend)
                             .frame(height: 150)
-                            .background(Color.white)
+                            .background(ThemeColors.surface)
                             .cornerRadius(16)
                     }
                 }
@@ -200,7 +200,7 @@ struct InsightsSection: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Insights")
                 .font(.headline)
-                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                .foregroundColor(ThemeColors.textPrimary)
 
             VStack(spacing: 12) {
                 InsightRowView(
@@ -232,7 +232,7 @@ struct InsightsSection: View {
                 )
             }
             .padding(16)
-            .background(Color.white)
+            .background(ThemeColors.surface)
             .cornerRadius(16)
             .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
         }
@@ -256,13 +256,13 @@ struct AchievementsSection: View {
             HStack {
                 Text("Achievements")
                     .font(.headline)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                    .foregroundColor(ThemeColors.textPrimary)
 
                 Spacer()
 
                 Text("\(achievementService.unlockedCount)/\(achievementService.totalCount)")
                     .font(.subheadline)
-                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                    .foregroundColor(ThemeColors.textSecondary)
             }
 
             LazyVGrid(columns: columns, spacing: 16) {
@@ -281,7 +281,7 @@ struct AchievementsSection: View {
                         .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
-                        .background(Color.white)
+                        .background(ThemeColors.surface)
                         .cornerRadius(12)
                 }
             }
@@ -305,7 +305,7 @@ struct AchievementBadgeView: View {
                 Circle()
                     .fill(achievement.isUnlocked ?
                           Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.2) :
-                          Color(red: 0.9, green: 0.9, blue: 0.9))
+                          ThemeColors.surfaceRaised)
                     .frame(width: 60, height: 60)
 
                 Text(achievement.icon)
@@ -318,7 +318,7 @@ struct AchievementBadgeView: View {
                         .font(.caption)
                         .foregroundColor(.white)
                         .padding(4)
-                        .background(Color(red: 0.4, green: 0.4, blue: 0.4))
+                        .background(ThemeColors.textSecondary)
                         .clipShape(Circle())
                         .offset(x: 20, y: 20)
                 }
@@ -328,8 +328,8 @@ struct AchievementBadgeView: View {
                 .font(.caption2)
                 .fontWeight(.medium)
                 .foregroundColor(achievement.isUnlocked ?
-                                  Color(red: 0.173, green: 0.173, blue: 0.173) :
-                                  Color(red: 0.6, green: 0.6, blue: 0.6))
+                                  ThemeColors.textPrimary :
+                                  ThemeColors.textSecondary)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
         }
@@ -346,16 +346,16 @@ struct EmptyChartView: View {
         VStack(spacing: 12) {
             Image(systemName: "chart.line.downtrend.xyaxis")
                 .font(.system(size: 40))
-                .foregroundColor(Color(red: 0.8, green: 0.8, blue: 0.8))
+                .foregroundColor(ThemeColors.border)
 
             Text(message)
                 .font(.subheadline)
-                .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+                .foregroundColor(ThemeColors.textSecondary)
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity)
         .frame(height: 150)
-        .background(Color.white)
+        .background(ThemeColors.surface)
         .cornerRadius(16)
     }
 }

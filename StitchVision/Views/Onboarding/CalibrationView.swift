@@ -540,10 +540,10 @@ struct PeekingMascotView: View {
         VStack(spacing: 8) {
             Text("Place your knitting here!")
                 .font(.caption)
-                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                .foregroundColor(ThemeColors.textPrimary)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
-                .background(Color.white)
+                .background(ThemeColors.surface)
                 .cornerRadius(16)
                 .shadow(color: .black.opacity(0.2), radius: 8, x: 0, y: 4)
                 .overlay(speechBubbleTail, alignment: .bottom)
@@ -560,7 +560,7 @@ struct PeekingMascotView: View {
                 path.addLine(to: CGPoint(x: 8, y: 8))
                 path.closeSubpath()
             }
-            .fill(Color.white)
+            .fill(ThemeColors.surface)
             .frame(width: 16, height: 8)
             .offset(x: -20, y: 4)
             Spacer()
