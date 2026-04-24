@@ -162,6 +162,7 @@ struct CameraPermissionsView: View {
                 .padding(.vertical, 40)
             }
         }
+        }
         .onAppear {
             animateElements = true
             animateProgress = true

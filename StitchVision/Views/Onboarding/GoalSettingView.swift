@@ -97,6 +97,7 @@ struct GoalSettingView: View {
                 .padding(.bottom, 50)
             }
         }
+        }
         .onAppear { animateProgress = true }
     }
 }

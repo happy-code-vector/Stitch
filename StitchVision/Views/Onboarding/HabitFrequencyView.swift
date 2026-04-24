@@ -97,6 +97,7 @@ struct HabitFrequencyView: View {
                 .padding(.bottom, 50)
             }
         }
+        }
         .onAppear { animateProgress = true }
     }
 }

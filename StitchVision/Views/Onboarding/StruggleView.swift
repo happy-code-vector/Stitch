@@ -104,6 +104,7 @@ struct StruggleView: View {
                 .padding(.bottom, 50)
             }
         }
+        }
         .onAppear {
             animateElements = true
         }

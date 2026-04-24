@@ -127,6 +127,7 @@ struct StatsProblemView: View {
                 .padding(.vertical, 40)
             }
         }
+        }
         .onAppear {
             animateStats = true
         }
