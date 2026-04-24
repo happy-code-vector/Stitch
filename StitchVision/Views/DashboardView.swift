@@ -22,7 +22,8 @@ struct DashboardView: View {
             Color(red: 0.976, green: 0.969, blue: 0.949)
                 .ignoresSafeArea()
 
-        ScrollView {
+            VStack(spacing: 0) {
+                ScrollView {
             VStack(spacing: 0) {
                 // Header
                 HStack {
@@ -197,6 +198,7 @@ struct DashboardView: View {
                     .padding(.top, 32)
                     .padding(.bottom, 100)
                 }
+            }
             }
         }
         .overlay(
