@@ -97,31 +97,28 @@ class AICoachProService: ObservableObject {
         or milestone celebrations. Be warm and helpful, like a crafty friend.
         """
 
-        Task {
+        let service = geminiService
+        let percentage = Int(Double(currentRow) / Double(totalRows) * 100)
+        Task { @MainActor in
             do {
-                let result = try await geminiService.sendTextPrompt(prompt)
+                let result = try await service.sendTextPrompt(prompt)
                 let response = CoachResponse(
                     type: .context,
                     message: result,
                     severity: .info,
                     timestamp: Date()
                 )
-                DispatchQueue.main.async {
-                    self.lastResponse = response
-                    completion(response)
-                }
+                self.lastResponse = response
+                completion(response)
             } catch {
-                // Fallback to a local message if API fails
                 let fallback = CoachResponse(
                     type: .context,
-                    message: "You're \(Int(Double(currentRow) / Double(totalRows) * 100))% done — keep going!",
+                    message: "You're \(percentage)% done — keep going!",
                     severity: .info,
                     timestamp: Date()
                 )
-                DispatchQueue.main.async {
-                    self.lastResponse = fallback
-                    completion(fallback)
-                }
+                self.lastResponse = fallback
+                completion(fallback)
             }
         }
     }
