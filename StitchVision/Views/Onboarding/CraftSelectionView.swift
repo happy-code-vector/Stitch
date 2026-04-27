@@ -38,7 +38,7 @@ struct CraftSelectionView: View {
                             .frame(height: 6)
                         Rectangle()
                             .fill(ThemeColors.primary)
-                            .frame(width: animateElements ? geo.size.width * (3.0/8.0) : 0, height: 6)
+                            .frame(width: animateElements ? geo.size.width * (3.0/8.0) : geo.size.width * (2.0/8.0), height: 6)
                             .clipShape(RoundedRectangle(cornerRadius: 3))
                             .animation(.easeOut(duration: 0.8), value: animateElements)
                     }
@@ -60,36 +60,32 @@ struct CraftSelectionView: View {
                     .font(.system(size: 28, weight: .bold))
                     .foregroundColor(ThemeColors.textPrimary)
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 48)
+                    .padding(.horizontal, 32)
+                    .padding(.bottom, 40)
                     .opacity(animateElements ? 1.0 : 0.0)
                     .offset(y: animateElements ? 0 : -20)
                     .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
 
                 // Craft cards
-                VStack(spacing: 24) {
+                VStack(spacing: 20) {
                     CraftLargeCard(
                         craftType: "knitting",
                         label: "Knitting",
-                        iconName: "knitting_icon",
+                        iconSystemName: "scissors",
                         isSelected: selectedCraft == "knitting",
                         delay: 0.2
                     ) {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            selectedCraft = "knitting"
-                        }
+                        selectedCraft = "knitting"
                     }
 
                     CraftLargeCard(
                         craftType: "crochet",
                         label: "Crochet",
-                        iconName: "crochet_icon",
+                        iconSystemName: "flowchart.fill",
                         isSelected: selectedCraft == "crochet",
                         delay: 0.3
                     ) {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            selectedCraft = "crochet"
-                        }
+                        selectedCraft = "crochet"
                     }
                 }
                 .padding(.horizontal, 48)
@@ -116,7 +112,7 @@ struct CraftSelectionView: View {
                 }
                 .disabled(selectedCraft == nil)
                 .padding(.horizontal, 32)
-                .padding(.bottom, 48)
+                .padding(.bottom, 50)
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
@@ -131,7 +127,7 @@ struct CraftSelectionView: View {
 struct CraftLargeCard: View {
     let craftType: String
     let label: String
-    let iconName: String
+    let iconSystemName: String
     let isSelected: Bool
     let delay: Double
     let onTap: () -> Void
@@ -141,10 +137,14 @@ struct CraftLargeCard: View {
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 16) {
-                Image(iconName)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 96, height: 96)
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(ThemeColors.primary.opacity(0.1))
+                        .frame(width: 80, height: 80)
+                    Image(systemName: iconSystemName)
+                        .font(.system(size: 36))
+                        .foregroundColor(isSelected ? ThemeColors.primary : ThemeColors.textSecondary)
+                }
 
                 Text(label)
                     .font(.system(size: 20, weight: .bold))
@@ -153,7 +153,6 @@ struct CraftLargeCard: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical, 32)
             .background(Color.white.opacity(0.95))
-            .background(.ultraThinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 40))
             .overlay(
                 RoundedRectangle(cornerRadius: 40)

@@ -45,38 +45,24 @@ struct SubscriptionView: View {
             .allowsHitTesting(false)
 
             VStack(spacing: 0) {
-                // Progress bar (step 7 of 8)
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        Rectangle()
-                            .fill(Color.gray.opacity(0.15))
-                            .frame(height: 6)
-                        Rectangle()
-                            .fill(ThemeColors.primary)
-                            .frame(width: animateElements ? geo.size.width * (7.0/8.0) : 0, height: 6)
-                            .clipShape(RoundedRectangle(cornerRadius: 3))
-                            .animation(.easeOut(duration: 0.8), value: animateElements)
-                    }
-                }
-                .frame(height: 6)
-
-                // Close button + Back button
+                // Close button (top-right, X button)
                 HStack {
-                    BackButton()
                     Spacer()
                     Button(action: {
                         appState.navigateTo(.permissions)
                     }) {
                         Image(systemName: "xmark")
                             .font(.system(size: 16, weight: .bold))
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .foregroundColor(.white)
                             .frame(width: 40, height: 40)
+                            .background(Color.black.opacity(0.1))
+                            .clipShape(Circle())
                     }
+                    .padding(.trailing, 24)
+                    .padding(.top, 16)
                 }
-                .padding(.horizontal, 24)
-                .padding(.top, 12)
 
-                ScrollView(showsIndicators: false) {
+                ScrollView {
                     VStack(spacing: 0) {
                         // FOMO badge
                         HStack(spacing: 6) {
@@ -100,8 +86,8 @@ struct SubscriptionView: View {
 
                         // Headline
                         VStack(spacing: 8) {
-                            Text("Master Every Stitch\nwith Premium")
-                                .font(.system(size: 32, weight: .bold))
+                            Text("Master Every Stitch with Premium")
+                                .font(.system(size: 28, weight: .bold))
                                 .foregroundColor(ThemeColors.textPrimary)
                                 .multilineTextAlignment(.center)
 
@@ -110,8 +96,8 @@ struct SubscriptionView: View {
                                 .foregroundColor(ThemeColors.textSecondary)
                         }
                         .padding(.horizontal, 32)
-                        .padding(.top, 24)
-                        .padding(.bottom, 28)
+                        .padding(.top, 20)
+                        .padding(.bottom, 24)
                         .opacity(animateElements ? 1.0 : 0.0)
                         .offset(y: animateElements ? 0 : -20)
                         .animation(.easeOut(duration: 0.6).delay(0.2), value: animateElements)
@@ -146,9 +132,7 @@ struct SubscriptionView: View {
                         // Annual plan card (recommended)
                         ZStack(alignment: .topTrailing) {
                             Button(action: {
-                                withAnimation(.easeInOut(duration: 0.2)) {
-                                    selectedPlan = .annual
-                                }
+                                selectedPlan = .annual
                             }) {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 4) {
@@ -191,13 +175,11 @@ struct SubscriptionView: View {
                                 .offset(x: -12, y: -10)
                         }
                         .padding(.horizontal, 24)
-                        .padding(.bottom, 16)
+                        .padding(.bottom, 12)
 
                         // Monthly plan card
                         Button(action: {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                selectedPlan = .monthly
-                            }
+                            selectedPlan = .monthly
                         }) {
                             HStack {
                                 VStack(alignment: .leading, spacing: 4) {
@@ -223,6 +205,7 @@ struct SubscriptionView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                         .padding(.horizontal, 24)
+                        .padding(.bottom, 16)
                     }
                 }
 
@@ -243,22 +226,24 @@ struct SubscriptionView: View {
 
                     Text("Payment will be charged to your iTunes account. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period.")
                         .font(.system(size: 10))
-                        .foregroundColor(Color.gray.opacity(0.5))
+                        .foregroundColor(ThemeColors.textSecondary)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
+                        .padding(.horizontal, 32)
 
                     HStack(spacing: 24) {
                         Button("Terms of Service") { }
                             .font(.system(size: 10, weight: .medium))
-                            .foregroundColor(Color.gray.opacity(0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                         Button("Privacy Policy") { }
                             .font(.system(size: 10, weight: .medium))
-                            .foregroundColor(Color.gray.opacity(0.4))
+                            .foregroundColor(ThemeColors.textSecondary)
                         Button("Restore") {
-                            Task { try? await AppStore.sync() }
+                            Task {
+                                try? await AppStore.sync()
+                            }
                         }
                         .font(.system(size: 10, weight: .medium))
-                        .foregroundColor(Color.gray.opacity(0.4))
+                        .foregroundColor(ThemeColors.textSecondary)
                     }
                     .padding(.top, 4)
                 }

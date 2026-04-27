@@ -27,9 +27,9 @@ struct StatsProblemView: View {
                             .frame(height: 6)
                         Rectangle()
                             .fill(ThemeColors.primary)
-                            .frame(width: animateElements ? geo.size.width * (2.0/8.0) : 0, height: 6)
+                            .frame(width: animateStats ? geo.size.width * (2.0/8.0) : geo.size.width * (1.0/8.0), height: 6)
                             .clipShape(RoundedRectangle(cornerRadius: 3))
-                            .animation(.easeOut(duration: 0.8), value: animateElements)
+                            .animation(.easeOut(duration: 0.8), value: animateStats)
                     }
                 }
                 .frame(height: 6)
@@ -42,21 +42,19 @@ struct StatsProblemView: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 12)
 
-                ScrollView(showsIndicators: false) {
+                ScrollView {
                     VStack(spacing: 0) {
                         // Header
                         VStack(spacing: 8) {
                             Text("You're Not Alone")
                                 .font(.system(size: 28, weight: .bold))
                                 .foregroundColor(ThemeColors.textPrimary)
-                                .multilineTextAlignment(.center)
 
                             Text("Crafting has its challenges, but we've got you.")
                                 .font(.body)
                                 .foregroundColor(ThemeColors.textSecondary)
-                                .multilineTextAlignment(.center)
                         }
-                        .padding(.horizontal, 24)
+                        .padding(.horizontal, 32)
                         .padding(.top, 32)
                         .padding(.bottom, 32)
                         .opacity(animateElements ? 1.0 : 0.0)
@@ -64,7 +62,7 @@ struct StatsProblemView: View {
                         .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
 
                         // Stat cards
-                        VStack(spacing: 16) {
+                        VStack(spacing: 12) {
                             StatCard(
                                 icon: "timer",
                                 value: "4+ Hours",
@@ -96,8 +94,7 @@ struct StatsProblemView: View {
                                 .font(.system(size: 28))
                                 .foregroundColor(ThemeColors.primary)
                         }
-                        .padding(24)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(20)
                         .background(Color(red: 0.929, green: 0.957, blue: 0.918).opacity(0.8))
                         .clipShape(RoundedRectangle(cornerRadius: 24))
                         .overlay(
@@ -127,8 +124,7 @@ struct StatsProblemView: View {
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
                 .padding(.horizontal, 32)
-                .padding(.bottom, 32)
-                .padding(.top, 16)
+                .padding(.bottom, 50)
             }
         }
         .onAppear {
@@ -171,7 +167,6 @@ struct StatCard: View {
         }
         .padding(20)
         .background(Color.white.opacity(0.8))
-        .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 24))
         .overlay(
             RoundedRectangle(cornerRadius: 24)

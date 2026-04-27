@@ -20,7 +20,7 @@ struct CameraPermissionsView: View {
                 .allowsHitTesting(false)
 
             VStack(spacing: 0) {
-                // Progress bar (step 6 of 8)
+                // Progress bar (step 6 of 8 = 7/8 filled)
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
                         Rectangle()
@@ -28,7 +28,7 @@ struct CameraPermissionsView: View {
                             .frame(height: 6)
                         Rectangle()
                             .fill(ThemeColors.primary)
-                            .frame(width: animateElements ? geo.size.width * (6.0/8.0) : 0, height: 6)
+                            .frame(width: animateElements ? geo.size.width * (7.0/8.0) : geo.size.width * (6.0/8.0), height: 6)
                             .clipShape(RoundedRectangle(cornerRadius: 3))
                             .animation(.easeOut(duration: 0.8), value: animateElements)
                     }
@@ -46,15 +46,19 @@ struct CameraPermissionsView: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         // Mascot
-                        Image("camera_mascot")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 128, height: 128)
-                            .shadow(color: .black.opacity(0.15), radius: 24, x: 0, y: 8)
-                            .padding(.top, 32)
-                            .padding(.bottom, 32)
-                            .scaleEffect(animateElements ? 1.0 : 0.8)
-                            .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.2), value: animateElements)
+                        ZStack {
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 128, height: 128)
+                                .shadow(color: .black.opacity(0.12), radius: 20, x: 0, y: 8)
+                            Image(systemName: "camera.viewfinder")
+                                .font(.system(size: 48))
+                                .foregroundColor(ThemeColors.primary)
+                        }
+                        .padding(.top, 32)
+                        .padding(.bottom, 32)
+                        .scaleEffect(animateElements ? 1.0 : 0.8)
+                        .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.2), value: animateElements)
 
                         // Title + subtitle
                         VStack(spacing: 12) {
@@ -66,7 +70,6 @@ struct CameraPermissionsView: View {
                                 .font(.body)
                                 .foregroundColor(ThemeColors.textSecondary)
                                 .multilineTextAlignment(.center)
-                                .lineSpacing(4)
                         }
                         .padding(.horizontal, 32)
                         .opacity(animateElements ? 1.0 : 0.0)
@@ -74,15 +77,15 @@ struct CameraPermissionsView: View {
                         .animation(.easeOut(duration: 0.6).delay(0.3), value: animateElements)
 
                         // Feature list
-                        VStack(spacing: 24) {
+                        VStack(spacing: 20) {
                             FeatureBullet(icon: "eye", text: "AI-powered stitch counting", delay: 0.4)
                             FeatureBullet(icon: "shield.checkered", text: "Automatic error detection", delay: 0.5)
                             FeatureBullet(icon: "bolt.fill", text: "Real-time progress tracking", delay: 0.6)
                         }
                         .padding(.horizontal, 40)
-                        .padding(.top, 40)
+                        .padding(.top, 32)
 
-                        // Privacy notice card
+                        // Privacy notice
                         HStack(spacing: 12) {
                             Image(systemName: "lock.fill")
                                 .font(.system(size: 18))
@@ -95,11 +98,9 @@ struct CameraPermissionsView: View {
                                 Text("Images are processed locally on your device. Nothing is stored or shared.")
                                     .font(.system(size: 12))
                                     .foregroundColor(ThemeColors.textSecondary)
-                                    .lineSpacing(2)
                             }
                         }
-                        .padding(20)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(16)
                         .background(Color.white.opacity(0.8))
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                         .overlay(
@@ -107,16 +108,15 @@ struct CameraPermissionsView: View {
                                 .stroke(Color.gray.opacity(0.1), lineWidth: 1)
                         )
                         .padding(.horizontal, 24)
-                        .padding(.top, 40)
+                        .padding(.top, 32)
                         .opacity(animateElements ? 1.0 : 0.0)
                         .offset(y: animateElements ? 0 : 20)
                         .animation(.easeOut(duration: 0.6).delay(0.7), value: animateElements)
                     }
-                    .padding(.bottom, 40)
                 }
 
                 // Action buttons
-                VStack(spacing: 0) {
+                VStack(spacing: 8) {
                     Button(action: {
                         handleCameraPermission()
                     }) {
@@ -134,13 +134,13 @@ struct CameraPermissionsView: View {
                         appState.navigateTo(.subscription)
                     }) {
                         Text("Maybe Later")
-                            .font(.system(size: 16, weight: .medium))
+                            .font(.headline)
                             .foregroundColor(ThemeColors.textSecondary)
                     }
-                    .padding(.top, 12)
+                    .padding(.vertical, 8)
                 }
                 .padding(.horizontal, 32)
-                .padding(.bottom, 48)
+                .padding(.bottom, 50)
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.9), value: animateElements)

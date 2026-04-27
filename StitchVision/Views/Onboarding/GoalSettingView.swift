@@ -33,7 +33,7 @@ struct GoalSettingView: View {
                             .frame(height: 6)
                         Rectangle()
                             .fill(ThemeColors.primary)
-                            .frame(width: animateElements ? geo.size.width * (5.0/8.0) : 0, height: 6)
+                            .frame(width: animateElements ? geo.size.width * (5.0/8.0) : geo.size.width * (4.0/8.0), height: 6)
                             .clipShape(RoundedRectangle(cornerRadius: 3))
                             .animation(.easeOut(duration: 0.8), value: animateElements)
                     }
@@ -55,14 +55,14 @@ struct GoalSettingView: View {
                     .font(.system(size: 28, weight: .bold))
                     .foregroundColor(ThemeColors.textPrimary)
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, 32)
                     .padding(.bottom, 40)
                     .opacity(animateElements ? 1.0 : 0.0)
                     .offset(y: animateElements ? 0 : -20)
                     .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
 
                 // Goal options
-                VStack(spacing: 16) {
+                VStack(spacing: 12) {
                     ForEach(Array(goals.enumerated()), id: \.offset) { index, goal in
                         GoalCard(
                             id: goal.0,
@@ -72,9 +72,7 @@ struct GoalSettingView: View {
                             isSelected: selectedGoal == goal.0,
                             delay: Double(index) * 0.1 + 0.2
                         ) {
-                            withAnimation(.easeInOut(duration: 0.2)) {
-                                selectedGoal = goal.0
-                            }
+                            selectedGoal = goal.0
                         }
                     }
                 }
@@ -102,7 +100,7 @@ struct GoalSettingView: View {
                 }
                 .disabled(selectedGoal == nil)
                 .padding(.horizontal, 32)
-                .padding(.bottom, 48)
+                .padding(.bottom, 50)
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.5), value: animateElements)
@@ -127,25 +125,24 @@ struct GoalCard: View {
 
     var body: some View {
         Button(action: onTap) {
-            HStack(spacing: 24) {
+            HStack(spacing: 20) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 16)
                         .fill(iconColor.opacity(0.12))
                         .frame(width: 48, height: 48)
                     Image(systemName: iconName)
-                        .font(.system(size: 26))
+                        .font(.system(size: 24))
                         .foregroundColor(iconColor)
                 }
 
                 Text(label)
-                    .font(.system(size: 18, weight: .bold))
+                    .font(.system(size: 17, weight: .bold))
                     .foregroundColor(ThemeColors.textPrimary)
 
                 Spacer()
             }
-            .padding(24)
+            .padding(20)
             .background(Color.white.opacity(0.9))
-            .background(.ultraThinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 32))
             .overlay(
                 RoundedRectangle(cornerRadius: 32)

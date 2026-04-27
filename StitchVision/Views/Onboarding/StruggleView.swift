@@ -50,7 +50,7 @@ struct StruggleView: View {
                 }
                 .frame(height: 6)
 
-                // Back button + progress
+                // Back button
                 HStack {
                     BackButton()
                     Spacer()
@@ -79,7 +79,7 @@ struct StruggleView: View {
 
                 Spacer()
 
-                // Struggle options — 2 cards
+                // Struggle options
                 VStack(spacing: 16) {
                     ForEach(struggles, id: \.0) { struggle in
                         FrustrationCard(
@@ -140,7 +140,6 @@ struct FrustrationCard: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 16) {
-                // Radio indicator
                 ZStack {
                     Circle()
                         .stroke(
