@@ -325,6 +325,46 @@ class GeminiVisionService: ObservableObject {
         return text
     }
 
+    /// Send a text-only prompt to Gemini (no image).
+    func sendTextPrompt(_ prompt: String) async throws -> String {
+        let requestBody: [String: Any] = [
+            "contents": [
+                ["parts": [["text": prompt]]]
+            ],
+            "generationConfig": [
+                "temperature": 0.7,
+                "topK": 32,
+                "topP": 1,
+                "maxOutputTokens": 200
+            ]
+        ]
+
+        let url = URL(string: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=\(apiKey)")!
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
+
+        let (data, response) = try await session.data(for: request)
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw NSError(domain: "GeminiVisionService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Gemini API request failed"])
+        }
+
+        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let candidates = json["candidates"] as? [[String: Any]],
+              let first = candidates.first,
+              let content = first["content"] as? [String: Any],
+              let parts = content["parts"] as? [[String: Any]],
+              let text = parts.first?["text"] as? String else {
+            throw NSError(domain: "GeminiVisionService", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to parse Gemini response"])
+        }
+
+        return text
+    }
+
     // MARK: - Helper Methods
     
     private func pixelBufferToUIImage(_ pixelBuffer: CVPixelBuffer) -> UIImage? {

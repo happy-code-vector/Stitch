@@ -88,25 +88,40 @@ class AICoachProService: ObservableObject {
         completion: @escaping (CoachResponse?) -> Void
     ) {
         let prompt = """
-        You are a knitting coach. The user is on row \(currentRow) of \(totalRows).
-        \(lastTip != nil ? "Last tip given: \(lastTip!)" : "")
+        You are StitchBot, a friendly knitting and crochet tutor inside a row-counter app. \
+        The crafter is on row \(currentRow) of \(totalRows) (\(Int(Double(currentRow) / Double(totalRows) * 100))% complete).
+        \(lastTip != nil ? "Last tip you gave: \(lastTip!). Don't repeat it." : "")
 
-        Give a brief (1-2 sentence) encouraging message or specific advice for their current progress.
+        Give ONE brief, specific tip or encouragement (1-2 sentences). \
+        Vary your advice: technique tips, tension reminders, posture hints, fun knitting facts, \
+        or milestone celebrations. Be warm and helpful, like a crafty friend.
         """
 
-        // For context, we don't need an image, just use the prompt
         Task {
-            // This would call Gemini with text-only prompt
-            let response = CoachResponse(
-                type: .context,
-                message: "Great progress! You're \(Int(Double(currentRow) / Double(totalRows) * 100))% done. Keep your tension consistent.",
-                severity: .info,
-                timestamp: Date()
-            )
-
-            DispatchQueue.main.async {
-                self.lastResponse = response
-                completion(response)
+            do {
+                let result = try await geminiService.sendTextPrompt(prompt)
+                let response = CoachResponse(
+                    type: .context,
+                    message: result,
+                    severity: .info,
+                    timestamp: Date()
+                )
+                DispatchQueue.main.async {
+                    self.lastResponse = response
+                    completion(response)
+                }
+            } catch {
+                // Fallback to a local message if API fails
+                let fallback = CoachResponse(
+                    type: .context,
+                    message: "You're \(Int(Double(currentRow) / Double(totalRows) * 100))% done — keep going!",
+                    severity: .info,
+                    timestamp: Date()
+                )
+                DispatchQueue.main.async {
+                    self.lastResponse = fallback
+                    completion(fallback)
+                }
             }
         }
     }
@@ -209,22 +224,25 @@ class AICoachProService: ObservableObject {
         switch type {
         case .tension:
             return """
-            Analyze the stitch tension in this knitting sample.
-            Rate the tension as: even, loose, or tight.
-            If uneven, identify which area has issues.
-            Keep response brief (2-3 sentences max).
+            You are StitchBot, a friendly knitting and crochet tutor examining a crafter's work. \
+            Analyze the stitch tension in this image. \
+            Rate it as: even, loose, or tight. If uneven, point out which area looks different. \
+            Give a specific tip to fix any tension issues (e.g., hand positioning, yarn hold, needle size). \
+            Keep it to 2-3 sentences. Be encouraging — uneven tension is normal while learning.
             """
 
         case .mistake:
             return """
-            Detect any knitting errors in this image.
-            Look for: dropped stitches, accidental yarn overs, wrong stitch types.
-            List severity: minor, moderate, or critical.
-            Keep response brief (2-3 sentences max).
+            You are StitchBot, a friendly knitting and crochet tutor examining a crafter's work. \
+            Look for any errors: dropped stitches, accidental yarn overs, wrong stitch types, \
+            twisted stitches, or extra/missing stitches. \
+            If you find an issue, explain what happened and how to fix it (tink back, drop down, etc.). \
+            Rate severity: minor (easy fix), moderate (needs attention), or critical (frog back needed). \
+            Keep it to 2-3 sentences. Mistakes happen to everyone — be helpful, not harsh.
             """
 
         case .context:
-            return "Give brief encouragement for a knitter."
+            return "Give brief encouragement and a specific tip for a crafter."
 
         case .proximity:
             return "Alert about approaching marker."
