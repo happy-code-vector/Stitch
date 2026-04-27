@@ -104,7 +104,7 @@ class VoiceCommandManager: ObservableObject {
 
         // Also request microphone permission
         if #available(iOS 17.0, *) {
-            AVAudioApplication.shared.requestRecordPermission { _ in }
+            AVAudioApplication.requestRecordPermission { _ in }
         } else {
             AVAudioSession.sharedInstance().requestRecordPermission { _ in }
         }
