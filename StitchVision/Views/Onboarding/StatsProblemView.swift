@@ -6,14 +6,15 @@ struct StatsProblemView: View {
     @State private var animateElements = false
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             // Full-screen subtle background texture (10% opacity image effect)
             ThemeColors.background
-                .background(
+                .overlay(
                     Image("empathy_bg")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .opacity(0.1)
+                        .ignoresSafeArea()
                 )
                 .ignoresSafeArea()
 
@@ -45,7 +46,7 @@ struct StatsProblemView: View {
 
                     Color.clear.frame(width: 40)
                 }
-                .padding(.top, 60)
+                .padding(.top, 16)
                 .padding(.horizontal, 24)
 
                 ScrollView {

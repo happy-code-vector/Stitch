@@ -6,32 +6,28 @@ struct CraftSelectionView: View {
     @State private var animateElements = false
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             ThemeColors.background
                 .ignoresSafeArea()
-
-            // Bottom decorative background (400px) with gradient fade
-            GeometryReader { geo in
-                VStack {
-                    Spacer()
-                    ZStack(alignment: .bottom) {
+                .overlay(
+                    VStack {
+                        Spacer()
                         Image("craft_bg")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: geo.size.width, height: 400)
+                            .frame(height: 400)
                             .clipped()
-
-                        LinearGradient(
-                            colors: [ThemeColors.background, .clear],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                        .frame(height: 400)
+                            .overlay(
+                                LinearGradient(
+                                    colors: [ThemeColors.background, .clear],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
                     }
-                }
-            }
-            .ignoresSafeArea()
-            .allowsHitTesting(false)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+                )
 
             // Main content
             VStack(spacing: 0) {
@@ -62,7 +58,7 @@ struct CraftSelectionView: View {
 
                     Color.clear.frame(width: 40)
                 }
-                .padding(.top, 60)
+                .padding(.top, 16)
                 .padding(.horizontal, 24)
 
                 Spacer()

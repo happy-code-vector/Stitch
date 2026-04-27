@@ -12,14 +12,15 @@ struct GoalSettingView: View {
     ]
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             // Full-screen subtle background at 10% opacity — matching HTML
             ThemeColors.background
-                .background(
+                .overlay(
                     Image("goal_bg")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .opacity(0.1)
+                        .ignoresSafeArea()
                 )
                 .ignoresSafeArea()
 
@@ -51,7 +52,7 @@ struct GoalSettingView: View {
 
                     Color.clear.frame(width: 40)
                 }
-                .padding(.top, 60)
+                .padding(.top, 16)
                 .padding(.horizontal, 24)
 
                 Spacer()

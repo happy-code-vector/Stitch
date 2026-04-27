@@ -7,14 +7,15 @@ struct CameraPermissionsView: View {
     @State private var showingSettingsAlert = false
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             // Full-screen subtle background at 10% opacity — matching HTML
             ThemeColors.background
-                .background(
+                .overlay(
                     Image("camera_bg")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .opacity(0.1)
+                        .ignoresSafeArea()
                 )
                 .ignoresSafeArea()
 
@@ -46,7 +47,7 @@ struct CameraPermissionsView: View {
 
                     Color.clear.frame(width: 40)
                 }
-                .padding(.top, 60)
+                .padding(.top, 16)
                 .padding(.horizontal, 24)
 
                 ScrollView {

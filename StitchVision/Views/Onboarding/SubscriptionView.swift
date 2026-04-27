@@ -17,37 +17,32 @@ struct SubscriptionView: View {
     ]
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color.white
                 .ignoresSafeArea()
-
-            // Top background image area (400px) with gradient overlay
-            GeometryReader { geo in
-                VStack {
-                    ZStack(alignment: .top) {
+                .overlay(
+                    VStack {
                         Image("paywall_bg")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: geo.size.width, height: 400)
+                            .frame(height: 400)
                             .clipped()
-
-                        // Dark overlay gradient matching HTML: from-black/40 via-white/20 to-white
-                        LinearGradient(
-                            colors: [
-                                Color.black.opacity(0.4),
-                                Color.white.opacity(0.2),
-                                Color.white.opacity(0)
-                            ],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                        .frame(height: 400)
+                            .overlay(
+                                LinearGradient(
+                                    colors: [
+                                        Color.black.opacity(0.4),
+                                        Color.white.opacity(0.2),
+                                        Color.white.opacity(0)
+                                    ],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                        Spacer()
                     }
-                    Spacer()
-                }
-            }
-            .ignoresSafeArea()
-            .allowsHitTesting(false)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+                )
 
             // Main content
             VStack(spacing: 0) {
@@ -66,7 +61,7 @@ struct SubscriptionView: View {
                             .clipShape(Circle())
                     }
                     .padding(.trailing, 24)
-                    .padding(.top, 60)
+                    .padding(.top, 16)
                 }
 
                 ScrollView {
