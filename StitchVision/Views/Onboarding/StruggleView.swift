@@ -35,33 +35,32 @@ struct StruggleView: View {
             .allowsHitTesting(false)
 
             VStack(spacing: 0) {
-                // Back button + Progress bar (step 1 of 8) — one row
+                // Back button + Progress bar (step 1 of 8)
                 GeometryReader { geo in
                     HStack(spacing: 0) {
                         Button(action: { appState.goBack() }) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 24))
                                 .foregroundColor(.gray)
-                                .frame(width: 40, height: 40)
                         }
-                        
+                        .frame(width: 40, height: 40)
+
                         ZStack(alignment: .leading) {
                             Rectangle()
-                                .fill(Color.gray.opacity(0.15))
+                                .fill(Color.white.opacity(0.5))
                                 .frame(height: 6)
-                                .clipShape(Capsule())
                             Rectangle()
                                 .fill(ThemeColors.primary)
-                                .frame(width: animateElements ? geo.size.width * (1.0/8.0) : 0, height: 6)
-                                .clipShape(Capsule())
+                                .frame(width: animateElements ? (geo.size.width - 112) * (1.0/8.0) : 0, height: 6)
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
                                 .animation(.easeOut(duration: 0.8), value: animateElements)
                         }
-                    }                    
-                    .frame(height: 6)
-                    .padding(.horizontal, 16)
+                        .padding(.horizontal, 16)
 
-                    Color.clear.frame(width: 40)
+                        Color.clear.frame(width: 40)
+                    }
                 }
+                .frame(height: 40)
                 .padding(.horizontal, 24)
                 .padding(.top, 12)
 
