@@ -134,6 +134,7 @@ struct StruggleView: View {
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
             }
+            .ignoresSafeArea()
         }
         .ignoresSafeArea()
         .onAppear {
