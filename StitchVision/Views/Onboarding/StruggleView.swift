@@ -110,7 +110,7 @@ struct StruggleView: View {
         }
         .background(
             ZStack {
-                ThemeColors.background.ignoresSafeArea()
+                ThemeColors.background
                 VStack {
                     Image("frustration_bg")
                         .resizable()
@@ -126,7 +126,6 @@ struct StruggleView: View {
                         )
                     Spacer()
                 }
-                .allowsHitTesting(false)
             }
             .ignoresSafeArea()
         )
