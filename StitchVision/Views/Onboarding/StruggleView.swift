@@ -11,7 +11,27 @@ struct StruggleView: View {
     ]
 
     var body: some View {
-        GeometryReader { _ in
+        ZStack {
+            ThemeColors.background
+                .ignoresSafeArea()
+
+            VStack {
+                Image("frustration_bg")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 300)
+                    .clipped()
+                    .overlay(
+                        LinearGradient(
+                            colors: [.clear, ThemeColors.background],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                Spacer()
+            }
+            .allowsHitTesting(false)
+
             VStack(spacing: 0) {
                 // Progress bar (step 1 of 8) + Back button row
                 HStack(spacing: 0) {
@@ -109,27 +129,6 @@ struct StruggleView: View {
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
             }
-            .background(
-                ZStack {
-                    ThemeColors.background
-                    VStack {
-                        Image("frustration_bg")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 300)
-                            .clipped()
-                            .overlay(
-                                LinearGradient(
-                                    colors: [.clear, ThemeColors.background],
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                            )
-                        Spacer()
-                    }
-                }
-                .ignoresSafeArea()
-            )
         }
         .onAppear {
             animateElements = true
