@@ -24,20 +24,18 @@ struct StatsProblemView: View {
                     Button(action: { appState.goBack() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 24))
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color(red: 0.45, green: 0.45, blue: 0.45))
                             .frame(width: 40, height: 40)
                     }
 
                     GeometryReader { geo in
                         ZStack(alignment: .leading) {
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.15))
+                            Capsule()
+                                .fill(Color(red: 0.898, green: 0.898, blue: 0.898).opacity(0.5))
                                 .frame(height: 6)
-                                .clipShape(Capsule())
-                            Rectangle()
+                            Capsule()
                                 .fill(ThemeColors.primary)
                                 .frame(width: animateStats ? geo.size.width * (2.0/8.0) : geo.size.width * (1.0/8.0), height: 6)
-                                .clipShape(Capsule())
                                 .animation(.easeOut(duration: 0.8), value: animateStats)
                         }
                     }
