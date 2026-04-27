@@ -38,64 +38,64 @@
 		88E402DE2F73D064002E2481 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 88E402DB2F73D064002E2481 /* Products.storekit */; };
 		88E402DF2F73D064002E2481 /* abbreviations.json in Resources */ = {isa = PBXBuildFile; fileRef = 88E402D92F73D064002E2481 /* abbreviations.json */; };
 		88E402EF2F83688F002E2481 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402EE2F83688F002E2481 /* KeychainManager.swift */; };
-						A1234567890123456789012A /* StitchVisionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012B /* StitchVisionApp.swift */; };
-						A1234567890123456789012C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012D /* ContentView.swift */; };
-						A1234567890123456789012E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012F /* Assets.xcassets */; };
-						A1234567890123456789013A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789013B /* Preview Assets.xcassets */; };
-						A1234567890123456789020A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789020B /* AppState.swift */; };
-						A1234567890123456789022A /* ProjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789022B /* ProjectStore.swift */; };
-						A1234567890123456789023A /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789023B /* SplashView.swift */; };
-						A1234567890123456789024A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789024B /* DashboardView.swift */; };
-						A1234567890123456789025A /* CraftSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789025B /* CraftSelectionView.swift */; };
-						A1234567890123456789026A /* SkillLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789026B /* SkillLevelView.swift */; };
-						A1234567890123456789027A /* PlaceholderViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789027B /* PlaceholderViews.swift */; };
-						A1234567890123456789028A /* YarnBallMascotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789028B /* YarnBallMascotView.swift */; };
-						A1234567890123456789029A /* FloatingConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789029B /* FloatingConfettiView.swift */; };
-						A1234567890123456789030B /* StruggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789030C /* StruggleView.swift */; };
-						A1234567890123456789031B /* StatsProblemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789031C /* StatsProblemView.swift */; };
-						A1234567890123456789032B /* HabitFrequencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789032C /* HabitFrequencyView.swift */; };
-						A1234567890123456789033B /* GoalSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789033C /* GoalSettingView.swift */; };
-						A1234567890123456789034B /* StatsSolutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789034C /* StatsSolutionView.swift */; };
-						A1234567890123456789035B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789035C /* LoadingView.swift */; };
-						A1234567890123456789036B /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789036C /* ResultView.swift */; };
-						A1234567890123456789037B /* CameraPermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789037C /* CameraPermissionsView.swift */; };
-						A1234567890123456789038B /* HowItWorksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789038C /* HowItWorksView.swift */; };
-						A1234567890123456789039B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789039C /* StatsView.swift */; };
-						A1234567890123456789040B /* CalibrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789040C /* CalibrationView.swift */; };
-						A1234567890123456789041B /* DownsellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789041C /* DownsellView.swift */; };
-						A1234567890123456789042B /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789042C /* PermissionsView.swift */; };
-						A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789043C /* FreeTierWelcomeView.swift */; };
-						A1234567890123456789044B /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789044C /* SubscriptionView.swift */; };
-						A1234567890123456789045B /* WorkModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789045C /* WorkModeView.swift */; };
-						A1234567890123456789046B /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789046C /* SessionSummaryView.swift */; };
-						A1234567890123456789047B /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789047C /* ProjectDetailView.swift */; };
-						A1234567890123456789048B /* ProjectSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789048C /* ProjectSetupView.swift */; };
-						A1234567890123456789049B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789049C /* SettingsView.swift */; };
-						A1234567890123456789050B /* PatternUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789050C /* PatternUploadView.swift */; };
-						A1234567890123456789052B /* HelpSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789052C /* HelpSupportView.swift */; };
-						A1234567890123456789053B /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789053C /* NotificationsView.swift */; };
-						A1234567890123456789054B /* ProfileEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789054C /* ProfileEditorView.swift */; };
-						A1234567890123456789055B /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789055C /* UserDefaultsManager.swift */; };
-						A1234567890123456789056B /* CameraPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789056C /* CameraPermissionManager.swift */; };
-						A1234567890123456789057B /* EnhancedSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789057C /* EnhancedSubscriptionView.swift */; };
-						A1234567890123456789058B /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789058C /* AuthenticationView.swift */; };
-						A1234567890123456789059B /* FreeVsProComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789059C /* FreeVsProComparisonView.swift */; };
-						A1234567890123456789060B /* UpgradePrompts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789060C /* UpgradePrompts.swift */; };
-						A1234567890123456789061B /* StitchDoctorDiagnosisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */; };
-						A1234567890123456789062B /* LoadingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789062C /* LoadingScreenView.swift */; };
-						A1234567890123456789064B /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789064D /* CameraManager.swift */; };
-						A1234567890123456789065B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789065D /* CameraPreviewView.swift */; };
-						A1234567890123456789069B /* GeminiVisionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789069D /* GeminiVisionService.swift */; };
-						A1234567890123456789070B /* GeminiSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789070D /* GeminiSettingsView.swift */; };
-						A1234567890123456789071B /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789071D /* DatabaseManager.swift */; };
-						A1234567890123456789072B /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789072D /* UserProfile.swift */; };
-						A1234567890123456789073B /* ProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789073D /* ProjectModel.swift */; };
-						A1234567890123456789074B /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789074D /* SessionModel.swift */; };
-						A1234567890123456789075B /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789075D /* ThemeManager.swift */; };
-						A1234567890123456789076B /* AnalyticsEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789076D /* AnalyticsEvents.swift */; };
-						A1234567890123456789077B /* ProActivationConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789077D /* ProActivationConfirmationView.swift */; };
-						A1234567890123456789078B /* StarterLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789078D /* StarterLibraryService.swift */; };
-						A1234567890123456789079B /* starter_library.json in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789079D /* starter_library.json */; };
+		A1234567890123456789012A /* StitchVisionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012B /* StitchVisionApp.swift */; };
+		A1234567890123456789012C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012D /* ContentView.swift */; };
+		A1234567890123456789012E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789012F /* Assets.xcassets */; };
+		A1234567890123456789013A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789013B /* Preview Assets.xcassets */; };
+		A1234567890123456789020A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789020B /* AppState.swift */; };
+		A1234567890123456789022A /* ProjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789022B /* ProjectStore.swift */; };
+		A1234567890123456789023A /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789023B /* SplashView.swift */; };
+		A1234567890123456789024A /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789024B /* DashboardView.swift */; };
+		A1234567890123456789025A /* CraftSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789025B /* CraftSelectionView.swift */; };
+		A1234567890123456789026A /* SkillLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789026B /* SkillLevelView.swift */; };
+		A1234567890123456789027A /* PlaceholderViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789027B /* PlaceholderViews.swift */; };
+		A1234567890123456789028A /* YarnBallMascotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789028B /* YarnBallMascotView.swift */; };
+		A1234567890123456789029A /* FloatingConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789029B /* FloatingConfettiView.swift */; };
+		A1234567890123456789030B /* StruggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789030C /* StruggleView.swift */; };
+		A1234567890123456789031B /* StatsProblemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789031C /* StatsProblemView.swift */; };
+		A1234567890123456789032B /* HabitFrequencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789032C /* HabitFrequencyView.swift */; };
+		A1234567890123456789033B /* GoalSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789033C /* GoalSettingView.swift */; };
+		A1234567890123456789034B /* StatsSolutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789034C /* StatsSolutionView.swift */; };
+		A1234567890123456789035B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789035C /* LoadingView.swift */; };
+		A1234567890123456789036B /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789036C /* ResultView.swift */; };
+		A1234567890123456789037B /* CameraPermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789037C /* CameraPermissionsView.swift */; };
+		A1234567890123456789038B /* HowItWorksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789038C /* HowItWorksView.swift */; };
+		A1234567890123456789039B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789039C /* StatsView.swift */; };
+		A1234567890123456789040B /* CalibrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789040C /* CalibrationView.swift */; };
+		A1234567890123456789041B /* DownsellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789041C /* DownsellView.swift */; };
+		A1234567890123456789042B /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789042C /* PermissionsView.swift */; };
+		A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789043C /* FreeTierWelcomeView.swift */; };
+		A1234567890123456789044B /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789044C /* SubscriptionView.swift */; };
+		A1234567890123456789045B /* WorkModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789045C /* WorkModeView.swift */; };
+		A1234567890123456789046B /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789046C /* SessionSummaryView.swift */; };
+		A1234567890123456789047B /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789047C /* ProjectDetailView.swift */; };
+		A1234567890123456789048B /* ProjectSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789048C /* ProjectSetupView.swift */; };
+		A1234567890123456789049B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789049C /* SettingsView.swift */; };
+		A1234567890123456789050B /* PatternUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789050C /* PatternUploadView.swift */; };
+		A1234567890123456789052B /* HelpSupportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789052C /* HelpSupportView.swift */; };
+		A1234567890123456789053B /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789053C /* NotificationsView.swift */; };
+		A1234567890123456789054B /* ProfileEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789054C /* ProfileEditorView.swift */; };
+		A1234567890123456789055B /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789055C /* UserDefaultsManager.swift */; };
+		A1234567890123456789056B /* CameraPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789056C /* CameraPermissionManager.swift */; };
+		A1234567890123456789057B /* EnhancedSubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789057C /* EnhancedSubscriptionView.swift */; };
+		A1234567890123456789058B /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789058C /* AuthenticationView.swift */; };
+		A1234567890123456789059B /* FreeVsProComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789059C /* FreeVsProComparisonView.swift */; };
+		A1234567890123456789060B /* UpgradePrompts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789060C /* UpgradePrompts.swift */; };
+		A1234567890123456789061B /* StitchDoctorDiagnosisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */; };
+		A1234567890123456789062B /* LoadingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789062C /* LoadingScreenView.swift */; };
+		A1234567890123456789064B /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789064D /* CameraManager.swift */; };
+		A1234567890123456789065B /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789065D /* CameraPreviewView.swift */; };
+		A1234567890123456789069B /* GeminiVisionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789069D /* GeminiVisionService.swift */; };
+		A1234567890123456789070B /* GeminiSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789070D /* GeminiSettingsView.swift */; };
+		A1234567890123456789071B /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789071D /* DatabaseManager.swift */; };
+		A1234567890123456789072B /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789072D /* UserProfile.swift */; };
+		A1234567890123456789073B /* ProjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789073D /* ProjectModel.swift */; };
+		A1234567890123456789074B /* SessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789074D /* SessionModel.swift */; };
+		A1234567890123456789075B /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789075D /* ThemeManager.swift */; };
+		A1234567890123456789076B /* AnalyticsEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789076D /* AnalyticsEvents.swift */; };
+		A1234567890123456789077B /* ProActivationConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789077D /* ProActivationConfirmationView.swift */; };
+		A1234567890123456789078B /* StarterLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789078D /* StarterLibraryService.swift */; };
+		A1234567890123456789079B /* starter_library.json in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789079D /* starter_library.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -131,70 +131,70 @@
 		88E402DB2F73D064002E2481 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
 		88E402DC2F73D064002E2481 /* StitchVision.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StitchVision.entitlements; sourceTree = "<group>"; };
 		88E402EE2F83688F002E2481 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
-						A1234567890123456789012B /* StitchVisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchVisionApp.swift; sourceTree = "<group>"; };
-						A1234567890123456789012D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-						A1234567890123456789012F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-						A1234567890123456789013B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-						A1234567890123456789013C /* StitchVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StitchVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
-						A1234567890123456789020B /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-						A1234567890123456789022B /* ProjectStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStore.swift; sourceTree = "<group>"; };
-						A1234567890123456789023B /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
-						A1234567890123456789024B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
-						A1234567890123456789025B /* CraftSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CraftSelectionView.swift; sourceTree = "<group>"; };
-						A1234567890123456789026B /* SkillLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillLevelView.swift; sourceTree = "<group>"; };
-						A1234567890123456789027B /* PlaceholderViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderViews.swift; sourceTree = "<group>"; };
-						A1234567890123456789028B /* YarnBallMascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YarnBallMascotView.swift; sourceTree = "<group>"; };
-						A1234567890123456789029B /* FloatingConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingConfettiView.swift; sourceTree = "<group>"; };
-						A1234567890123456789030C /* StruggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StruggleView.swift; sourceTree = "<group>"; };
-						A1234567890123456789031C /* StatsProblemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsProblemView.swift; sourceTree = "<group>"; };
-						A1234567890123456789032C /* HabitFrequencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitFrequencyView.swift; sourceTree = "<group>"; };
-						A1234567890123456789033C /* GoalSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingView.swift; sourceTree = "<group>"; };
-						A1234567890123456789034C /* StatsSolutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSolutionView.swift; sourceTree = "<group>"; };
-						A1234567890123456789035C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-						A1234567890123456789036C /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
-						A1234567890123456789037C /* CameraPermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionsView.swift; sourceTree = "<group>"; };
-						A1234567890123456789038C /* HowItWorksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksView.swift; sourceTree = "<group>"; };
-						A1234567890123456789039C /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
-						A1234567890123456789040C /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
-						A1234567890123456789041C /* DownsellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownsellView.swift; sourceTree = "<group>"; };
-						A1234567890123456789042C /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
-						A1234567890123456789043C /* FreeTierWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeTierWelcomeView.swift; sourceTree = "<group>"; };
-						A1234567890123456789044C /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
-						A1234567890123456789045C /* WorkModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkModeView.swift; sourceTree = "<group>"; };
-						A1234567890123456789046C /* SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryView.swift; sourceTree = "<group>"; };
-						A1234567890123456789047C /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
-						A1234567890123456789048C /* ProjectSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSetupView.swift; sourceTree = "<group>"; };
-						A1234567890123456789049C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-						A1234567890123456789050C /* PatternUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternUploadView.swift; sourceTree = "<group>"; };
-						A1234567890123456789052C /* HelpSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportView.swift; sourceTree = "<group>"; };
-						A1234567890123456789053C /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
-						A1234567890123456789054C /* ProfileEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditorView.swift; sourceTree = "<group>"; };
-						A1234567890123456789055C /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
-						A1234567890123456789056C /* CameraPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionManager.swift; sourceTree = "<group>"; };
-						A1234567890123456789057C /* EnhancedSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedSubscriptionView.swift; sourceTree = "<group>"; };
-						A1234567890123456789058C /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
-						A1234567890123456789059C /* FreeVsProComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeVsProComparisonView.swift; sourceTree = "<group>"; };
-						A1234567890123456789060C /* UpgradePrompts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradePrompts.swift; sourceTree = "<group>"; };
-						A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchDoctorDiagnosisView.swift; sourceTree = "<group>"; };
-						A1234567890123456789062C /* LoadingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreenView.swift; sourceTree = "<group>"; };
-						A1234567890123456789063C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-						A1234567890123456789064D /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
-						A1234567890123456789065D /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
-						A1234567890123456789069D /* GeminiVisionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiVisionService.swift; sourceTree = "<group>"; };
-						A1234567890123456789070D /* GeminiSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiSettingsView.swift; sourceTree = "<group>"; };
-						A1234567890123456789071D /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
-						A1234567890123456789072D /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
-						A1234567890123456789073D /* ProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectModel.swift; sourceTree = "<group>"; };
-						A1234567890123456789074D /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
-						A1234567890123456789075D /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
-						A1234567890123456789076D /* AnalyticsEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvents.swift; sourceTree = "<group>"; };
-						A1234567890123456789077D /* ProActivationConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProActivationConfirmationView.swift; sourceTree = "<group>"; };
-						A1234567890123456789078D /* StarterLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterLibraryService.swift; sourceTree = "<group>"; };
-						A1234567890123456789079D /* starter_library.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = starter_library.json; sourceTree = "<group>"; };
+		A1234567890123456789012B /* StitchVisionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchVisionApp.swift; sourceTree = "<group>"; };
+		A1234567890123456789012D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A1234567890123456789012F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A1234567890123456789013B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A1234567890123456789013C /* StitchVision.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StitchVision.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1234567890123456789020B /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		A1234567890123456789022B /* ProjectStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStore.swift; sourceTree = "<group>"; };
+		A1234567890123456789023B /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		A1234567890123456789024B /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		A1234567890123456789025B /* CraftSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CraftSelectionView.swift; sourceTree = "<group>"; };
+		A1234567890123456789026B /* SkillLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkillLevelView.swift; sourceTree = "<group>"; };
+		A1234567890123456789027B /* PlaceholderViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderViews.swift; sourceTree = "<group>"; };
+		A1234567890123456789028B /* YarnBallMascotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YarnBallMascotView.swift; sourceTree = "<group>"; };
+		A1234567890123456789029B /* FloatingConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingConfettiView.swift; sourceTree = "<group>"; };
+		A1234567890123456789030C /* StruggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StruggleView.swift; sourceTree = "<group>"; };
+		A1234567890123456789031C /* StatsProblemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsProblemView.swift; sourceTree = "<group>"; };
+		A1234567890123456789032C /* HabitFrequencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitFrequencyView.swift; sourceTree = "<group>"; };
+		A1234567890123456789033C /* GoalSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingView.swift; sourceTree = "<group>"; };
+		A1234567890123456789034C /* StatsSolutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSolutionView.swift; sourceTree = "<group>"; };
+		A1234567890123456789035C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		A1234567890123456789036C /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
+		A1234567890123456789037C /* CameraPermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789038C /* HowItWorksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksView.swift; sourceTree = "<group>"; };
+		A1234567890123456789039C /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789040C /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
+		A1234567890123456789041C /* DownsellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownsellView.swift; sourceTree = "<group>"; };
+		A1234567890123456789042C /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789043C /* FreeTierWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeTierWelcomeView.swift; sourceTree = "<group>"; };
+		A1234567890123456789044C /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
+		A1234567890123456789045C /* WorkModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkModeView.swift; sourceTree = "<group>"; };
+		A1234567890123456789046C /* SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryView.swift; sourceTree = "<group>"; };
+		A1234567890123456789047C /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
+		A1234567890123456789048C /* ProjectSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSetupView.swift; sourceTree = "<group>"; };
+		A1234567890123456789049C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789050C /* PatternUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternUploadView.swift; sourceTree = "<group>"; };
+		A1234567890123456789052C /* HelpSupportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportView.swift; sourceTree = "<group>"; };
+		A1234567890123456789053C /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789054C /* ProfileEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditorView.swift; sourceTree = "<group>"; };
+		A1234567890123456789055C /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		A1234567890123456789056C /* CameraPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionManager.swift; sourceTree = "<group>"; };
+		A1234567890123456789057C /* EnhancedSubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnhancedSubscriptionView.swift; sourceTree = "<group>"; };
+		A1234567890123456789058C /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		A1234567890123456789059C /* FreeVsProComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeVsProComparisonView.swift; sourceTree = "<group>"; };
+		A1234567890123456789060C /* UpgradePrompts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradePrompts.swift; sourceTree = "<group>"; };
+		A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchDoctorDiagnosisView.swift; sourceTree = "<group>"; };
+		A1234567890123456789062C /* LoadingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingScreenView.swift; sourceTree = "<group>"; };
+		A1234567890123456789063C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1234567890123456789064D /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		A1234567890123456789065D /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		A1234567890123456789069D /* GeminiVisionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiVisionService.swift; sourceTree = "<group>"; };
+		A1234567890123456789070D /* GeminiSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiSettingsView.swift; sourceTree = "<group>"; };
+		A1234567890123456789071D /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		A1234567890123456789072D /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		A1234567890123456789073D /* ProjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectModel.swift; sourceTree = "<group>"; };
+		A1234567890123456789074D /* SessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionModel.swift; sourceTree = "<group>"; };
+		A1234567890123456789075D /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		A1234567890123456789076D /* AnalyticsEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvents.swift; sourceTree = "<group>"; };
+		A1234567890123456789077D /* ProActivationConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProActivationConfirmationView.swift; sourceTree = "<group>"; };
+		A1234567890123456789078D /* StarterLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterLibraryService.swift; sourceTree = "<group>"; };
+		A1234567890123456789079D /* starter_library.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = starter_library.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-						A1234567890123456789013D /* Frameworks */ = {
+		A1234567890123456789013D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -231,39 +231,39 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-						A1234567890123456789013E /* StitchVision */ = {
+		A1234567890123456789013E /* StitchVision */ = {
 			isa = PBXGroup;
 			children = (
 				88E402DD2F73D064002E2481 /* Resources */,
-								A1234567890123456789012B /* StitchVisionApp.swift */,
-								A1234567890123456789012D /* ContentView.swift */,
-								A1234567890123456789063C /* Info.plist */,
-								A1234567890123456789013F /* Models */,
-								A1234567890123456789014A /* Views */,
-								A1234567890123456789014B /* ViewModels */,
-								A1234567890123456789014C /* Services */,
-								A1234567890123456789075E /* Database */,
-								A1234567890123456789012F /* Assets.xcassets */,
-								A1234567890123456789014D /* Preview Content */,
+				A1234567890123456789012B /* StitchVisionApp.swift */,
+				A1234567890123456789012D /* ContentView.swift */,
+				A1234567890123456789063C /* Info.plist */,
+				A1234567890123456789013F /* Models */,
+				A1234567890123456789014A /* Views */,
+				A1234567890123456789014B /* ViewModels */,
+				A1234567890123456789014C /* Services */,
+				A1234567890123456789075E /* Database */,
+				A1234567890123456789012F /* Assets.xcassets */,
+				A1234567890123456789014D /* Preview Content */,
 			);
 			path = StitchVision;
 			sourceTree = "<group>";
 		};
-						A1234567890123456789013F /* Models */ = {
+		A1234567890123456789013F /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				88E4029F2F73CAB6002E2481 /* KnittingPattern.swift */,
 				88E402A02F73CAB6002E2481 /* RowSegment.swift */,
 				88E402A12F73CAB6002E2481 /* Subscription.swift */,
-								A1234567890123456789020B /* AppState.swift */,
-								A1234567890123456789072D /* UserProfile.swift */,
-								A1234567890123456789073D /* ProjectModel.swift */,
-								A1234567890123456789074D /* SessionModel.swift */,
+				A1234567890123456789020B /* AppState.swift */,
+				A1234567890123456789072D /* UserProfile.swift */,
+				A1234567890123456789073D /* ProjectModel.swift */,
+				A1234567890123456789074D /* SessionModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-						A1234567890123456789014A /* Views */ = {
+		A1234567890123456789014A /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				88E4028D2F73CA5D002E2481 /* AbbreviationGlossaryView.swift */,
@@ -271,35 +271,35 @@
 				88E4028F2F73CA5D002E2481 /* PatternImportView.swift */,
 				88E402902F73CA5D002E2481 /* PatternLibraryView.swift */,
 				88E402912F73CA5D002E2481 /* StitchBotChatView.swift */,
-								A1234567890123456789023B /* SplashView.swift */,
-								A1234567890123456789024B /* DashboardView.swift */,
-								A1234567890123456789045C /* WorkModeView.swift */,
-								A1234567890123456789046C /* SessionSummaryView.swift */,
-								A1234567890123456789047C /* ProjectDetailView.swift */,
-								A1234567890123456789048C /* ProjectSetupView.swift */,
-								A1234567890123456789049C /* SettingsView.swift */,
-								A1234567890123456789050C /* PatternUploadView.swift */,
-								A1234567890123456789052C /* HelpSupportView.swift */,
-								A1234567890123456789053C /* NotificationsView.swift */,
-								A1234567890123456789054C /* ProfileEditorView.swift */,
-								A1234567890123456789027B /* PlaceholderViews.swift */,
-								A1234567890123456789030A /* Onboarding */,
-								A1234567890123456789064A /* Subscription */,
-								A1234567890123456789065A /* WorkMode */,
-								A1234567890123456789031A /* Shared */,
+				A1234567890123456789023B /* SplashView.swift */,
+				A1234567890123456789024B /* DashboardView.swift */,
+				A1234567890123456789045C /* WorkModeView.swift */,
+				A1234567890123456789046C /* SessionSummaryView.swift */,
+				A1234567890123456789047C /* ProjectDetailView.swift */,
+				A1234567890123456789048C /* ProjectSetupView.swift */,
+				A1234567890123456789049C /* SettingsView.swift */,
+				A1234567890123456789050C /* PatternUploadView.swift */,
+				A1234567890123456789052C /* HelpSupportView.swift */,
+				A1234567890123456789053C /* NotificationsView.swift */,
+				A1234567890123456789054C /* ProfileEditorView.swift */,
+				A1234567890123456789027B /* PlaceholderViews.swift */,
+				A1234567890123456789030A /* Onboarding */,
+				A1234567890123456789064A /* Subscription */,
+				A1234567890123456789065A /* WorkMode */,
+				A1234567890123456789031A /* Shared */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-						A1234567890123456789014B /* ViewModels */ = {
+		A1234567890123456789014B /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-								A1234567890123456789022B /* ProjectStore.swift */,
+				A1234567890123456789022B /* ProjectStore.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-						A1234567890123456789014C /* Services */ = {
+		A1234567890123456789014C /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				88E402B52F73CC76002E2481 /* AchievementService.swift */,
@@ -314,31 +314,31 @@
 				88E402BE2F73CC76002E2481 /* StitchBotService.swift */,
 				88E402BF2F73CC76002E2481 /* SubscriptionManager.swift */,
 				88E402C02F73CC76002E2481 /* VoiceCommandManager.swift */,
-								A1234567890123456789055C /* UserDefaultsManager.swift */,
-								A1234567890123456789056C /* CameraPermissionManager.swift */,
-								A1234567890123456789064D /* CameraManager.swift */,
-								A1234567890123456789069D /* GeminiVisionService.swift */,
+				A1234567890123456789055C /* UserDefaultsManager.swift */,
+				A1234567890123456789056C /* CameraPermissionManager.swift */,
+				A1234567890123456789064D /* CameraManager.swift */,
+				A1234567890123456789069D /* GeminiVisionService.swift */,
 				88E402EE2F83688F002E2481 /* KeychainManager.swift */,
-								A1234567890123456789075D /* ThemeManager.swift */,
-								A1234567890123456789076D /* AnalyticsEvents.swift */,
-								A1234567890123456789078D /* StarterLibraryService.swift */,
+				A1234567890123456789075D /* ThemeManager.swift */,
+				A1234567890123456789076D /* AnalyticsEvents.swift */,
+				A1234567890123456789078D /* StarterLibraryService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-						A1234567890123456789014D /* Preview Content */ = {
+		A1234567890123456789014D /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-								A1234567890123456789013B /* Preview Assets.xcassets */,
+				A1234567890123456789013B /* Preview Assets.xcassets */,
 				88E402D72F73D016002E2481 /* Contents.json */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-						A1234567890123456789014E /* Products */ = {
+		A1234567890123456789014E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-								A1234567890123456789013C /* StitchVision.app */,
+				A1234567890123456789013C /* StitchVision.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -346,78 +346,78 @@
 		A1234567890123456789014F = {
 			isa = PBXGroup;
 			children = (
-								A1234567890123456789013E /* StitchVision */,
-								A1234567890123456789014E /* Products */,
+				A1234567890123456789013E /* StitchVision */,
+				A1234567890123456789014E /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-						A1234567890123456789030A /* Onboarding */ = {
+		A1234567890123456789030A /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
 				88E402972F73CA73002E2481 /* PatternLibraryPreviewView.swift */,
 				88E402982F73CA73002E2481 /* ProGateView.swift */,
 				88E402992F73CA73002E2481 /* ValuePropCarouselView.swift */,
-								A1234567890123456789025B /* CraftSelectionView.swift */,
-								A1234567890123456789026B /* SkillLevelView.swift */,
-								A1234567890123456789030C /* StruggleView.swift */,
-								A1234567890123456789031C /* StatsProblemView.swift */,
-								A1234567890123456789032C /* HabitFrequencyView.swift */,
-								A1234567890123456789033C /* GoalSettingView.swift */,
-								A1234567890123456789034C /* StatsSolutionView.swift */,
-								A1234567890123456789035C /* LoadingView.swift */,
-								A1234567890123456789036C /* ResultView.swift */,
-								A1234567890123456789037C /* CameraPermissionsView.swift */,
-								A1234567890123456789038C /* HowItWorksView.swift */,
-								A1234567890123456789039C /* StatsView.swift */,
-								A1234567890123456789040C /* CalibrationView.swift */,
-								A1234567890123456789041C /* DownsellView.swift */,
-								A1234567890123456789042C /* PermissionsView.swift */,
-								A1234567890123456789043C /* FreeTierWelcomeView.swift */,
-								A1234567890123456789044C /* SubscriptionView.swift */,
+				A1234567890123456789025B /* CraftSelectionView.swift */,
+				A1234567890123456789026B /* SkillLevelView.swift */,
+				A1234567890123456789030C /* StruggleView.swift */,
+				A1234567890123456789031C /* StatsProblemView.swift */,
+				A1234567890123456789032C /* HabitFrequencyView.swift */,
+				A1234567890123456789033C /* GoalSettingView.swift */,
+				A1234567890123456789034C /* StatsSolutionView.swift */,
+				A1234567890123456789035C /* LoadingView.swift */,
+				A1234567890123456789036C /* ResultView.swift */,
+				A1234567890123456789037C /* CameraPermissionsView.swift */,
+				A1234567890123456789038C /* HowItWorksView.swift */,
+				A1234567890123456789039C /* StatsView.swift */,
+				A1234567890123456789040C /* CalibrationView.swift */,
+				A1234567890123456789041C /* DownsellView.swift */,
+				A1234567890123456789042C /* PermissionsView.swift */,
+				A1234567890123456789043C /* FreeTierWelcomeView.swift */,
+				A1234567890123456789044C /* SubscriptionView.swift */,
 				A1234567890123456789077D /* ProActivationConfirmationView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-						A1234567890123456789031A /* Shared */ = {
+		A1234567890123456789031A /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				88E402D22F73CECF002E2481 /* Charts */,
 				88E402A52F73CAF7002E2481 /* PatternProgressOverlay.swift */,
 				88E402A62F73CAF7002E2481 /* ProBadgeView.swift */,
-								A1234567890123456789028B /* YarnBallMascotView.swift */,
-								A1234567890123456789029B /* FloatingConfettiView.swift */,
-								A1234567890123456789062C /* LoadingScreenView.swift */,
-								A1234567890123456789065D /* CameraPreviewView.swift */,
+				A1234567890123456789028B /* YarnBallMascotView.swift */,
+				A1234567890123456789029B /* FloatingConfettiView.swift */,
+				A1234567890123456789062C /* LoadingScreenView.swift */,
+				A1234567890123456789065D /* CameraPreviewView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
 		};
-						A1234567890123456789064A /* Subscription */ = {
+		A1234567890123456789064A /* Subscription */ = {
 			isa = PBXGroup;
 			children = (
 				88E4029D2F73CA95002E2481 /* PaywallView.swift */,
-								A1234567890123456789057C /* EnhancedSubscriptionView.swift */,
-								A1234567890123456789058C /* AuthenticationView.swift */,
-								A1234567890123456789059C /* FreeVsProComparisonView.swift */,
-								A1234567890123456789060C /* UpgradePrompts.swift */,
+				A1234567890123456789057C /* EnhancedSubscriptionView.swift */,
+				A1234567890123456789058C /* AuthenticationView.swift */,
+				A1234567890123456789059C /* FreeVsProComparisonView.swift */,
+				A1234567890123456789060C /* UpgradePrompts.swift */,
 			);
 			path = Subscription;
 			sourceTree = "<group>";
 		};
-						A1234567890123456789065A /* WorkMode */ = {
+		A1234567890123456789065A /* WorkMode */ = {
 			isa = PBXGroup;
 			children = (
-								A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */,
-								A1234567890123456789070D /* GeminiSettingsView.swift */,
+				A1234567890123456789061C /* StitchDoctorDiagnosisView.swift */,
+				A1234567890123456789070D /* GeminiSettingsView.swift */,
 			);
 			path = WorkMode;
 			sourceTree = "<group>";
 		};
-						A1234567890123456789075E /* Database */ = {
+		A1234567890123456789075E /* Database */ = {
 			isa = PBXGroup;
 			children = (
-								A1234567890123456789071D /* DatabaseManager.swift */,
+				A1234567890123456789071D /* DatabaseManager.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -425,13 +425,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-						A1234567890123456789015A /* StitchVision */ = {
+		A1234567890123456789015A /* StitchVision */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 				A1234567890123456789015B /* Build configuration list for PBXNativeTarget "StitchVision" */;
+			buildConfigurationList = A1234567890123456789015B /* Build configuration list for PBXNativeTarget "StitchVision" */;
 			buildPhases = (
-								A1234567890123456789015C /* Sources */,
-								A1234567890123456789013D /* Frameworks */,
-								A1234567890123456789015D /* Resources */,
+				A1234567890123456789015C /* Sources */,
+				A1234567890123456789013D /* Frameworks */,
+				A1234567890123456789015D /* Resources */,
 			);
 			buildRules = (
 			);
@@ -439,13 +439,13 @@
 			);
 			name = StitchVision;
 			productName = StitchVision;
-			productReference = 				A1234567890123456789013C /* StitchVision.app */;
+			productReference = A1234567890123456789013C /* StitchVision.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-						A1234567890123456789015E /* Project object */ = {
+		A1234567890123456789015E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
@@ -457,7 +457,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 				A1234567890123456789015F /* Build configuration list for PBXProject "StitchVision" */;
+			buildConfigurationList = A1234567890123456789015F /* Build configuration list for PBXProject "StitchVision" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -466,22 +466,22 @@
 				Base,
 			);
 			mainGroup = A1234567890123456789014F;
-			productRefGroup = 				A1234567890123456789014E /* Products */;
+			productRefGroup = A1234567890123456789014E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-								A1234567890123456789015A /* StitchVision */,
+				A1234567890123456789015A /* StitchVision */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-						A1234567890123456789015D /* Resources */ = {
+		A1234567890123456789015D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-								A1234567890123456789013A /* Preview Assets.xcassets in Resources */,
-								A1234567890123456789012E /* Assets.xcassets in Resources */,
+				A1234567890123456789013A /* Preview Assets.xcassets in Resources */,
+				A1234567890123456789012E /* Assets.xcassets in Resources */,
 				88E402D82F73D016002E2481 /* Contents.json in Resources */,
 				88E402DE2F73D064002E2481 /* Products.storekit in Resources */,
 				88E402DF2F73D064002E2481 /* abbreviations.json in Resources */,
@@ -492,22 +492,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-						A1234567890123456789015C /* Sources */ = {
+		A1234567890123456789015C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-								A1234567890123456789012C /* ContentView.swift in Sources */,
-								A1234567890123456789012A /* StitchVisionApp.swift in Sources */,
-								A1234567890123456789020A /* AppState.swift in Sources */,
-								A1234567890123456789022A /* ProjectStore.swift in Sources */,
-								A1234567890123456789023A /* SplashView.swift in Sources */,
-								A1234567890123456789024A /* DashboardView.swift in Sources */,
-								A1234567890123456789025A /* CraftSelectionView.swift in Sources */,
-								A1234567890123456789026A /* SkillLevelView.swift in Sources */,
-								A1234567890123456789027A /* PlaceholderViews.swift in Sources */,
-								A1234567890123456789028A /* YarnBallMascotView.swift in Sources */,
-								A1234567890123456789029A /* FloatingConfettiView.swift in Sources */,
-								A1234567890123456789030B /* StruggleView.swift in Sources */,
+				A1234567890123456789012C /* ContentView.swift in Sources */,
+				A1234567890123456789012A /* StitchVisionApp.swift in Sources */,
+				A1234567890123456789020A /* AppState.swift in Sources */,
+				A1234567890123456789022A /* ProjectStore.swift in Sources */,
+				A1234567890123456789023A /* SplashView.swift in Sources */,
+				A1234567890123456789024A /* DashboardView.swift in Sources */,
+				A1234567890123456789025A /* CraftSelectionView.swift in Sources */,
+				A1234567890123456789026A /* SkillLevelView.swift in Sources */,
+				A1234567890123456789027A /* PlaceholderViews.swift in Sources */,
+				A1234567890123456789028A /* YarnBallMascotView.swift in Sources */,
+				A1234567890123456789029A /* FloatingConfettiView.swift in Sources */,
+				A1234567890123456789030B /* StruggleView.swift in Sources */,
 				88E402C12F73CC76002E2481 /* FeedbackController.swift in Sources */,
 				88E402C22F73CC76002E2481 /* MotionAnalyzer.swift in Sources */,
 				88E402C32F73CC76002E2481 /* AICoachProService.swift in Sources */,
@@ -520,72 +520,72 @@
 				88E402CA2F73CC76002E2481 /* SubscriptionManager.swift in Sources */,
 				88E402CB2F73CC76002E2481 /* VoiceCommandManager.swift in Sources */,
 				88E402CC2F73CC76002E2481 /* OpticalFlowDetector.swift in Sources */,
-								A1234567890123456789031B /* StatsProblemView.swift in Sources */,
-								A1234567890123456789032B /* HabitFrequencyView.swift in Sources */,
-								A1234567890123456789033B /* GoalSettingView.swift in Sources */,
-								A1234567890123456789034B /* StatsSolutionView.swift in Sources */,
+				A1234567890123456789031B /* StatsProblemView.swift in Sources */,
+				A1234567890123456789032B /* HabitFrequencyView.swift in Sources */,
+				A1234567890123456789033B /* GoalSettingView.swift in Sources */,
+				A1234567890123456789034B /* StatsSolutionView.swift in Sources */,
 				88E4029E2F73CA95002E2481 /* PaywallView.swift in Sources */,
-								A1234567890123456789035B /* LoadingView.swift in Sources */,
-								A1234567890123456789036B /* ResultView.swift in Sources */,
-								A1234567890123456789037B /* CameraPermissionsView.swift in Sources */,
-								A1234567890123456789038B /* HowItWorksView.swift in Sources */,
-								A1234567890123456789039B /* StatsView.swift in Sources */,
-								A1234567890123456789040B /* CalibrationView.swift in Sources */,
-								A1234567890123456789041B /* DownsellView.swift in Sources */,
-								A1234567890123456789042B /* PermissionsView.swift in Sources */,
-								A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */,
-								A1234567890123456789044B /* SubscriptionView.swift in Sources */,
-								A1234567890123456789045B /* WorkModeView.swift in Sources */,
-								A1234567890123456789046B /* SessionSummaryView.swift in Sources */,
-								A1234567890123456789047B /* ProjectDetailView.swift in Sources */,
-								A1234567890123456789048B /* ProjectSetupView.swift in Sources */,
-								A1234567890123456789049B /* SettingsView.swift in Sources */,
-								A1234567890123456789050B /* PatternUploadView.swift in Sources */,
-								A1234567890123456789052B /* HelpSupportView.swift in Sources */,
-								A1234567890123456789053B /* NotificationsView.swift in Sources */,
-								A1234567890123456789054B /* ProfileEditorView.swift in Sources */,
-								A1234567890123456789055B /* UserDefaultsManager.swift in Sources */,
-								A1234567890123456789056B /* CameraPermissionManager.swift in Sources */,
-								A1234567890123456789057B /* EnhancedSubscriptionView.swift in Sources */,
-								A1234567890123456789058B /* AuthenticationView.swift in Sources */,
-								A1234567890123456789059B /* FreeVsProComparisonView.swift in Sources */,
-								A1234567890123456789060B /* UpgradePrompts.swift in Sources */,
+				A1234567890123456789035B /* LoadingView.swift in Sources */,
+				A1234567890123456789036B /* ResultView.swift in Sources */,
+				A1234567890123456789037B /* CameraPermissionsView.swift in Sources */,
+				A1234567890123456789038B /* HowItWorksView.swift in Sources */,
+				A1234567890123456789039B /* StatsView.swift in Sources */,
+				A1234567890123456789040B /* CalibrationView.swift in Sources */,
+				A1234567890123456789041B /* DownsellView.swift in Sources */,
+				A1234567890123456789042B /* PermissionsView.swift in Sources */,
+				A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */,
+				A1234567890123456789044B /* SubscriptionView.swift in Sources */,
+				A1234567890123456789045B /* WorkModeView.swift in Sources */,
+				A1234567890123456789046B /* SessionSummaryView.swift in Sources */,
+				A1234567890123456789047B /* ProjectDetailView.swift in Sources */,
+				A1234567890123456789048B /* ProjectSetupView.swift in Sources */,
+				A1234567890123456789049B /* SettingsView.swift in Sources */,
+				A1234567890123456789050B /* PatternUploadView.swift in Sources */,
+				A1234567890123456789052B /* HelpSupportView.swift in Sources */,
+				A1234567890123456789053B /* NotificationsView.swift in Sources */,
+				A1234567890123456789054B /* ProfileEditorView.swift in Sources */,
+				A1234567890123456789055B /* UserDefaultsManager.swift in Sources */,
+				A1234567890123456789056B /* CameraPermissionManager.swift in Sources */,
+				A1234567890123456789057B /* EnhancedSubscriptionView.swift in Sources */,
+				A1234567890123456789058B /* AuthenticationView.swift in Sources */,
+				A1234567890123456789059B /* FreeVsProComparisonView.swift in Sources */,
+				A1234567890123456789060B /* UpgradePrompts.swift in Sources */,
 				88E402922F73CA5D002E2481 /* AbbreviationGlossaryView.swift in Sources */,
 				88E402EF2F83688F002E2481 /* KeychainManager.swift in Sources */,
 				88E402932F73CA5D002E2481 /* PatternImportView.swift in Sources */,
 				88E402942F73CA5D002E2481 /* AnalyticsView.swift in Sources */,
 				88E402952F73CA5D002E2481 /* PatternLibraryView.swift in Sources */,
 				88E402962F73CA5D002E2481 /* StitchBotChatView.swift in Sources */,
-								A1234567890123456789061B /* StitchDoctorDiagnosisView.swift in Sources */,
+				A1234567890123456789061B /* StitchDoctorDiagnosisView.swift in Sources */,
 				88E402A72F73CAF7002E2481 /* PatternProgressOverlay.swift in Sources */,
 				88E402A82F73CAF7002E2481 /* ProBadgeView.swift in Sources */,
-								A1234567890123456789062B /* LoadingScreenView.swift in Sources */,
+				A1234567890123456789062B /* LoadingScreenView.swift in Sources */,
 				88E402A22F73CAB6002E2481 /* KnittingPattern.swift in Sources */,
 				88E402A32F73CAB6002E2481 /* RowSegment.swift in Sources */,
 				88E402A42F73CAB6002E2481 /* Subscription.swift in Sources */,
 				88E4029A2F73CA73002E2481 /* ValuePropCarouselView.swift in Sources */,
 				88E4029B2F73CA73002E2481 /* PatternLibraryPreviewView.swift in Sources */,
 				88E4029C2F73CA73002E2481 /* ProGateView.swift in Sources */,
-								A1234567890123456789064B /* CameraManager.swift in Sources */,
+				A1234567890123456789064B /* CameraManager.swift in Sources */,
 				88E402D32F73CECF002E2481 /* ChartComponents.swift in Sources */,
-								A1234567890123456789065B /* CameraPreviewView.swift in Sources */,
-								A1234567890123456789069B /* GeminiVisionService.swift in Sources */,
-								A1234567890123456789070B /* GeminiSettingsView.swift in Sources */,
-								A1234567890123456789071B /* DatabaseManager.swift in Sources */,
-								A1234567890123456789072B /* UserProfile.swift in Sources */,
-								A1234567890123456789073B /* ProjectModel.swift in Sources */,
-								A1234567890123456789074B /* SessionModel.swift in Sources */,
-								A1234567890123456789075B /* ThemeManager.swift in Sources */,
-								A1234567890123456789076B /* AnalyticsEvents.swift in Sources */,
-								A1234567890123456789077B /* ProActivationConfirmationView.swift in Sources */,
-								A1234567890123456789078B /* StarterLibraryService.swift in Sources */,
+				A1234567890123456789065B /* CameraPreviewView.swift in Sources */,
+				A1234567890123456789069B /* GeminiVisionService.swift in Sources */,
+				A1234567890123456789070B /* GeminiSettingsView.swift in Sources */,
+				A1234567890123456789071B /* DatabaseManager.swift in Sources */,
+				A1234567890123456789072B /* UserProfile.swift in Sources */,
+				A1234567890123456789073B /* ProjectModel.swift in Sources */,
+				A1234567890123456789074B /* SessionModel.swift in Sources */,
+				A1234567890123456789075B /* ThemeManager.swift in Sources */,
+				A1234567890123456789076B /* AnalyticsEvents.swift in Sources */,
+				A1234567890123456789077B /* ProActivationConfirmationView.swift in Sources */,
+				A1234567890123456789078B /* StarterLibraryService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-						A1234567890123456789016A /* Debug */ = {
+		A1234567890123456789016A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -648,7 +648,7 @@
 			};
 			name = Debug;
 		};
-						A1234567890123456789016B /* Release */ = {
+		A1234567890123456789016B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -704,7 +704,7 @@
 			};
 			name = Release;
 		};
-						A1234567890123456789016C /* Debug */ = {
+		A1234567890123456789016C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -733,7 +733,7 @@
 			};
 			name = Debug;
 		};
-						A1234567890123456789016D /* Release */ = {
+		A1234567890123456789016D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -765,25 +765,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-						A1234567890123456789015B /* Build configuration list for PBXNativeTarget "StitchVision" */ = {
+		A1234567890123456789015B /* Build configuration list for PBXNativeTarget "StitchVision" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-								A1234567890123456789016C /* Debug */,
-								A1234567890123456789016D /* Release */,
+				A1234567890123456789016C /* Debug */,
+				A1234567890123456789016D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-						A1234567890123456789015F /* Build configuration list for PBXProject "StitchVision" */ = {
+		A1234567890123456789015F /* Build configuration list for PBXProject "StitchVision" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-								A1234567890123456789016A /* Debug */,
-								A1234567890123456789016B /* Release */,
+				A1234567890123456789016A /* Debug */,
+				A1234567890123456789016B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 				A1234567890123456789015E /* Project object */;
+	rootObject = A1234567890123456789015E /* Project object */;
 }
