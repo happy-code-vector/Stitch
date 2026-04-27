@@ -10,29 +10,63 @@ struct CraftSelectionView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                // Progress bar (step 3 of 8)
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        Rectangle()
-                            .fill(Color.white.opacity(0.5))
-                            .frame(height: 6)
-                        Rectangle()
-                            .fill(ThemeColors.primary)
-                            .frame(width: animateElements ? geo.size.width * (3.0/8.0) : geo.size.width * (2.0/8.0), height: 6)
-                            .clipShape(RoundedRectangle(cornerRadius: 3))
-                            .animation(.easeOut(duration: 0.8), value: animateElements)
+            // Bottom decorative background (400px) with gradient fade — matching HTML design
+            VStack {
+                Spacer()
+                ZStack {
+                    // Decorative craft wall gradient
+                    LinearGradient(
+                        colors: [
+                            ThemeColors.background,
+                            Color(red: 0.596, green: 0.667, blue: 0.545).opacity(0.1),
+                            Color(red: 0.596, green: 0.667, blue: 0.545).opacity(0.2)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: 400)
+
+                    // Decorative circles mimicking colorful projects on wall
+                    HStack(spacing: 30) {
+                        Circle().fill(Color(red: 0.91, green: 0.478, blue: 0.365).opacity(0.12)).frame(width: 60, height: 60).offset(y: -30)
+                        Circle().fill(Color(red: 0.96, green: 0.75, blue: 0.15).opacity(0.1)).frame(width: 80, height: 80)
+                        Circle().fill(ThemeColors.primary.opacity(0.15)).frame(width: 50, height: 50).offset(y: 20)
+                        Circle().fill(Color(red: 0.93, green: 0.43, blue: 0.55).opacity(0.1)).frame(width: 70, height: 70).offset(y: -15)
                     }
                 }
-                .frame(height: 6)
+            }
 
-                // Back button
-                HStack {
-                    BackButton()
-                    Spacer()
+            // Main content
+            VStack(spacing: 0) {
+                // Progress bar (step 3 of 8) + Back button
+                HStack(spacing: 0) {
+                    Button(action: { appState.goBack() }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .frame(width: 40, height: 40)
+                    }
+
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.15))
+                                .frame(height: 6)
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                            Rectangle()
+                                .fill(ThemeColors.primary)
+                                .frame(width: geo.size.width * (3.0/8.0), height: 6)
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .animation(.easeOut(duration: 0.8), value: animateElements)
+                        }
+                    }
+                    .frame(height: 6)
+                    .padding(.horizontal, 16)
+
+                    Color.clear.frame(width: 40)
                 }
+                .padding(.top, 60)
                 .padding(.horizontal, 24)
-                .padding(.top, 12)
 
                 Spacer()
 
@@ -41,14 +75,14 @@ struct CraftSelectionView: View {
                     .font(.system(size: 28, weight: .bold))
                     .foregroundColor(ThemeColors.textPrimary)
                     .multilineTextAlignment(.center)
-                    .padding(.horizontal, 32)
-                    .padding(.bottom, 40)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 48)
                     .opacity(animateElements ? 1.0 : 0.0)
                     .offset(y: animateElements ? 0 : -20)
                     .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
 
-                // Craft cards — large vertical cards with icons
-                VStack(spacing: 20) {
+                // Craft cards — large vertical rounded cards with icons
+                VStack(spacing: 24) {
                     CraftLargeCard(
                         craftType: "knitting",
                         label: "Knitting",
@@ -56,7 +90,9 @@ struct CraftSelectionView: View {
                         isSelected: selectedCraft == "knitting",
                         delay: 0.2
                     ) {
-                        selectedCraft = "knitting"
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            selectedCraft = "knitting"
+                        }
                     }
 
                     CraftLargeCard(
@@ -66,7 +102,9 @@ struct CraftSelectionView: View {
                         isSelected: selectedCraft == "crochet",
                         delay: 0.3
                     ) {
-                        selectedCraft = "crochet"
+                        withAnimation(.easeInOut(duration: 0.2)) {
+                            selectedCraft = "crochet"
+                        }
                     }
                 }
                 .padding(.horizontal, 48)
@@ -79,7 +117,7 @@ struct CraftSelectionView: View {
                     appState.navigateTo(.skill)
                 }) {
                     Text("Continue")
-                        .font(.headline)
+                        .font(.system(size: 18, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 18)
@@ -88,12 +126,12 @@ struct CraftSelectionView: View {
                             ? ThemeColors.primary
                             : Color.gray.opacity(0.5)
                         )
-                        .cornerRadius(28)
+                        .clipShape(RoundedRectangle(cornerRadius: 28))
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
                 .disabled(selectedCraft == nil)
                 .padding(.horizontal, 32)
-                .padding(.bottom, 50)
+                .padding(.bottom, 48)
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
@@ -121,9 +159,9 @@ struct CraftLargeCard: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
                         .fill(ThemeColors.primary.opacity(0.1))
-                        .frame(width: 80, height: 80)
+                        .frame(width: 96, height: 96)
                     Image(systemName: iconSystemName)
-                        .font(.system(size: 36))
+                        .font(.system(size: 40))
                         .foregroundColor(isSelected ? ThemeColors.primary : ThemeColors.textSecondary)
                 }
 
@@ -134,6 +172,7 @@ struct CraftLargeCard: View {
             .frame(maxWidth: .infinity)
             .padding(.vertical, 32)
             .background(Color.white.opacity(0.95))
+            .background(.ultraThinMaterial)
             .clipShape(RoundedRectangle(cornerRadius: 40))
             .overlay(
                 RoundedRectangle(cornerRadius: 40)

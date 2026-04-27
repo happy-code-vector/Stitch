@@ -8,43 +8,66 @@ struct CameraPermissionsView: View {
 
     var body: some View {
         ZStack {
+            // Full-screen subtle background at 10% opacity — matching HTML
             ThemeColors.background
                 .ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                // Progress bar (step 6 of 8 = 7/8 filled)
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        Rectangle()
-                            .fill(Color.white.opacity(0.5))
-                            .frame(height: 6)
-                        Rectangle()
-                            .fill(ThemeColors.primary)
-                            .frame(width: animateElements ? geo.size.width * (7.0/8.0) : geo.size.width * (6.0/8.0), height: 6)
-                            .clipShape(RoundedRectangle(cornerRadius: 3))
-                            .animation(.easeOut(duration: 0.8), value: animateElements)
-                    }
-                }
-                .frame(height: 6)
+            ZStack {
+                Circle()
+                    .fill(ThemeColors.primary.opacity(0.06))
+                    .frame(width: 500, height: 500)
+                    .offset(x: -80, y: -300)
+                Circle()
+                    .fill(Color(red: 0.96, green: 0.75, blue: 0.15).opacity(0.04))
+                    .frame(width: 400, height: 400)
+                    .offset(x: 100, y: 250)
+                Circle()
+                    .fill(ThemeColors.primary.opacity(0.05))
+                    .frame(width: 300, height: 300)
+                    .offset(x: -120, y: 150)
+            }
 
-                // Back button
-                HStack {
-                    BackButton()
-                    Spacer()
+            VStack(spacing: 0) {
+                // Progress bar (step 6 of 8 = 7/8) + Back button
+                HStack(spacing: 0) {
+                    Button(action: { appState.goBack() }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .frame(width: 40, height: 40)
+                    }
+
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.15))
+                                .frame(height: 6)
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                            Rectangle()
+                                .fill(ThemeColors.primary)
+                                .frame(width: geo.size.width * (7.0/8.0), height: 6)
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .animation(.easeOut(duration: 0.8), value: animateElements)
+                        }
+                    }
+                    .frame(height: 6)
+                    .padding(.horizontal, 16)
+
+                    Color.clear.frame(width: 40)
                 }
+                .padding(.top, 60)
                 .padding(.horizontal, 24)
-                .padding(.top, 12)
 
                 ScrollView {
                     VStack(spacing: 0) {
-                        // Mascot
+                        // Mascot — white circle with camera icon
                         ZStack {
                             Circle()
                                 .fill(Color.white)
                                 .frame(width: 128, height: 128)
-                                .shadow(color: .black.opacity(0.12), radius: 20, x: 0, y: 8)
+                                .shadow(color: .black.opacity(0.15), radius: 24, x: 0, y: 8)
                             Image(systemName: "camera.viewfinder")
-                                .font(.system(size: 48))
+                                .font(.system(size: 52))
                                 .foregroundColor(ThemeColors.primary)
                         }
                         .padding(.top, 32)
@@ -62,6 +85,7 @@ struct CameraPermissionsView: View {
                                 .font(.body)
                                 .foregroundColor(ThemeColors.textSecondary)
                                 .multilineTextAlignment(.center)
+                                .lineSpacing(4)
                         }
                         .padding(.horizontal, 32)
                         .opacity(animateElements ? 1.0 : 0.0)
@@ -69,15 +93,15 @@ struct CameraPermissionsView: View {
                         .animation(.easeOut(duration: 0.6).delay(0.3), value: animateElements)
 
                         // Feature list
-                        VStack(spacing: 20) {
+                        VStack(spacing: 24) {
                             FeatureBullet(icon: "eye", text: "AI-powered stitch counting", delay: 0.4)
                             FeatureBullet(icon: "shield.checkered", text: "Automatic error detection", delay: 0.5)
                             FeatureBullet(icon: "bolt.fill", text: "Real-time progress tracking", delay: 0.6)
                         }
                         .padding(.horizontal, 40)
-                        .padding(.top, 32)
+                        .padding(.top, 40)
 
-                        // Privacy notice
+                        // Privacy notice card
                         HStack(spacing: 12) {
                             Image(systemName: "lock.fill")
                                 .font(.system(size: 18))
@@ -90,9 +114,11 @@ struct CameraPermissionsView: View {
                                 Text("Images are processed locally on your device. Nothing is stored or shared.")
                                     .font(.system(size: 12))
                                     .foregroundColor(ThemeColors.textSecondary)
+                                    .lineSpacing(2)
                             }
                         }
-                        .padding(16)
+                        .padding(20)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .background(Color.white.opacity(0.8))
                         .clipShape(RoundedRectangle(cornerRadius: 16))
                         .overlay(
@@ -100,25 +126,26 @@ struct CameraPermissionsView: View {
                                 .stroke(Color.gray.opacity(0.1), lineWidth: 1)
                         )
                         .padding(.horizontal, 24)
-                        .padding(.top, 32)
+                        .padding(.top, 40)
                         .opacity(animateElements ? 1.0 : 0.0)
                         .offset(y: animateElements ? 0 : 20)
                         .animation(.easeOut(duration: 0.6).delay(0.7), value: animateElements)
                     }
+                    .padding(.bottom, 40)
                 }
 
                 // Action buttons
-                VStack(spacing: 8) {
+                VStack(spacing: 0) {
                     Button(action: {
                         handleCameraPermission()
                     }) {
                         Text(cameraManager.isPermissionGranted ? "Continue" : "Enable Camera")
-                            .font(.headline)
+                            .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 18)
                             .background(ThemeColors.primary)
-                            .cornerRadius(28)
+                            .clipShape(RoundedRectangle(cornerRadius: 28))
                             .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                     }
 
@@ -126,13 +153,13 @@ struct CameraPermissionsView: View {
                         appState.navigateTo(.subscription)
                     }) {
                         Text("Maybe Later")
-                            .font(.headline)
+                            .font(.system(size: 16, weight: .medium))
                             .foregroundColor(ThemeColors.textSecondary)
                     }
-                    .padding(.vertical, 8)
+                    .padding(.top, 12)
                 }
                 .padding(.horizontal, 32)
-                .padding(.bottom, 50)
+                .padding(.bottom, 48)
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.9), value: animateElements)
@@ -156,7 +183,6 @@ struct CameraPermissionsView: View {
         switch cameraManager.permissionStatus {
         case .granted:
             appState.navigateTo(.subscription)
-
         case .notDetermined:
             cameraManager.requestCameraPermission { granted in
                 if granted {
@@ -165,10 +191,8 @@ struct CameraPermissionsView: View {
                     showingSettingsAlert = true
                 }
             }
-
         case .denied:
             showingSettingsAlert = true
-
         case .restricted:
             showingSettingsAlert = true
         }

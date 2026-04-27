@@ -7,32 +7,56 @@ struct StatsProblemView: View {
 
     var body: some View {
         ZStack {
+            // Full-screen subtle background texture (10% opacity image effect)
             ThemeColors.background
                 .ignoresSafeArea()
 
-            VStack(spacing: 0) {
-                // Progress bar (step 2 of 8)
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        Rectangle()
-                            .fill(Color.white.opacity(0.5))
-                            .frame(height: 6)
-                        Rectangle()
-                            .fill(ThemeColors.primary)
-                            .frame(width: animateStats ? geo.size.width * (2.0/8.0) : geo.size.width * (1.0/8.0), height: 6)
-                            .clipShape(RoundedRectangle(cornerRadius: 3))
-                            .animation(.easeOut(duration: 0.8), value: animateStats)
-                    }
-                }
-                .frame(height: 6)
+            ZStack {
+                // Decorative craft room background at 10% opacity
+                Circle()
+                    .fill(ThemeColors.primary.opacity(0.06))
+                    .frame(width: 500, height: 500)
+                    .offset(x: -80, y: -200)
+                Circle()
+                    .fill(Color(red: 0.91, green: 0.478, blue: 0.365).opacity(0.04))
+                    .frame(width: 400, height: 400)
+                    .offset(x: 100, y: 300)
+                Circle()
+                    .fill(ThemeColors.primary.opacity(0.05))
+                    .frame(width: 300, height: 300)
+                    .offset(x: -120, y: 200)
+            }
 
-                // Back button
-                HStack {
-                    BackButton()
-                    Spacer()
+            VStack(spacing: 0) {
+                // Progress bar (step 2 of 8) + Back button
+                HStack(spacing: 0) {
+                    Button(action: { appState.goBack() }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                            .frame(width: 40, height: 40)
+                    }
+
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.15))
+                                .frame(height: 6)
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                            Rectangle()
+                                .fill(ThemeColors.primary)
+                                .frame(width: geo.size.width * (2.0/8.0), height: 6)
+                                .clipShape(RoundedRectangle(cornerRadius: 3))
+                                .animation(.easeOut(duration: 0.8), value: animateStats)
+                        }
+                    }
+                    .frame(height: 6)
+                    .padding(.horizontal, 16)
+
+                    Color.clear.frame(width: 40)
                 }
+                .padding(.top, 60)
                 .padding(.horizontal, 24)
-                .padding(.top, 12)
 
                 ScrollView {
                     VStack(spacing: 0) {
@@ -41,20 +65,22 @@ struct StatsProblemView: View {
                             Text("You're Not Alone")
                                 .font(.system(size: 28, weight: .bold))
                                 .foregroundColor(ThemeColors.textPrimary)
+                                .multilineTextAlignment(.center)
 
                             Text("Crafting has its challenges, but we've got you.")
                                 .font(.body)
                                 .foregroundColor(ThemeColors.textSecondary)
+                                .multilineTextAlignment(.center)
                         }
-                        .padding(.horizontal, 32)
-                        .padding(.top, 32)
-                        .padding(.bottom, 32)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 40)
+                        .padding(.bottom, 40)
                         .opacity(animateElements ? 1.0 : 0.0)
                         .offset(y: animateElements ? 0 : -20)
                         .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
 
                         // Stat cards
-                        VStack(spacing: 12) {
+                        VStack(spacing: 16) {
                             StatCard(
                                 icon: "timer",
                                 value: "4+ Hours",
@@ -86,7 +112,8 @@ struct StatsProblemView: View {
                                 .font(.system(size: 28))
                                 .foregroundColor(ThemeColors.primary)
                         }
-                        .padding(20)
+                        .padding(24)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         .background(Color(red: 0.929, green: 0.957, blue: 0.918).opacity(0.8))
                         .clipShape(RoundedRectangle(cornerRadius: 24))
                         .overlay(
@@ -94,7 +121,7 @@ struct StatsProblemView: View {
                                 .stroke(ThemeColors.primary.opacity(0.2), lineWidth: 1)
                         )
                         .padding(.horizontal, 24)
-                        .padding(.top, 40)
+                        .padding(.top, 48)
                         .opacity(animateStats ? 1.0 : 0.0)
                         .offset(y: animateStats ? 0 : 20)
                         .animation(.easeOut(duration: 0.6).delay(0.8), value: animateStats)
@@ -107,16 +134,16 @@ struct StatsProblemView: View {
                     appState.navigateTo(.craft)
                 }) {
                     Text("Continue")
-                        .font(.headline)
+                        .font(.system(size: 18, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 18)
                         .background(ThemeColors.primary)
-                        .cornerRadius(28)
+                        .clipShape(RoundedRectangle(cornerRadius: 28))
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
                 .padding(.horizontal, 32)
-                .padding(.bottom, 50)
+                .padding(.bottom, 48)
             }
         }
         .onAppear {
@@ -159,6 +186,7 @@ struct StatCard: View {
         }
         .padding(20)
         .background(Color.white.opacity(0.8))
+        .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 24))
         .overlay(
             RoundedRectangle(cornerRadius: 24)
