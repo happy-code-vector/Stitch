@@ -16,23 +16,27 @@ struct StruggleView: View {
                 .ignoresSafeArea()
 
             // Top decorative background image area (300px) with gradient fade
-            VStack {
-                ZStack(alignment: .top) {
-                    Image("frustration_bg")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 300)
-                        .clipped()
+            GeometryReader { geo in
+                VStack {
+                    ZStack(alignment: .top) {
+                        Image("frustration_bg")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: geo.size.width, height: 300)
+                            .clipped()
 
-                    LinearGradient(
-                        colors: [.clear, ThemeColors.background],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 300)
+                        LinearGradient(
+                            colors: [.clear, ThemeColors.background],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .frame(height: 300)
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
 
             // Main content
             VStack(spacing: 0) {

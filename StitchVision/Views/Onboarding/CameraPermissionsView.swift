@@ -10,12 +10,12 @@ struct CameraPermissionsView: View {
         ZStack {
             // Full-screen subtle background at 10% opacity — matching HTML
             ThemeColors.background
-                .ignoresSafeArea()
-
-            Image("camera_bg")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .opacity(0.1)
+                .background(
+                    Image("camera_bg")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .opacity(0.1)
+                )
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {

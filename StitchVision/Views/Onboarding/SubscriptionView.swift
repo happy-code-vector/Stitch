@@ -22,28 +22,32 @@ struct SubscriptionView: View {
                 .ignoresSafeArea()
 
             // Top background image area (400px) with gradient overlay
-            VStack {
-                ZStack(alignment: .top) {
-                    Image("paywall_bg")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 400)
-                        .clipped()
+            GeometryReader { geo in
+                VStack {
+                    ZStack(alignment: .top) {
+                        Image("paywall_bg")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: geo.size.width, height: 400)
+                            .clipped()
 
-                    // Dark overlay gradient matching HTML: from-black/40 via-white/20 to-white
-                    LinearGradient(
-                        colors: [
-                            Color.black.opacity(0.4),
-                            Color.white.opacity(0.2),
-                            Color.white.opacity(0)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 400)
+                        // Dark overlay gradient matching HTML: from-black/40 via-white/20 to-white
+                        LinearGradient(
+                            colors: [
+                                Color.black.opacity(0.4),
+                                Color.white.opacity(0.2),
+                                Color.white.opacity(0)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .frame(height: 400)
+                    }
+                    Spacer()
                 }
-                Spacer()
             }
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
 
             // Main content
             VStack(spacing: 0) {

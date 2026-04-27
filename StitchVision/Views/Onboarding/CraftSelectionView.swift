@@ -11,23 +11,27 @@ struct CraftSelectionView: View {
                 .ignoresSafeArea()
 
             // Bottom decorative background (400px) with gradient fade
-            VStack {
-                Spacer()
-                ZStack(alignment: .bottom) {
-                    Image("craft_bg")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 400)
-                        .clipped()
+            GeometryReader { geo in
+                VStack {
+                    Spacer()
+                    ZStack(alignment: .bottom) {
+                        Image("craft_bg")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: geo.size.width, height: 400)
+                            .clipped()
 
-                    LinearGradient(
-                        colors: [ThemeColors.background, .clear],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 400)
+                        LinearGradient(
+                            colors: [ThemeColors.background, .clear],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                        .frame(height: 400)
+                    }
                 }
             }
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
 
             // Main content
             VStack(spacing: 0) {

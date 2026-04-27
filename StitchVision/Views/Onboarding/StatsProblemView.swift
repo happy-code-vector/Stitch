@@ -9,12 +9,12 @@ struct StatsProblemView: View {
         ZStack {
             // Full-screen subtle background texture (10% opacity image effect)
             ThemeColors.background
-                .ignoresSafeArea()
-
-            Image("empathy_bg")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .opacity(0.1)
+                .background(
+                    Image("empathy_bg")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .opacity(0.1)
+                )
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {

@@ -15,12 +15,12 @@ struct GoalSettingView: View {
         ZStack {
             // Full-screen subtle background at 10% opacity — matching HTML
             ThemeColors.background
-                .ignoresSafeArea()
-
-            Image("goal_bg")
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .opacity(0.1)
+                .background(
+                    Image("goal_bg")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .opacity(0.1)
+                )
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
