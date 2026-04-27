@@ -11,21 +11,11 @@ struct StatsProblemView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
-            ZStack {
-                // Decorative craft room background at 10% opacity
-                Circle()
-                    .fill(ThemeColors.primary.opacity(0.06))
-                    .frame(width: 500, height: 500)
-                    .offset(x: -80, y: -200)
-                Circle()
-                    .fill(Color(red: 0.91, green: 0.478, blue: 0.365).opacity(0.04))
-                    .frame(width: 400, height: 400)
-                    .offset(x: 100, y: 300)
-                Circle()
-                    .fill(ThemeColors.primary.opacity(0.05))
-                    .frame(width: 300, height: 300)
-                    .offset(x: -120, y: 200)
-            }
+            Image("empathy_bg")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .opacity(0.1)
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 // Progress bar (step 2 of 8) + Back button

@@ -10,29 +10,22 @@ struct CraftSelectionView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
-            // Bottom decorative background (400px) with gradient fade — matching HTML design
+            // Bottom decorative background (400px) with gradient fade
             VStack {
                 Spacer()
-                ZStack {
-                    // Decorative craft wall gradient
+                ZStack(alignment: .bottom) {
+                    Image("craft_bg")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 400)
+                        .clipped()
+
                     LinearGradient(
-                        colors: [
-                            ThemeColors.background,
-                            Color(red: 0.596, green: 0.667, blue: 0.545).opacity(0.1),
-                            Color(red: 0.596, green: 0.667, blue: 0.545).opacity(0.2)
-                        ],
+                        colors: [ThemeColors.background, .clear],
                         startPoint: .top,
                         endPoint: .bottom
                     )
                     .frame(height: 400)
-
-                    // Decorative circles mimicking colorful projects on wall
-                    HStack(spacing: 30) {
-                        Circle().fill(Color(red: 0.91, green: 0.478, blue: 0.365).opacity(0.12)).frame(width: 60, height: 60).offset(y: -30)
-                        Circle().fill(Color(red: 0.96, green: 0.75, blue: 0.15).opacity(0.1)).frame(width: 80, height: 80)
-                        Circle().fill(ThemeColors.primary.opacity(0.15)).frame(width: 50, height: 50).offset(y: 20)
-                        Circle().fill(Color(red: 0.93, green: 0.43, blue: 0.55).opacity(0.1)).frame(width: 70, height: 70).offset(y: -15)
-                    }
                 }
             }
 
@@ -86,7 +79,7 @@ struct CraftSelectionView: View {
                     CraftLargeCard(
                         craftType: "knitting",
                         label: "Knitting",
-                        iconSystemName: "scissors",
+                        iconName: "knitting_icon",
                         isSelected: selectedCraft == "knitting",
                         delay: 0.2
                     ) {
@@ -98,7 +91,7 @@ struct CraftSelectionView: View {
                     CraftLargeCard(
                         craftType: "crochet",
                         label: "Crochet",
-                        iconSystemName: "flowchart.fill",
+                        iconName: "crochet_icon",
                         isSelected: selectedCraft == "crochet",
                         delay: 0.3
                     ) {
@@ -146,7 +139,7 @@ struct CraftSelectionView: View {
 struct CraftLargeCard: View {
     let craftType: String
     let label: String
-    let iconSystemName: String
+    let iconName: String
     let isSelected: Bool
     let delay: Double
     let onTap: () -> Void
@@ -156,14 +149,10 @@ struct CraftLargeCard: View {
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 16) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(ThemeColors.primary.opacity(0.1))
-                        .frame(width: 96, height: 96)
-                    Image(systemName: iconSystemName)
-                        .font(.system(size: 40))
-                        .foregroundColor(isSelected ? ThemeColors.primary : ThemeColors.textSecondary)
-                }
+                Image(iconName)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 96, height: 96)
 
                 Text(label)
                     .font(.system(size: 20, weight: .bold))

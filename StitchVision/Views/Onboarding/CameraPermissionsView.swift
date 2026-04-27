@@ -12,20 +12,11 @@ struct CameraPermissionsView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
-            ZStack {
-                Circle()
-                    .fill(ThemeColors.primary.opacity(0.06))
-                    .frame(width: 500, height: 500)
-                    .offset(x: -80, y: -300)
-                Circle()
-                    .fill(Color(red: 0.96, green: 0.75, blue: 0.15).opacity(0.04))
-                    .frame(width: 400, height: 400)
-                    .offset(x: 100, y: 250)
-                Circle()
-                    .fill(ThemeColors.primary.opacity(0.05))
-                    .frame(width: 300, height: 300)
-                    .offset(x: -120, y: 150)
-            }
+            Image("camera_bg")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .opacity(0.1)
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 // Progress bar (step 6 of 8 = 7/8) + Back button
@@ -61,15 +52,11 @@ struct CameraPermissionsView: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         // Mascot — white circle with camera icon
-                        ZStack {
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 128, height: 128)
-                                .shadow(color: .black.opacity(0.15), radius: 24, x: 0, y: 8)
-                            Image(systemName: "camera.viewfinder")
-                                .font(.system(size: 52))
-                                .foregroundColor(ThemeColors.primary)
-                        }
+                        Image("camera_mascot")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 128, height: 128)
+                            .shadow(color: .black.opacity(0.15), radius: 24, x: 0, y: 8)
                         .padding(.top, 32)
                         .padding(.bottom, 32)
                         .scaleEffect(animateElements ? 1.0 : 0.8)

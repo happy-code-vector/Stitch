@@ -17,20 +17,11 @@ struct SkillLevelView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
-            ZStack {
-                Circle()
-                    .fill(ThemeColors.primary.opacity(0.06))
-                    .frame(width: 450, height: 450)
-                    .offset(x: 100, y: -250)
-                Circle()
-                    .fill(Color(red: 0.96, green: 0.75, blue: 0.15).opacity(0.04))
-                    .frame(width: 350, height: 350)
-                    .offset(x: -100, y: 200)
-                Circle()
-                    .fill(Color(red: 0.22, green: 0.75, blue: 0.39).opacity(0.05))
-                    .frame(width: 280, height: 280)
-                    .offset(x: 80, y: 350)
-            }
+            Image("skill_bg")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .opacity(0.1)
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 // Progress bar (step 4 of 8) + Back button

@@ -17,34 +17,19 @@ struct StruggleView: View {
 
             // Top decorative background image area (300px) with gradient fade
             VStack {
-                ZStack {
-                    // Decorative craft-themed gradient background
+                ZStack(alignment: .top) {
+                    Image("frustration_bg")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 300)
+                        .clipped()
+
                     LinearGradient(
-                        colors: [
-                            Color(red: 0.596, green: 0.667, blue: 0.545).opacity(0.3),
-                            Color(red: 0.596, green: 0.667, blue: 0.545).opacity(0.15),
-                            ThemeColors.background
-                        ],
+                        colors: [.clear, ThemeColors.background],
                         startPoint: .top,
                         endPoint: .bottom
                     )
                     .frame(height: 300)
-
-                    // Decorative yarn/needle shapes
-                    HStack(spacing: 40) {
-                        Circle()
-                            .fill(ThemeColors.primary.opacity(0.12))
-                            .frame(width: 80, height: 80)
-                            .offset(y: 30)
-                        Circle()
-                            .fill(ThemeColors.primary.opacity(0.08))
-                            .frame(width: 120, height: 120)
-                            .offset(y: -10)
-                        Circle()
-                            .fill(ThemeColors.primary.opacity(0.1))
-                            .frame(width: 60, height: 60)
-                            .offset(y: 40)
-                    }
                 }
                 Spacer()
             }

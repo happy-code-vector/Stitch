@@ -17,20 +17,11 @@ struct GoalSettingView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
-            ZStack {
-                Circle()
-                    .fill(ThemeColors.primary.opacity(0.06))
-                    .frame(width: 500, height: 500)
-                    .offset(x: -100, y: -300)
-                Circle()
-                    .fill(Color(red: 0.93, green: 0.30, blue: 0.30).opacity(0.04))
-                    .frame(width: 350, height: 350)
-                    .offset(x: 120, y: 100)
-                Circle()
-                    .fill(Color(red: 0.96, green: 0.75, blue: 0.15).opacity(0.05))
-                    .frame(width: 300, height: 300)
-                    .offset(x: -80, y: 300)
-            }
+            Image("goal_bg")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .opacity(0.1)
+                .ignoresSafeArea()
 
             VStack(spacing: 0) {
                 // Progress bar (step 5 of 8) + Back button

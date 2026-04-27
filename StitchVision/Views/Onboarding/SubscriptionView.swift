@@ -21,34 +21,16 @@ struct SubscriptionView: View {
             Color.white
                 .ignoresSafeArea()
 
-            // Top background image area (400px) with gradient overlay — matching HTML exactly
+            // Top background image area (400px) with gradient overlay
             VStack {
-                ZStack {
-                    // Craft-themed gradient mimicking the yarn shelf photo
-                    LinearGradient(
-                        colors: [
-                            Color(red: 0.35, green: 0.45, blue: 0.30),
-                            Color(red: 0.45, green: 0.55, blue: 0.38),
-                            Color(red: 0.55, green: 0.62, blue: 0.48),
-                            Color(red: 0.65, green: 0.72, blue: 0.58),
-                            Color.white.opacity(0.2),
-                            Color.white
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 400)
+                ZStack(alignment: .top) {
+                    Image("paywall_bg")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 400)
+                        .clipped()
 
-                    // Decorative yarn ball shapes
-                    HStack(spacing: 20) {
-                        Circle().fill(Color(red: 0.91, green: 0.478, blue: 0.365).opacity(0.3)).frame(width: 50, height: 50).offset(y: 20)
-                        Circle().fill(Color(red: 0.96, green: 0.75, blue: 0.15).opacity(0.25)).frame(width: 70, height: 70).offset(y: -30)
-                        Circle().fill(ThemeColors.primary.opacity(0.3)).frame(width: 55, height: 55).offset(y: 10)
-                        Circle().fill(Color(red: 0.93, green: 0.43, blue: 0.55).opacity(0.2)).frame(width: 45, height: 45).offset(y: -15)
-                        Circle().fill(Color(red: 0.55, green: 0.75, blue: 0.90).opacity(0.25)).frame(width: 60, height: 60).offset(y: 25)
-                    }
-
-                    // Dark overlay at top (matching from-black/40)
+                    // Dark overlay gradient matching HTML: from-black/40 via-white/20 to-white
                     LinearGradient(
                         colors: [
                             Color.black.opacity(0.4),
@@ -58,6 +40,7 @@ struct SubscriptionView: View {
                         startPoint: .top,
                         endPoint: .bottom
                     )
+                    .frame(height: 400)
                 }
                 Spacer()
             }
