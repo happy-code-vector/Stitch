@@ -205,47 +205,49 @@ struct CalibrationView: View {
                     .padding(.horizontal, 16)
                     
                     // CTA Button
-                    if calibrationComplete {
-                        Button(action: {
-                            feedbackController.provideFeedback(.calibrationSuccess)
-                            StitchAnalytics.calibrationSucceeded(durationSeconds: 30, craftType: appState.selectedCraft ?? "knitting")
-                            appState.completeOnboarding()
-                        }) {
-                            Text("Calibration Complete!")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(Color(red: 0.788, green: 0.427, blue: 0.373))
-                                .cornerRadius(25)
-                                .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
-                        }
-                        .padding(.horizontal, 32)
-                    } else if isCalibrating {
-                        Text("Detecting turns... \(detectedTurns)/\(requiredTurns)")
-                            .font(.headline)
-                            .foregroundColor(.white.opacity(0.8))
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(Color.black.opacity(0.4))
-                            .cornerRadius(25)
+                    Group {
+                        if calibrationComplete {
+                            Button(action: {
+                                feedbackController.provideFeedback(.calibrationSuccess)
+                                StitchAnalytics.calibrationSucceeded(durationSeconds: 30, craftType: appState.selectedCraft ?? "knitting")
+                                appState.completeOnboarding()
+                            }) {
+                                Text("Calibration Complete!")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
+                                    .background(Color(red: 0.788, green: 0.427, blue: 0.373))
+                                    .cornerRadius(25)
+                                    .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                            }
                             .padding(.horizontal, 32)
-                    } else {
-                        Button(action: {
-                            isCalibrating = true
-                            StitchAnalytics.calibrationStarted(craftType: appState.selectedCraft ?? "knitting")
-                            startCalibrationSimulation()
-                        }) {
-                            Text("Start Calibration")
+                        } else if isCalibrating {
+                            Text("Detecting turns... \(detectedTurns)/\(requiredTurns)")
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundColor(.white.opacity(0.8))
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
-                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .background(Color.black.opacity(0.4))
                                 .cornerRadius(25)
-                                .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                                .padding(.horizontal, 32)
+                        } else {
+                            Button(action: {
+                                isCalibrating = true
+                                StitchAnalytics.calibrationStarted(craftType: appState.selectedCraft ?? "knitting")
+                                startCalibrationSimulation()
+                            }) {
+                                Text("Start Calibration")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
+                                    .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .cornerRadius(25)
+                                    .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                            }
+                            .padding(.horizontal, 32)
                         }
-                        .padding(.horizontal, 32)
                     }
                     .opacity(animateElements ? 1.0 : 0.0)
                     .offset(y: animateElements ? 0 : 20)

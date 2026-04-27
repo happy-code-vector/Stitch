@@ -514,9 +514,9 @@ struct WorkModeView: View {
 
         if !subscriptionManager.isPro {
             subscriptionManager.incrementStitchDoctorUsage()
-            StitchAnalytics.stitchDoctorUsed(isPro: false)
+            StitchAnalytics.stitchDoctorUsed(isPro: false, remainingUses: 0, resultType: "started")
         } else {
-            StitchAnalytics.stitchDoctorUsed(isPro: true)
+            StitchAnalytics.stitchDoctorUsed(isPro: true, remainingUses: 0, resultType: "started")
         }
 
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
