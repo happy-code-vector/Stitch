@@ -131,6 +131,7 @@ struct StruggleView: View {
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
             }
             }
+        }
         .onAppear {
             animateElements = true
         }
