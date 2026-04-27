@@ -143,22 +143,18 @@ class SubscriptionManager: ObservableObject {
     func checkSubscriptionStatus() async {
         var foundActiveSubscription = false
 
-        do {
-            for await result in Transaction.currentEntitlements {
-                switch result {
-                case .verified(let transaction):
-                    if transaction.productID == Self.monthlyProID ||
-                       transaction.productID == Self.yearlyProID {
-                        await updateSubscription(from: transaction)
-                        foundActiveSubscription = true
-                        return
-                    }
-                case .unverified:
-                    continue
+        for await result in Transaction.currentEntitlements {
+            switch result {
+            case .verified(let transaction):
+                if transaction.productID == Self.monthlyProID ||
+                   transaction.productID == Self.yearlyProID {
+                    await updateSubscription(from: transaction)
+                    foundActiveSubscription = true
+                    return
                 }
+            case .unverified:
+                continue
             }
-        } catch {
-            print("[SubscriptionManager] checkSubscriptionStatus error: \(error)")
         }
 
         // Only reset to free if we definitively found no active

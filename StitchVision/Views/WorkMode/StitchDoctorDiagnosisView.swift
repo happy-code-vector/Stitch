@@ -114,7 +114,7 @@ struct StitchDoctorDiagnosisView: View {
             }
         }
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: isOpen)
-        .onChange(of: isOpen) { newValue in
+        .onChange(of: isOpen) { _, newValue in
             if newValue {
                 animateElements = true
             } else {

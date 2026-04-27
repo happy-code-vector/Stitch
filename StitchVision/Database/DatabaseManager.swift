@@ -565,7 +565,7 @@ class DatabaseManager {
 
         // Bind image data as blob
         let imageData = pattern.imageData
-        imageData.withUnsafeBytes { ptr in
+        let _ = imageData.withUnsafeBytes { ptr in
             sqlite3_bind_blob(statement, 3, ptr.baseAddress, Int32(imageData.count), nil)
         }
 

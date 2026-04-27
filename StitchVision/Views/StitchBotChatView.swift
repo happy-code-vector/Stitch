@@ -118,7 +118,7 @@ struct StitchBotChatView: View {
                 }
                 .padding()
             }
-            .onChange(of: service.messages.count) { _ in
+            .onChange(of: service.messages.count) { _, _ in
                 if let lastMessage = service.messages.last {
                     withAnimation {
                         proxy.scrollTo(lastMessage.id, anchor: .bottom)

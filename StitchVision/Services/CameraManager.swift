@@ -127,8 +127,14 @@ class CameraManager: NSObject, ObservableObject {
             
             // Set video orientation
             if let connection = videoDataOutput.connection(with: .video) {
-                if connection.isVideoOrientationSupported {
-                    connection.videoOrientation = .portrait
+                if #available(iOS 17.0, *) {
+                    if connection.isVideoRotationAngleSupported {
+                        connection.videoRotationAngle = 0
+                    }
+                } else {
+                    if connection.isVideoOrientationSupported {
+                        connection.videoOrientation = .portrait
+                    }
                 }
             }
         }
