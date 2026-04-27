@@ -18,6 +18,7 @@ struct StatsProblemView: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
 
+            GeometryReader { _ in
             VStack(spacing: 0) {
                 // Back button + Progress bar (step 2 of 8) — one row
                 HStack(spacing: 0) {
@@ -130,6 +131,7 @@ struct StatsProblemView: View {
                 }
                 .padding(.horizontal, 32)
                 .padding(.bottom, 50)
+            }
             }
         }
         .onAppear {

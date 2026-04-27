@@ -12,6 +12,7 @@ struct StruggleView: View {
 
     var body: some View {
         ZStack {
+            
             ThemeColors.background
                 .ignoresSafeArea()
 
@@ -34,8 +35,9 @@ struct StruggleView: View {
             .ignoresSafeArea()
             .allowsHitTesting(false)
 
-            VStack(spacing: 0) {
-                // Back button + Progress bar (step 1 of 8) — one row
+            GeometryReader { _ in
+                VStack(spacing: 0) {
+                    // Back button + Progress bar (step 1 of 8) — one row
                 HStack(spacing: 0) {
                     Button(action: { appState.goBack() }) {
                         Image(systemName: "chevron.left")
@@ -128,7 +130,7 @@ struct StruggleView: View {
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
             }
-        }
+            }
         .onAppear {
             animateElements = true
         }

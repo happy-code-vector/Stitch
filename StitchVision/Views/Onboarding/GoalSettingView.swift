@@ -24,6 +24,7 @@ struct GoalSettingView: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
 
+            GeometryReader { _ in
             VStack(spacing: 0) {
                 // Back button + Progress bar (step 5 of 8) — one row
                 HStack(spacing: 0) {
@@ -109,6 +110,7 @@ struct GoalSettingView: View {
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.5), value: animateElements)
+            }
             }
         }
         .onAppear {

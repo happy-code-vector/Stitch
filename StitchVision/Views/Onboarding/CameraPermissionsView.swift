@@ -19,6 +19,7 @@ struct CameraPermissionsView: View {
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
 
+            GeometryReader { _ in
             VStack(spacing: 0) {
                 // Back button + Progress bar (step 6 of 8) — one row
                 HStack(spacing: 0) {
@@ -149,6 +150,7 @@ struct CameraPermissionsView: View {
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.9), value: animateElements)
+            }
             }
         }
         .onAppear {
