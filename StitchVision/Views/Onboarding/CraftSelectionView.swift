@@ -6,31 +6,7 @@ struct CraftSelectionView: View {
     @State private var animateElements = false
 
     var body: some View {
-        ZStack(alignment: .top) {
-            ThemeColors.background
-                .ignoresSafeArea()
-                .overlay(
-                    VStack {
-                        Spacer()
-                        Image("craft_bg")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 400)
-                            .clipped()
-                            .overlay(
-                                LinearGradient(
-                                    colors: [ThemeColors.background, .clear],
-                                    startPoint: .top,
-                                    endPoint: .bottom
-                                )
-                            )
-                    }
-                    .ignoresSafeArea()
-                    .allowsHitTesting(false)
-                )
-
-            // Main content
-            VStack(spacing: 0) {
+        VStack(spacing: 0) {
                 // Progress bar (step 3 of 8) + Back button
                 HStack(spacing: 0) {
                     Button(action: { appState.goBack() }) {
@@ -58,7 +34,7 @@ struct CraftSelectionView: View {
 
                     Color.clear.frame(width: 40)
                 }
-                .padding(.top, 16)
+                
                 .padding(.horizontal, 24)
 
                 Spacer()
@@ -128,8 +104,29 @@ struct CraftSelectionView: View {
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
-            }
         }
+        .background(
+            ZStack {
+                ThemeColors.background.ignoresSafeArea()
+                VStack {
+                    Spacer()
+                    Image("craft_bg")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(height: 400)
+                        .clipped()
+                        .overlay(
+                            LinearGradient(
+                                colors: [ThemeColors.background, .clear],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                }
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+            }
+        )
         .onAppear {
             animateElements = true
         }

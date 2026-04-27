@@ -12,19 +12,7 @@ struct GoalSettingView: View {
     ]
 
     var body: some View {
-        ZStack(alignment: .top) {
-            // Full-screen subtle background at 10% opacity — matching HTML
-            ThemeColors.background
-                .overlay(
-                    Image("goal_bg")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .opacity(0.1)
-                        .ignoresSafeArea()
-                )
-                .ignoresSafeArea()
-
-            VStack(spacing: 0) {
+        VStack(spacing: 0) {
                 // Progress bar (step 5 of 8) + Back button
                 HStack(spacing: 0) {
                     Button(action: { appState.goBack() }) {
@@ -52,7 +40,7 @@ struct GoalSettingView: View {
 
                     Color.clear.frame(width: 40)
                 }
-                .padding(.top, 16)
+                
                 .padding(.horizontal, 24)
 
                 Spacer()
@@ -114,8 +102,18 @@ struct GoalSettingView: View {
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.5), value: animateElements)
             }
-        }
-        .onAppear {
+        .background(
+            ZStack {
+                ThemeColors.background.ignoresSafeArea()
+                Image("goal_bg")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .opacity(0.1)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+            }
+        )
+.onAppear {
             animateElements = true
         }
     }
