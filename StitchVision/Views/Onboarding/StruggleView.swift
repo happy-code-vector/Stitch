@@ -30,6 +30,7 @@ struct StruggleView: View {
                     )
                 Spacer()
             }
+            .ignoresSafeArea()
             .allowsHitTesting(false)
 
             VStack(spacing: 0) {
