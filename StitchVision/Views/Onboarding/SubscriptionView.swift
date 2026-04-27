@@ -27,14 +27,10 @@ struct SubscriptionView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(height: 400)
-                    .clipped()
+                    .clipped()                    
                     .overlay(
                         LinearGradient(
-                            colors: [
-                                Color.black.opacity(0.4),
-                                Color.white.opacity(0.2),
-                                Color.white.opacity(0)
-                            ],
+                            colors: [.clear, ThemeColors.background],
                             startPoint: .top,
                             endPoint: .bottom
                         )
