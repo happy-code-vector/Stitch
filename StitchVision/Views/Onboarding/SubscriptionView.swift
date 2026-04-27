@@ -21,6 +21,29 @@ struct SubscriptionView: View {
             Color.white
                 .ignoresSafeArea()
 
+            // Background image
+            VStack {
+                Image("paywall_bg")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 400)
+                    .clipped()
+                    .overlay(
+                        LinearGradient(
+                            colors: [
+                                Color.black.opacity(0.4),
+                                Color.white.opacity(0.2),
+                                Color.white.opacity(0)
+                            ],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                Spacer()
+            }
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
+
             VStack(spacing: 0) {
                 // Progress bar (step 7 of 8)
                 GeometryReader { geo in

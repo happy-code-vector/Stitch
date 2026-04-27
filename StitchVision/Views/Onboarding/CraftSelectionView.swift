@@ -10,6 +10,25 @@ struct CraftSelectionView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
+            // Background image
+            VStack {
+                Spacer()
+                Image("craft_bg")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 400)
+                    .clipped()
+                    .overlay(
+                        LinearGradient(
+                            colors: [ThemeColors.background, .clear],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+            }
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
+
             VStack(spacing: 0) {
                 // Progress bar (step 3 of 8)
                 GeometryReader { geo in

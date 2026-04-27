@@ -10,6 +10,14 @@ struct StatsProblemView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
+            // Background image
+            Image("empathy_bg")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .opacity(0.1)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+
             VStack(spacing: 0) {
                 // Progress bar (step 2 of 8)
                 GeometryReader { geo in

@@ -11,6 +11,14 @@ struct CameraPermissionsView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
+            // Background image
+            Image("camera_bg")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .opacity(0.1)
+                .ignoresSafeArea()
+                .allowsHitTesting(false)
+
             VStack(spacing: 0) {
                 // Progress bar (step 6 of 8)
                 GeometryReader { geo in

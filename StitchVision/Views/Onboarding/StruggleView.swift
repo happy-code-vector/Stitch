@@ -15,6 +15,25 @@ struct StruggleView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
+            // Background image
+            VStack {
+                Image("frustration_bg")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 300)
+                    .clipped()
+                    .overlay(
+                        LinearGradient(
+                            colors: [.clear, ThemeColors.background],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                Spacer()
+            }
+            .ignoresSafeArea()
+            .allowsHitTesting(false)
+
             VStack(spacing: 0) {
                 // Progress bar (step 1 of 8)
                 GeometryReader { geo in
