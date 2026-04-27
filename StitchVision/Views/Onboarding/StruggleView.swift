@@ -12,7 +12,6 @@ struct StruggleView: View {
 
     var body: some View {
         ZStack {
-            
             ThemeColors.background
                 .ignoresSafeArea()
 
@@ -35,28 +34,29 @@ struct StruggleView: View {
             .ignoresSafeArea()
             .allowsHitTesting(false)
 
-            GeometryReader { _ in
-                VStack(spacing: 0) {
-                    // Back button + Progress bar (step 1 of 8) — one row
-                HStack(spacing: 0) {
-                    Button(action: { appState.goBack() }) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 24))
-                            .foregroundColor(Color(red: 0.45, green: 0.45, blue: 0.45))
-                            .frame(width: 40, height: 40)
-                    }
-
-                    GeometryReader { geo in
+            VStack(spacing: 0) {
+                // Back button + Progress bar (step 1 of 8) — one row
+                GeometryReader { geo in
+                    HStack(spacing: 0) {
+                        Button(action: { appState.goBack() }) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 24))
+                                .foregroundColor(.gray)
+                                .frame(width: 40, height: 40)
+                        }
+                        
                         ZStack(alignment: .leading) {
-                            Capsule()
-                                .fill(Color(red: 0.898, green: 0.898, blue: 0.898).opacity(0.5))
+                            Rectangle()
+                                .fill(Color.gray.opacity(0.15))
                                 .frame(height: 6)
-                            Capsule()
+                                .clipShape(Capsule())
+                            Rectangle()
                                 .fill(ThemeColors.primary)
                                 .frame(width: animateElements ? geo.size.width * (1.0/8.0) : 0, height: 6)
+                                .clipShape(Capsule())
                                 .animation(.easeOut(duration: 0.8), value: animateElements)
                         }
-                    }
+                    }                    
                     .frame(height: 6)
                     .padding(.horizontal, 16)
 
@@ -130,7 +130,6 @@ struct StruggleView: View {
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
             }
-            }
         }
         .onAppear {
             animateElements = true
@@ -172,13 +171,13 @@ struct FrustrationCard: View {
                         .font(.system(size: 17, weight: .bold))
                         .foregroundColor(isSelected ? ThemeColors.primary : ThemeColors.textPrimary)
                     Text(description)
-                        .font(.system(size: 14))
+                        .font(.subheadline)
                         .foregroundColor(ThemeColors.textSecondary)
                 }
 
                 Spacer()
             }
-            .padding(24)
+            .padding(20)
             .background(Color.white.opacity(0.9))
             .clipShape(RoundedRectangle(cornerRadius: 24))
             .overlay(
