@@ -107,7 +107,7 @@ struct StatsProblemView: View {
                         
                         // CTA Button
                         Button(action: {
-                            appState.navigateTo(.habit)
+                            appState.navigateTo(.craft)
                         }) {
                             Text("Show Me the Solution")
                                 .font(.headline)

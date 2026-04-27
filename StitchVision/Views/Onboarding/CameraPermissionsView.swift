@@ -139,7 +139,7 @@ struct CameraPermissionsView: View {
                         .animation(.easeOut(duration: 0.6).delay(0.9), value: animateElements)
                         
                         Button(action: {
-                            appState.navigateTo(.freeTierWelcome)
+                            appState.navigateTo(.subscription)
                         }) {
                             Text("Maybe Later")
                                 .font(.headline)
@@ -183,12 +183,12 @@ struct CameraPermissionsView: View {
     private func handleCameraPermission() {
         switch cameraManager.permissionStatus {
         case .granted:
-            appState.completeOnboarding()
+            appState.navigateTo(.subscription)
 
         case .notDetermined:
             cameraManager.requestCameraPermission { granted in
                 if granted {
-                    appState.completeOnboarding()
+                    appState.navigateTo(.subscription)
                 } else {
                     showingSettingsAlert = true
                 }

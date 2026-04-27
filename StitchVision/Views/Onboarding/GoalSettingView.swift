@@ -77,7 +77,7 @@ struct GoalSettingView: View {
                 Button(action: {
                     // Save selected goal
                     appState.goal = selectedGoal
-                    appState.navigateTo(.patternLibraryPreview)
+                    appState.navigateTo(.cameraPermissions)
                 }) {
                     Text("Continue")
                         .font(.headline)

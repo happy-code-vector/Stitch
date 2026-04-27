@@ -96,6 +96,8 @@
 		A1234567890123456789077B /* ProActivationConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789077D /* ProActivationConfirmationView.swift */; };
 		A1234567890123456789078B /* StarterLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789078D /* StarterLibraryService.swift */; };
 		A1234567890123456789079B /* starter_library.json in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789079D /* starter_library.json */; };
+		A1234567890123456789080B /* LoopingVideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789080D /* LoopingVideoPlayerView.swift */; };
+		A1234567890123456789081B /* character.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789081D /* character.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -191,6 +193,8 @@
 		A1234567890123456789077D /* ProActivationConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProActivationConfirmationView.swift; sourceTree = "<group>"; };
 		A1234567890123456789078D /* StarterLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarterLibraryService.swift; sourceTree = "<group>"; };
 		A1234567890123456789079D /* starter_library.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = starter_library.json; sourceTree = "<group>"; };
+		A1234567890123456789080D /* LoopingVideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopingVideoPlayerView.swift; sourceTree = "<group>"; };
+		A1234567890123456789081D /* character.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file.mp4; path = character.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,6 +231,7 @@
 				88E402DA2F73D064002E2481 /* Data */,
 				88E402DB2F73D064002E2481 /* Products.storekit */,
 				88E402DC2F73D064002E2481 /* StitchVision.entitlements */,
+				A1234567890123456789081D /* character.mp4 */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -389,6 +394,7 @@
 				A1234567890123456789029B /* FloatingConfettiView.swift */,
 				A1234567890123456789062C /* LoadingScreenView.swift */,
 				A1234567890123456789065D /* CameraPreviewView.swift */,
+				A1234567890123456789080D /* LoopingVideoPlayerView.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -486,6 +492,7 @@
 				88E402DE2F73D064002E2481 /* Products.storekit in Resources */,
 				88E402DF2F73D064002E2481 /* abbreviations.json in Resources */,
 				A1234567890123456789079B /* starter_library.json in Resources */,
+				A1234567890123456789081B /* character.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,6 +586,7 @@
 				A1234567890123456789076B /* AnalyticsEvents.swift in Sources */,
 				A1234567890123456789077B /* ProActivationConfirmationView.swift in Sources */,
 				A1234567890123456789078B /* StarterLibraryService.swift in Sources */,
+				A1234567890123456789080B /* LoopingVideoPlayerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
