@@ -12,36 +12,33 @@ struct GoalSettingView: View {
     ]
 
     var body: some View {
-        VStack(spacing: 0) {
-                // Progress bar (step 5 of 8) + Back button
-                HStack(spacing: 0) {
-                    Button(action: { appState.goBack() }) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                            .frame(width: 40, height: 40)
-                    }
+        ZStack {
+            ThemeColors.background
+                .ignoresSafeArea()
 
-                    GeometryReader { geo in
-                        ZStack(alignment: .leading) {
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.15))
-                                .frame(height: 6)
-                                .clipShape(RoundedRectangle(cornerRadius: 3))
-                            Rectangle()
-                                .fill(ThemeColors.primary)
-                                .frame(width: geo.size.width * (5.0/8.0), height: 6)
-                                .clipShape(RoundedRectangle(cornerRadius: 3))
-                                .animation(.easeOut(duration: 0.8), value: animateElements)
-                        }
+            VStack(spacing: 0) {
+                // Progress bar (step 5 of 8)
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(height: 6)
+                        Rectangle()
+                            .fill(ThemeColors.primary)
+                            .frame(width: animateElements ? geo.size.width * (5.0/8.0) : 0, height: 6)
+                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                            .animation(.easeOut(duration: 0.8), value: animateElements)
                     }
-                    .frame(height: 6)
-                    .padding(.horizontal, 16)
-
-                    Color.clear.frame(width: 40)
                 }
-                
+                .frame(height: 6)
+
+                // Back button
+                HStack {
+                    BackButton()
+                    Spacer()
+                }
                 .padding(.horizontal, 24)
+                .padding(.top, 12)
 
                 Spacer()
 
@@ -83,7 +80,7 @@ struct GoalSettingView: View {
                     appState.navigateTo(.cameraPermissions)
                 }) {
                     Text("Continue")
-                        .font(.system(size: 18, weight: .bold))
+                        .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 18)
@@ -92,7 +89,7 @@ struct GoalSettingView: View {
                             ? ThemeColors.primary
                             : Color.gray.opacity(0.5)
                         )
-                        .clipShape(RoundedRectangle(cornerRadius: 28))
+                        .cornerRadius(28)
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
                 .disabled(selectedGoal == nil)
@@ -102,18 +99,8 @@ struct GoalSettingView: View {
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.5), value: animateElements)
             }
-        .background(
-            ZStack {
-                ThemeColors.background.ignoresSafeArea()
-                Image("goal_bg")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .opacity(0.1)
-                    .ignoresSafeArea()
-                    .allowsHitTesting(false)
-            }
-        )
-.onAppear {
+        }
+        .onAppear {
             animateElements = true
         }
     }

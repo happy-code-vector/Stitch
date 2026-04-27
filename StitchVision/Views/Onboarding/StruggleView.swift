@@ -15,92 +15,67 @@ struct StruggleView: View {
             ThemeColors.background
                 .ignoresSafeArea()
 
-            VStack {
-                Image("frustration_bg")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 300)
-                    .clipped()
-                    .overlay(
-                        LinearGradient(
-                            colors: [.clear, ThemeColors.background],
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                Spacer()
-            }
-            .ignoresSafeArea()
-            .allowsHitTesting(false)
-
             VStack(spacing: 0) {
-                // Progress bar (step 1 of 8) + Back button row
-                HStack(spacing: 0) {
-                    Button(action: { appState.goBack() }) {
-                        Image(systemName: "chevron.left")
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                            .frame(width: 40, height: 40)
+                // Progress bar (step 1 of 8)
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(height: 6)
+                        Rectangle()
+                            .fill(ThemeColors.primary)
+                            .frame(width: animateElements ? geo.size.width * (1.0/8.0) : 0, height: 6)
+                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                            .animation(.easeOut(duration: 0.8), value: animateElements)
                     }
+                }
+                .frame(height: 6)
 
-                    GeometryReader { barGeo in
-                        ZStack(alignment: .leading) {
-                            Rectangle()
-                                .fill(Color.gray.opacity(0.15))
-                                .frame(height: 6)
-                                .clipShape(RoundedRectangle(cornerRadius: 3))
-                            Rectangle()
-                                .fill(ThemeColors.primary)
-                                .frame(width: barGeo.size.width * (1.0/8.0), height: 6)
-                                .clipShape(RoundedRectangle(cornerRadius: 3))
-                                .animation(.easeOut(duration: 0.8), value: animateElements)
+                // Back button + progress
+                HStack {
+                    BackButton()
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 12)
+
+                Spacer()
+
+                // Header
+                VStack(spacing: 12) {
+                    Text("What frustrates you most?")
+                        .font(.system(size: 28, weight: .bold))
+                        .foregroundColor(ThemeColors.textPrimary)
+                        .multilineTextAlignment(.center)
+
+                    Text("Let's fix the things that hold you back")
+                        .font(.body)
+                        .foregroundColor(ThemeColors.textSecondary)
+                        .multilineTextAlignment(.center)
+                }
+                .padding(.horizontal, 32)
+                .opacity(animateElements ? 1.0 : 0.0)
+                .offset(y: animateElements ? 0 : -20)
+                .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
+
+                Spacer()
+
+                // Struggle options — 2 cards
+                VStack(spacing: 16) {
+                    ForEach(struggles, id: \.0) { struggle in
+                        FrustrationCard(
+                            id: struggle.0,
+                            title: struggle.1,
+                            description: struggle.2,
+                            isSelected: selectedStruggle == struggle.0
+                        ) {
+                            selectedStruggle = struggle.0
                         }
                     }
-                    .frame(height: 6)
-                    .padding(.horizontal, 16)
-
-                    Color.clear.frame(width: 40)
                 }
                 .padding(.horizontal, 24)
 
-                // Content area
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 0) {
-                        VStack(spacing: 12) {
-                            Text("What frustrates you most?")
-                                .font(.system(size: 28, weight: .bold))
-                                .foregroundColor(ThemeColors.textPrimary)
-                                .multilineTextAlignment(.center)
-
-                            Text("Let's fix the things that hold you back")
-                                .font(.body)
-                                .foregroundColor(ThemeColors.textSecondary)
-                                .multilineTextAlignment(.center)
-                        }
-                        .padding(.horizontal, 24)
-                        .padding(.top, 32)
-                        .padding(.bottom, 24)
-                        .opacity(animateElements ? 1.0 : 0.0)
-                        .offset(y: animateElements ? 0 : -20)
-                        .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
-
-                        VStack(spacing: 16) {
-                            ForEach(struggles, id: \.0) { struggle in
-                                FrustrationCard(
-                                    id: struggle.0,
-                                    title: struggle.1,
-                                    description: struggle.2,
-                                    isSelected: selectedStruggle == struggle.0
-                                ) {
-                                    withAnimation(.easeInOut(duration: 0.2)) {
-                                        selectedStruggle = struggle.0
-                                    }
-                                }
-                            }
-                        }
-                        .padding(.horizontal, 24)
-                    }
-                }
+                Spacer()
 
                 // Continue button
                 Button(action: {
@@ -110,7 +85,7 @@ struct StruggleView: View {
                     appState.navigateTo(.statsProblem)
                 }) {
                     Text("Continue")
-                        .font(.system(size: 18, weight: .bold))
+                        .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 18)
@@ -119,13 +94,12 @@ struct StruggleView: View {
                             ? ThemeColors.primary
                             : Color.gray.opacity(0.5)
                         )
-                        .clipShape(RoundedRectangle(cornerRadius: 28))
+                        .cornerRadius(28)
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
                 .disabled(selectedStruggle == nil)
                 .padding(.horizontal, 32)
-                .padding(.bottom, 32)
-                .padding(.top, 16)
+                .padding(.bottom, 50)
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
@@ -147,6 +121,7 @@ struct FrustrationCard: View {
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 16) {
+                // Radio indicator
                 ZStack {
                     Circle()
                         .stroke(
@@ -171,13 +146,13 @@ struct FrustrationCard: View {
                         .font(.system(size: 17, weight: .bold))
                         .foregroundColor(isSelected ? ThemeColors.primary : ThemeColors.textPrimary)
                     Text(description)
-                        .font(.system(size: 14))
+                        .font(.subheadline)
                         .foregroundColor(ThemeColors.textSecondary)
                 }
 
                 Spacer()
             }
-            .padding(24)
+            .padding(20)
             .background(Color.white.opacity(0.9))
             .clipShape(RoundedRectangle(cornerRadius: 24))
             .overlay(
