@@ -5,167 +5,141 @@ struct CameraPermissionsView: View {
     @StateObject private var cameraManager = CameraPermissionManager.shared
     @State private var animateElements = false
     @State private var showingSettingsAlert = false
-    @State private var animateProgress = false
-    
+
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-            // Progress bar
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .fill(Color.white.opacity(0.5))
-                        .frame(height: 4)
-                    Rectangle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                        .frame(width: animateProgress ? geo.size.width * 1.0 : geo.size.width * 0.875, height: 4)
-                        .clipShape(RoundedRectangle(cornerRadius: 2))
-                        .animation(.easeOut(duration: 0.8), value: animateProgress)
-                }
-            }
-            .frame(height: 4)
-
-            // Back button
-            HStack {
-                BackButton()
-                Spacer()
-            }
-            .padding(.horizontal, 24)
-            .padding(.top, 8)
-
-            ScrollView {
-                VStack(spacing: 32) {
-                    // Header
-                    VStack(spacing: 16) {
-                        Text("Camera Access")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                            .opacity(animateElements ? 1.0 : 0.0)
-                            .offset(y: animateElements ? 0 : -20)
-                            .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
-                        
-                        Text("StitchVision needs camera access to count your stitches and detect patterns")
-                            .font(.body)
-                            .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                            .multilineTextAlignment(.center)
-                            .opacity(animateElements ? 1.0 : 0.0)
-                            .offset(y: animateElements ? 0 : 10)
-                            .animation(.easeOut(duration: 0.6).delay(0.2), value: animateElements)
+                // Progress bar (step 6 of 8 = 7/8 filled)
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(height: 6)
+                        Rectangle()
+                            .fill(ThemeColors.primary)
+                            .frame(width: animateElements ? geo.size.width * (7.0/8.0) : geo.size.width * (6.0/8.0), height: 6)
+                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                            .animation(.easeOut(duration: 0.8), value: animateElements)
                     }
-                    .padding(.horizontal, 32)
-                    
-                    // Yarn Ball Mascot with Camera
-                    YarnBallCameraMascotView()
-                        .frame(width: 120, height: 120)
+                }
+                .frame(height: 6)
+
+                // Back button
+                HStack {
+                    BackButton()
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 12)
+
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // Mascot
+                        ZStack {
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: 128, height: 128)
+                                .shadow(color: .black.opacity(0.12), radius: 20, x: 0, y: 8)
+                            Image(systemName: "camera.viewfinder")
+                                .font(.system(size: 48))
+                                .foregroundColor(ThemeColors.primary)
+                        }
+                        .padding(.top, 32)
+                        .padding(.bottom, 32)
                         .scaleEffect(animateElements ? 1.0 : 0.8)
-                        .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.3), value: animateElements)
-                    
-                    // Benefits
-                    VStack(spacing: 16) {
-                        BenefitRow(
-                            icon: "eye.fill",
-                            text: "AI-powered stitch counting"
-                        )
+                        .animation(.spring(response: 0.6, dampingFraction: 0.6).delay(0.2), value: animateElements)
+
+                        // Title + subtitle
+                        VStack(spacing: 12) {
+                            Text("Camera Access")
+                                .font(.system(size: 28, weight: .bold))
+                                .foregroundColor(ThemeColors.textPrimary)
+
+                            Text("StitchVision needs camera access to count your stitches and detect patterns")
+                                .font(.body)
+                                .foregroundColor(ThemeColors.textSecondary)
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(.horizontal, 32)
                         .opacity(animateElements ? 1.0 : 0.0)
-                        .offset(x: animateElements ? 0 : -30)
-                        .animation(.easeOut(duration: 0.6).delay(0.5), value: animateElements)
-                        
-                        BenefitRow(
-                            icon: "exclamationmark.triangle.fill",
-                            text: "Automatic error detection"
+                        .offset(y: animateElements ? 0 : -20)
+                        .animation(.easeOut(duration: 0.6).delay(0.3), value: animateElements)
+
+                        // Feature list
+                        VStack(spacing: 20) {
+                            FeatureBullet(icon: "eye", text: "AI-powered stitch counting", delay: 0.4)
+                            FeatureBullet(icon: "shield.checkered", text: "Automatic error detection", delay: 0.5)
+                            FeatureBullet(icon: "bolt.fill", text: "Real-time progress tracking", delay: 0.6)
+                        }
+                        .padding(.horizontal, 40)
+                        .padding(.top, 32)
+
+                        // Privacy notice
+                        HStack(spacing: 12) {
+                            Image(systemName: "lock.fill")
+                                .font(.system(size: 18))
+                                .foregroundColor(.green)
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Your Privacy Matters")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundColor(ThemeColors.textPrimary)
+                                Text("Images are processed locally on your device. Nothing is stored or shared.")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(ThemeColors.textSecondary)
+                            }
+                        }
+                        .padding(16)
+                        .background(Color.white.opacity(0.8))
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .stroke(Color.gray.opacity(0.1), lineWidth: 1)
                         )
+                        .padding(.horizontal, 24)
+                        .padding(.top, 32)
                         .opacity(animateElements ? 1.0 : 0.0)
-                        .offset(x: animateElements ? 0 : -30)
-                        .animation(.easeOut(duration: 0.6).delay(0.6), value: animateElements)
-                        
-                        BenefitRow(
-                            icon: "chart.line.uptrend.xyaxis",
-                            text: "Real-time progress tracking"
-                        )
-                        .opacity(animateElements ? 1.0 : 0.0)
-                        .offset(x: animateElements ? 0 : -30)
+                        .offset(y: animateElements ? 0 : 20)
                         .animation(.easeOut(duration: 0.6).delay(0.7), value: animateElements)
                     }
-                    .padding(.horizontal, 32)
-                    
-                    // Privacy note
-                    VStack(spacing: 12) {
-                        HStack {
-                            Image(systemName: "lock.shield.fill")
-                                .font(.title3)
-                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-                            
-                            Text("Your Privacy Matters")
-                                .font(.headline)
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                        }
-                        
-                        Text("Images are processed locally on your device. Nothing is stored or shared.")
-                            .font(.caption)
-                            .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding(.vertical, 16)
-                    .padding(.horizontal, 24)
-                    .background(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.05))
-                    .cornerRadius(12)
-                    .padding(.horizontal, 32)
-                    .opacity(animateElements ? 1.0 : 0.0)
-                    .offset(y: animateElements ? 0 : 20)
-                    .animation(.easeOut(duration: 0.6).delay(0.8), value: animateElements)
-                    
-                    Spacer(minLength: 40)
-                    
-                    // Action buttons
-                    VStack(spacing: 16) {
-                        Button(action: {
-                            handleCameraPermission()
-                        }) {
-                            Text(cameraManager.isPermissionGranted ? "Continue" : "Allow Camera Access")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
-                                .cornerRadius(25)
-                                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                        }
-                        .opacity(animateElements ? 1.0 : 0.0)
-                        .offset(y: animateElements ? 0 : 20)
-                        .animation(.easeOut(duration: 0.6).delay(0.9), value: animateElements)
-                        
-                        Button(action: {
-                            appState.navigateTo(.subscription)
-                        }) {
-                            Text("Maybe Later")
-                                .font(.headline)
-                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(Color.white)
-                                .cornerRadius(25)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 25)
-                                        .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 2)
-                                )
-                        }
-                        .opacity(animateElements ? 1.0 : 0.0)
-                        .offset(y: animateElements ? 0 : 20)
-                        .animation(.easeOut(duration: 0.6).delay(1.0), value: animateElements)
-                    }
-                    .padding(.horizontal, 32)
                 }
-                .padding(.vertical, 40)
+
+                // Action buttons
+                VStack(spacing: 8) {
+                    Button(action: {
+                        handleCameraPermission()
+                    }) {
+                        Text(cameraManager.isPermissionGranted ? "Continue" : "Enable Camera")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 18)
+                            .background(ThemeColors.primary)
+                            .cornerRadius(28)
+                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                    }
+
+                    Button(action: {
+                        appState.navigateTo(.subscription)
+                    }) {
+                        Text("Maybe Later")
+                            .font(.headline)
+                            .foregroundColor(ThemeColors.textSecondary)
+                    }
+                    .padding(.vertical, 8)
+                }
+                .padding(.horizontal, 32)
+                .padding(.bottom, 50)
+                .opacity(animateElements ? 1.0 : 0.0)
+                .offset(y: animateElements ? 0 : 20)
+                .animation(.easeOut(duration: 0.6).delay(0.9), value: animateElements)
             }
-        }
         }
         .onAppear {
             animateElements = true
-            animateProgress = true
             cameraManager.checkPermissionStatus()
         }
         .alert("Camera Access Required", isPresented: $showingSettingsAlert) {
@@ -177,8 +151,6 @@ struct CameraPermissionsView: View {
             Text("Camera access was previously denied. Please enable it in Settings to use StitchVision's AI features.")
         }
     }
-    
-    // MARK: - Helper Methods
 
     private func handleCameraPermission() {
         switch cameraManager.permissionStatus {
@@ -195,176 +167,44 @@ struct CameraPermissionsView: View {
             }
 
         case .denied:
-            // Show alert to open settings
             showingSettingsAlert = true
 
         case .restricted:
-            // Show alert that camera is restricted
             showingSettingsAlert = true
         }
     }
 }
 
-struct BenefitRow: View {
+struct FeatureBullet: View {
     let icon: String
     let text: String
-    
+    let delay: Double
+
+    @State private var animate = false
+
     var body: some View {
         HStack(spacing: 16) {
-            Circle()
-                .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
-                .frame(width: 40, height: 40)
-                .overlay(
-                    Image(systemName: icon)
-                        .font(.title3)
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-                )
-            
+            Image(systemName: icon)
+                .font(.system(size: 22))
+                .foregroundColor(ThemeColors.primary)
+                .frame(width: 28)
+
             Text(text)
-                .font(.body)
-                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-            
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundColor(ThemeColors.textPrimary)
+
             Spacer()
         }
-        .padding(.vertical, 8)
-    }
-}
-
-struct YarnBallCameraMascotView: View {
-    var body: some View {
-        ZStack {
-            GeometryReader { geo in
-                let size = min(geo.size.width, geo.size.height)
-                let center = CGPoint(x: geo.size.width/2, y: geo.size.height/2)
-                let eyeOffsetY = size * 0.08
-                let eyeSpacing = size * 0.12
-
-                ZStack {
-                    // Main yarn ball body
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [
-                                    Color(red: 0.66, green: 0.76, blue: 0.63),
-                                    Color(red: 0.561, green: 0.659, blue: 0.533)
-                                ],
-                                center: .topLeading,
-                                startRadius: size * 0.18,
-                                endRadius: size * 0.6
-                            )
-                        )
-                        .frame(width: size * 0.8, height: size * 0.8)
-                        .position(center)
-                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-
-                    // Yarn texture lines
-                    ForEach(0..<8, id: \.self) { index in
-                        let angle = Double(index) * 45 * .pi / 180
-                        YarnCurveLine(center: center, size: size, angle: angle)
-                    }
-
-                    // Eyes
-                    Circle()
-                        .fill(Color.black)
-                        .frame(width: size * 0.04, height: size * 0.04)
-                        .position(x: center.x - eyeSpacing/2, y: center.y - eyeOffsetY)
-                    Circle()
-                        .fill(Color.black)
-                        .frame(width: size * 0.04, height: size * 0.04)
-                        .position(x: center.x + eyeSpacing/2, y: center.y - eyeOffsetY)
-
-                    // Eyebrows positioned above eyes
-                    Path { path in
-                        let leftEyeX = center.x - eyeSpacing/2
-                        let leftEyeY = center.y - eyeOffsetY
-                        path.move(to: CGPoint(x: leftEyeX - size * 0.03, y: leftEyeY - size * 0.04))
-                        path.addQuadCurve(
-                            to: CGPoint(x: leftEyeX + size * 0.03, y: leftEyeY - size * 0.04),
-                            control: CGPoint(x: leftEyeX, y: leftEyeY - size * 0.06)
-                        )
-                    }
-                    .stroke(Color.black, lineWidth: 1.5)
-
-                    Path { path in
-                        let rightEyeX = center.x + eyeSpacing/2
-                        let rightEyeY = center.y - eyeOffsetY
-                        path.move(to: CGPoint(x: rightEyeX - size * 0.03, y: rightEyeY - size * 0.04))
-                        path.addQuadCurve(
-                            to: CGPoint(x: rightEyeX + size * 0.03, y: rightEyeY - size * 0.04),
-                            control: CGPoint(x: rightEyeX, y: rightEyeY - size * 0.06)
-                        )
-                    }
-                    .stroke(Color.black, lineWidth: 1.5)
-
-                    // Smile
-                    Path { path in
-                        path.move(to: CGPoint(x: center.x - size * 0.15, y: center.y + size * 0.11))
-                        path.addQuadCurve(
-                            to: CGPoint(x: center.x + size * 0.15, y: center.y + size * 0.11),
-                            control: CGPoint(x: center.x, y: center.y + size * 0.16)
-                        )
-                    }
-                    .stroke(Color.black, lineWidth: 2)
-
-                    // Camera lens on the ball
-                    Circle()
-                        .fill(Color.white)
-                        .frame(width: size * 0.25, height: size * 0.25)
-                        .position(x: center.x, y: center.y + size * 0.25)
-                        .overlay(
-                            Circle()
-                                .stroke(Color(red: 0.4, green: 0.4, blue: 0.4), lineWidth: 2)
-                                .frame(width: size * 0.25, height: size * 0.25)
-                                .position(x: center.x, y: center.y + size * 0.25)
-                        )
-                        .overlay(
-                            Circle()
-                                .fill(Color(red: 0.2, green: 0.2, blue: 0.2))
-                                .frame(width: size * 0.15, height: size * 0.15)
-                                .position(x: center.x, y: center.y + size * 0.25)
-                        )
-                        .overlay(
-                            Circle()
-                                .fill(Color(red: 0.1, green: 0.1, blue: 0.1))
-                                .frame(width: size * 0.08, height: size * 0.08)
-                                .position(x: center.x, y: center.y + size * 0.25)
-                        )
-                }
-            }
+        .opacity(animate ? 1.0 : 0.0)
+        .offset(x: animate ? 0 : -30)
+        .animation(.easeOut(duration: 0.6).delay(delay), value: animate)
+        .onAppear {
+            animate = true
         }
     }
 }
 
-private struct YarnCurveLine: View {
-    let center: CGPoint
-    let size: CGFloat
-    let angle: Double
-
-    var body: some View {
-        let radius: CGFloat = size * 0.32
-        let inner = CGPoint(
-            x: center.x + Foundation.cos(angle) * radius * 0.2,
-            y: center.y + Foundation.sin(angle) * radius * 0.2
-        )
-        let outer = CGPoint(
-            x: center.x + Foundation.cos(angle) * radius * 0.85,
-            y: center.y + Foundation.sin(angle) * radius * 0.85
-        )
-        let ctrl1 = CGPoint(
-            x: center.x + Foundation.cos(angle + .pi/8) * radius * 0.5,
-            y: center.y + Foundation.sin(angle + .pi/8) * radius * 0.5
-        )
-        let ctrl2 = CGPoint(
-            x: center.x + Foundation.cos(angle - .pi/8) * radius * 0.7,
-            y: center.y + Foundation.sin(angle - .pi/8) * radius * 0.7
-        )
-
-        return Path { path in
-            path.move(to: inner)
-            path.addQuadCurve(to: ctrl1, control: inner)
-            path.addQuadCurve(to: outer, control: ctrl2)
-        }
-        .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.8)
-        .opacity(0.6)
-    }
+#Preview {
+    CameraPermissionsView()
+        .environmentObject(AppState())
 }

@@ -4,67 +4,66 @@ struct StruggleView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedStruggle: String?
     @State private var animateElements = false
-    
+
     let struggles = [
-        ("losing-count", "Losing count", "Having to recount rows constantly"),
-        ("dropping-stitches", "Dropping stitches", "Missing errors until it's too late"),
-        ("losing-patterns", "Losing patterns", "Patterns scattered everywhere"),
-        ("not-finishing", "Not finishing projects", "Too many UFOs (unfinished objects)")
+        ("losing-count", "Losing count", "Recounting rows is exhausting"),
+        ("dropping-stitches", "Dropping stitches", "Finding mistakes too late")
     ]
-    
+
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-            // Progress bar (step 3 of ~10 = 30%)
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .fill(Color.white.opacity(0.5))
-                        .frame(height: 4)
-                    Rectangle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                        .frame(width: animateElements ? geo.size.width * 0.375 : geo.size.width * 0.25, height: 4)
-                        .clipShape(RoundedRectangle(cornerRadius: 2))
-                        .animation(.easeOut(duration: 0.8), value: animateElements)
+                // Progress bar (step 1 of 8)
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(height: 6)
+                        Rectangle()
+                            .fill(ThemeColors.primary)
+                            .frame(width: animateElements ? geo.size.width * (1.0/8.0) : 0, height: 6)
+                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                            .animation(.easeOut(duration: 0.8), value: animateElements)
+                    }
                 }
-            }
-            .frame(height: 4)
-            
-            // Content
-            VStack(spacing: 0) {
-                // Back button
+                .frame(height: 6)
+
+                // Back button + progress
                 HStack {
                     BackButton()
                     Spacer()
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 8)
+                .padding(.top, 12)
+
+                Spacer()
 
                 // Header
-                VStack(spacing: 16) {
+                VStack(spacing: 12) {
                     Text("What frustrates you most?")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                        .font(.system(size: 28, weight: .bold))
+                        .foregroundColor(ThemeColors.textPrimary)
                         .multilineTextAlignment(.center)
-                    
-                    Text("We'll personalize your experience")
+
+                    Text("Let's fix the things that hold you back")
                         .font(.body)
-                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                        .foregroundColor(ThemeColors.textSecondary)
                         .multilineTextAlignment(.center)
                 }
                 .padding(.horizontal, 32)
-                .padding(.top, 40)
-                
+                .opacity(animateElements ? 1.0 : 0.0)
+                .offset(y: animateElements ? 0 : -20)
+                .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
+
                 Spacer()
-                
-                // Struggle options
+
+                // Struggle options — 2 cards
                 VStack(spacing: 16) {
                     ForEach(struggles, id: \.0) { struggle in
-                        StruggleOptionView(
+                        FrustrationCard(
                             id: struggle.0,
                             title: struggle.1,
                             description: struggle.2,
@@ -74,13 +73,12 @@ struct StruggleView: View {
                         }
                     }
                 }
-                .padding(.horizontal, 32)
-                
+                .padding(.horizontal, 24)
+
                 Spacer()
-                
+
                 // Continue button
                 Button(action: {
-                    // Save selected struggle
                     if let struggle = selectedStruggle {
                         appState.struggles = [struggle]
                     }
@@ -90,20 +88,22 @@ struct StruggleView: View {
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
+                        .padding(.vertical, 18)
                         .background(
-                            selectedStruggle != nil 
-                            ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                            selectedStruggle != nil
+                            ? ThemeColors.primary
                             : Color.gray.opacity(0.5)
                         )
-                        .cornerRadius(25)
+                        .cornerRadius(28)
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
                 .disabled(selectedStruggle == nil)
                 .padding(.horizontal, 32)
                 .padding(.bottom, 50)
+                .opacity(animateElements ? 1.0 : 0.0)
+                .offset(y: animateElements ? 0 : 20)
+                .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
             }
-        }
         }
         .onAppear {
             animateElements = true
@@ -111,52 +111,61 @@ struct StruggleView: View {
     }
 }
 
-struct StruggleOptionView: View {
+struct FrustrationCard: View {
     let id: String
     let title: String
     let description: String
     let isSelected: Bool
     let onTap: () -> Void
-    
+
     var body: some View {
         Button(action: onTap) {
             HStack(spacing: 16) {
-                // Radio button
-                Circle()
-                    .stroke(
-                        isSelected 
-                        ? Color(red: 0.561, green: 0.659, blue: 0.533)
-                        : Color.gray.opacity(0.3),
-                        lineWidth: 2
-                    )
-                    .background(
+                // Radio indicator
+                ZStack {
+                    Circle()
+                        .stroke(
+                            isSelected ? ThemeColors.primary : Color.gray.opacity(0.3),
+                            lineWidth: 2
+                        )
+                        .frame(width: 24, height: 24)
+                    if isSelected {
                         Circle()
-                            .fill(
-                                isSelected 
-                                ? Color(red: 0.561, green: 0.659, blue: 0.533)
-                                : Color.clear
+                            .fill(ThemeColors.primary)
+                            .frame(width: 24, height: 24)
+                            .overlay(
+                                Image(systemName: "checkmark")
+                                    .font(.system(size: 10, weight: .bold))
+                                    .foregroundColor(.white)
                             )
-                    )
-                    .frame(width: 24, height: 24)
-                
-                // Content
+                    }
+                }
+
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
-                        .font(.headline)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                    
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundColor(isSelected ? ThemeColors.primary : ThemeColors.textPrimary)
                     Text(description)
-                        .font(.caption)
-                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
+                        .font(.subheadline)
+                        .foregroundColor(ThemeColors.textSecondary)
                 }
-                
+
                 Spacer()
             }
             .padding(20)
-            .background(Color.white)
-            .cornerRadius(16)
-            .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+            .background(Color.white.opacity(0.9))
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+            .overlay(
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(isSelected ? ThemeColors.primary : Color.clear, lineWidth: 2)
+            )
+            .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
         }
         .buttonStyle(PlainButtonStyle())
     }
+}
+
+#Preview {
+    StruggleView()
+        .environmentObject(AppState())
 }

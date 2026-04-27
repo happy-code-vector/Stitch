@@ -3,193 +3,238 @@ import StoreKit
 
 struct SubscriptionView: View {
     @EnvironmentObject var appState: AppState
-    @State private var selectedPlan: PlanType = .proYearly
+    @State private var selectedPlan: PlanType = .annual
     @State private var animateElements = false
-    
+
     enum PlanType {
-        case proYearly, proMonthly
+        case annual, monthly
     }
-    
-    let freeFeatures = [
-        "AI Row Counting",
-        "1 Active Project",
-        "Basic Stitch Doctor"
+
+    let features = [
+        "Unlimited AI Vision Scanning",
+        "Access to 500+ Premium Patterns",
+        "Exclusive Community Masterclasses"
     ]
-    
-    let proFeatures = [
-        "AI Row Counting",
-        "Unlimited Projects",
-        "Advanced Stitch Doctor",
-        "Unlimited Stash",
-        "Pattern Library"
-    ]
-    
+
     var body: some View {
         ZStack {
-            ThemeColors.background
+            Color.white
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-            // Progress bar
-            HStack {
-                Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .clipShape(RoundedRectangle(cornerRadius: 2))
-                
-                Rectangle()
-                    .fill(Color.white.opacity(0.5))
-                    .frame(height: 4)
-                    .frame(maxWidth: .infinity)
-            }
-            .padding(.horizontal, 0)
-            
-            ScrollView {
-                VStack(spacing: 24) {
-                    // Header
-                    VStack(spacing: 16) {
-                        Text("Choose Your Plan")
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(ThemeColors.textPrimary)
-                            .multilineTextAlignment(.center)
-                            .opacity(animateElements ? 1.0 : 0.0)
-                            .offset(y: animateElements ? 0 : -20)
-                            .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
-                        
-                        Text("Start your knitting journey with AI assistance")
-                            .font(.body)
-                            .foregroundColor(ThemeColors.textSecondary)
-                            .multilineTextAlignment(.center)
-                            .opacity(animateElements ? 1.0 : 0.0)
-                            .offset(y: animateElements ? 0 : 10)
-                            .animation(.easeOut(duration: 0.6).delay(0.2), value: animateElements)
+                // Close button (top-right, X button)
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        appState.navigateTo(.permissions)
+                    }) {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.white)
+                            .frame(width: 40, height: 40)
+                            .background(Color.black.opacity(0.1))
+                            .clipShape(Circle())
                     }
-                    .padding(.horizontal, 32)
-                    
-                    // Plan Cards
-                    VStack(spacing: 16) {
-                        // Pro Plan Card
-                        PlanCard(
-                            title: "Pro Plan",
-                            price: selectedPlan == .proYearly ? SubscriptionPricing.yearlyDisplay : SubscriptionPricing.monthlyDisplay,
-                            features: proFeatures,
-                            isRecommended: true,
-                            isSelected: true
-                        )
-                        .opacity(animateElements ? 1.0 : 0.0)
-                        .offset(y: animateElements ? 0 : 30)
-                        .animation(.easeOut(duration: 0.6).delay(0.3), value: animateElements)
-                        
-                        // Free Plan Card
-                        PlanCard(
-                            title: "Free Plan",
-                            price: "Free",
-                            features: freeFeatures,
-                            isRecommended: false,
-                            isSelected: false
-                        )
-                        .opacity(animateElements ? 1.0 : 0.0)
-                        .offset(y: animateElements ? 0 : 30)
-                        .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
-                    }
-                    .padding(.horizontal, 32)
-                    
-                    // Plan Toggle
-                    VStack(spacing: 12) {
-                        Text("Billing Period")
-                            .font(.headline)
-                            .foregroundColor(ThemeColors.textPrimary)
-                        
-                        HStack(spacing: 0) {
-                            Button(action: {
-                                selectedPlan = .proMonthly
-                            }) {
-                                Text("Monthly")
-                                    .font(.body)
-                                    .foregroundColor(selectedPlan == .proMonthly ? .white : Color(red: 0.561, green: 0.659, blue: 0.533))
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 12)
-                                    .background(selectedPlan == .proMonthly ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear)
-                                    .customCornerRadius(25, corners: [.topLeft, .bottomLeft])
-                            }
-                            
-                            Button(action: {
-                                selectedPlan = .proYearly
-                            }) {
-                                HStack {
-                                    Text("Yearly")
-                                        .font(.body)
-                                    
-                                    Text(SubscriptionPricing.yearlySavingsText)
-                                        .font(.caption)
-                                        .fontWeight(.bold)
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 4)
-                                        .background(Color(red: 0.831, green: 0.502, blue: 0.435))
-                                        .foregroundColor(.white)
-                                        .cornerRadius(8)
-                                }
-                                .foregroundColor(selectedPlan == .proYearly ? .white : Color(red: 0.561, green: 0.659, blue: 0.533))
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 12)
-                                .background(selectedPlan == .proYearly ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear)
-                                .customCornerRadius(25, corners: [.topRight, .bottomRight])
-                            }
+                    .padding(.trailing, 24)
+                    .padding(.top, 16)
+                }
+
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // FOMO badge
+                        HStack(spacing: 6) {
+                            Image(systemName: "sparkles")
+                                .font(.system(size: 12))
+                            Text("LIMITED: JOIN 50,000+ MAKERS TODAY")
+                                .font(.system(size: 12, weight: .bold))
                         }
+                        .foregroundColor(Color(red: 0.71, green: 0.33, blue: 0.14))
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 6)
+                        .background(Color(red: 1.0, green: 0.925, blue: 0.863))
+                        .clipShape(Capsule())
                         .overlay(
-                            RoundedRectangle(cornerRadius: 25)
-                                .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 2)
+                            Capsule()
+                                .stroke(Color(red: 1.0, green: 0.871, blue: 0.773), lineWidth: 1)
                         )
-                    }
-                    .opacity(animateElements ? 1.0 : 0.0)
-                    .animation(.easeOut(duration: 0.6).delay(0.5), value: animateElements)
-                    
-                    // CTA Buttons
-                    VStack(spacing: 16) {
-                        Button(action: {
-                            // Fix 7: Navigate to the real purchase screen instead of downsell.
-                            appState.navigateTo(.enhancedSubscription)
-                        }) {
-                            Text("Start Pro Trial")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 16)
-                                .background(Color(red: 0.788, green: 0.427, blue: 0.373))
-                                .cornerRadius(25)
-                                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                        }
-                        
-                        Button(action: {
-                            appState.navigateTo(.permissions)
-                        }) {
-                            Text("Continue with Free")
+                        .padding(.top, 16)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
+
+                        // Headline
+                        VStack(spacing: 8) {
+                            Text("Master Every Stitch with Premium")
+                                .font(.system(size: 28, weight: .bold))
+                                .foregroundColor(ThemeColors.textPrimary)
+                                .multilineTextAlignment(.center)
+
+                            Text("Stop recounting. Start creating.")
                                 .font(.body)
                                 .foregroundColor(ThemeColors.textSecondary)
-                                .underline()
                         }
+                        .padding(.horizontal, 32)
+                        .padding(.top, 20)
+                        .padding(.bottom, 24)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : -20)
+                        .animation(.easeOut(duration: 0.6).delay(0.2), value: animateElements)
 
+                        // Features list
+                        VStack(spacing: 16) {
+                            ForEach(features, id: \.self) { feature in
+                                HStack(spacing: 16) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(Color(red: 0.929, green: 0.957, blue: 0.918))
+                                            .frame(width: 24, height: 24)
+                                        Image(systemName: "checkmark")
+                                            .font(.system(size: 10, weight: .bold))
+                                            .foregroundColor(Color(red: 0.22, green: 0.75, blue: 0.39))
+                                    }
+
+                                    Text(feature)
+                                        .font(.system(size: 16, weight: .medium))
+                                        .foregroundColor(ThemeColors.textPrimary)
+
+                                    Spacer()
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 32)
+                        .padding(.bottom, 28)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : 20)
+                        .animation(.easeOut(duration: 0.6).delay(0.3), value: animateElements)
+
+                        // Annual plan card (recommended)
+                        ZStack(alignment: .topTrailing) {
+                            Button(action: {
+                                selectedPlan = .annual
+                            }) {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Annual Plan")
+                                            .font(.system(size: 18, weight: .bold))
+                                            .foregroundColor(ThemeColors.textPrimary)
+                                        Text("$4.99/mo (billed annually)")
+                                            .font(.system(size: 14))
+                                            .foregroundColor(ThemeColors.textSecondary)
+                                    }
+                                    Spacer()
+                                    VStack(alignment: .trailing, spacing: 2) {
+                                        Text("$59.99")
+                                            .font(.system(size: 22, weight: .bold))
+                                            .foregroundColor(ThemeColors.textPrimary)
+                                        Text("SAVE 60%")
+                                            .font(.system(size: 10, weight: .bold))
+                                            .foregroundColor(Color(red: 0.133, green: 0.302, blue: 0.224))
+                                    }
+                                }
+                                .padding(20)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 24)
+                                        .fill(Color(red: 0.929, green: 0.957, blue: 0.918))
+                                )
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 24)
+                                        .stroke(selectedPlan == .annual ? ThemeColors.primary : ThemeColors.primary.opacity(0.2), lineWidth: 2)
+                                )
+                            }
+                            .buttonStyle(PlainButtonStyle())
+
+                            // BEST VALUE badge
+                            Text("BEST VALUE")
+                                .font(.system(size: 10, weight: .bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 4)
+                                .background(ThemeColors.primary)
+                                .clipShape(Capsule())
+                                .offset(x: -12, y: -10)
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 12)
+
+                        // Monthly plan card
                         Button(action: {
+                            selectedPlan = .monthly
+                        }) {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Monthly Plan")
+                                        .font(.system(size: 18, weight: .bold))
+                                        .foregroundColor(ThemeColors.textPrimary)
+                                    Text("Cancel anytime")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(ThemeColors.textSecondary)
+                                }
+                                Spacer()
+                                Text("$12.99")
+                                    .font(.system(size: 22, weight: .bold))
+                                    .foregroundColor(ThemeColors.textPrimary)
+                            }
+                            .padding(20)
+                            .background(Color.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 24))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 24)
+                                    .stroke(selectedPlan == .monthly ? ThemeColors.primary : Color.gray.opacity(0.15), lineWidth: 2)
+                            )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 16)
+                    }
+                }
+
+                // Footer
+                VStack(spacing: 12) {
+                    Button(action: {
+                        appState.navigateTo(.enhancedSubscription)
+                    }) {
+                        Text("Start 7-Day Free Trial")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 18)
+                            .background(ThemeColors.primary)
+                            .cornerRadius(28)
+                            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+                    }
+
+                    Text("Payment will be charged to your iTunes account. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period.")
+                        .font(.system(size: 10))
+                        .foregroundColor(ThemeColors.textSecondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+
+                    HStack(spacing: 24) {
+                        Button("Terms of Service") { }
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(ThemeColors.textSecondary)
+                        Button("Privacy Policy") { }
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(ThemeColors.textSecondary)
+                        Button("Restore") {
                             Task {
                                 try? await AppStore.sync()
                             }
-                        }) {
-                            Text("Restore Purchases")
-                                .font(.caption)
-                                .foregroundColor(ThemeColors.textSecondary)
                         }
-                        .padding(.top, 8)
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundColor(ThemeColors.textSecondary)
                     }
-                    .padding(.horizontal, 32)
-                    .opacity(animateElements ? 1.0 : 0.0)
-                    .offset(y: animateElements ? 0 : 20)
-                    .animation(.easeOut(duration: 0.6).delay(0.6), value: animateElements)
+                    .padding(.top, 4)
                 }
-                .padding(.vertical, 40)
+                .padding(.horizontal, 32)
+                .padding(.vertical, 20)
+                .background(Color.white)
+                .overlay(
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.1))
+                        .frame(height: 1),
+                    alignment: .top
+                )
             }
-        }
         }
         .onAppear {
             animateElements = true
@@ -197,87 +242,7 @@ struct SubscriptionView: View {
     }
 }
 
-struct PlanCard: View {
-    let title: String
-    let price: String
-    let features: [String]
-    let isRecommended: Bool
-    let isSelected: Bool
-    
-    var body: some View {
-        VStack(spacing: 16) {
-            // Header
-            VStack(spacing: 8) {
-                if isRecommended {
-                    Text("RECOMMENDED")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 4)
-                        .background(Color(red: 0.831, green: 0.502, blue: 0.435))
-                        .cornerRadius(12)
-                }
-                
-                Text(title)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(ThemeColors.textPrimary)
-                
-                Text(price)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-            }
-            
-            // Features
-            VStack(alignment: .leading, spacing: 8) {
-                ForEach(features, id: \.self) { feature in
-                    HStack(spacing: 8) {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.body)
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-                        
-                        Text(feature)
-                            .font(.body)
-                            .foregroundColor(ThemeColors.textPrimary)
-                        
-                        Spacer()
-                    }
-                }
-            }
-        }
-        .padding(24)
-        .background(Color.white)
-        .cornerRadius(20)
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(
-                    isSelected ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear,
-                    lineWidth: 3
-                )
-        )
-        .shadow(color: .black.opacity(isSelected ? 0.1 : 0.05), radius: isSelected ? 12 : 8, x: 0, y: isSelected ? 6 : 2)
-    }
-}
-
-// MARK: - Custom Corner Radius Helper
-private extension View {
-    func customCornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape(SubscriptionRoundedCorner(radius: radius, corners: corners))
-    }
-}
-
-private struct SubscriptionRoundedCorner: Shape {
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(
-            roundedRect: rect,
-            byRoundingCorners: corners,
-            cornerRadii: CGSize(width: radius, height: radius)
-        )
-        return Path(path.cgPath)
-    }
+#Preview {
+    SubscriptionView()
+        .environmentObject(AppState())
 }

@@ -3,191 +3,170 @@ import SwiftUI
 struct StatsProblemView: View {
     @EnvironmentObject var appState: AppState
     @State private var animateStats = false
-    
+    @State private var animateElements = false
+
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-            // Progress bar
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .fill(Color.white.opacity(0.5))
-                        .frame(height: 4)
-                    Rectangle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                        .frame(width: animateStats ? geo.size.width * 0.5 : geo.size.width * 0.375, height: 4)
-                        .clipShape(RoundedRectangle(cornerRadius: 2))
-                        .animation(.easeOut(duration: 0.8), value: animateStats)
-                }
-            }
-            .frame(height: 4)
-
-            // Back button
-            HStack {
-                BackButton()
-                Spacer()
-            }
-            .padding(.horizontal, 24)
-            .padding(.top, 8)
-
-            ScrollView {
-                VStack(spacing: 24) {
-                    // Empathy Mascot
-                    EmpathyMascotView()
-                        .scaleEffect(animateStats ? 1.0 : 0.8)
-                        .opacity(animateStats ? 1.0 : 0.0)
-                        .animation(.easeOut(duration: 0.6).delay(0.1), value: animateStats)
-                    
-                    // Headline
-                    Text("You're Not Alone")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                        .multilineTextAlignment(.center)
-                        .opacity(animateStats ? 1.0 : 0.0)
-                        .offset(y: animateStats ? 0 : -20)
-                        .animation(.easeOut(duration: 0.6).delay(0.2), value: animateStats)
-                    
-                    // Subtext
-                    Text("Most knitters face the same frustrations:")
-                        .font(.body)
-                        .foregroundColor(Color(red: 0.4, green: 0.4, blue: 0.4))
-                        .multilineTextAlignment(.center)
-                        .opacity(animateStats ? 1.0 : 0.0)
-                        .offset(y: animateStats ? 0 : 10)
-                        .animation(.easeOut(duration: 0.6).delay(0.3), value: animateStats)
-                    
-                    // Stats Cards
-                    VStack(spacing: 16) {
-                        ProblemStatCardView(
-                            icon: "clock.fill",
-                            statNumber: "4+ hours",
-                            statLabel: "wasted per project",
-                            description: "Time spent recounting rows after losing track",
-                            delay: 0.4
-                        )
-                        
-                        ProblemStatCardView(
-                            icon: "exclamationmark.circle.fill",
-                            statNumber: "73%",
-                            statLabel: "lose track at least once",
-                            description: "Every single knitting session, most crafters miscount",
-                            delay: 0.5
-                        )
-                        
-                        ProblemStatCardView(
-                            icon: "face.dashed.fill",
-                            statNumber: "1 in 3",
-                            statLabel: "projects go unfinished",
-                            description: "Counting frustration leads to abandoned projects",
-                            delay: 0.6
-                        )
+                // Progress bar (step 2 of 8)
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(height: 6)
+                        Rectangle()
+                            .fill(ThemeColors.primary)
+                            .frame(width: animateStats ? geo.size.width * (2.0/8.0) : geo.size.width * (1.0/8.0), height: 6)
+                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                            .animation(.easeOut(duration: 0.8), value: animateStats)
                     }
-                    
-                    // Transition message
-                    VStack(spacing: 16) {
-                        HStack {
-                            Text("But it doesn't have to be this way...")
+                }
+                .frame(height: 6)
+
+                // Back button
+                HStack {
+                    BackButton()
+                    Spacer()
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 12)
+
+                ScrollView {
+                    VStack(spacing: 0) {
+                        // Header
+                        VStack(spacing: 8) {
+                            Text("You're Not Alone")
+                                .font(.system(size: 28, weight: .bold))
+                                .foregroundColor(ThemeColors.textPrimary)
+
+                            Text("Crafting has its challenges, but we've got you.")
                                 .font(.body)
-                                .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                            
-                            Text("💚")
-                                .font(.title2)
+                                .foregroundColor(ThemeColors.textSecondary)
                         }
-                        .padding(.vertical, 16)
+                        .padding(.horizontal, 32)
+                        .padding(.top, 32)
+                        .padding(.bottom, 32)
+                        .opacity(animateElements ? 1.0 : 0.0)
+                        .offset(y: animateElements ? 0 : -20)
+                        .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
+
+                        // Stat cards
+                        VStack(spacing: 12) {
+                            StatCard(
+                                icon: "timer",
+                                value: "4+ Hours",
+                                label: "Wasted per project",
+                                accentColor: Color(red: 0.91, green: 0.478, blue: 0.365),
+                                delay: 0.2
+                            )
+
+                            StatCard(
+                                icon: "exclamationmark.triangle.fill",
+                                value: "73%",
+                                label: "Lose track of rows",
+                                accentColor: Color(red: 0.91, green: 0.478, blue: 0.365),
+                                delay: 0.4
+                            )
+                        }
                         .padding(.horizontal, 24)
-                        .background(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
-                        .cornerRadius(12)
+                        .opacity(animateStats ? 1.0 : 0.0)
+                        .animation(.easeOut(duration: 0.6), value: animateStats)
+
+                        // Green message box
+                        HStack(spacing: 12) {
+                            Text("StitchVision eliminates the guesswork from your first project.")
+                                .font(.system(size: 15, weight: .semibold))
+                                .foregroundColor(Color(red: 0.133, green: 0.302, blue: 0.224))
+                                .multilineTextAlignment(.leading)
+
+                            Image(systemName: "heart.text.square")
+                                .font(.system(size: 28))
+                                .foregroundColor(ThemeColors.primary)
+                        }
+                        .padding(20)
+                        .background(Color(red: 0.929, green: 0.957, blue: 0.918).opacity(0.8))
+                        .clipShape(RoundedRectangle(cornerRadius: 24))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 24)
+                                .stroke(ThemeColors.primary.opacity(0.2), lineWidth: 1)
+                        )
+                        .padding(.horizontal, 24)
+                        .padding(.top, 40)
                         .opacity(animateStats ? 1.0 : 0.0)
                         .offset(y: animateStats ? 0 : 20)
                         .animation(.easeOut(duration: 0.6).delay(0.8), value: animateStats)
-                        
-                        // CTA Button
-                        Button(action: {
-                            appState.navigateTo(.craft)
-                        }) {
-                            Text("Show Me the Solution")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 20)
-                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
-                                .cornerRadius(25)
-                                .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-                        }
-                        .opacity(animateStats ? 1.0 : 0.0)
-                        .offset(y: animateStats ? 0 : 20)
-                        .animation(.easeOut(duration: 0.6).delay(0.9), value: animateStats)
                     }
+                    .padding(.bottom, 40)
+                }
+
+                // Continue button
+                Button(action: {
+                    appState.navigateTo(.craft)
+                }) {
+                    Text("Continue")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 18)
+                        .background(ThemeColors.primary)
+                        .cornerRadius(28)
+                        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
                 .padding(.horizontal, 32)
-                .padding(.vertical, 40)
+                .padding(.bottom, 50)
             }
         }
-        }
         .onAppear {
+            animateElements = true
             animateStats = true
         }
     }
 }
 
-struct ProblemStatCardView: View {
+struct StatCard: View {
     let icon: String
-    let statNumber: String
-    let statLabel: String
-    let description: String
+    let value: String
+    let label: String
+    let accentColor: Color
     let delay: Double
+
     @State private var animate = false
-    
+
     var body: some View {
-        HStack(spacing: 16) {
-            // Icon circle
-            Circle()
-                .fill(Color(red: 0.831, green: 0.502, blue: 0.435).opacity(0.1))
-                .frame(width: 48, height: 48)
-                .overlay(
-                    Image(systemName: icon)
-                        .font(.title3)
-                        .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
-                )
-            
-            // Content
-            VStack(alignment: .leading, spacing: 4) {
-                Text(statNumber)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
-                
-                Text(statLabel)
-                    .font(.headline)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                
-                Text(description)
-                    .font(.caption)
-                    .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
-                    .fixedSize(horizontal: false, vertical: true)
+        HStack(spacing: 20) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color(red: 1.0, green: 0.933, blue: 0.898))
+                    .frame(width: 48, height: 48)
+                Image(systemName: icon)
+                    .font(.system(size: 22))
+                    .foregroundColor(accentColor)
             }
-            
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(value)
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(accentColor)
+                Text(label)
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(ThemeColors.textPrimary)
+            }
+
             Spacer()
         }
         .padding(20)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color.white)
-                .overlay(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 3)
-                        .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                        .frame(width: 4)
-                        .padding(.vertical, 8)
-                }
+        .background(Color.white.opacity(0.8))
+        .clipShape(RoundedRectangle(cornerRadius: 24))
+        .overlay(
+            RoundedRectangle(cornerRadius: 24)
+                .stroke(Color(red: 1.0, green: 0.933, blue: 0.898), lineWidth: 1)
         )
-        .cornerRadius(16)
-        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+        .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
         .opacity(animate ? 1.0 : 0.0)
-        .offset(x: animate ? 0 : -30)
+        .offset(y: animate ? 0 : 20)
         .animation(.easeOut(duration: 0.6).delay(delay), value: animate)
         .onAppear {
             animate = true
@@ -195,151 +174,7 @@ struct ProblemStatCardView: View {
     }
 }
 
-struct EmpathyMascotView: View {
-    @State private var heartBeat = false
-    
-    var body: some View {
-        ZStack {
-            GeometryReader { geo in
-                let size = min(geo.size.width, geo.size.height)
-                let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
-                MascotContentView(size: size, center: center, heartBeat: heartBeat)
-            }
-        }
-        .frame(width: 140, height: 140)
-        .onAppear {
-            heartBeat = true
-        }
-    }
+#Preview {
+    StatsProblemView()
+        .environmentObject(AppState())
 }
-
-private struct MascotContentView: View {
-    let size: CGFloat
-    let center: CGPoint
-    let heartBeat: Bool
-
-    var body: some View {
-        ZStack {
-            yarnBallBody
-            yarnTextureLines
-            eyes
-            eyebrows
-            frown
-            rosyChecks
-            floatingHeart
-        }
-    }
-
-    // MARK: - Sub-views
-
-    private var yarnBallBody: some View {
-        Circle()
-            .fill(
-                RadialGradient(
-                    colors: [
-                        Color(red: 0.66, green: 0.76, blue: 0.63),
-                        Color(red: 0.561, green: 0.659, blue: 0.533)
-                    ],
-                    center: .topLeading,
-                    startRadius: size * 0.18,
-                    endRadius: size * 0.55
-                )
-            )
-            .frame(width: size * 0.75, height: size * 0.75)
-            .position(center)
-            .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
-    }
-
-    private var yarnTextureLines: some View {
-        ForEach(0..<6, id: \.self) { index in
-            Path { path in
-                let angle: Double = Double(index) * 30.0 * .pi / 180.0
-                let radius: CGFloat = size * 0.31
-                let cosAngle: CGFloat = CGFloat(cos(angle))
-                let sinAngle: CGFloat = CGFloat(sin(angle))
-                let start = CGPoint(
-                    x: center.x + cosAngle * radius * 0.3,
-                    y: center.y + sinAngle * radius * 0.3
-                )
-                let end = CGPoint(
-                    x: center.x + cosAngle * radius * 0.7,
-                    y: center.y + sinAngle * radius * 0.7
-                )
-                path.move(to: start)
-                path.addLine(to: end)
-            }
-            .stroke(Color(red: 0.62, green: 0.72, blue: 0.59), lineWidth: 1.5)
-            .opacity(0.6)
-        }
-    }
-
-    private var eyes: some View {
-        HStack(spacing: size * 0.09) {
-            Circle().fill(Color.black).frame(width: size * 0.035, height: size * 0.035)
-            Circle().fill(Color.black).frame(width: size * 0.035, height: size * 0.035)
-        }
-        .position(x: center.x, y: center.y - size * 0.06)
-    }
-
-    private var eyebrows: some View {
-        let eyeOffsetY = size * 0.06
-        let eyeSpacing = size * 0.09
-        let leftEye = CGPoint(x: center.x - eyeSpacing / 2, y: center.y - eyeOffsetY)
-        let rightEye = CGPoint(x: center.x + eyeSpacing / 2, y: center.y - eyeOffsetY)
-
-        return Group {
-            Path { path in
-                path.move(to: CGPoint(x: leftEye.x - size * 0.05, y: leftEye.y - size * 0.06))
-                path.addQuadCurve(
-                    to: CGPoint(x: leftEye.x + size * 0.05, y: leftEye.y - size * 0.06),
-                    control: CGPoint(x: leftEye.x, y: leftEye.y - size * 0.09)
-                )
-            }
-            .stroke(Color.black, lineWidth: 1.5)
-
-            Path { path in
-                path.move(to: CGPoint(x: rightEye.x - size * 0.05, y: rightEye.y - size * 0.06))
-                path.addQuadCurve(
-                    to: CGPoint(x: rightEye.x + size * 0.05, y: rightEye.y - size * 0.06),
-                    control: CGPoint(x: rightEye.x, y: rightEye.y - size * 0.09)
-                )
-            }
-            .stroke(Color.black, lineWidth: 1.5)
-        }
-    }
-
-    private var frown: some View {
-        Path { path in
-            path.move(to: CGPoint(x: center.x - size * 0.15, y: center.y + size * 0.12))
-            path.addQuadCurve(
-                to: CGPoint(x: center.x + size * 0.15, y: center.y + size * 0.12),
-                control: CGPoint(x: center.x, y: center.y + size * 0.09)
-            )
-        }
-        .stroke(Color.black, lineWidth: 1.5)
-    }
-
-    private var rosyChecks: some View {
-        HStack(spacing: size * 0.18) {
-            Ellipse()
-                .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                .frame(width: size * 0.09, height: size * 0.06)
-                .opacity(0.3)
-            Ellipse()
-                .fill(Color(red: 0.831, green: 0.502, blue: 0.435))
-                .frame(width: size * 0.09, height: size * 0.06)
-                .opacity(0.3)
-        }
-        .position(x: center.x, y: center.y + size * 0.03)
-    }
-
-    private var floatingHeart: some View {
-        Text("💚")
-            .font(.title3)
-            .position(x: center.x, y: center.y - size * 0.46)
-            .scaleEffect(heartBeat ? 1.2 : 1.0)
-            .opacity(heartBeat ? 0.8 : 0.6)
-            .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: heartBeat)
-    }
-}
-

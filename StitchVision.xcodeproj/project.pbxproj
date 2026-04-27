@@ -12,8 +12,6 @@
 		88E402942F73CA5D002E2481 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E4028E2F73CA5D002E2481 /* AnalyticsView.swift */; };
 		88E402952F73CA5D002E2481 /* PatternLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402902F73CA5D002E2481 /* PatternLibraryView.swift */; };
 		88E402962F73CA5D002E2481 /* StitchBotChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402912F73CA5D002E2481 /* StitchBotChatView.swift */; };
-		88E4029A2F73CA73002E2481 /* ValuePropCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402992F73CA73002E2481 /* ValuePropCarouselView.swift */; };
-		88E4029B2F73CA73002E2481 /* PatternLibraryPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402972F73CA73002E2481 /* PatternLibraryPreviewView.swift */; };
 		88E4029C2F73CA73002E2481 /* ProGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E402982F73CA73002E2481 /* ProGateView.swift */; };
 		88E4029E2F73CA95002E2481 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E4029D2F73CA95002E2481 /* PaywallView.swift */; };
 		88E402A22F73CAB6002E2481 /* KnittingPattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E4029F2F73CAB6002E2481 /* KnittingPattern.swift */; };
@@ -53,18 +51,11 @@
 		A1234567890123456789029A /* FloatingConfettiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789029B /* FloatingConfettiView.swift */; };
 		A1234567890123456789030B /* StruggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789030C /* StruggleView.swift */; };
 		A1234567890123456789031B /* StatsProblemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789031C /* StatsProblemView.swift */; };
-		A1234567890123456789032B /* HabitFrequencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789032C /* HabitFrequencyView.swift */; };
 		A1234567890123456789033B /* GoalSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789033C /* GoalSettingView.swift */; };
-		A1234567890123456789034B /* StatsSolutionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789034C /* StatsSolutionView.swift */; };
-		A1234567890123456789035B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789035C /* LoadingView.swift */; };
-		A1234567890123456789036B /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789036C /* ResultView.swift */; };
 		A1234567890123456789037B /* CameraPermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789037C /* CameraPermissionsView.swift */; };
-		A1234567890123456789038B /* HowItWorksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789038C /* HowItWorksView.swift */; };
-		A1234567890123456789039B /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789039C /* StatsView.swift */; };
 		A1234567890123456789040B /* CalibrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789040C /* CalibrationView.swift */; };
 		A1234567890123456789041B /* DownsellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789041C /* DownsellView.swift */; };
 		A1234567890123456789042B /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789042C /* PermissionsView.swift */; };
-		A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789043C /* FreeTierWelcomeView.swift */; };
 		A1234567890123456789044B /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789044C /* SubscriptionView.swift */; };
 		A1234567890123456789045B /* WorkModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789045C /* WorkModeView.swift */; };
 		A1234567890123456789046B /* SessionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1234567890123456789046C /* SessionSummaryView.swift */; };
@@ -106,9 +97,7 @@
 		88E4028F2F73CA5D002E2481 /* PatternImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternImportView.swift; sourceTree = "<group>"; };
 		88E402902F73CA5D002E2481 /* PatternLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternLibraryView.swift; sourceTree = "<group>"; };
 		88E402912F73CA5D002E2481 /* StitchBotChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StitchBotChatView.swift; sourceTree = "<group>"; };
-		88E402972F73CA73002E2481 /* PatternLibraryPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternLibraryPreviewView.swift; sourceTree = "<group>"; };
 		88E402982F73CA73002E2481 /* ProGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProGateView.swift; sourceTree = "<group>"; };
-		88E402992F73CA73002E2481 /* ValuePropCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValuePropCarouselView.swift; sourceTree = "<group>"; };
 		88E4029D2F73CA95002E2481 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		88E4029F2F73CAB6002E2481 /* KnittingPattern.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnittingPattern.swift; sourceTree = "<group>"; };
 		88E402A02F73CAB6002E2481 /* RowSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowSegment.swift; sourceTree = "<group>"; };
@@ -149,18 +138,11 @@
 		A1234567890123456789029B /* FloatingConfettiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingConfettiView.swift; sourceTree = "<group>"; };
 		A1234567890123456789030C /* StruggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StruggleView.swift; sourceTree = "<group>"; };
 		A1234567890123456789031C /* StatsProblemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsProblemView.swift; sourceTree = "<group>"; };
-		A1234567890123456789032C /* HabitFrequencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitFrequencyView.swift; sourceTree = "<group>"; };
 		A1234567890123456789033C /* GoalSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalSettingView.swift; sourceTree = "<group>"; };
-		A1234567890123456789034C /* StatsSolutionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsSolutionView.swift; sourceTree = "<group>"; };
-		A1234567890123456789035C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		A1234567890123456789036C /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		A1234567890123456789037C /* CameraPermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionsView.swift; sourceTree = "<group>"; };
-		A1234567890123456789038C /* HowItWorksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksView.swift; sourceTree = "<group>"; };
-		A1234567890123456789039C /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		A1234567890123456789040C /* CalibrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationView.swift; sourceTree = "<group>"; };
 		A1234567890123456789041C /* DownsellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownsellView.swift; sourceTree = "<group>"; };
 		A1234567890123456789042C /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
-		A1234567890123456789043C /* FreeTierWelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeTierWelcomeView.swift; sourceTree = "<group>"; };
 		A1234567890123456789044C /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 		A1234567890123456789045C /* WorkModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkModeView.swift; sourceTree = "<group>"; };
 		A1234567890123456789046C /* SessionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSummaryView.swift; sourceTree = "<group>"; };
@@ -359,25 +341,16 @@
 		A1234567890123456789030A /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				88E402972F73CA73002E2481 /* PatternLibraryPreviewView.swift */,
 				88E402982F73CA73002E2481 /* ProGateView.swift */,
-				88E402992F73CA73002E2481 /* ValuePropCarouselView.swift */,
 				A1234567890123456789025B /* CraftSelectionView.swift */,
 				A1234567890123456789026B /* SkillLevelView.swift */,
 				A1234567890123456789030C /* StruggleView.swift */,
 				A1234567890123456789031C /* StatsProblemView.swift */,
-				A1234567890123456789032C /* HabitFrequencyView.swift */,
 				A1234567890123456789033C /* GoalSettingView.swift */,
-				A1234567890123456789034C /* StatsSolutionView.swift */,
-				A1234567890123456789035C /* LoadingView.swift */,
-				A1234567890123456789036C /* ResultView.swift */,
 				A1234567890123456789037C /* CameraPermissionsView.swift */,
-				A1234567890123456789038C /* HowItWorksView.swift */,
-				A1234567890123456789039C /* StatsView.swift */,
 				A1234567890123456789040C /* CalibrationView.swift */,
 				A1234567890123456789041C /* DownsellView.swift */,
 				A1234567890123456789042C /* PermissionsView.swift */,
-				A1234567890123456789043C /* FreeTierWelcomeView.swift */,
 				A1234567890123456789044C /* SubscriptionView.swift */,
 				A1234567890123456789077D /* ProActivationConfirmationView.swift */,
 			);
@@ -528,19 +501,12 @@
 				88E402CB2F73CC76002E2481 /* VoiceCommandManager.swift in Sources */,
 				88E402CC2F73CC76002E2481 /* OpticalFlowDetector.swift in Sources */,
 				A1234567890123456789031B /* StatsProblemView.swift in Sources */,
-				A1234567890123456789032B /* HabitFrequencyView.swift in Sources */,
 				A1234567890123456789033B /* GoalSettingView.swift in Sources */,
-				A1234567890123456789034B /* StatsSolutionView.swift in Sources */,
 				88E4029E2F73CA95002E2481 /* PaywallView.swift in Sources */,
-				A1234567890123456789035B /* LoadingView.swift in Sources */,
-				A1234567890123456789036B /* ResultView.swift in Sources */,
 				A1234567890123456789037B /* CameraPermissionsView.swift in Sources */,
-				A1234567890123456789038B /* HowItWorksView.swift in Sources */,
-				A1234567890123456789039B /* StatsView.swift in Sources */,
 				A1234567890123456789040B /* CalibrationView.swift in Sources */,
 				A1234567890123456789041B /* DownsellView.swift in Sources */,
 				A1234567890123456789042B /* PermissionsView.swift in Sources */,
-				A1234567890123456789043B /* FreeTierWelcomeView.swift in Sources */,
 				A1234567890123456789044B /* SubscriptionView.swift in Sources */,
 				A1234567890123456789045B /* WorkModeView.swift in Sources */,
 				A1234567890123456789046B /* SessionSummaryView.swift in Sources */,
@@ -570,8 +536,6 @@
 				88E402A22F73CAB6002E2481 /* KnittingPattern.swift in Sources */,
 				88E402A32F73CAB6002E2481 /* RowSegment.swift in Sources */,
 				88E402A42F73CAB6002E2481 /* Subscription.swift in Sources */,
-				88E4029A2F73CA73002E2481 /* ValuePropCarouselView.swift in Sources */,
-				88E4029B2F73CA73002E2481 /* PatternLibraryPreviewView.swift in Sources */,
 				88E4029C2F73CA73002E2481 /* ProGateView.swift in Sources */,
 				A1234567890123456789064B /* CameraManager.swift in Sources */,
 				88E402D32F73CECF002E2481 /* ChartComponents.swift in Sources */,

@@ -4,79 +4,77 @@ struct SkillLevelView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedSkill: String?
     @State private var animateElements = false
-    
+
     let skillLevels = [
-        ("beginner", "Beginner", "Just starting out"),
-        ("intermediate", "Intermediate", "Know the basics"),
-        ("pro", "Advanced", "Skilled maker")
+        ("beginner", "Beginner", "Just starting my journey", "sprout", Color(red: 0.22, green: 0.75, blue: 0.39)),
+        ("intermediate", "Intermediate", "I know the basics well", "layers.3", ThemeColors.primary),
+        ("advanced", "Advanced", "A seasoned master maker", "star.fill", Color(red: 0.96, green: 0.75, blue: 0.15))
     ]
-    
+
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-                // Progress bar
+                // Progress bar (step 4 of 8)
                 GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .fill(Color.white.opacity(0.5))
-                        .frame(height: 4)
-                    Rectangle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                        .frame(width: animateElements ? geo.size.width * 0.25 : geo.size.width * 0.125, height: 4)
-                        .clipShape(RoundedRectangle(cornerRadius: 2))
-                        .animation(.easeOut(duration: 0.8), value: animateElements)
+                    ZStack(alignment: .leading) {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(height: 6)
+                        Rectangle()
+                            .fill(ThemeColors.primary)
+                            .frame(width: animateElements ? geo.size.width * (4.0/8.0) : geo.size.width * (3.0/8.0), height: 6)
+                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                            .animation(.easeOut(duration: 0.8), value: animateElements)
+                    }
                 }
-            }
-            .frame(height: 4)
-            
-            // Content
-            VStack(spacing: 0) {
+                .frame(height: 6)
+
                 // Back button
                 HStack {
                     BackButton()
                     Spacer()
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 8)
+                .padding(.top, 12)
+
+                Spacer()
 
                 // Header
                 Text("What's your skill level?")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundColor(ThemeColors.textPrimary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
-                    .padding(.top, 32)
+                    .padding(.bottom, 40)
                     .opacity(animateElements ? 1.0 : 0.0)
                     .offset(y: animateElements ? 0 : -20)
-                    .animation(.easeOut(duration: 0.6), value: animateElements)
-                
-                Spacer()
-                
-                // Skill level options
+                    .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
+
+                // Skill level cards
                 VStack(spacing: 16) {
                     ForEach(Array(skillLevels.enumerated()), id: \.offset) { index, skill in
-                        SkillCardView(
+                        SkillLevelCard(
                             skillType: skill.0,
                             title: skill.1,
                             description: skill.2,
+                            iconName: skill.3,
+                            iconColor: skill.4,
                             isSelected: selectedSkill == skill.0,
-                            delay: Double(index) * 0.1 + 0.1
+                            delay: Double(index) * 0.1 + 0.2
                         ) {
                             selectedSkill = skill.0
                         }
                     }
                 }
-                .padding(.horizontal, 32)
-                
+                .padding(.horizontal, 24)
+
                 Spacer()
-                
+
                 // Continue button
                 Button(action: {
-                    // Save selected skill level
                     appState.skillLevel = selectedSkill
                     appState.navigateTo(.goal)
                 }) {
@@ -84,13 +82,13 @@ struct SkillLevelView: View {
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
+                        .padding(.vertical, 18)
                         .background(
-                            selectedSkill != nil 
-                            ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                            selectedSkill != nil
+                            ? ThemeColors.primary
                             : Color.gray.opacity(0.5)
                         )
-                        .cornerRadius(25)
+                        .cornerRadius(28)
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
                 .disabled(selectedSkill == nil)
@@ -98,9 +96,8 @@ struct SkillLevelView: View {
                 .padding(.bottom, 50)
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : 20)
-                .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
+                .animation(.easeOut(duration: 0.6).delay(0.5), value: animateElements)
             }
-        }
         }
         .onAppear {
             animateElements = true
@@ -108,212 +105,57 @@ struct SkillLevelView: View {
     }
 }
 
-struct SkillCardView: View {
+struct SkillLevelCard: View {
     let skillType: String
     let title: String
     let description: String
+    let iconName: String
+    let iconColor: Color
     let isSelected: Bool
     let delay: Double
     let onTap: () -> Void
-    
+
     @State private var animate = false
-    
+
     var body: some View {
         Button(action: onTap) {
-            HStack(spacing: 16) {
-                // Skill icon
-                SkillIconView(skillType: skillType, isSelected: isSelected)
-                    .frame(width: 24, height: 24)
-                
-                // Text content
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(title)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                    
-                    Text(description)
-                        .font(.caption)
-                        .foregroundColor(Color(red: 0.6, green: 0.6, blue: 0.6))
+            HStack(spacing: 20) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(iconColor.opacity(0.12))
+                        .frame(width: 60, height: 60)
+                    Image(systemName: iconName)
+                        .font(.system(size: 28))
+                        .foregroundColor(iconColor)
                 }
-                
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(title)
+                        .font(.system(size: 20, weight: .bold))
+                        .foregroundColor(ThemeColors.textPrimary)
+                    Text(description)
+                        .font(.subheadline)
+                        .foregroundColor(ThemeColors.textSecondary)
+                }
+
                 Spacer()
             }
-            .padding(16)
-            .background(Color.white)
-            .cornerRadius(12)
+            .padding(20)
+            .background(Color.white.opacity(0.9))
+            .clipShape(RoundedRectangle(cornerRadius: 32))
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(
-                        isSelected 
-                        ? Color(red: 0.561, green: 0.659, blue: 0.533)
-                        : Color.clear,
-                        lineWidth: 3
-                    )
+                RoundedRectangle(cornerRadius: 32)
+                    .stroke(isSelected ? ThemeColors.primary : Color.clear, lineWidth: 2)
             )
-            .shadow(
-                color: .black.opacity(isSelected ? 0.1 : 0.05),
-                radius: isSelected ? 8 : 4,
-                x: 0,
-                y: isSelected ? 4 : 2
-            )
-            .opacity(animate ? 1.0 : 0.0)
-            .offset(x: animate ? 0 : -20)
-            .animation(.easeOut(duration: 0.6).delay(delay), value: animate)
+            .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
         }
         .buttonStyle(PlainButtonStyle())
+        .opacity(animate ? 1.0 : 0.0)
+        .offset(x: animate ? 0 : -20)
+        .animation(.easeOut(duration: 0.6).delay(delay), value: animate)
         .onAppear {
             animate = true
         }
-    }
-}
-
-struct SkillIconView: View {
-    let skillType: String
-    let isSelected: Bool
-    
-    var iconColor: Color {
-        isSelected 
-        ? Color(red: 0.561, green: 0.659, blue: 0.533)
-        : Color(red: 0.4, green: 0.4, blue: 0.4)
-    }
-    
-    var body: some View {
-        Group {
-            switch skillType {
-            case "beginner":
-                SproutIcon(color: iconColor)
-            case "intermediate":
-                YarnBallIcon(color: iconColor)
-            case "pro":
-                StarIcon(color: iconColor)
-            default:
-                EmptyView()
-            }
-        }
-    }
-}
-
-struct SproutIcon: View {
-    let color: Color
-    
-    var body: some View {
-        ZStack {
-            // Stem
-            Path { path in
-                path.move(to: CGPoint(x: 12, y: 22))
-                path.addLine(to: CGPoint(x: 12, y: 14))
-            }
-            .stroke(color, lineWidth: 1.5)
-            
-            // Left leaf
-            Path { path in
-                path.move(to: CGPoint(x: 12, y: 14))
-                path.addQuadCurve(to: CGPoint(x: 6, y: 9), control: CGPoint(x: 8, y: 11))
-                path.addQuadCurve(to: CGPoint(x: 12, y: 12), control: CGPoint(x: 9, y: 8))
-            }
-            .fill(color.opacity(0.2))
-            .overlay(
-                Path { path in
-                    path.move(to: CGPoint(x: 12, y: 14))
-                    path.addQuadCurve(to: CGPoint(x: 6, y: 9), control: CGPoint(x: 8, y: 11))
-                    path.addQuadCurve(to: CGPoint(x: 12, y: 12), control: CGPoint(x: 9, y: 8))
-                }
-                .stroke(color, lineWidth: 1)
-            )
-            
-            // Right leaf
-            Path { path in
-                path.move(to: CGPoint(x: 12, y: 12))
-                path.addQuadCurve(to: CGPoint(x: 18, y: 8), control: CGPoint(x: 15, y: 6))
-                path.addQuadCurve(to: CGPoint(x: 12, y: 11), control: CGPoint(x: 16, y: 9))
-            }
-            .fill(color.opacity(0.2))
-            .overlay(
-                Path { path in
-                    path.move(to: CGPoint(x: 12, y: 12))
-                    path.addQuadCurve(to: CGPoint(x: 18, y: 8), control: CGPoint(x: 15, y: 6))
-                    path.addQuadCurve(to: CGPoint(x: 12, y: 11), control: CGPoint(x: 16, y: 9))
-                }
-                .stroke(color, lineWidth: 1)
-            )
-        }
-    }
-}
-
-struct YarnBallIcon: View {
-    let color: Color
-    
-    var body: some View {
-        ZStack {
-            // Main yarn ball
-            Circle()
-                .fill(color.opacity(0.2))
-                .frame(width: 18, height: 18)
-            
-            Circle()
-                .stroke(color, lineWidth: 1.5)
-                .frame(width: 18, height: 18)
-            
-            // Yarn texture lines
-            Path { path in
-                path.move(to: CGPoint(x: 6, y: 9))
-                path.addQuadCurve(to: CGPoint(x: 18, y: 9), control: CGPoint(x: 12, y: 8))
-            }
-            .stroke(color, lineWidth: 1)
-            .opacity(0.6)
-            
-            Path { path in
-                path.move(to: CGPoint(x: 5, y: 12))
-                path.addQuadCurve(to: CGPoint(x: 19, y: 12), control: CGPoint(x: 12, y: 11))
-            }
-            .stroke(color, lineWidth: 1)
-            .opacity(0.6)
-            
-            Path { path in
-                path.move(to: CGPoint(x: 6, y: 15))
-                path.addQuadCurve(to: CGPoint(x: 18, y: 15), control: CGPoint(x: 12, y: 14))
-            }
-            .stroke(color, lineWidth: 1)
-            .opacity(0.6)
-            
-            // Highlight
-            Circle()
-                .fill(color.opacity(0.15))
-                .frame(width: 4, height: 4)
-                .offset(x: -3, y: -3)
-        }
-    }
-}
-
-struct StarIcon: View {
-    let color: Color
-    
-    var body: some View {
-        StarShape()
-            .fill(color.opacity(0.2))
-            .overlay(StarShape().stroke(color, lineWidth: 1.5))
-    }
-}
-
-private struct StarShape: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        let center = CGPoint(x: rect.midX, y: rect.midY)
-        let outerRadius: CGFloat = min(rect.width, rect.height) * 0.46
-        let innerRadius: CGFloat = outerRadius * 0.5
-        let points = 5
-
-        for i in 0..<points * 2 {
-            let angle = Double(i) * .pi / Double(points) - .pi / 2
-            let radius: CGFloat = i % 2 == 0 ? outerRadius : innerRadius
-            let x = center.x + CGFloat(cos(angle)) * radius
-            let y = center.y + CGFloat(sin(angle)) * radius
-            if i == 0 { path.move(to: CGPoint(x: x, y: y)) }
-            else       { path.addLine(to: CGPoint(x: x, y: y)) }
-        }
-        path.closeSubpath()
-        return path
     }
 }
 

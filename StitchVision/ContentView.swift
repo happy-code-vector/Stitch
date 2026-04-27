@@ -3,38 +3,24 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var appState = AppState()
     @StateObject private var projectStore = ProjectStore()
-    
+
     var body: some View {
         Group {
             switch appState.currentScreen {
             case .splash:
                 SplashView()
-            case .craft:
-                CraftSelectionView()
-            case .skill:
-                SkillLevelView()
             case .struggle:
                 StruggleView()
             case .statsProblem:
                 StatsProblemView()
-            case .habit:
-                HabitFrequencyView()
+            case .craft:
+                CraftSelectionView()
+            case .skill:
+                SkillLevelView()
             case .goal:
                 GoalSettingView()
-            case .statsSolution:
-                StatsSolutionView()
-            case .loading:
-                LoadingView()
-            case .result:
-                ResultView()
-            case .howItWorks:
-                HowItWorksView()
-            case .stats:
-                StatsView()
             case .cameraPermissions:
                 CameraPermissionsView()
-            case .calibration:
-                CalibrationView()
             case .subscription:
                 SubscriptionView()
             case .enhancedSubscription:
@@ -50,8 +36,8 @@ struct ContentView: View {
                 DownsellView()
             case .permissions:
                 PermissionsView()
-            case .freeTierWelcome:
-                FreeTierWelcomeView()
+            case .calibration:
+                CalibrationView()
             case .dashboard:
                 DashboardView()
             case .workMode:
@@ -82,10 +68,6 @@ struct ContentView: View {
                 AbbreviationGlossaryView()
             case .stitchBot:
                 StitchBotChatView()
-            case .valuePropCarousel:
-                ValuePropCarouselView()
-            case .patternLibraryPreview:
-                PatternLibraryPreviewView()
             case .proGate:
                 ProGateView(onUpgrade: {
                     appState.navigateTo(.enhancedSubscription)

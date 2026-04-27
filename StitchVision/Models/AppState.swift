@@ -2,26 +2,19 @@ import SwiftUI
 
 enum ScreenType: CaseIterable {
     case splash
-    case craft
-    case skill
     case struggle
     case statsProblem
-    case habit
+    case craft
+    case skill
     case goal
-    case statsSolution
-    case loading
-    case result
-    case howItWorks
-    case stats
     case cameraPermissions
-    case calibration
     case subscription
     case enhancedSubscription
     case authentication
     case freeVsProComparison
     case downsell
     case permissions
-    case freeTierWelcome
+    case calibration
     case dashboard
     case workMode
     case sessionSummary
@@ -35,8 +28,6 @@ enum ScreenType: CaseIterable {
     case analytics
     case abbreviationGlossary
     case stitchBot
-    case valuePropCarousel
-    case patternLibraryPreview
     case proGate
     case proActivationConfirmation
 }

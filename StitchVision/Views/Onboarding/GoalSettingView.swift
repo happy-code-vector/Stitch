@@ -3,79 +3,77 @@ import SwiftUI
 struct GoalSettingView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedGoal: String?
-    @State private var animateProgress = false
-    
+    @State private var animateElements = false
+
     let goals = [
-        ("finish-more", "Finish more projects", "🎯"),
-        ("relax", "Relax and unwind", "🧘"),
-        ("make-gifts", "Make gifts for loved ones", "🎁"),
-        ("organize-stash", "Learn new techniques", "📚")
+        ("finish-more", "Finish more projects", "target", Color(red: 0.93, green: 0.30, blue: 0.30)),
+        ("relax", "Relax and unwind", "face.smiling", Color(red: 0.96, green: 0.75, blue: 0.15)),
+        ("make-gifts", "Make gifts for loved ones", "heart.fill", Color(red: 0.93, green: 0.43, blue: 0.55))
     ]
-    
+
     var body: some View {
         ZStack {
-            Color(red: 0.976, green: 0.969, blue: 0.949)
+            ThemeColors.background
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {
-            // Progress bar
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Rectangle()
-                        .fill(Color.white.opacity(0.5))
-                        .frame(height: 4)
-                    Rectangle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
-                        .frame(width: animateProgress ? geo.size.width * 0.75 : geo.size.width * 0.625, height: 4)
-                        .clipShape(RoundedRectangle(cornerRadius: 2))
-                        .animation(.easeOut(duration: 0.8), value: animateProgress)
+                // Progress bar (step 5 of 8)
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Rectangle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(height: 6)
+                        Rectangle()
+                            .fill(ThemeColors.primary)
+                            .frame(width: animateElements ? geo.size.width * (5.0/8.0) : geo.size.width * (4.0/8.0), height: 6)
+                            .clipShape(RoundedRectangle(cornerRadius: 3))
+                            .animation(.easeOut(duration: 0.8), value: animateElements)
+                    }
                 }
-            }
-            .frame(height: 4)
-            
-            // Content
-            VStack(spacing: 0) {
+                .frame(height: 6)
+
                 // Back button
                 HStack {
                     BackButton()
                     Spacer()
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 8)
+                .padding(.top, 12)
+
+                Spacer()
 
                 // Header
-                VStack(spacing: 16) {
-                    Text("What's your main goal?")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.173, green: 0.173, blue: 0.173))
-                        .multilineTextAlignment(.center)
-                }
-                .padding(.horizontal, 32)
-                .padding(.top, 40)
-                
-                Spacer()
-                
+                Text("What's your main goal?")
+                    .font(.system(size: 28, weight: .bold))
+                    .foregroundColor(ThemeColors.textPrimary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 32)
+                    .padding(.bottom, 40)
+                    .opacity(animateElements ? 1.0 : 0.0)
+                    .offset(y: animateElements ? 0 : -20)
+                    .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
+
                 // Goal options
-                VStack(spacing: 16) {
-                    ForEach(goals, id: \.0) { goal in
-                        GoalOptionView(
+                VStack(spacing: 12) {
+                    ForEach(Array(goals.enumerated()), id: \.offset) { index, goal in
+                        GoalCard(
                             id: goal.0,
                             label: goal.1,
-                            emoji: goal.2,
-                            isSelected: selectedGoal == goal.0
+                            iconName: goal.2,
+                            iconColor: goal.3,
+                            isSelected: selectedGoal == goal.0,
+                            delay: Double(index) * 0.1 + 0.2
                         ) {
                             selectedGoal = goal.0
                         }
                     }
                 }
-                .padding(.horizontal, 32)
-                
+                .padding(.horizontal, 24)
+
                 Spacer()
-                
+
                 // Continue button
                 Button(action: {
-                    // Save selected goal
                     appState.goal = selectedGoal
                     appState.navigateTo(.cameraPermissions)
                 }) {
@@ -83,59 +81,78 @@ struct GoalSettingView: View {
                         .font(.headline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, 16)
+                        .padding(.vertical, 18)
                         .background(
-                            selectedGoal != nil 
-                            ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                            selectedGoal != nil
+                            ? ThemeColors.primary
                             : Color.gray.opacity(0.5)
                         )
-                        .cornerRadius(25)
+                        .cornerRadius(28)
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
                 .disabled(selectedGoal == nil)
                 .padding(.horizontal, 32)
                 .padding(.bottom, 50)
+                .opacity(animateElements ? 1.0 : 0.0)
+                .offset(y: animateElements ? 0 : 20)
+                .animation(.easeOut(duration: 0.6).delay(0.5), value: animateElements)
             }
         }
+        .onAppear {
+            animateElements = true
         }
-        .onAppear { animateProgress = true }
     }
 }
 
-struct GoalOptionView: View {
+struct GoalCard: View {
     let id: String
     let label: String
-    let emoji: String
+    let iconName: String
+    let iconColor: Color
     let isSelected: Bool
+    let delay: Double
     let onTap: () -> Void
-    
+
+    @State private var animate = false
+
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 12) {
-                Text(emoji)
-                    .font(.system(size: 32))
-                    .foregroundColor(isSelected ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.4, green: 0.4, blue: 0.4))
-                
+            HStack(spacing: 20) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(iconColor.opacity(0.12))
+                        .frame(width: 48, height: 48)
+                    Image(systemName: iconName)
+                        .font(.system(size: 24))
+                        .foregroundColor(iconColor)
+                }
+
                 Text(label)
-                    .font(.headline)
-                    .foregroundColor(isSelected ? Color(red: 0.173, green: 0.173, blue: 0.173) : Color(red: 0.4, green: 0.4, blue: 0.4))
-                    .multilineTextAlignment(.center)
+                    .font(.system(size: 17, weight: .bold))
+                    .foregroundColor(ThemeColors.textPrimary)
+
+                Spacer()
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 24)
-            .background(Color.white)
-            .cornerRadius(16)
+            .padding(20)
+            .background(Color.white.opacity(0.9))
+            .clipShape(RoundedRectangle(cornerRadius: 32))
             .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(
-                        isSelected ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear,
-                        lineWidth: 4
-                    )
+                RoundedRectangle(cornerRadius: 32)
+                    .stroke(isSelected ? ThemeColors.primary : Color.clear, lineWidth: 2)
             )
-            .shadow(color: .black.opacity(isSelected ? 0.1 : 0.05), radius: isSelected ? 12 : 8, x: 0, y: isSelected ? 6 : 2)
-            .scaleEffect(isSelected ? 1.02 : 1.0)
-            .animation(.easeInOut(duration: 0.2), value: isSelected)
+            .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 2)
         }
         .buttonStyle(PlainButtonStyle())
+        .opacity(animate ? 1.0 : 0.0)
+        .offset(x: animate ? 0 : -20)
+        .animation(.easeOut(duration: 0.6).delay(delay), value: animate)
+        .onAppear {
+            animate = true
+        }
     }
+}
+
+#Preview {
+    GoalSettingView()
+        .environmentObject(AppState())
 }
