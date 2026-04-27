@@ -13,7 +13,6 @@ struct StatsProblemView: View {
             // Background image
             Image("empathy_bg")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
                 .opacity(0.1)
                 .ignoresSafeArea()
                 .allowsHitTesting(false)

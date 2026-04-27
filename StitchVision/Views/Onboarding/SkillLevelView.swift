@@ -19,7 +19,6 @@ struct SkillLevelView: View {
             // Background image
             Image("skill_bg")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
                 .opacity(0.1)
                 .ignoresSafeArea()
                 .allowsHitTesting(false)

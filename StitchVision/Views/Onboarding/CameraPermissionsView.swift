@@ -14,7 +14,6 @@ struct CameraPermissionsView: View {
             // Background image
             Image("camera_bg")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
                 .opacity(0.1)
                 .ignoresSafeArea()
                 .allowsHitTesting(false)
