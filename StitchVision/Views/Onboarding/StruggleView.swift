@@ -111,7 +111,7 @@ struct StruggleView: View {
                 .offset(y: animateElements ? 0 : 20)
                 .animation(.easeOut(duration: 0.6).delay(0.4), value: animateElements)
             }
-            .padding(.top, max(geo.safeAreaInsets.top - 20, 4))
+            .padding(.top, 8)
             .background(
                 ZStack(alignment: .top) {
                     ThemeColors.background
