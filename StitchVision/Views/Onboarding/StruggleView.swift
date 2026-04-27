@@ -33,8 +33,8 @@ struct StruggleView: View {
 
             // Content layer
             VStack(spacing: 0) {
-                // Top spacer — push progress bar below status bar area
-                Color.red.frame(height: 48)
+                // Top spacer — 0 to test where progress bar naturally sits
+                Color.red.frame(height: 0)
 
                 // Progress bar (step 1 of 8) + Back button row
                 HStack(spacing: 0) {
