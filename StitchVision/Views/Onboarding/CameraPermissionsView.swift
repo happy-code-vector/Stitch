@@ -35,7 +35,7 @@ struct CameraPermissionsView: View {
                                 .frame(height: 6)
                             Rectangle()
                                 .fill(ThemeColors.primary)
-                                .frame(width: animateElements ? (geo.size.width - 112) * (7.0/8.0) : 0, height: 6)
+                                .frame(width: animateElements ? (geo.size.width - 112) * (7.0/8.0) : (geo.size.width - 112) * (6.0/8.0), height: 6)
                                 .clipShape(RoundedRectangle(cornerRadius: 3))
                                 .animation(.easeOut(duration: 0.8), value: animateElements)
                         }

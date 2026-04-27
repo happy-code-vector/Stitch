@@ -34,7 +34,7 @@ struct StatsProblemView: View {
                                 .frame(height: 6)
                             Rectangle()
                                 .fill(ThemeColors.primary)
-                                .frame(width: animateStats ? (geo.size.width - 112) * (2.0/8.0) : 0, height: 6)
+                                .frame(width: animateStats ? (geo.size.width - 112) * (2.0/8.0) : (geo.size.width - 112) * (1.0/8.0), height: 6)
                                 .clipShape(RoundedRectangle(cornerRadius: 3))
                                 .animation(.easeOut(duration: 0.8), value: animateStats)
                         }
