@@ -11,6 +11,7 @@ struct StruggleView: View {
     ]
 
     var body: some View {
+        GeometryReader { _ in
         VStack(spacing: 0) {
             // Progress bar (step 1 of 8) + Back button row
             HStack(spacing: 0) {
@@ -132,8 +133,8 @@ struct StruggleView: View {
         .onAppear {
             animateElements = true
         }
+        }
     }
-}
 
 struct FrustrationCard: View {
     let id: String
