@@ -131,7 +131,7 @@ struct DownsellView: View {
 
                                 // Savings callout
                                 HStack {
-                                    Text("Billed annually — Save 58%")
+                                    Text("Billed annually — Save 42%")
                                         .font(.headline)
                                         .foregroundColor(Color(red: 0.831, green: 0.502, blue: 0.435))
                                         .padding(.horizontal, 16)

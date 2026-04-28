@@ -2,15 +2,15 @@ import Foundation
 
 /// Centralized pricing constants — single source of truth for all screens.
 enum SubscriptionPricing {
-    static let yearlyPrice: Double = 79.99
-    static let monthlyPrice: Double = 12.99
+    static let yearlyPrice: Double = 34.99
+    static let monthlyPrice: Double = 4.99
 
-    static let yearlyDisplay = "$79.99/year"
-    static let monthlyDisplay = "$12.99/mo"
-    static let yearlyPerMonthDisplay = "$6.67/mo"
-    static let yearlyPerMonthAmount = "$6.67"
+    static let yearlyDisplay = "$34.99/year"
+    static let monthlyDisplay = "$4.99/mo"
+    static let yearlyPerMonthDisplay = "$2.92/mo"
+    static let yearlyPerMonthAmount = "$2.92"
 
-    static let yearlySavingsText = "Save 49%"
+    static let yearlySavingsText = "Save 42%"
 }
 
 /// Subscription tier

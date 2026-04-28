@@ -135,16 +135,16 @@ struct SubscriptionView: View {
                                         Text("Annual Plan")
                                             .font(.system(size: 18, weight: .bold))
                                             .foregroundColor(ThemeColors.textPrimary)
-                                        Text("$4.99/mo (billed annually)")
+                                        Text("$2.92/mo (billed annually)")
                                             .font(.system(size: 14))
                                             .foregroundColor(ThemeColors.textSecondary)
                                     }
                                     Spacer()
                                     VStack(alignment: .trailing, spacing: 2) {
-                                        Text("$59.99")
+                                        Text("$34.99")
                                             .font(.system(size: 22, weight: .bold))
                                             .foregroundColor(ThemeColors.textPrimary)
-                                        Text("SAVE 60%")
+                                        Text("SAVE 42%")
                                             .font(.system(size: 10, weight: .bold))
                                             .foregroundColor(Color(red: 0.133, green: 0.302, blue: 0.224))
                                     }
@@ -187,7 +187,7 @@ struct SubscriptionView: View {
                                         .foregroundColor(ThemeColors.textSecondary)
                                 }
                                 Spacer()
-                                Text("$12.99")
+                                Text("$4.99")
                                     .font(.system(size: 22, weight: .bold))
                                     .foregroundColor(ThemeColors.textPrimary)
                             }
