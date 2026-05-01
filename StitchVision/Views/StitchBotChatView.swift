@@ -169,7 +169,7 @@ struct StitchBotChatView: View {
                         Circle()
                             .fill(inputText.isEmpty || service.isLoading
                                   ? ThemeColors.border
-                                  : ThemeColors.primaryGradient)
+                                  : ThemeColors.primary)
                             .frame(width: 44, height: 44)
 
                         if service.isLoading {

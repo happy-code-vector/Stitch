@@ -74,12 +74,9 @@ struct PeriodSelectorView: View {
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                         .background(selectedPeriod == period ?
-                                    ThemeColors.primaryGradient :
-                                    LinearGradient(colors: [ThemeColors.surface], startPoint: .leading, endPoint: .trailing))
+                                    ThemeColors.primary : ThemeColors.surface)
                         .foregroundColor(selectedPeriod == period ? .white : ThemeColors.textSecondary)
                         .cornerRadius(20)
-                        .shadow(selectedPeriod == period ?
-                                Color.black.opacity(0.1) : Color.clear, radius: 4, x: 0, y: 2)
                 }
             }
         }
