@@ -114,12 +114,12 @@ struct CompletedRowsOverlay: View {
 #Preview {
     PatternProgressOverlay(
         pattern: KnittingPattern(
-            id: "preview",
             name: "Test Pattern",
+            imageData: Data(),
+            detectedRows: [],
             totalRows: 20,
             currentRow: 10,
-            completedRows: [],
-            source: "preview"
+            completedRows: []
         ),
         currentRowCount: 10
     )

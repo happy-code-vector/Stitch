@@ -367,7 +367,7 @@ struct SparkleData {
 }
 
 #Preview {
-    SessionSummaryView()
+    SessionSummaryView(rowsKnit: 12, timeSpent: 1800, sessionStartTime: Date())
         .environmentObject(AppState())
         .environmentObject(ProjectStore())
 }

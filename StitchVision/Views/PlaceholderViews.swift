@@ -75,6 +75,6 @@ struct SecondaryButtonStyle: ButtonStyle {
 }
 
 #Preview {
-    PlaceholderView(title: "Coming Soon", subtitle: "This feature is under development")
+    PlaceholderView(title: "Coming Soon", nextScreen: .dashboard)
         .environmentObject(AppState())
 }
