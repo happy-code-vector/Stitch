@@ -72,12 +72,15 @@ struct CraftSelectionView: View {
                     .offset(y: animateElements ? 0 : -20)
                     .animation(.easeOut(duration: 0.6).delay(0.1), value: animateElements)
 
-                // Craft cards
-                VStack(spacing: 20) {
+                // Craft cards (2x2 grid)
+                LazyVGrid(columns: [
+                    GridItem(.flexible(), spacing: 16),
+                    GridItem(.flexible(), spacing: 16)
+                ], spacing: 16) {
                     CraftLargeCard(
                         craftType: "knitting",
                         label: "Knitting",
-                        iconSystemName: "scissors",
+                        iconSystemName: "pencil.line",
                         isSelected: selectedCraft == "knitting",
                         delay: 0.2
                     ) {
@@ -87,14 +90,34 @@ struct CraftSelectionView: View {
                     CraftLargeCard(
                         craftType: "crochet",
                         label: "Crochet",
-                        iconSystemName: "flowchart.fill",
+                        iconSystemName: "paintbrush.pointed",
                         isSelected: selectedCraft == "crochet",
                         delay: 0.3
                     ) {
                         selectedCraft = "crochet"
                     }
+
+                    CraftLargeCard(
+                        craftType: "both",
+                        label: "Both",
+                        iconSystemName: "arrow.2.circlepath",
+                        isSelected: selectedCraft == "both",
+                        delay: 0.4
+                    ) {
+                        selectedCraft = "both"
+                    }
+
+                    CraftLargeCard(
+                        craftType: "other",
+                        label: "Other",
+                        iconSystemName: "plus.circle.fill",
+                        isSelected: selectedCraft == "other",
+                        delay: 0.5
+                    ) {
+                        selectedCraft = "other"
+                    }
                 }
-                .padding(.horizontal, 48)
+                .padding(.horizontal, 24)
 
                 Spacer()
 
@@ -108,14 +131,11 @@ struct CraftSelectionView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 18)
-                        .background(
-                            selectedCraft != nil
-                            ? ThemeColors.primary
-                            : Color.gray.opacity(0.5)
-                        )
+                        .background(ThemeColors.primary)
                         .cornerRadius(28)
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
+                .opacity(selectedCraft != nil ? 1.0 : 0.5)
                 .disabled(selectedCraft == nil)
                 .padding(.horizontal, 32)
                 .padding(.bottom, 50)

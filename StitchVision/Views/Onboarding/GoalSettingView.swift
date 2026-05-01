@@ -7,8 +7,9 @@ struct GoalSettingView: View {
 
     let goals = [
         ("finish-more", "Finish more projects", "target", Color(red: 0.93, green: 0.30, blue: 0.30)),
-        ("relax", "Relax and unwind", "face.smiling", Color(red: 0.96, green: 0.75, blue: 0.15)),
-        ("make-gifts", "Make gifts for loved ones", "heart.fill", Color(red: 0.93, green: 0.43, blue: 0.55))
+        ("learn-new", "Learn new techniques", "graduationcap.fill", Color(red: 0.30, green: 0.47, blue: 0.93)),
+        ("make-gifts", "Make gifts for loved ones", "heart.fill", Color(red: 0.93, green: 0.43, blue: 0.55)),
+        ("sell-makes", "Sell what I make", "tag.fill", Color(red: 0.96, green: 0.75, blue: 0.15))
     ]
 
     var body: some View {

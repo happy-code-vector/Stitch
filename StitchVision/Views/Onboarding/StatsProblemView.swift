@@ -55,7 +55,7 @@ struct StatsProblemView: View {
                                 .font(.system(size: 28, weight: .bold))
                                 .foregroundColor(ThemeColors.textPrimary)
 
-                            Text("Crafting has its challenges, but we've got you.")
+                            Text("Crafters like you told us what slows them down.")
                                 .font(.body)
                                 .foregroundColor(ThemeColors.textSecondary)
                         }
@@ -71,7 +71,7 @@ struct StatsProblemView: View {
                             StatCard(
                                 icon: "timer",
                                 value: "4+ Hours",
-                                label: "Wasted per project",
+                                label: "Lost per project to mistakes and recounting",
                                 accentColor: Color(red: 0.91, green: 0.478, blue: 0.365),
                                 delay: 0.2
                             )
@@ -79,9 +79,17 @@ struct StatsProblemView: View {
                             StatCard(
                                 icon: "exclamationmark.triangle.fill",
                                 value: "73%",
-                                label: "Lose track of rows",
+                                label: "Of crafters lose track of rows mid-project",
                                 accentColor: Color(red: 0.91, green: 0.478, blue: 0.365),
                                 delay: 0.4
+                            )
+
+                            StatCard(
+                                icon: "xmark.circle.fill",
+                                value: "1 in 2",
+                                label: "Projects get abandoned before they're finished",
+                                accentColor: Color(red: 0.91, green: 0.478, blue: 0.365),
+                                delay: 0.6
                             )
                         }
                         .padding(.horizontal, 24)
@@ -90,14 +98,10 @@ struct StatsProblemView: View {
 
                         // Green message box
                         HStack(spacing: 12) {
-                            Text("StitchVision eliminates the guesswork from your first project.")
+                            Text("StitchVision was built to solve exactly this.")
                                 .font(.system(size: 15, weight: .semibold))
                                 .foregroundColor(Color(red: 0.133, green: 0.302, blue: 0.224))
                                 .multilineTextAlignment(.leading)
-
-                            Image(systemName: "heart.text.square")
-                                .font(.system(size: 28))
-                                .foregroundColor(ThemeColors.primary)
                         }
                         .padding(20)
                         .background(Color(red: 0.929, green: 0.957, blue: 0.918).opacity(0.8))
