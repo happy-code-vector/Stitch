@@ -20,50 +20,6 @@ struct DashboardView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                // Header with gradient background
-                VStack(spacing: 0) {
-                    HStack {
-                        HStack(spacing: 16) {
-                            Circle()
-                                .fill(ThemeColors.primaryGradient)
-                                .frame(width: 48, height: 48)
-                                .shadow(color: ThemeColors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
-                                .overlay(
-                                    Text(appState.userName?.first?.uppercased() ?? "S")
-                                        .font(.system(size: 20, weight: .bold))
-                                        .foregroundColor(.white)
-                                )
-
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("Good \(timeOfDay),")
-                                    .font(.system(size: 15, weight: .medium))
-                                    .foregroundColor(ThemeColors.textSecondary)
-                                Text(appState.userName ?? "Creator")
-                                    .font(.system(size: 22, weight: .bold, design: .rounded))
-                                    .foregroundColor(ThemeColors.textPrimary)
-                            }
-                        }
-
-                        Spacer()
-
-                        Button(action: {
-                            appState.navigateTo(.settings)
-                        }) {
-                            Image(systemName: "gearshape.fill")
-                                .font(.system(size: 20))
-                                .foregroundColor(ThemeColors.primary)
-                                .frame(width: 44, height: 44)
-                                .background(ThemeColors.primaryLight)
-                                .cornerRadius(12)
-                        }
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 20)
-                    .padding(.bottom, 24)
-                }
-                .background(
-                    ThemeColors.warmGradient
-                )
 
                 // Tip Banner when no active project
                 if activeProject == nil {
@@ -269,6 +225,50 @@ struct DashboardView: View {
             }
         }
         .background(ThemeColors.background.ignoresSafeArea())
+        .safeAreaInset(edge: .top, spacing: 0) {
+            // Sticky header — stays pinned, masks scroll content
+            VStack(spacing: 0) {
+                HStack {
+                    HStack(spacing: 16) {
+                        Circle()
+                            .fill(ThemeColors.primaryGradient)
+                            .frame(width: 48, height: 48)
+                            .shadow(color: ThemeColors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
+                            .overlay(
+                                Text(appState.userName?.first?.uppercased() ?? "S")
+                                    .font(.system(size: 20, weight: .bold))
+                                    .foregroundColor(.white)
+                            )
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Good \(timeOfDay),")
+                                .font(.system(size: 15, weight: .medium))
+                                .foregroundColor(ThemeColors.textSecondary)
+                            Text(appState.userName ?? "Creator")
+                                .font(.system(size: 22, weight: .bold, design: .rounded))
+                                .foregroundColor(ThemeColors.textPrimary)
+                        }
+                    }
+
+                    Spacer()
+
+                    Button(action: {
+                        appState.navigateTo(.settings)
+                    }) {
+                        Image(systemName: "gearshape.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(ThemeColors.primary)
+                            .frame(width: 44, height: 44)
+                            .background(ThemeColors.primaryLight)
+                            .cornerRadius(12)
+                    }
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 16)
+                .padding(.bottom, 16)
+            }
+            .background(ThemeColors.background)
+        }
         .overlay(
             Group {
                 if showActiveToast {
