@@ -150,6 +150,7 @@ struct DashboardView: View {
                     }
                     .padding(.horizontal, 24)
                 }
+                .padding(.top, 20)
 
                 // Project Stash
                 VStack(alignment: .leading, spacing: 16) {

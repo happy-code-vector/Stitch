@@ -52,23 +52,6 @@ struct PermissionsView: View {
             .ignoresSafeArea()
             
             VStack(spacing: 0) {
-                // Progress bar
-                HStack {
-                    Rectangle()
-                        .fill(ThemeColors.primary)
-                        .frame(height: 4)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .clipShape(RoundedRectangle(cornerRadius: 2))
-                        .scaleEffect(x: 0.95, y: 1, anchor: .leading)
-                        .animation(.easeOut(duration: 0.8), value: animateElements)
-                    
-                    Rectangle()
-                        .fill(Color.white.opacity(0.5))
-                        .frame(height: 4)
-                        .frame(maxWidth: .infinity)
-                }
-                .padding(.horizontal, 0)
-                
                 Spacer()
                 
                 // Modal content
