@@ -2,12 +2,14 @@ import SwiftUI
 
 struct StruggleView: View {
     @EnvironmentObject var appState: AppState
-    @State private var selectedStruggle: String?
+    @State private var selectedStruggles: Set<String> = []
     @State private var animateElements = false
 
     let struggles = [
         ("losing-count", "Losing count", "Recounting rows is exhausting"),
-        ("dropping-stitches", "Dropping stitches", "Finding mistakes too late")
+        ("dropping-stitches", "Dropping stitches", "Finding mistakes too late"),
+        ("complex-patterns", "Following complex patterns", "Getting lost mid-project"),
+        ("multiple-projects", "Keeping track of multiple projects", "Too many WIPs, too much chaos")
     ]
 
     var body: some View {
@@ -92,9 +94,13 @@ struct StruggleView: View {
                             id: struggle.0,
                             title: struggle.1,
                             description: struggle.2,
-                            isSelected: selectedStruggle == struggle.0
+                            isSelected: selectedStruggles.contains(struggle.0)
                         ) {
-                            selectedStruggle = struggle.0
+                            if selectedStruggles.contains(struggle.0) {
+                                selectedStruggles.remove(struggle.0)
+                            } else {
+                                selectedStruggles.insert(struggle.0)
+                            }
                         }
                     }
                 }
@@ -104,9 +110,7 @@ struct StruggleView: View {
 
                 // Continue button
                 Button(action: {
-                    if let struggle = selectedStruggle {
-                        appState.struggles = [struggle]
-                    }
+                    appState.struggles = Array(selectedStruggles)
                     appState.navigateTo(.statsProblem)
                 }) {
                     Text("Continue")
@@ -115,14 +119,14 @@ struct StruggleView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 18)
                         .background(
-                            selectedStruggle != nil
+                            !selectedStruggles.isEmpty
                             ? ThemeColors.primary
                             : Color.gray.opacity(0.5)
                         )
                         .cornerRadius(28)
                         .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                 }
-                .disabled(selectedStruggle == nil)
+                .disabled(selectedStruggles.isEmpty)
                 .padding(.horizontal, 32)
                 .padding(.bottom, 50)
                 .opacity(animateElements ? 1.0 : 0.0)
@@ -147,14 +151,14 @@ struct FrustrationCard: View {
         Button(action: onTap) {
             HStack(spacing: 16) {
                 ZStack {
-                    Circle()
+                    RoundedRectangle(cornerRadius: 6)
                         .stroke(
                             isSelected ? ThemeColors.primary : Color.gray.opacity(0.3),
                             lineWidth: 2
                         )
                         .frame(width: 24, height: 24)
                     if isSelected {
-                        Circle()
+                        RoundedRectangle(cornerRadius: 6)
                             .fill(ThemeColors.primary)
                             .frame(width: 24, height: 24)
                             .overlay(
