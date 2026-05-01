@@ -3,6 +3,20 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var appState = AppState()
     @StateObject private var projectStore = ProjectStore()
+    @State private var showStitchBot = false
+
+    private let onboardingScreens: Set<ScreenType> = [
+        .splash, .struggle, .statsProblem, .craft, .skill, .goal,
+        .cameraPermissions, .subscription, .enhancedSubscription,
+        .authentication, .freeVsProComparison, .downsell, .permissions,
+        .calibration, .proGate, .proActivationConfirmation
+    ]
+
+    private var showStitchBotButton: Bool {
+        !onboardingScreens.contains(appState.currentScreen)
+            && appState.currentScreen != .stitchBot
+            && appState.currentScreen != .workMode
+    }
 
     var body: some View {
         Group {
@@ -77,6 +91,18 @@ struct ContentView: View {
             case .proActivationConfirmation:
                 ProActivationConfirmationView()
             }
+        }
+        .overlay {
+            if showStitchBotButton {
+                StitchBotFloatingButton {
+                    showStitchBot = true
+                }
+            }
+        }
+        .sheet(isPresented: $showStitchBot) {
+            StitchBotChatView()
+                .environmentObject(appState)
+                .environmentObject(projectStore)
         }
         .environmentObject(appState)
         .environmentObject(projectStore)
