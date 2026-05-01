@@ -37,10 +37,11 @@ struct AnalyticsView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Close") {
-                        appState.goBack()
+                    Button(action: { appState.goBack() }) {
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                     }
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {

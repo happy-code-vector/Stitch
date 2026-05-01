@@ -156,13 +156,9 @@ struct AbbreviationGlossaryView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: { appState.goBack() }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 17, weight: .semibold))
-                            Text("Back")
-                                .font(.system(size: 17))
-                        }
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        Image(systemName: "chevron.left")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                     }
                 }
             }
