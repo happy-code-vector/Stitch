@@ -121,7 +121,7 @@ struct DashboardView: View {
                                 appState.navigateTo(.workMode)
                             }) {
                                 VStack(spacing: 8) {
-                                    Image(systemName: "camera.circle.fill")
+                                    Image(systemName: "number.circle.fill")
                                         .font(.system(size: 28))
                                         .foregroundColor(Color(red: 0.4, green: 0.6, blue: 0.8))
                                     Text("Quick Count")
@@ -140,7 +140,7 @@ struct DashboardView: View {
                                 appState.navigateTo(.projectSetup)
                             }) {
                                 VStack(spacing: 8) {
-                                    Image(systemName: "shippingbox.circle.fill")
+                                    Image(systemName: "archivebox.circle.fill")
                                         .font(.system(size: 28))
                                         .foregroundColor(Color(red: 0.949, green: 0.631, blue: 0.286))
                                     Text("Add to Stash")
@@ -158,15 +158,50 @@ struct DashboardView: View {
                     }
                     
                     // Project Stash
-                    if !otherProjects.isEmpty {
-                        VStack(alignment: .leading, spacing: 16) {
-                            Text("Your Project Stash")
-                                .font(.title3)
-                                .fontWeight(.bold)
-                                .foregroundColor(ThemeColors.textPrimary)
-                                .padding(.horizontal, 24)
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Your Project Stash")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundColor(ThemeColors.textPrimary)
+                            .padding(.horizontal, 24)
+
+                        if otherProjects.isEmpty {
+                            Button(action: {
+                                appState.navigateTo(.projectSetup)
+                            }) {
+                                HStack(spacing: 16) {
+                                    ZStack {
+                                        Circle()
+                                            .fill(ThemeColors.primary.opacity(0.1))
+                                            .frame(width: 48, height: 48)
+                                        Image(systemName: "plus")
+                                            .font(.system(size: 20, weight: .bold))
+                                            .foregroundColor(ThemeColors.primary)
+                                    }
+
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Start your first project")
+                                            .font(.headline)
+                                            .foregroundColor(ThemeColors.textPrimary)
+                                        Text("Tap here to create a project and start tracking")
+                                            .font(.caption)
+                                            .foregroundColor(ThemeColors.textSecondary)
+                                    }
+
+                                    Spacer()
+
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(ThemeColors.textSecondary)
+                                }
+                                .padding(16)
+                                .background(Color.white)
+                                .cornerRadius(16)
+                                .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                            }
+                            .padding(.horizontal, 24)
+                        } else {
+                            ScrollView(.horizontal, showsIndicators: true) {
                                 HStack(spacing: 16) {
                                     ForEach(otherProjects, id: \.id) { project in
                                         ProjectStashCard(project: project, appState: appState, projectStore: projectStore)
@@ -175,8 +210,25 @@ struct DashboardView: View {
                                 .padding(.horizontal, 24)
                             }
                         }
-                        .padding(.top, 24)
                     }
+                    .padding(.top, 24)
+
+                    // Engagement nudge
+                    HStack(spacing: 12) {
+                        Image(systemName: "flame.fill")
+                            .font(.system(size: 20))
+                            .foregroundColor(Color(red: 0.949, green: 0.631, blue: 0.286))
+                        Text("You've tracked 0 rows this week — let's change that")
+                            .font(.subheadline)
+                            .foregroundColor(ThemeColors.textSecondary)
+                        Spacer()
+                    }
+                    .padding(16)
+                    .background(Color.white)
+                    .cornerRadius(16)
+                    .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 24)
                     
                     // Quick Actions
                     VStack(alignment: .leading, spacing: 16) {
@@ -199,7 +251,7 @@ struct DashboardView: View {
                             QuickActionButton(
                                 icon: "doc.text.fill",
                                 title: "Upload Pattern",
-                                subtitle: "Add a new knitting pattern",
+                                subtitle: "Add a new pattern",
                                 color: Color(red: 0.831, green: 0.502, blue: 0.435)
                             ) {
                                 appState.navigateTo(.patternUpload)
@@ -208,7 +260,7 @@ struct DashboardView: View {
                             QuickActionButton(
                                 icon: "chart.bar.fill",
                                 title: "View Analytics",
-                                subtitle: "See your knitting statistics",
+                                subtitle: "See your crafting statistics",
                                 color: Color(red: 0.4, green: 0.6, blue: 0.8)
                             ) {
                                 appState.navigateTo(.analytics)
@@ -359,7 +411,7 @@ struct ActiveProjectCardView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(ThemeColors.textPrimary)
                             
-                            Text("Row \(project.currentRow) of \(project.totalRows)")
+                            Text(project.totalRows > 0 ? "Row \(project.currentRow) of \(project.totalRows)" : "Set up your pattern to begin")
                                 .font(.subheadline)
                                 .foregroundColor(ThemeColors.textSecondary)
                             
@@ -388,7 +440,7 @@ struct ActiveProjectCardView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(Color(red: 0.788, green: 0.427, blue: 0.373))
+                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                     }
@@ -405,32 +457,32 @@ struct ActiveProjectCardView: View {
 
 struct NoActiveProjectCardView: View {
     let appState: AppState
-    
+
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
                 RoundedRectangle(cornerRadius: 24)
                     .fill(Color.white)
                     .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
-                
+
                 VStack(spacing: 20) {
                     Image(systemName: "plus.circle.fill")
                         .font(.system(size: 64))
                         .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-                    
+
                     VStack(spacing: 8) {
                         Text("No Active Project")
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(ThemeColors.textPrimary)
-                        
-                        Text("Start a new project to begin tracking your knitting progress")
+
+                        Text("Start a new project to begin tracking your crafting progress")
                             .font(.subheadline)
                             .foregroundColor(ThemeColors.textSecondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 16)
                     }
-                    
+
                     Button(action: {
                         appState.navigateTo(.projectSetup)
                     }) {
@@ -442,7 +494,7 @@ struct NoActiveProjectCardView: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(Color(red: 0.788, green: 0.427, blue: 0.373))
+                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                     }
@@ -489,7 +541,7 @@ struct ProjectStashCard: View {
                         .foregroundColor(ThemeColors.textPrimary)
                         .lineLimit(1)
                     
-                    Text("\(project.currentRow)/\(project.totalRows) rows")
+                    Text(project.totalRows > 0 ? "\(project.currentRow)/\(project.totalRows) rows" : "Set up your pattern to begin")
                         .font(.caption)
                         .foregroundColor(ThemeColors.textSecondary)
                 }
