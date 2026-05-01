@@ -48,23 +48,23 @@ struct PatternUploadView: View {
                         VStack(spacing: 16) {
                             HStack(spacing: 16) {
                                 Circle()
-                                    .fill(.white.opacity(0.2))
+                                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
                                     .frame(width: 48, height: 48)
                                     .overlay(
                                         Image(systemName: "sparkles")
                                             .font(.system(size: 24))
-                                            .foregroundColor(.white)
+                                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                                     )
 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("AI Pattern Parsing")
                                         .font(.headline)
                                         .fontWeight(.bold)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(ThemeColors.textPrimary)
 
-                                    Text("Upload any knitting pattern, and our AI will automatically detect rows for easy tracking.")
+                                    Text("Upload any pattern, and our AI will automatically detect rows for easy tracking.")
                                         .font(.system(size: 14, weight: .regular))
-                                        .foregroundColor(.white.opacity(0.9))
+                                        .foregroundColor(ThemeColors.textSecondary)
                                         .lineLimit(nil)
                                 }
 
@@ -73,17 +73,17 @@ struct PatternUploadView: View {
                         }
                         .padding(.horizontal, 24)
                         .padding(.vertical, 24)
-                        .background(
-                            LinearGradient(
-                                colors: [
-                                    Color(red: 0.561, green: 0.659, blue: 0.533),
-                                    Color(red: 0.49, green: 0.57, blue: 0.46)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
+                        .background(Color.white)
                         .cornerRadius(24)
+                        .overlay(
+                            HStack {
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .frame(width: 4)
+                                Spacer()
+                            }
+                            .padding(0)
+                        )
 
                         // Upload Options
                         VStack(spacing: 16) {
@@ -100,6 +100,14 @@ struct PatternUploadView: View {
                                 icon: "camera",
                                 title: "Take Photo of Pattern",
                                 description: "Capture printed pattern with your camera",
+                                action: { showImportSheet = true }
+                            )
+
+                            // PDF Import
+                            UploadOptionView(
+                                icon: "doc.richtext",
+                                title: "Import PDF",
+                                description: "Upload a pattern PDF from your files",
                                 action: { showImportSheet = true }
                             )
                         }

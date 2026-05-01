@@ -234,11 +234,11 @@ struct CraftBadge: View {
     var badgeColor: Color {
         switch craftType {
         case .knitting:
-            return Color(red: 0.561, green: 0.659, blue: 0.533)
+            return Color(red: 0.83, green: 0.71, blue: 0.55)  // warm amber/tan
         case .crochet:
-            return Color(red: 0.949, green: 0.631, blue: 0.286)
+            return Color(red: 0.93, green: 0.65, blue: 0.58)  // warm coral/peach
         case .both:
-            return Color(red: 0.4, green: 0.6, blue: 0.8)
+            return Color(red: 0.561, green: 0.659, blue: 0.533)  // sage green (brand color)
         }
     }
 

@@ -11,11 +11,6 @@ struct StitchBotChatView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // Usage indicator (Free tier only)
-                if !subscription.isPro {
-                    usageIndicator
-                }
-
                 // Messages
                 messagesView
 
@@ -50,43 +45,6 @@ struct StitchBotChatView: View {
                 PaywallView(feature: "Unlimited AI Chat")
             }
         }
-    }
-
-    // MARK: - Usage Indicator
-
-    private var usageIndicator: some View {
-        HStack {
-            Image(systemName: "bubble.left.and.bubble.right")
-                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-
-            if subscription.isPro {
-                Text("Pro: \(service.proDailyLimit - service.todayUsageCount()) questions left today")
-                    .font(.caption)
-                    .foregroundColor(ThemeColors.textSecondary)
-            } else {
-                Text(service.questionsRemaining > 0
-                     ? "\(service.questionsRemaining) questions left this month"
-                     : "No questions remaining")
-                    .font(.caption)
-                    .foregroundColor(service.questionsRemaining <= 3 ? .orange : ThemeColors.textSecondary)
-
-                Spacer()
-
-                if service.questionsRemaining <= 3 {
-                    Button("Upgrade") {
-                        showPaywall = true
-                    }
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
-                }
-            }
-
-            Spacer()
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 8)
-        .background(ThemeColors.surfaceRaised)
     }
 
     // MARK: - Messages View
@@ -132,7 +90,7 @@ struct StitchBotChatView: View {
 
     private var emptyStateView: some View {
         VStack(spacing: 20) {
-            Image(systemName: "bubble.left.and.exclamationmark.bubble.right")
+            Image(systemName: "sparkles")
                 .font(.system(size: 60))
                 .foregroundColor(ThemeColors.textSecondary)
 
@@ -166,9 +124,12 @@ struct StitchBotChatView: View {
                     .font(.subheadline)
                     .foregroundColor(ThemeColors.textPrimary)
                 Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(ThemeColors.textSecondary)
             }
             .padding(.horizontal, 16)
-            .padding(.vertical, 12)
+            .padding(.vertical, 14)
             .background(ThemeColors.surface)
             .cornerRadius(12)
         }
@@ -225,6 +186,17 @@ struct StitchBotChatView: View {
             .padding(.vertical, 12)
             .background(ThemeColors.surface)
             .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: -2)
+
+            if !subscription.isPro {
+                HStack {
+                    Text("\(service.questionsRemaining) free questions remaining this month · Upgrade for unlimited")
+                        .font(.system(size: 11))
+                        .foregroundColor(ThemeColors.textSecondary)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 8)
+            }
         }
     }
 

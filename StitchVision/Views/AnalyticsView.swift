@@ -21,7 +21,9 @@ struct AnalyticsView: View {
                     ChartsSection()
 
                     // Insights Section
-                    InsightsSection()
+                    if analyticsService.totalRows > 0 || analyticsService.completedProjects > 0 {
+                        InsightsSection()
+                    }
 
                     // Achievements Section
                     AchievementsSection()
@@ -89,34 +91,48 @@ struct OverviewCardsSection: View {
     @ObservedObject var analyticsService = AnalyticsService.shared
 
     var body: some View {
+        if analyticsService.totalRows == 0 && analyticsService.completedProjects == 0 {
+            HStack(spacing: 12) {
+                Image(systemName: "chart.bar")
+                    .foregroundColor(ThemeColors.textSecondary)
+                Text("Start tracking projects to see your stats here")
+                    .font(.subheadline)
+                    .foregroundColor(ThemeColors.textSecondary)
+                Spacer()
+            }
+            .padding(16)
+            .background(ThemeColors.surface)
+            .cornerRadius(12)
+        }
+
         LazyVGrid(columns: [
             GridItem(.flexible()),
             GridItem(.flexible())
         ], spacing: 16) {
             StatCardView(
                 title: "Total Rows",
-                value: "\(analyticsService.totalRows)",
+                value: analyticsService.totalRows == 0 ? "—" : "\(analyticsService.totalRows)",
                 icon: "checkmark.circle.fill",
                 color: Color(red: 0.561, green: 0.659, blue: 0.533)
             )
 
             StatCardView(
-                title: "Time Knitting",
-                value: analyticsService.formattedTotalTime,
+                title: "Time Crafting",
+                value: analyticsService.formattedTotalTime == "0 min" ? "—" : analyticsService.formattedTotalTime,
                 icon: "clock.fill",
                 color: Color(red: 0.831, green: 0.502, blue: 0.435)
             )
 
             StatCardView(
                 title: "Current Streak",
-                value: "\(analyticsService.currentStreak) days",
+                value: analyticsService.currentStreak == 0 ? "—" : "\(analyticsService.currentStreak) days",
                 icon: "flame.fill",
                 color: Color(red: 0.949, green: 0.631, blue: 0.286)
             )
 
             StatCardView(
                 title: "Projects Done",
-                value: "\(analyticsService.completedProjects)",
+                value: analyticsService.completedProjects == 0 ? "—" : "\(analyticsService.completedProjects)",
                 icon: "checkmark.seal.fill",
                 color: Color(red: 0.4, green: 0.6, blue: 0.8)
             )
@@ -139,7 +155,7 @@ struct ChartsSection: View {
                     .foregroundColor(ThemeColors.textPrimary)
 
                 if analyticsService.dailyStats.isEmpty {
-                    EmptyChartView(message: "No data yet. Start knitting!")
+                    EmptyChartView(message: "No data yet — complete some rows to see your progress")
                 } else {
                     RowTrendChart(stats: analyticsService.dailyStats)
                         .frame(height: 200)
@@ -155,7 +171,7 @@ struct ChartsSection: View {
                     .foregroundColor(ThemeColors.textPrimary)
 
                 if analyticsService.weeklyStats.isEmpty {
-                    EmptyChartView(message: "No weekly data yet")
+                    EmptyChartView(message: "No data yet — complete some rows to see your progress")
                 } else {
                     WeeklyBarChart(stats: Array(analyticsService.weeklyStats.suffix(8)))
                         .frame(height: 180)
@@ -245,38 +261,45 @@ struct AchievementsSection: View {
     @ObservedObject var achievementService = AchievementService.shared
     @ObservedObject var subscriptionManager = SubscriptionManager.shared
 
-    private let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
-
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Text("Achievements")
-                    .font(.headline)
-                    .foregroundColor(ThemeColors.textPrimary)
+            Text("Next to Unlock")
+                .font(.headline)
+                .foregroundColor(ThemeColors.textPrimary)
 
-                Spacer()
+            VStack(spacing: 12) {
+                ForEach(achievementService.achievements.prefix(3)) { achievement in
+                    HStack(spacing: 16) {
+                        Text(achievement.icon)
+                            .font(.system(size: 28))
+                            .opacity(achievement.isUnlocked ? 1.0 : 0.6)
 
-                Text("\(achievementService.unlockedCount)/\(achievementService.totalCount)")
-                    .font(.subheadline)
-                    .foregroundColor(ThemeColors.textSecondary)
-            }
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(achievement.title)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundColor(ThemeColors.textPrimary)
+                            Text(achievement.description)
+                                .font(.caption)
+                                .foregroundColor(ThemeColors.textSecondary)
+                        }
 
-            LazyVGrid(columns: columns, spacing: 16) {
-                ForEach(achievementService.achievements.prefix(12)) { achievement in
-                    AchievementBadgeView(achievement: achievement)
+                        Spacer()
+
+                        if achievement.isUnlocked {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        }
+                    }
+                    .padding(12)
+                    .background(ThemeColors.surface)
+                    .cornerRadius(12)
                 }
             }
 
-            // Show more button if there are more achievements
-            if achievementService.achievements.count > 12 {
-                Button(action: {
-                    // Navigate to full achievements view
-                }) {
-                    Text("View All Achievements")
+            if achievementService.achievements.count > 3 {
+                Button(action: { }) {
+                    Text("View all \(achievementService.totalCount) achievements")
                         .font(.subheadline)
                         .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                         .frame(maxWidth: .infinity)

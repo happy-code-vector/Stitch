@@ -8,6 +8,7 @@ struct ProjectSetupView: View {
     @State private var totalRowsText = ""
     @State private var selectedYarn: YarnStashItem? = nil
     @State private var aiCountingEnabled = true
+    @State private var selectedCraftType = "Knitting"
     @State private var showYarnSelector = false
     
     // Sample yarn stash items
@@ -60,6 +61,26 @@ struct ProjectSetupView: View {
                 // Scrollable Form Content
                 ScrollView {
                     VStack(spacing: 32) {
+                        // Section 0: Craft Type
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("CRAFT TYPE")
+                                .font(.system(size: 12, weight: .semibold))
+                                .foregroundColor(ThemeColors.textSecondary)
+                                .tracking(1)
+                                .padding(.horizontal, 16)
+
+                            Picker("Craft Type", selection: $selectedCraftType) {
+                                Text("Knitting").tag("Knitting")
+                                Text("Crochet").tag("Crochet")
+                            }
+                            .pickerStyle(.segmented)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(ThemeColors.surface)
+                            .cornerRadius(16)
+                            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                        }
+
                         // Section 1: Details
                         VStack(alignment: .leading, spacing: 12) {
                             Text("DETAILS")
@@ -67,7 +88,7 @@ struct ProjectSetupView: View {
                                 .foregroundColor(ThemeColors.textSecondary)
                                 .tracking(1)
                                 .padding(.horizontal, 16)
-                            
+
                             VStack(spacing: 0) {
                                 // Project Name Input
                                 VStack(spacing: 0) {
@@ -88,14 +109,14 @@ struct ProjectSetupView: View {
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 12)
                                 }
-                                
+
                                 Divider()
                                     .background(ThemeColors.border)
-                                
+
                                 // Needle Size Input
                                 VStack(spacing: 0) {
                                     HStack {
-                                        Text("Needle Size")
+                                        Text(selectedCraftType == "Crochet" ? "Hook Size" : "Needle Size")
                                             .font(.system(size: 14, weight: .medium))
                                             .foregroundColor(ThemeColors.textPrimary)
                                             .frame(width: 128, alignment: .leading)
@@ -149,7 +170,7 @@ struct ProjectSetupView: View {
                                 .foregroundColor(ThemeColors.textSecondary)
                                 .tracking(1)
                                 .padding(.horizontal, 16)
-                            
+
                             VStack(spacing: 0) {
                                 // Yarn Selector Row
                                 Button(action: {
@@ -177,9 +198,9 @@ struct ProjectSetupView: View {
                                                 }
                                             }
                                         }
-                                        
+
                                         Spacer()
-                                        
+
                                         Image(systemName: "chevron.right")
                                             .font(.system(size: 14, weight: .medium))
                                             .foregroundColor(ThemeColors.textSecondary)
@@ -187,13 +208,13 @@ struct ProjectSetupView: View {
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 12)
                                 }
-                                
+
                                 // Yarn Selector Dropdown
                                 if showYarnSelector {
                                     VStack(spacing: 0) {
                                         Divider()
                                             .background(ThemeColors.border)
-                                        
+
                                         ScrollView {
                                             VStack(spacing: 0) {
                                                 ForEach(yarnStash, id: \.id) { yarn in
@@ -206,7 +227,7 @@ struct ProjectSetupView: View {
                                                         HStack(spacing: 12) {
                                                             Text(yarn.thumbnail)
                                                                 .font(.title3)
-                                                            
+
                                                             VStack(alignment: .leading, spacing: 2) {
                                                                 Text(yarn.name)
                                                                     .font(.system(size: 14, weight: .medium))
@@ -215,9 +236,9 @@ struct ProjectSetupView: View {
                                                                     .font(.system(size: 12, weight: .regular))
                                                                     .foregroundColor(ThemeColors.textSecondary)
                                                             }
-                                                            
+
                                                             Spacer()
-                                                            
+
                                                             if selectedYarn?.id == yarn.id {
                                                                 Circle()
                                                                     .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
@@ -228,7 +249,7 @@ struct ProjectSetupView: View {
                                                         .padding(.vertical, 12)
                                                         .background(ThemeColors.background.opacity(0.5))
                                                     }
-                                                    
+
                                                     if yarn.id != yarnStash.last?.id {
                                                         Divider()
                                                             .background(ThemeColors.border)
@@ -253,7 +274,7 @@ struct ProjectSetupView: View {
                                 .foregroundColor(ThemeColors.textSecondary)
                                 .tracking(1)
                                 .padding(.horizontal, 16)
-                            
+
                             VStack(spacing: 0) {
                                 // AI Counting Toggle
                                 HStack {
@@ -261,13 +282,13 @@ struct ProjectSetupView: View {
                                         Text("Enable AI Counting")
                                             .font(.system(size: 14, weight: .medium))
                                             .foregroundColor(ThemeColors.textPrimary)
-                                        Text("Let AI track your rows automatically")
+                                        Text("AI will detect and count rows via your camera")
                                             .font(.system(size: 12, weight: .regular))
                                             .foregroundColor(ThemeColors.textSecondary)
                                     }
-                                    
+
                                     Spacer()
-                                    
+
                                     // Custom Toggle Switch
                                     Button(action: {
                                         withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
@@ -278,7 +299,7 @@ struct ProjectSetupView: View {
                                             RoundedRectangle(cornerRadius: 14)
                                                 .fill(aiCountingEnabled ? Color(red: 0.561, green: 0.659, blue: 0.533) : ThemeColors.border)
                                                 .frame(width: 48, height: 28)
-                                            
+
                                             Circle()
                                                 .fill(.white)
                                                 .frame(width: 24, height: 24)
@@ -314,13 +335,13 @@ struct ProjectSetupView: View {
                 Spacer()
                 
                 Button(action: handleCreate) {
-                    Text("Create Project")
+                    Text("Start Project")
                         .font(.headline)
                         .fontWeight(.semibold)
-                        .foregroundColor(isFormValid ? .white : ThemeColors.textSecondary)
+                        .foregroundColor(isFormValid ? .white : Color(red: 0.627, green: 0.596, blue: 0.565))
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
-                        .background(isFormValid ? ThemeColors.primary : ThemeColors.textSecondary.opacity(0.4))
+                        .background(isFormValid ? ThemeColors.primary : Color(red: 0.831, green: 0.812, blue: 0.784))
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(isFormValid ? 0.15 : 0.05), radius: isFormValid ? 8 : 2, x: 0, y: isFormValid ? 4 : 1)
                 }
@@ -354,7 +375,7 @@ struct ProjectSetupView: View {
         let rows = Int(totalRowsText) ?? 0
         let newProject = ProjectModel(
             name: projectName,
-            craftType: appState.selectedCraft ?? "Knitting",
+            craftType: selectedCraftType,
             needleSize: needleSize,
             yarnType: selectedYarn?.name ?? "",
             yarnColor: selectedYarn?.color ?? "",

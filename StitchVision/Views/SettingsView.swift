@@ -7,6 +7,15 @@ struct SettingsView: View {
     @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var showPermissionAlert = false
     @State private var showGeminiSettings = false
+
+    var userInitials: String {
+        let name = appState.userName ?? "C"
+        let parts = name.split(separator: " ")
+        if parts.count >= 2 {
+            return "\(parts[0].prefix(1))\(parts[1].prefix(1))"
+        }
+        return String(name.prefix(2)).uppercased()
+    }
     
     var body: some View {
         ZStack {
@@ -62,13 +71,15 @@ struct SettingsView: View {
                                     )
                                     .frame(width: 64, height: 64)
                                     .overlay(
-                                        Text("👋")
-                                            .font(.title)
+                                        Text(userInitials)
+                                            .font(.title2)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.white)
                                     )
                                 
                                 // User Info
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Creator")
+                                    Text(appState.userName ?? "Creator")
                                         .font(.title2)
                                         .fontWeight(.bold)
                                         .foregroundColor(ThemeColors.textPrimary)
@@ -85,7 +96,7 @@ struct SettingsView: View {
                                             } else {
                                                 Text("Free Plan")
                                                     .font(.system(size: 12, weight: .medium))
-                                                    .foregroundColor(ThemeColors.textSecondary)
+                                                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                                             }
                                         }
                                         .padding(.horizontal, 12)
@@ -101,7 +112,7 @@ struct SettingsView: View {
                                                 endPoint: .trailing
                                             ).opacity(1.0)
                                             : LinearGradient(
-                                                colors: [Color.gray.opacity(0.2)],
+                                                colors: [Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.15)],
                                                 startPoint: .leading,
                                                 endPoint: .trailing
                                             ).opacity(1.0)
@@ -121,73 +132,37 @@ struct SettingsView: View {
 
                         // Upgrade Card - Only show if not Pro
                         if !appState.isPro {
-                            VStack(spacing: 16) {
-                                HStack(spacing: 8) {
-                                    Image(systemName: "crown")
-                                        .font(.system(size: 20))
-                                        .foregroundColor(.white)
-                                    Text("Upgrade Today")
-                                        .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(.white.opacity(0.9))
+                            Button(action: {
+                                appState.navigateTo(.subscription)
+                            }) {
+                                HStack(spacing: 16) {
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                        .frame(width: 4)
+
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Upgrade to Pro")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(ThemeColors.textPrimary)
+
+                                        Text("Unlimited projects, AI row counting, pattern sync and more")
+                                            .font(.system(size: 14, weight: .regular))
+                                            .foregroundColor(ThemeColors.textSecondary)
+                                            .multilineTextAlignment(.leading)
+                                    }
+
+                                    Spacer()
+
+                                    Text("See plans →")
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
                                 }
-                                
-                                VStack(spacing: 8) {
-                                    Text("Unlock Unlimited Projects")
-                                        .font(.title3)
-                                        .fontWeight(.bold)
-                                        .foregroundColor(.white)
-                                    
-                                    Text("Get AI row counting, pattern sync, and more")
-                                        .font(.system(size: 14, weight: .regular))
-                                        .foregroundColor(.white.opacity(0.8))
-                                        .multilineTextAlignment(.center)
-                                }
-                                
-                                Button(action: {
-                                    appState.navigateTo(.subscription)
-                                }) {
-                                    Text("Get Pro")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(Color(red: 0.83, green: 0.69, blue: 0.22))
-                                        .padding(.horizontal, 24)
-                                        .padding(.vertical, 12)
-                                        .background(Color.white)
-                                        .cornerRadius(25)
-                                        .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
-                                }
-                                .scaleEffect(1.0)
-                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: appState.isPro)
+                                .padding(20)
+                                .background(ThemeColors.surface)
+                                .cornerRadius(16)
+                                .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
                             }
-                            .padding(.horizontal, 24)
-                            .padding(.vertical, 24)
-                            .background(
-                                LinearGradient(
-                                    colors: [
-                                        Color(red: 0.561, green: 0.659, blue: 0.533),
-                                        Color(red: 0.79, green: 0.43, blue: 0.37)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                            .cornerRadius(16)
-                            .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
-                            .overlay(
-                                // Decorative circles
-                                ZStack {
-                                    Circle()
-                                        .fill(.white.opacity(0.1))
-                                        .frame(width: 128, height: 128)
-                                        .offset(x: 120, y: -60)
-                                    
-                                    Circle()
-                                        .fill(.white.opacity(0.1))
-                                        .frame(width: 96, height: 96)
-                                        .offset(x: -120, y: 60)
-                                }
-                                .clipped()
-                            )
                         }
                         
                         // Settings Section
@@ -288,19 +263,30 @@ struct SettingsView: View {
                                 
                                 SettingsItemView(
                                     icon: "sparkles",
-                                    title: "Gemini AI Settings",
-                                    description: "Configure API key & analysis",
+                                    title: "AI Settings",
+                                    description: "Manage AI row counting preferences",
                                     action: {
                                         showGeminiSettings = true
                                     }
                                 )
-                                
+
                                 SettingsItemView(
                                     icon: "questionmark.circle",
                                     title: "Help & Support",
                                     description: "FAQs and contact",
                                     action: {
                                         appState.navigateTo(.help)
+                                    }
+                                )
+
+                                SettingsItemView(
+                                    icon: "star",
+                                    title: "Rate StitchVision",
+                                    description: "Enjoying the app? Leave a review",
+                                    action: {
+                                        if let url = URL(string: "https://apps.apple.com/app/idYOUR_APP_ID?action=write-review") {
+                                            UIApplication.shared.open(url)
+                                        }
                                     }
                                 )
                             }
@@ -336,7 +322,7 @@ struct SettingsView: View {
                                 
                                 SettingsItemView(
                                     icon: "arrow.counterclockwise",
-                                    title: "Reset Onboarding",
+                                    title: "Restart Tutorial",
                                     description: "Start tutorial again",
                                     action: {
                                         appState.resetOnboarding()
@@ -350,7 +336,7 @@ struct SettingsView: View {
                             Text("Version 1.0.0")
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundColor(ThemeColors.textSecondary)
-                            Text("© 2024 StitchVision")
+                            Text("© 2025 StitchVision")
                                 .font(.system(size: 12, weight: .regular))
                                 .foregroundColor(ThemeColors.textSecondary)
                         }

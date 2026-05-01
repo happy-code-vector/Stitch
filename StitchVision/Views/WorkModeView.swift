@@ -203,6 +203,10 @@ struct WorkModeView: View {
                                         .font(.system(size: 12, weight: .medium))
                                         .foregroundColor(.white.opacity(0.6))
                                 }
+                            } else if rowCountingService.rowCount == 0 {
+                                Text("Position your work in the frame")
+                                    .font(.system(size: 10, weight: .regular))
+                                    .foregroundColor(.white.opacity(0.6))
                             } else if rowCountingService.lastCountTime != nil {
                                 Text("Row counted \(timeAgo(rowCountingService.lastCountTime!))")
                                     .font(.system(size: 10, weight: .regular))
@@ -351,11 +355,28 @@ struct WorkModeView: View {
                         .padding(.vertical, 32)
                         
                         // Status Text
-                        Text(isPaused ? "Counting paused. Tap Resume to continue." : rowCountingService.isCounting ? "Detecting rows..." : "Ready to count")
-                            .font(.system(size: 14, weight: .regular))
-                            .foregroundColor(ThemeColors.textSecondary)
-                            .multilineTextAlignment(.center)
+                        if isPaused {
+                            Text("Counting paused. Tap Resume to continue.")
+                                .font(.system(size: 14, weight: .regular))
+                                .foregroundColor(ThemeColors.textSecondary)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 24)
+                        } else if rowCountingService.isCounting {
+                            HStack(spacing: 8) {
+                                Circle()
+                                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .frame(width: 8, height: 8)
+                                Text("Detecting rows...")
+                                    .font(.system(size: 14, weight: .regular))
+                                    .foregroundColor(ThemeColors.textSecondary)
+                            }
                             .padding(.horizontal, 24)
+                        } else {
+                            Text("Ready to count")
+                                .font(.system(size: 14, weight: .regular))
+                                .foregroundColor(ThemeColors.textSecondary)
+                                .padding(.horizontal, 24)
+                        }
 
                         // Stitch Doctor Button (Pro Feature)
                         Button(action: {
@@ -375,7 +396,7 @@ struct WorkModeView: View {
                                     Image(systemName: "camera")
                                         .font(.system(size: 16, weight: .medium))
                                 }
-                                Text(isDiagnosing && diagnosisType == .mistake ? "Analyzing..." : "Check for Mistakes")
+                                Text(isDiagnosing && diagnosisType == .mistake ? "Analyzing..." : "Scan for dropped stitches")
                                     .font(.system(size: 16, weight: .medium))
                             }
                             .foregroundColor(.white)
@@ -386,36 +407,6 @@ struct WorkModeView: View {
                             .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                         }
                         .padding(.top, 24)
-
-                        // Tension Check Button (Pro Feature)
-                        Button(action: {
-                            if subscriptionManager.canUseAICoach {
-                                runTensionCheck()
-                            } else {
-                                proFeatureRequested = "AI Coach"
-                                showPaywall = true
-                            }
-                        }) {
-                            HStack(spacing: 8) {
-                                if isDiagnosing && diagnosisType == .tension {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                        .scaleEffect(0.8)
-                                } else {
-                                    Image(systemName: "gauge.with.dots.needle.33percent")
-                                        .font(.system(size: 16, weight: .medium))
-                                }
-                                Text(isDiagnosing && diagnosisType == .tension ? "Analyzing..." : "Check Tension")
-                                    .font(.system(size: 16, weight: .medium))
-                            }
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 24)
-                            .padding(.vertical, 12)
-                            .background(subscriptionManager.canUseAICoach ? ThemeColors.primary : Color.gray)
-                            .cornerRadius(25)
-                            .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
-                        }
-                        .padding(.top, 8)
                         .padding(.bottom, 32)
                     }
                     .background(ThemeColors.surface)
@@ -1105,7 +1096,7 @@ struct StitchDoctorDiagnosisViewSheet: View {
                     VStack(spacing: 16) {
                         ProgressView()
                             .scaleEffect(1.2)
-                        Text("Analyzing your knitting...")
+                        Text("Analyzing your work...")
                             .font(.body)
                             .foregroundColor(ThemeColors.textSecondary)
                     }
