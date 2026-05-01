@@ -267,15 +267,6 @@ struct DashboardView: View {
                             }
 
                             QuickActionButton(
-                                icon: "bubble.left.and.exclamationmark.bubble.right.fill",
-                                title: "Ask StitchBot",
-                                subtitle: "Get AI help with your questions",
-                                color: Color(red: 0.949, green: 0.631, blue: 0.286)
-                            ) {
-                                appState.navigateTo(.stitchBot)
-                            }
-
-                            QuickActionButton(
                                 icon: "book.fill",
                                 title: "Abbreviation Guide",
                                 subtitle: "Look up knitting & crochet terms",
