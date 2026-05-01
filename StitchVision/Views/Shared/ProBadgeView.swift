@@ -49,7 +49,7 @@ struct ProLockedOverlay: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 24)
                         .padding(.vertical, 8)
-                        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .background(ThemeColors.primary)
                         .cornerRadius(20)
                 }
             }

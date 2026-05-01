@@ -7,7 +7,7 @@ struct ProActivationConfirmationView: View {
     var body: some View {
         ZStack {
             // Solid sage background
-            Color(red: 0.561, green: 0.659, blue: 0.533)
+            ThemeColors.primary
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {

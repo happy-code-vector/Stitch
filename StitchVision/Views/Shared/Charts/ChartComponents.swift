@@ -49,8 +49,8 @@ struct RowTrendChart: View {
             .foregroundStyle(
                 LinearGradient(
                     colors: [
-                        Color(red: 0.561, green: 0.659, blue: 0.533),
-                        Color(red: 0.49, green: 0.57, blue: 0.46)
+                        ThemeColors.primary,
+                        ThemeColors.primaryDark
                     ],
                     startPoint: .top,
                     endPoint: .bottom
@@ -232,7 +232,7 @@ struct InsightRowView: View {
             title: "Total Rows",
             value: "1,234",
             icon: "checkmark.circle.fill",
-            color: Color(red: 0.561, green: 0.659, blue: 0.533)
+            color: ThemeColors.primary
         )
 
         RowTrendChart(stats: [

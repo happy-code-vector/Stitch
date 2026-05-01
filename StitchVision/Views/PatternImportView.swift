@@ -73,7 +73,7 @@ struct PatternImportView: View {
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .background(ThemeColors.primary)
                     .clipShape(.rect(cornerRadius: 12))
             }
             .onChange(of: selectedItem) { _, newItem in
@@ -114,7 +114,7 @@ struct PatternImportView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                .background(ThemeColors.primary)
                 .foregroundStyle(.white)
                 .clipShape(.rect(cornerRadius: 12))
             }

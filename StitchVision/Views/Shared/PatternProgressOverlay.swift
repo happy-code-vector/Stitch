@@ -85,7 +85,7 @@ struct CompletedRowsOverlay: View {
                 let normalizedHeight = currentRowData.height
 
                 Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.3))
+                    .fill(ThemeColors.primary.opacity(0.3))
                     .frame(
                         width: geometry.size.width,
                         height: imageHeight * normalizedHeight
@@ -96,7 +96,7 @@ struct CompletedRowsOverlay: View {
                     )
                     .overlay(
                         Rectangle()
-                            .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 2)
+                            .stroke(ThemeColors.primary, lineWidth: 2)
                             .frame(
                                 width: geometry.size.width,
                                 height: imageHeight * normalizedHeight

@@ -14,18 +14,9 @@ struct StitchBotFloatingButton: View {
                 Button(action: onTap) {
                     ZStack {
                         Circle()
-                            .fill(
-                                LinearGradient(
-                                    colors: [
-                                        Color(red: 0.561, green: 0.659, blue: 0.533),
-                                        Color(red: 0.49, green: 0.57, blue: 0.46)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
+                            .fill(ThemeColors.primaryGradient)
                             .frame(width: 56, height: 56)
-                            .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
+                            .shadow(color: ThemeColors.primary.opacity(0.35), radius: 12, x: 0, y: 6)
 
                         Image(systemName: "sparkles")
                             .font(.system(size: 24, weight: .medium))

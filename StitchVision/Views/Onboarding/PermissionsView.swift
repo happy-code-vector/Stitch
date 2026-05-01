@@ -25,7 +25,7 @@ struct PermissionsView: View {
                         
                         context.fill(
                             Path(ellipseIn: CGRect(x: x + offset, y: y, width: 4, height: 4)),
-                            with: .color(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                            with: .color(ThemeColors.primary.opacity(0.1))
                         )
                     }
                 }
@@ -34,7 +34,7 @@ struct PermissionsView: View {
             // Decorative background circles
             GeometryReader { geo in
                 Circle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                    .fill(ThemeColors.primary.opacity(0.1))
                     .frame(width: 120, height: 120)
                     .blur(radius: 40)
                     .offset(x: geo.size.width * 0.22, y: -geo.size.height * 0.22)
@@ -42,7 +42,7 @@ struct PermissionsView: View {
                     .animation(.easeInOut(duration: 4).repeatForever(autoreverses: true), value: animateBackground)
                 
                 Circle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                    .fill(ThemeColors.primary.opacity(0.1))
                     .frame(width: 160, height: 160)
                     .blur(radius: 40)
                     .offset(x: -geo.size.width * 0.22, y: geo.size.height * 0.28)
@@ -55,7 +55,7 @@ struct PermissionsView: View {
                 // Progress bar
                 HStack {
                     Rectangle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .fill(ThemeColors.primary)
                         .frame(height: 4)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .clipShape(RoundedRectangle(cornerRadius: 2))
@@ -79,8 +79,8 @@ struct PermissionsView: View {
                             .fill(
                                 LinearGradient(
                                     colors: [
-                                        Color(red: 0.561, green: 0.659, blue: 0.533),
-                                        Color(red: 0.49, green: 0.57, blue: 0.46)
+                                        ThemeColors.primary,
+                                        ThemeColors.primaryDark
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -122,7 +122,7 @@ struct PermissionsView: View {
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 16)
-                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .background(ThemeColors.primary)
                                 .cornerRadius(25)
                                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                         }

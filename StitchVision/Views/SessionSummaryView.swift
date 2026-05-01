@@ -105,7 +105,7 @@ struct SessionSummaryView: View {
                                         .fill(
                                             LinearGradient(
                                                 colors: [
-                                                    Color(red: 0.561, green: 0.659, blue: 0.533),
+                                                    ThemeColors.primary,
                                                     Color(red: 0.66, green: 0.76, blue: 0.63)
                                                 ],
                                                 startPoint: .bottom,
@@ -121,7 +121,7 @@ struct SessionSummaryView: View {
                                             .foregroundColor(ThemeColors.textSecondary)
                                         Text("\(timeSpentMinutes)m")
                                             .font(.system(size: 14, weight: .semibold))
-                                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                            .foregroundColor(ThemeColors.primary)
                                     }
                                 }
                             }
@@ -176,7 +176,7 @@ struct SessionSummaryView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
-                            .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .background(ThemeColors.primary)
                             .cornerRadius(25)
                             .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                     }
@@ -253,7 +253,7 @@ struct SleepingMascotView: View {
                     LinearGradient(
                         colors: [
                             Color(red: 0.66, green: 0.76, blue: 0.63),
-                            Color(red: 0.49, green: 0.57, blue: 0.46)
+                            ThemeColors.primaryDark
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -329,19 +329,19 @@ struct SleepingMascotView: View {
                     VStack(alignment: .trailing, spacing: 8) {
                         Text("Z")
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                             .opacity(zzzOpacity1)
                             .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true).delay(0.8), value: zzzOpacity1)
                         
                         Text("Z")
                             .font(.system(size: 24, weight: .medium))
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                             .opacity(zzzOpacity2)
                             .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true).delay(1.0), value: zzzOpacity2)
                         
                         Text("Z")
                             .font(.system(size: 28, weight: .medium))
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                             .opacity(zzzOpacity3)
                             .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true).delay(1.2), value: zzzOpacity3)
                     }

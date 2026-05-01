@@ -21,15 +21,15 @@ struct ProGateView: View {
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color(red: 0.561, green: 0.659, blue: 0.533),
-                                    Color(red: 0.49, green: 0.57, blue: 0.46)
+                                    ThemeColors.primary,
+                                    ThemeColors.primaryDark
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
                         )
                         .frame(width: 120, height: 120)
-                        .shadow(color: Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.4), radius: 20, x: 0, y: 10)
+                        .shadow(color: ThemeColors.primary.opacity(0.4), radius: 20, x: 0, y: 10)
 
                     Image(systemName: "crown.fill")
                         .font(.system(size: 48))
@@ -47,7 +47,7 @@ struct ProGateView: View {
 
                     Text("is a Pro Feature")
                         .font(.title2)
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .foregroundColor(ThemeColors.primary)
                 }
                 .opacity(animateElements ? 1.0 : 0.0)
                 .offset(y: animateElements ? 0 : -20)
@@ -91,15 +91,15 @@ struct ProGateView: View {
                             .background(
                                 LinearGradient(
                                     colors: [
-                                        Color(red: 0.561, green: 0.659, blue: 0.533),
-                                        Color(red: 0.49, green: 0.57, blue: 0.46)
+                                        ThemeColors.primary,
+                                        ThemeColors.primaryDark
                                     ],
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 )
                             )
                             .cornerRadius(25)
-                            .shadow(color: Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.4), radius: 12, x: 0, y: 6)
+                            .shadow(color: ThemeColors.primary.opacity(0.4), radius: 12, x: 0, y: 6)
                     }
 
                     Button(action: onSkip) {
@@ -129,12 +129,12 @@ struct ProGateBenefitRow: View {
         HStack(spacing: 16) {
             ZStack {
                 Circle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                    .fill(ThemeColors.primary.opacity(0.1))
                     .frame(width: 44, height: 44)
 
                 Image(systemName: icon)
                     .font(.system(size: 18))
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
             }
 
             Text(text)
@@ -144,7 +144,7 @@ struct ProGateBenefitRow: View {
             Spacer()
 
             Image(systemName: "checkmark.circle.fill")
-                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                .foregroundColor(ThemeColors.primary)
         }
         .padding(.vertical, 8)
     }

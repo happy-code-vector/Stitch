@@ -112,7 +112,7 @@ struct GeminiSettingsView: View {
 
     private var confidenceColor: Color {
         if geminiService.confidence >= 0.90 {
-            return Color(red: 0.561, green: 0.659, blue: 0.533)
+            return ThemeColors.primary
         } else if geminiService.confidence >= 0.75 {
             return Color(red: 0.83, green: 0.69, blue: 0.22)
         } else {

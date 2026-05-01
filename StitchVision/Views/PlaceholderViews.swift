@@ -12,7 +12,7 @@ struct BackButton: View {
         Button(action: { appState.goBack() }) {
             Image(systemName: "chevron.left")
                 .font(.system(size: 20, weight: .medium))
-                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                .foregroundColor(ThemeColors.primary)
         }
     }
 }
@@ -45,7 +45,7 @@ struct PrimaryButtonStyle: ButtonStyle {
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
-            .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+            .background(ThemeColors.primary)
             .cornerRadius(25)
             .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
             .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
@@ -56,14 +56,14 @@ struct SecondaryButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline)
-            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+            .foregroundColor(ThemeColors.primary)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
             .background(Color.white)
             .cornerRadius(25)
             .overlay(
                 RoundedRectangle(cornerRadius: 25)
-                    .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 2)
+                    .stroke(ThemeColors.primary, lineWidth: 2)
             )
             .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
             .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)

@@ -241,7 +241,7 @@ struct ProjectSetupView: View {
 
                                                             if selectedYarn?.id == yarn.id {
                                                                 Circle()
-                                                                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                                                    .fill(ThemeColors.primary)
                                                                     .frame(width: 8, height: 8)
                                                             }
                                                         }
@@ -297,7 +297,7 @@ struct ProjectSetupView: View {
                                     }) {
                                         ZStack {
                                             RoundedRectangle(cornerRadius: 14)
-                                                .fill(aiCountingEnabled ? Color(red: 0.561, green: 0.659, blue: 0.533) : ThemeColors.border)
+                                                .fill(aiCountingEnabled ? ThemeColors.primary : ThemeColors.border)
                                                 .frame(width: 48, height: 28)
 
                                             Circle()

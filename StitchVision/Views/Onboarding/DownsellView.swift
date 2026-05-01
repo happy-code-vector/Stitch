@@ -23,7 +23,7 @@ struct DownsellView: View {
                     .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: urgencyPulse)
                 
                 Circle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                    .fill(ThemeColors.primary.opacity(0.1))
                     .frame(width: 160, height: 160)
                     .blur(radius: 40)
                     .position(x: 80, y: geo.size.height - 160)
@@ -37,7 +37,7 @@ struct DownsellView: View {
                 // Progress bar
                 HStack {
                     Rectangle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .fill(ThemeColors.primary)
                         .frame(height: 4)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .clipShape(RoundedRectangle(cornerRadius: 2))
@@ -153,7 +153,7 @@ struct DownsellView: View {
                                 VStack(spacing: 8) {
                                     HStack(spacing: 8) {
                                         Circle()
-                                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                            .fill(ThemeColors.primary)
                                             .frame(width: 8, height: 8)
                                         
                                         Text("AI Row Counting")
@@ -165,7 +165,7 @@ struct DownsellView: View {
 
                                     HStack(spacing: 8) {
                                         Circle()
-                                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                            .fill(ThemeColors.primary)
                                             .frame(width: 8, height: 8)
 
                                         Text("Stitch Doctor")
@@ -177,7 +177,7 @@ struct DownsellView: View {
 
                                     HStack(spacing: 8) {
                                         Circle()
-                                            .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                            .fill(ThemeColors.primary)
                                             .frame(width: 8, height: 8)
 
                                         Text("Unlimited Projects")
@@ -218,7 +218,7 @@ struct DownsellView: View {
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 20)
-                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .background(ThemeColors.primary)
                                 .cornerRadius(25)
                                 .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 6)
                         }
@@ -289,7 +289,7 @@ struct ExcitedMascotWithTagView: View {
                 RadialGradient(
                     colors: [
                         Color(red: 0.66, green: 0.76, blue: 0.63),
-                        Color(red: 0.561, green: 0.659, blue: 0.533)
+                        ThemeColors.primary
                     ],
                     center: .topLeading,
                     startRadius: size * 0.18,

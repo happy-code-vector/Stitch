@@ -193,12 +193,12 @@ struct ContactItemView: View {
         Button(action: action) {
             HStack(spacing: 16) {
                 Circle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                    .fill(ThemeColors.primary.opacity(0.1))
                     .frame(width: 48, height: 48)
                     .overlay(
                         Image(systemName: icon)
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                     )
                 
                 VStack(alignment: .leading, spacing: 4) {

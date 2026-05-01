@@ -65,7 +65,7 @@ struct UpgradeModal<Content: View>: View {
                                     .foregroundColor(.white)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
-                                    .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .background(ThemeColors.primary)
                                     .cornerRadius(25)
                                     .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                             }
@@ -166,7 +166,7 @@ struct StitchDoctorUpgradePrompt: View {
                         HStack(spacing: 8) {
                             ZStack {
                                 Circle()
-                                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .fill(ThemeColors.primary)
                                     .frame(width: 24, height: 24)
                                 
                                 Image(systemName: "sparkles")
@@ -176,7 +176,7 @@ struct StitchDoctorUpgradePrompt: View {
                             
                             Text("Pro Tier")
                                 .font(.caption)
-                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .foregroundColor(ThemeColors.primary)
                         }
                         
                         Text("\"Dropped stitch 3 rows down, stitch #47. Use crochet hook to pull up through loops...\"")
@@ -228,12 +228,12 @@ struct CloudSyncUpgradePrompt: View {
                 // Icon
                 ZStack {
                     Circle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                        .fill(ThemeColors.primary.opacity(0.1))
                         .frame(width: 64, height: 64)
                     
                     Image(systemName: "cloud.fill")
                         .font(.system(size: 32))
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .foregroundColor(ThemeColors.primary)
                 }
                 
                 // Title
@@ -281,7 +281,7 @@ struct CloudSyncUpgradePrompt: View {
                     Text("✓ Pro Cloud Backup")
                         .font(.subheadline)
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .foregroundColor(ThemeColors.primary)
                         .frame(maxWidth: .infinity, alignment: .center)
                     
                     VStack(alignment: .leading, spacing: 4) {
@@ -294,14 +294,14 @@ struct CloudSyncUpgradePrompt: View {
                 }
                 .padding(16)
                 .frame(maxWidth: .infinity)
-                .background(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                .background(ThemeColors.primary.opacity(0.1))
                 .cornerRadius(16)
                 
                 // Peace of Mind
                 Text("Never lose your work again")
                     .font(.subheadline)
                     .fontWeight(.bold)
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
             }
         }
     }
@@ -394,7 +394,7 @@ struct ComplexPatternUpgradePrompt: View {
                         HStack(spacing: 8) {
                             ZStack {
                                 Circle()
-                                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .fill(ThemeColors.primary)
                                     .frame(width: 24, height: 24)
                                 
                                 Image(systemName: "sparkles")
@@ -404,7 +404,7 @@ struct ComplexPatternUpgradePrompt: View {
                             
                             Text("Pro Tier")
                                 .font(.caption)
-                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .foregroundColor(ThemeColors.primary)
                         }
                         
                         VStack(alignment: .leading, spacing: 4) {
@@ -428,7 +428,7 @@ struct ComplexPatternUpgradePrompt: View {
                 + Text("advanced patterns")
                     .font(.subheadline)
                     .fontWeight(.bold)
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
             }
         }
     }
@@ -447,12 +447,12 @@ struct MultiProjectUpgradePrompt: View {
                 // Icon
                 ZStack {
                     Circle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                        .fill(ThemeColors.primary.opacity(0.1))
                         .frame(width: 64, height: 64)
                     
                     Image(systemName: "folder.fill")
                         .font(.system(size: 32))
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .foregroundColor(ThemeColors.primary)
                 }
                 
                 // Title
@@ -504,7 +504,7 @@ struct MultiProjectUpgradePrompt: View {
                     Text("✓ Pro Unlimited Projects")
                         .font(.subheadline)
                         .fontWeight(.bold)
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .foregroundColor(ThemeColors.primary)
                         .frame(maxWidth: .infinity, alignment: .center)
                     
                     VStack(alignment: .leading, spacing: 4) {
@@ -518,7 +518,7 @@ struct MultiProjectUpgradePrompt: View {
                 }
                 .padding(16)
                 .frame(maxWidth: .infinity)
-                .background(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                .background(ThemeColors.primary.opacity(0.1))
                 .cornerRadius(16)
                 
                 // Upgrade CTA
@@ -528,7 +528,7 @@ struct MultiProjectUpgradePrompt: View {
                 + Text("unlimited projects + cloud sync")
                     .font(.subheadline)
                     .fontWeight(.bold)
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
             }
         }
     }
@@ -582,7 +582,7 @@ struct GenericProGatePrompt: View {
                 }
                 .padding(24)
                 .frame(maxWidth: .infinity)
-                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                .background(ThemeColors.primary)
                 .cornerRadius(16)
             }
         }

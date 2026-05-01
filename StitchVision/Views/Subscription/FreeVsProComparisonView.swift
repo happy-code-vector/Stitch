@@ -66,11 +66,11 @@ struct FreeVsProComparisonView: View {
                         Text("Pro")
                             .font(.subheadline)
                             .fontWeight(.medium)
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                             .frame(width: 80)
                     }
                     .padding(16)
-                    .background(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                    .background(ThemeColors.primary.opacity(0.1))
                     
                     // Feature Rows
                     ForEach(Array(features.enumerated()), id: \.offset) { index, feature in
@@ -155,7 +155,7 @@ struct FreeVsProComparisonView: View {
                 }
                 .padding(24)
                 .frame(maxWidth: .infinity)
-                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                .background(ThemeColors.primary)
                 .cornerRadius(24)
                 .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 4)
                 .opacity(animateElements ? 1.0 : 0.0)
@@ -225,7 +225,7 @@ struct ComparisonRow: View {
             HStack(spacing: 8) {
                 Image(systemName: icon)
                     .font(.system(size: 16))
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
                 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(name)
@@ -281,7 +281,7 @@ struct StatusIcon: View {
             case .included:
                 Image(systemName: "checkmark")
                     .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
             case .notIncluded:
                 Image(systemName: "xmark")
                     .font(.system(size: 18, weight: .bold))
@@ -293,7 +293,7 @@ struct StatusIcon: View {
             case .advanced:
                 Text("Advanced")
                     .font(.caption)
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
             case .simple:
                 Text("Simple")
                     .font(.caption)
@@ -301,7 +301,7 @@ struct StatusIcon: View {
             case .complex:
                 Text("Complex")
                     .font(.caption)
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
             }
         }
     }

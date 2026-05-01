@@ -31,7 +31,7 @@ struct StitchBotChatView: View {
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -39,7 +39,7 @@ struct StitchBotChatView: View {
                         Button("Clear") {
                             service.clearConversation()
                         }
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .foregroundColor(ThemeColors.primary)
                     }
                 }
             }
@@ -121,7 +121,7 @@ struct StitchBotChatView: View {
         } label: {
             HStack {
                 Image(systemName: "sparkle")
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
                 Text(text)
                     .font(.subheadline)
                     .foregroundColor(ThemeColors.textPrimary)
@@ -169,7 +169,7 @@ struct StitchBotChatView: View {
                         Circle()
                             .fill(inputText.isEmpty || service.isLoading
                                   ? ThemeColors.border
-                                  : ThemeColors.primary)
+                                  : ThemeColors.primaryGradient)
                             .frame(width: 44, height: 44)
 
                         if service.isLoading {
@@ -218,7 +218,7 @@ struct StitchBotChatView: View {
             }
             .font(.caption)
             .fontWeight(.semibold)
-            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+            .foregroundColor(ThemeColors.primary)
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 8)
@@ -251,7 +251,7 @@ struct MessageBubble: View {
                 if !message.isUser {
                     HStack(spacing: 6) {
                         Image(systemName: "bubble.left.fill")
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                         Text("StitchBot")
                             .font(.caption)
                             .fontWeight(.semibold)

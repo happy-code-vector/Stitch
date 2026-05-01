@@ -24,7 +24,7 @@ struct ProfileEditorView: View {
                     }) {
                         Text("Cancel")
                             .font(.body)
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                     }
                     
                     Spacer()
@@ -44,7 +44,7 @@ struct ProfileEditorView: View {
                         Text("Save")
                             .font(.body)
                             .fontWeight(.semibold)
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                     }
                 }
                 .padding(.horizontal, 24)
@@ -64,8 +64,8 @@ struct ProfileEditorView: View {
                                         .fill(
                                             LinearGradient(
                                                 colors: [
-                                                    Color(red: 0.561, green: 0.659, blue: 0.533),
-                                                    Color(red: 0.49, green: 0.57, blue: 0.46)
+                                                    ThemeColors.primary,
+                                                    ThemeColors.primaryDark
                                                 ],
                                                 startPoint: .topLeading,
                                                 endPoint: .bottomTrailing
@@ -93,7 +93,7 @@ struct ProfileEditorView: View {
                             
                             Text("Tap to change photo")
                                 .font(.system(size: 14, weight: .regular))
-                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .foregroundColor(ThemeColors.primary)
                         }
                         
                         // Basic Info Section
@@ -296,7 +296,7 @@ struct AccountActionView: View {
                     .fill(
                         isDestructive 
                         ? Color(red: 0.79, green: 0.43, blue: 0.37).opacity(0.1)
-                        : Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1)
+                        : ThemeColors.primary.opacity(0.1)
                     )
                     .frame(width: 40, height: 40)
                     .overlay(
@@ -305,7 +305,7 @@ struct AccountActionView: View {
                             .foregroundColor(
                                 isDestructive 
                                 ? Color(red: 0.79, green: 0.43, blue: 0.37)
-                                : Color(red: 0.561, green: 0.659, blue: 0.533)
+                                : ThemeColors.primary
                             )
                     )
                 

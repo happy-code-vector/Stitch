@@ -74,7 +74,7 @@ struct ProjectDetailView: View {
                                 Circle()
                                     .trim(from: 0, to: CGFloat(progress))
                                     .stroke(
-                                        Color(red: 0.561, green: 0.659, blue: 0.533),
+                                        ThemeColors.primary,
                                         style: StrokeStyle(lineWidth: 12, lineCap: .round)
                                     )
                                     .frame(width: 160, height: 160)
@@ -199,7 +199,7 @@ struct ProjectDetailView: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
-                            .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .background(ThemeColors.primary)
                             .cornerRadius(25)
                             .shadow(color: .black.opacity(0.15), radius: 8, x: 0, y: 4)
                         }
@@ -249,7 +249,7 @@ struct StatItem: View {
         VStack(spacing: 8) {
             Image(systemName: icon)
                 .font(.title3)
-                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                .foregroundColor(ThemeColors.primary)
             
             Text(value)
                 .font(.title2)
@@ -313,7 +313,7 @@ struct SessionHistoryRow: View {
             Spacer()
             
             Image(systemName: "checkmark.circle.fill")
-                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                .foregroundColor(ThemeColors.primary)
         }
         .padding(12)
         .background(ThemeColors.surface)

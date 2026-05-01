@@ -17,7 +17,7 @@ struct EnhancedSubscriptionView: View {
     
     let keyDifferentiators = [
         (icon: "lock.fill", name: "Advanced Stitch Doctor", free: "Generic alerts", pro: "Specific diagnosis + fixes", highlight: "Save 10-30 min per error", color: Color(red: 0.831, green: 0.502, blue: 0.435)),
-        (icon: "cloud.fill", name: "Cloud Backup", free: "Local storage only", pro: "Auto sync across devices", highlight: "Never lose your work", color: Color(red: 0.561, green: 0.659, blue: 0.533)),
+        (icon: "cloud.fill", name: "Cloud Backup", free: "Local storage only", pro: "Auto sync across devices", highlight: "Never lose your work", color: ThemeColors.primary),
         (icon: "doc.text.fill", name: "Pattern Support", free: "Simple counting", pro: "Full PDF parsing (cables, lace)", highlight: "Unlock advanced patterns", color: Color(red: 0.831, green: 0.502, blue: 0.435))
     ]
     
@@ -26,7 +26,7 @@ struct EnhancedSubscriptionView: View {
             // Progress bar
             HStack {
                 Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .fill(ThemeColors.primary)
                     .frame(height: 4)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .clipShape(RoundedRectangle(cornerRadius: 2))
@@ -88,7 +88,7 @@ struct EnhancedSubscriptionView: View {
                                 .foregroundColor(selectedTier == .free ? .white : ThemeColors.textSecondary)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 12)
-                                .background(selectedTier == .free ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear)
+                                .background(selectedTier == .free ? ThemeColors.primary : Color.clear)
                                 .cornerRadius(25)
                         }
                         
@@ -98,7 +98,7 @@ struct EnhancedSubscriptionView: View {
                                 .foregroundColor(selectedTier == .pro ? .white : ThemeColors.textSecondary)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 12)
-                                .background(selectedTier == .pro ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear)
+                                .background(selectedTier == .pro ? ThemeColors.primary : Color.clear)
                                 .cornerRadius(25)
                         }
                     }
@@ -307,7 +307,7 @@ struct FreeTierCard: View {
             }
             .padding(16)
             .frame(maxWidth: .infinity)
-            .background(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+            .background(ThemeColors.primary.opacity(0.1))
             .cornerRadius(16)
             
             VStack(spacing: 12) {
@@ -354,12 +354,12 @@ struct ProTierCard: View {
                     HStack(spacing: 16) {
                         ZStack {
                             Circle()
-                                .stroke(selectedPlan == .proYearly ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.gray.opacity(0.3), lineWidth: 2)
+                                .stroke(selectedPlan == .proYearly ? ThemeColors.primary : Color.gray.opacity(0.3), lineWidth: 2)
                                 .frame(width: 24, height: 24)
                             
                             if selectedPlan == .proYearly {
                                 Circle()
-                                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .fill(ThemeColors.primary)
                                     .frame(width: 12, height: 12)
                             }
                         }
@@ -372,7 +372,7 @@ struct ProTierCard: View {
 
                             Text(SubscriptionPricing.yearlyPerMonthDisplay)
                                 .font(.headline)
-                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .foregroundColor(ThemeColors.primary)
                         }
 
                         Spacer()
@@ -383,11 +383,11 @@ struct ProTierCard: View {
                     }
                     .padding(24)
                 }
-                .background(selectedPlan == .proYearly ? Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1) : Color.gray.opacity(0.05))
+                .background(selectedPlan == .proYearly ? ThemeColors.primary.opacity(0.1) : Color.gray.opacity(0.05))
                 .cornerRadius(16)
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
-                        .stroke(selectedPlan == .proYearly ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear, lineWidth: 4)
+                        .stroke(selectedPlan == .proYearly ? ThemeColors.primary : Color.clear, lineWidth: 4)
                 )
             }
             .buttonStyle(PlainButtonStyle())
@@ -397,12 +397,12 @@ struct ProTierCard: View {
                 HStack(spacing: 16) {
                     ZStack {
                         Circle()
-                            .stroke(selectedPlan == .proMonthly ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.gray.opacity(0.3), lineWidth: 2)
+                            .stroke(selectedPlan == .proMonthly ? ThemeColors.primary : Color.gray.opacity(0.3), lineWidth: 2)
                             .frame(width: 24, height: 24)
                         
                         if selectedPlan == .proMonthly {
                             Circle()
-                                .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .fill(ThemeColors.primary)
                                 .frame(width: 12, height: 12)
                         }
                     }
@@ -421,11 +421,11 @@ struct ProTierCard: View {
                     Spacer()
                 }
                 .padding(24)
-                .background(selectedPlan == .proMonthly ? Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1) : Color.gray.opacity(0.05))
+                .background(selectedPlan == .proMonthly ? ThemeColors.primary.opacity(0.1) : Color.gray.opacity(0.05))
                 .cornerRadius(16)
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
-                        .stroke(selectedPlan == .proMonthly ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear, lineWidth: 4)
+                        .stroke(selectedPlan == .proMonthly ? ThemeColors.primary : Color.clear, lineWidth: 4)
                 )
             }
             .buttonStyle(PlainButtonStyle())
@@ -446,7 +446,7 @@ struct ProTierCard: View {
             }
             .padding(16)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+            .background(ThemeColors.primary.opacity(0.1))
             .cornerRadius(16)
         }
         .padding(24)
@@ -466,7 +466,7 @@ struct FeatureRow: View {
         HStack(spacing: 8) {
             Image(systemName: icon)
                 .font(.caption)
-                .foregroundColor(isIncluded ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.gray.opacity(0.3))
+                .foregroundColor(isIncluded ? ThemeColors.primary : Color.gray.opacity(0.3))
             
             Text(text)
                 .font(.caption)
@@ -483,7 +483,7 @@ struct ProFeatureRow: View {
         HStack(spacing: 8) {
             Image(systemName: icon)
                 .font(.caption)
-                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                .foregroundColor(ThemeColors.primary)
             
             Text(text)
                 .font(.caption)

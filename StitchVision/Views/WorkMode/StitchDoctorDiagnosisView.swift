@@ -92,7 +92,7 @@ struct StitchDoctorDiagnosisView: View {
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding(.vertical, 12)
-                                .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .background(ThemeColors.primary)
                                 .cornerRadius(25)
                                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
                         }

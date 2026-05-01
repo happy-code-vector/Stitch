@@ -95,47 +95,92 @@ extension Color {
 /// ```
 struct ThemeColors {
 
-    // MARK: - Adaptive Tokens (auto-resolve from system appearance)
+    // MARK: - Primary Palette
 
     /// Buttons, active states, progress bars.
-    /// Light: #8FA888 | Dark: #6B9B78
-    static let primary = Color(light: "8FA888", dark: "6B9B78")
+    /// Light: #7A9E72 | Dark: #6B9B78
+    static let primary = Color(light: "7A9E72", dark: "6B9B78")
 
     /// Button pressed state.
-    /// Light: #7D9176 | Dark: #5A8A66
-    static let primaryPressed = Color(light: "7D9176", dark: "5A8A66")
+    /// Light: #6B8D63 | Dark: #5A8A66
+    static let primaryPressed = Color(light: "6B8D63", dark: "5A8A66")
+
+    /// Light primary for subtle backgrounds, chips, badges.
+    /// Light: #E4EFE1 | Dark: #2A3D28
+    static let primaryLight = Color(light: "E4EFE1", dark: "2A3D28")
+
+    /// Deep primary for hero sections, gradient endpoints.
+    /// Light: #5C7D55 | Dark: #4A7347
+    static let primaryDark = Color(light: "5C7D55", dark: "4A7347")
+
+    // MARK: - Accent Palette
 
     /// Badges, save tags, error highlights.
     /// Light: #C96D5F | Dark: #E0857A
     static let accent = Color(light: "C96D5F", dark: "E0857A")
 
+    /// Warm gold for highlights, premium features, star ratings.
+    /// Light: #C9A96E | Dark: #D4B87A
+    static let warmGold = Color(light: "C9A96E", dark: "D4B87A")
+
+    // MARK: - Background & Surfaces
+
     /// Main app background.
-    /// Light: #F9F7F2 | Dark: #1A1A1A
-    static let background = Color(light: "F9F7F2", dark: "1A1A1A")
+    /// Light: #F9F7F2 | Dark: #141414
+    static let background = Color(light: "F9F7F2", dark: "141414")
 
     /// Cards, modals, sheet surfaces.
-    /// Light: #FFFFFF | Dark: #2C2C2C
-    static let surface = Color(light: "FFFFFF", dark: "2C2C2C")
+    /// Light: #FFFFFF | Dark: #1E1E1E
+    static let surface = Color(light: "FFFFFF", dark: "1E1E1E")
 
     /// Elevated cards.
-    /// Light: #F2F0EB | Dark: #383838
-    static let surfaceRaised = Color(light: "F2F0EB", dark: "383838")
+    /// Light: #F2F0EB | Dark: #2A2A2A
+    static let surfaceRaised = Color(light: "F2F0EB", dark: "2A2A2A")
+
+    /// Subtle warm overlay for section backgrounds.
+    /// Light: #F3EDE3 | Dark: #1C1C1C
+    static let surfaceWarm = Color(light: "F3EDE3", dark: "1C1C1C")
+
+    // MARK: - Gradients
+
+    /// Primary gradient for hero sections and headers.
+    static var primaryGradient: LinearGradient {
+        LinearGradient(
+            colors: [primary, primaryDark],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+
+    /// Warm background gradient for section headers.
+    static var warmGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                Color(light: "F0E8DA", dark: "1E1E1E"),
+                Color(light: "F9F7F2", dark: "141414")
+            ],
+            startPoint: .top,
+            endPoint: .bottom
+        )
+    }
+
+    // MARK: - Utility
 
     /// Camera HUD overlay ONLY -- never changes between modes.
     /// Both: #EBFF00
     static let hud = Color(hex: "EBFF00")
 
     /// Primary body and headline text.
-    /// Light: #2C2C2C | Dark: #F0F0F0
-    static let textPrimary = Color(light: "2C2C2C", dark: "F0F0F0")
+    /// Light: #1F1F1F | Dark: #F0F0F0
+    static let textPrimary = Color(light: "1F1F1F", dark: "F0F0F0")
 
     /// Secondary and caption text.
-    /// Light: #666666 | Dark: #A0A0A0
-    static let textSecondary = Color(light: "666666", dark: "A0A0A0")
+    /// Light: #6B6B6B | Dark: #A0A0A0
+    static let textSecondary = Color(light: "6B6B6B", dark: "A0A0A0")
 
     /// Card borders and dividers.
-    /// Light: #E0DDD6 | Dark: #3A3A3A
-    static let border = Color(light: "E0DDD6", dark: "3A3A3A")
+    /// Light: #E0DDD6 | Dark: #333333
+    static let border = Color(light: "E0DDD6", dark: "333333")
 
     /// Delete and destructive actions.
     /// Light: #DC2626 | Dark: #FF6B6B
@@ -147,57 +192,62 @@ struct ThemeColors {
 
     // MARK: - Explicit Scheme Resolution
 
-    /// Returns the primary color for an explicit color scheme.
     static func primary(for scheme: ColorScheme) -> Color {
-        scheme == .light ? Color(hex: "8FA888") : Color(hex: "6B9B78")
+        scheme == .light ? Color(hex: "7A9E72") : Color(hex: "6B9B78")
     }
 
-    /// Returns the primaryPressed color for an explicit color scheme.
     static func primaryPressed(for scheme: ColorScheme) -> Color {
-        scheme == .light ? Color(hex: "7D9176") : Color(hex: "5A8A66")
+        scheme == .light ? Color(hex: "6B8D63") : Color(hex: "5A8A66")
     }
 
-    /// Returns the accent color for an explicit color scheme.
+    static func primaryLight(for scheme: ColorScheme) -> Color {
+        scheme == .light ? Color(hex: "E4EFE1") : Color(hex: "2A3D28")
+    }
+
+    static func primaryDark(for scheme: ColorScheme) -> Color {
+        scheme == .light ? Color(hex: "5C7D55") : Color(hex: "4A7347")
+    }
+
     static func accent(for scheme: ColorScheme) -> Color {
         scheme == .light ? Color(hex: "C96D5F") : Color(hex: "E0857A")
     }
 
-    /// Returns the background color for an explicit color scheme.
+    static func warmGold(for scheme: ColorScheme) -> Color {
+        scheme == .light ? Color(hex: "C9A96E") : Color(hex: "D4B87A")
+    }
+
     static func background(for scheme: ColorScheme) -> Color {
-        scheme == .light ? Color(hex: "F9F7F2") : Color(hex: "1A1A1A")
+        scheme == .light ? Color(hex: "F9F7F2") : Color(hex: "141414")
     }
 
-    /// Returns the surface color for an explicit color scheme.
     static func surface(for scheme: ColorScheme) -> Color {
-        scheme == .light ? Color(hex: "FFFFFF") : Color(hex: "2C2C2C")
+        scheme == .light ? Color(hex: "FFFFFF") : Color(hex: "1E1E1E")
     }
 
-    /// Returns the surfaceRaised color for an explicit color scheme.
     static func surfaceRaised(for scheme: ColorScheme) -> Color {
-        scheme == .light ? Color(hex: "F2F0EB") : Color(hex: "383838")
+        scheme == .light ? Color(hex: "F2F0EB") : Color(hex: "2A2A2A")
     }
 
-    /// Returns the textPrimary color for an explicit color scheme.
+    static func surfaceWarm(for scheme: ColorScheme) -> Color {
+        scheme == .light ? Color(hex: "F3EDE3") : Color(hex: "1C1C1C")
+    }
+
     static func textPrimary(for scheme: ColorScheme) -> Color {
-        scheme == .light ? Color(hex: "2C2C2C") : Color(hex: "F0F0F0")
+        scheme == .light ? Color(hex: "1F1F1F") : Color(hex: "F0F0F0")
     }
 
-    /// Returns the textSecondary color for an explicit color scheme.
     static func textSecondary(for scheme: ColorScheme) -> Color {
-        scheme == .light ? Color(hex: "666666") : Color(hex: "A0A0A0")
+        scheme == .light ? Color(hex: "6B6B6B") : Color(hex: "A0A0A0")
     }
 
-    /// Returns the border color for an explicit color scheme.
     static func border(for scheme: ColorScheme) -> Color {
-        scheme == .light ? Color(hex: "E0DDD6") : Color(hex: "3A3A3A")
+        scheme == .light ? Color(hex: "E0DDD6") : Color(hex: "333333")
     }
 
-    /// Returns the destructive color for an explicit color scheme.
     static func destructive(for scheme: ColorScheme) -> Color {
         scheme == .light ? Color(hex: "DC2626") : Color(hex: "FF6B6B")
     }
 
-    /// Returns the success color for an explicit color scheme.
     static func success(for scheme: ColorScheme) -> Color {
         scheme == .light ? Color(hex: "16A34A") : Color(hex: "4ADE80")
     }
@@ -206,39 +256,20 @@ struct ThemeColors {
 // MARK: - Convenience Color Extensions
 
 extension Color {
-    /// StitchVision primary brand color. Automatically adapts to light/dark mode.
     static var stitchPrimary: Color { ThemeColors.primary }
-
-    /// StitchVision primary pressed state color.
     static var stitchPrimaryPressed: Color { ThemeColors.primaryPressed }
-
-    /// StitchVision accent color for badges and highlights.
+    static var stitchPrimaryLight: Color { ThemeColors.primaryLight }
+    static var stitchPrimaryDark: Color { ThemeColors.primaryDark }
     static var stitchAccent: Color { ThemeColors.accent }
-
-    /// StitchVision main app background.
+    static var stitchWarmGold: Color { ThemeColors.warmGold }
     static var stitchBackground: Color { ThemeColors.background }
-
-    /// StitchVision card and modal surface color.
     static var stitchSurface: Color { ThemeColors.surface }
-
-    /// StitchVision elevated surface color.
     static var stitchSurfaceRaised: Color { ThemeColors.surfaceRaised }
-
-    /// StitchVision camera HUD overlay color. Never changes between modes.
+    static var stitchSurfaceWarm: Color { ThemeColors.surfaceWarm }
     static var stitchHud: Color { ThemeColors.hud }
-
-    /// StitchVision primary text color.
     static var stitchTextPrimary: Color { ThemeColors.textPrimary }
-
-    /// StitchVision secondary and caption text color.
     static var stitchTextSecondary: Color { ThemeColors.textSecondary }
-
-    /// StitchVision border and divider color.
     static var stitchBorder: Color { ThemeColors.border }
-
-    /// StitchVision destructive action color.
     static var stitchDestructive: Color { ThemeColors.destructive }
-
-    /// StitchVision success and completion state color.
     static var stitchSuccess: Color { ThemeColors.success }
 }

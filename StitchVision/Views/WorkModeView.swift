@@ -364,7 +364,7 @@ struct WorkModeView: View {
                         } else if rowCountingService.isCounting {
                             HStack(spacing: 8) {
                                 Circle()
-                                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .fill(ThemeColors.primary)
                                     .frame(width: 8, height: 8)
                                 Text("Detecting rows...")
                                     .font(.system(size: 14, weight: .regular))
@@ -915,7 +915,7 @@ struct HappyMascotView: View {
                     LinearGradient(
                         colors: [
                             Color(red: 0.66, green: 0.76, blue: 0.63),
-                            Color(red: 0.49, green: 0.57, blue: 0.46)
+                            ThemeColors.primaryDark
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -963,7 +963,7 @@ struct NeutralMascotView: View {
                     LinearGradient(
                         colors: [
                             Color(red: 0.66, green: 0.76, blue: 0.63),
-                            Color(red: 0.49, green: 0.57, blue: 0.46)
+                            ThemeColors.primaryDark
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
@@ -1005,7 +1005,7 @@ struct ConfusedMascotView: View {
                     LinearGradient(
                         colors: [
                             Color(red: 0.66, green: 0.76, blue: 0.63),
-                            Color(red: 0.49, green: 0.57, blue: 0.46)
+                            ThemeColors.primaryDark
                         ],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing

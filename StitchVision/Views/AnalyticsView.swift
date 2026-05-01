@@ -40,14 +40,14 @@ struct AnalyticsView: View {
                     Button(action: { appState.goBack() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                     }
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     if analyticsService.isLoading {
                         ProgressView()
-                            .tint(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .tint(ThemeColors.primary)
                     }
                 }
             }
@@ -70,15 +70,16 @@ struct PeriodSelectorView: View {
                     selectedPeriod = period
                 }) {
                     Text(period.rawValue)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
+                        .font(.subheadline.weight(.medium))
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                         .background(selectedPeriod == period ?
-                                    ThemeColors.primary :
-                                    ThemeColors.surface)
+                                    ThemeColors.primaryGradient :
+                                    LinearGradient(colors: [ThemeColors.surface], startPoint: .leading, endPoint: .trailing))
                         .foregroundColor(selectedPeriod == period ? .white : ThemeColors.textSecondary)
                         .cornerRadius(20)
+                        .shadow(selectedPeriod == period ?
+                                Color.black.opacity(0.1) : Color.clear, radius: 4, x: 0, y: 2)
                 }
             }
         }
@@ -114,21 +115,21 @@ struct OverviewCardsSection: View {
                 title: "Total Rows",
                 value: analyticsService.totalRows == 0 ? "—" : "\(analyticsService.totalRows)",
                 icon: "checkmark.circle.fill",
-                color: Color(red: 0.561, green: 0.659, blue: 0.533)
+                color: ThemeColors.primary
             )
 
             StatCardView(
                 title: "Time Crafting",
                 value: analyticsService.formattedTotalTime == "0 min" ? "—" : analyticsService.formattedTotalTime,
                 icon: "clock.fill",
-                color: Color(red: 0.831, green: 0.502, blue: 0.435)
+                color: ThemeColors.accent
             )
 
             StatCardView(
                 title: "Current Streak",
                 value: analyticsService.currentStreak == 0 ? "—" : "\(analyticsService.currentStreak) days",
                 icon: "flame.fill",
-                color: Color(red: 0.949, green: 0.631, blue: 0.286)
+                color: ThemeColors.warmGold
             )
 
             StatCardView(
@@ -152,7 +153,7 @@ struct ChartsSection: View {
             // Rows Over Time Chart
             VStack(alignment: .leading, spacing: 12) {
                 Text("Rows Over Time")
-                    .font(.headline)
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
                     .foregroundColor(ThemeColors.textPrimary)
 
                 if analyticsService.dailyStats.isEmpty {
@@ -168,7 +169,7 @@ struct ChartsSection: View {
             // Weekly Summary
             VStack(alignment: .leading, spacing: 12) {
                 Text("Weekly Summary")
-                    .font(.headline)
+                    .font(.system(size: 18, weight: .bold, design: .rounded))
                     .foregroundColor(ThemeColors.textPrimary)
 
                 if analyticsService.weeklyStats.isEmpty {
@@ -186,7 +187,7 @@ struct ChartsSection: View {
                 VStack(alignment: .leading, spacing: 12) {
                     HStack {
                         Text("Speed Trend")
-                            .font(.headline)
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
                             .foregroundColor(ThemeColors.textPrimary)
 
                         Spacer()
@@ -216,7 +217,7 @@ struct InsightsSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Insights")
-                .font(.headline)
+                .font(.system(size: 18, weight: .bold, design: .rounded))
                 .foregroundColor(ThemeColors.textPrimary)
 
             VStack(spacing: 12) {
@@ -224,21 +225,21 @@ struct InsightsSection: View {
                     icon: "chart.pie.fill",
                     title: "Completion Rate",
                     value: String(format: "%.1f%%", analyticsService.completionRate),
-                    color: Color(red: 0.561, green: 0.659, blue: 0.533)
+                    color: ThemeColors.primary
                 )
 
                 InsightRowView(
                     icon: "timer",
                     title: "Avg. Session Time",
                     value: analyticsService.formattedAverageTime,
-                    color: Color(red: 0.831, green: 0.502, blue: 0.435)
+                    color: ThemeColors.accent
                 )
 
                 InsightRowView(
                     icon: "sun.max.fill",
                     title: "Peak Productivity",
                     value: analyticsService.formattedPeakHour,
-                    color: Color(red: 0.949, green: 0.631, blue: 0.286)
+                    color: ThemeColors.warmGold
                 )
 
                 InsightRowView(
@@ -265,7 +266,7 @@ struct AchievementsSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Next to Unlock")
-                .font(.headline)
+                .font(.system(size: 18, weight: .bold, design: .rounded))
                 .foregroundColor(ThemeColors.textPrimary)
 
             VStack(spacing: 12) {
@@ -289,7 +290,7 @@ struct AchievementsSection: View {
 
                         if achievement.isUnlocked {
                             Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                .foregroundColor(ThemeColors.primary)
                         }
                     }
                     .padding(12)
@@ -301,8 +302,8 @@ struct AchievementsSection: View {
             if achievementService.achievements.count > 3 {
                 Button(action: { }) {
                     Text("View all \(achievementService.totalCount) achievements")
-                        .font(.subheadline)
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .font(.subheadline.weight(.bold))
+                        .foregroundColor(ThemeColors.primary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                         .background(ThemeColors.surface)
@@ -328,7 +329,7 @@ struct AchievementBadgeView: View {
             ZStack {
                 Circle()
                     .fill(achievement.isUnlocked ?
-                          Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.2) :
+                          ThemeColors.primaryLight :
                           ThemeColors.surfaceRaised)
                     .frame(width: 60, height: 60)
 

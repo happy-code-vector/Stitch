@@ -15,7 +15,7 @@ struct AuthenticationView: View {
             // Progress bar
             HStack {
                 Rectangle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .fill(ThemeColors.primary)
                     .frame(height: 4)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .clipShape(RoundedRectangle(cornerRadius: 2))
@@ -48,7 +48,7 @@ struct AuthenticationView: View {
                     
                     Image(systemName: "cloud.fill")
                         .font(.system(size: 32))
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .foregroundColor(ThemeColors.primary)
                 }
                 .offset(x: 70, y: 70)
                 .scaleEffect(animateElements ? 1.0 : 0.0)
@@ -137,7 +137,7 @@ struct AuthenticationView: View {
                 }) {
                     Text("Sign up with Email")
                         .font(.headline)
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .foregroundColor(ThemeColors.primary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
                 }

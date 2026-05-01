@@ -29,7 +29,7 @@ struct CalibrationView: View {
                 // Progress bar
                 HStack {
                     Rectangle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .fill(ThemeColors.primary)
                         .frame(height: 4)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .clipShape(RoundedRectangle(cornerRadius: 2))
@@ -170,7 +170,7 @@ struct CalibrationView: View {
                                 Text("\(Int(confidence))%")
                                     .font(.caption2)
                                     .fontWeight(.medium)
-                                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .foregroundColor(ThemeColors.primary)
                             }
                             
                             RoundedRectangle(cornerRadius: 4)
@@ -182,7 +182,7 @@ struct CalibrationView: View {
                                             .fill(
                                                 LinearGradient(
                                                     colors: [
-                                                        Color(red: 0.561, green: 0.659, blue: 0.533),
+                                                        ThemeColors.primary,
                                                         Color(red: 0.66, green: 0.76, blue: 0.63)
                                                     ],
                                                     startPoint: .leading,
@@ -242,7 +242,7 @@ struct CalibrationView: View {
                                     .foregroundColor(.white)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
-                                    .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .background(ThemeColors.primary)
                                     .cornerRadius(25)
                                     .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
                             }
@@ -375,7 +375,7 @@ struct KnittingPatternOverlayView: View {
                         linePath.move(to: startPoint)
                         linePath.addLine(to: endPoint)
                         
-                        context.stroke(linePath, with: .color(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.3)), lineWidth: 1.5)
+                        context.stroke(linePath, with: .color(ThemeColors.primary.opacity(0.3)), lineWidth: 1.5)
                     }
                 }
             }
@@ -474,7 +474,7 @@ struct PeekingMascotView: View {
                 RadialGradient(
                     colors: [
                         Color(red: 0.66, green: 0.76, blue: 0.63),
-                        Color(red: 0.561, green: 0.659, blue: 0.533)
+                        ThemeColors.primary
                     ],
                     center: .topLeading,
                     startRadius: 15,

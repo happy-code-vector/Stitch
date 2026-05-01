@@ -38,7 +38,7 @@ struct LoadingScreenView: View {
                             .fill(
                                 LinearGradient(
                                     colors: [
-                                        Color(red: 0.561, green: 0.659, blue: 0.533),
+                                        ThemeColors.primary,
                                         Color(red: 0.659, green: 0.753, blue: 0.631)
                                     ],
                                     startPoint: .leading,
@@ -84,7 +84,7 @@ struct LoadingScreenView: View {
             HStack(spacing: 8) {
                 ForEach(0..<3, id: \.self) { index in
                     Circle()
-                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .fill(ThemeColors.primary)
                         .frame(width: 8, height: 8)
                         .opacity(dotOpacity[index])
                 }
@@ -158,14 +158,14 @@ struct LoadingScreenRollingYarnBallView: View {
                     control: CGPoint(x: 70, y: 200)
                 )
             }
-            .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 3)
+            .stroke(ThemeColors.primary, lineWidth: 3)
             .opacity(0.6)
             
             // Rolling mascot
             ZStack {
                 // Main yarn ball body
                 Circle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .fill(ThemeColors.primary)
                     .frame(width: 100, height: 100)
                 
                 // Texture layers for 3D fuzzy effect
@@ -174,7 +174,7 @@ struct LoadingScreenRollingYarnBallView: View {
                         RadialGradient(
                             colors: [
                                 Color(red: 0.659, green: 0.753, blue: 0.631).opacity(0.6),
-                                Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.3),
+                                ThemeColors.primary.opacity(0.3),
                                 Color(red: 0.490, green: 0.569, blue: 0.463).opacity(0.5)
                             ],
                             center: .topLeading,
@@ -269,7 +269,7 @@ struct LoadingScreenRollingYarnBallView: View {
                     control: CGPoint(x: 145, y: 45)
                 )
             }
-            .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 3)
+            .stroke(ThemeColors.primary, lineWidth: 3)
             .rotationEffect(.degrees(rotationAngle * 0.5))
         }
         .frame(width: 160, height: 160)

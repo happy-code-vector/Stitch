@@ -91,8 +91,9 @@ struct AbbreviationGlossaryView: View {
                     }
                 }
                 .padding(12)
-                .background(ThemeColors.surfaceRaised)
-                .cornerRadius(10)
+                .background(ThemeColors.surface)
+                .cornerRadius(12)
+                .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 3)
                 .padding(.horizontal)
                 .padding(.top, 8)
 
@@ -158,7 +159,7 @@ struct AbbreviationGlossaryView: View {
                     Button(action: { appState.goBack() }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                     }
                 }
             }
@@ -230,11 +231,11 @@ struct CraftBadge: View {
     var badgeColor: Color {
         switch craftType {
         case .knitting:
-            return Color(red: 0.83, green: 0.71, blue: 0.55)  // warm amber/tan
+            return ThemeColors.warmGold
         case .crochet:
-            return Color(red: 0.93, green: 0.65, blue: 0.58)  // warm coral/peach
+            return ThemeColors.accent
         case .both:
-            return Color(red: 0.561, green: 0.659, blue: 0.533)  // sage green (brand color)
+            return ThemeColors.primary
         }
     }
 

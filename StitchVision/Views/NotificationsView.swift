@@ -122,7 +122,7 @@ struct NotificationsView: View {
                             HStack(spacing: 12) {
                                 Image(systemName: "info.circle")
                                     .font(.system(size: 20))
-                                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .foregroundColor(ThemeColors.primary)
                                 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Notification Permissions")
@@ -139,11 +139,11 @@ struct NotificationsView: View {
                             }
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
-                            .background(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                            .background(ThemeColors.primary.opacity(0.1))
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.3), lineWidth: 1)
+                                    .stroke(ThemeColors.primary.opacity(0.3), lineWidth: 1)
                             )
                             
                             Button(action: {
@@ -154,14 +154,14 @@ struct NotificationsView: View {
                             }) {
                                 Text("Open Device Settings")
                                     .font(.system(size: 14, weight: .medium))
-                                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .foregroundColor(ThemeColors.primary)
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 12)
                                     .background(Color.white)
                                     .cornerRadius(8)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 8)
-                                            .stroke(Color(red: 0.561, green: 0.659, blue: 0.533), lineWidth: 1)
+                                            .stroke(ThemeColors.primary, lineWidth: 1)
                                     )
                             }
                         }
@@ -204,7 +204,7 @@ struct NotificationToggleView: View {
             }) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 14)
-                        .fill(isOn ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color(red: 0.867, green: 0.867, blue: 0.867))
+                        .fill(isOn ? ThemeColors.primary : Color(red: 0.867, green: 0.867, blue: 0.867))
                         .frame(width: 48, height: 28)
                     
                     Circle()

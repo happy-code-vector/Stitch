@@ -48,12 +48,12 @@ struct PatternUploadView: View {
                         VStack(spacing: 16) {
                             HStack(spacing: 16) {
                                 Circle()
-                                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                                    .fill(ThemeColors.primary.opacity(0.1))
                                     .frame(width: 48, height: 48)
                                     .overlay(
                                         Image(systemName: "sparkles")
                                             .font(.system(size: 24))
-                                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                            .foregroundColor(ThemeColors.primary)
                                     )
 
                                 VStack(alignment: .leading, spacing: 4) {
@@ -78,7 +78,7 @@ struct PatternUploadView: View {
                         .overlay(
                             HStack {
                                 RoundedRectangle(cornerRadius: 4)
-                                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                    .fill(ThemeColors.primary)
                                     .frame(width: 4)
                                 Spacer()
                             }
@@ -145,12 +145,12 @@ struct UploadOptionView: View {
         Button(action: action) {
             HStack(spacing: 16) {
                 Circle()
-                    .fill(Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1))
+                    .fill(ThemeColors.primary.opacity(0.1))
                     .frame(width: 56, height: 56)
                     .overlay(
                         Image(systemName: icon)
                             .font(.system(size: 24, weight: .medium))
-                            .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                            .foregroundColor(ThemeColors.primary)
                     )
 
                 VStack(alignment: .leading, spacing: 4) {

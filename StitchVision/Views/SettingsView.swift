@@ -30,19 +30,17 @@ struct SettingsView: View {
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(ThemeColors.textSecondary)
+                            .foregroundColor(ThemeColors.primary)
                     }
 
                     Spacer()
 
                     Text("Settings")
-                        .font(.headline)
-                        .fontWeight(.semibold)
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
                         .foregroundColor(ThemeColors.textPrimary)
 
                     Spacer()
 
-                    // Spacer for centering
                     Image(systemName: "chevron.left")
                         .font(.system(size: 20, weight: .medium))
                         .foregroundColor(.clear)
@@ -50,40 +48,29 @@ struct SettingsView: View {
                 .padding(.horizontal, 24)
                 .padding(.vertical, 16)
                 .background(ThemeColors.surface)
-                .shadow(color: .black.opacity(0.05), radius: 1, x: 0, y: 1)
+                .shadow(color: .black.opacity(0.06), radius: 4, x: 0, y: 2)
                 
                 ScrollView {
                     VStack(spacing: 24) {
                         // Profile Header
                         VStack(spacing: 16) {
                             HStack(spacing: 16) {
-                                // Avatar
                                 Circle()
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [
-                                                Color(red: 0.561, green: 0.659, blue: 0.533),
-                                                Color(red: 0.49, green: 0.57, blue: 0.46)
-                                            ],
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        )
-                                    )
+                                    .fill(ThemeColors.primaryGradient)
                                     .frame(width: 64, height: 64)
+                                    .shadow(color: ThemeColors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
                                     .overlay(
                                         Text(userInitials)
                                             .font(.title2)
                                             .fontWeight(.bold)
                                             .foregroundColor(.white)
                                     )
-                                
-                                // User Info
+
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(appState.userName ?? "Creator")
-                                        .font(.title2)
-                                        .fontWeight(.bold)
+                                        .font(.system(size: 22, weight: .bold, design: .rounded))
                                         .foregroundColor(ThemeColors.textPrimary)
-                                    
+
                                     HStack(spacing: 8) {
                                         HStack(spacing: 4) {
                                             if appState.isPro {
@@ -96,31 +83,28 @@ struct SettingsView: View {
                                             } else {
                                                 Text("Free Plan")
                                                     .font(.system(size: 12, weight: .medium))
-                                                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                                    .foregroundColor(ThemeColors.primary)
                                             }
                                         }
                                         .padding(.horizontal, 12)
                                         .padding(.vertical, 4)
                                         .background(
-                                            appState.isPro 
+                                            appState.isPro
                                             ? LinearGradient(
-                                                colors: [
-                                                    Color(red: 0.83, green: 0.69, blue: 0.22),
-                                                    Color(red: 1.0, green: 0.84, blue: 0.0)
-                                                ],
+                                                colors: [ThemeColors.warmGold, ThemeColors.warmGold.opacity(0.8)],
                                                 startPoint: .leading,
                                                 endPoint: .trailing
-                                            ).opacity(1.0)
+                                            )
                                             : LinearGradient(
-                                                colors: [Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.15)],
+                                                colors: [ThemeColors.primaryLight],
                                                 startPoint: .leading,
                                                 endPoint: .trailing
-                                            ).opacity(1.0)
+                                            )
                                         )
                                         .cornerRadius(12)
                                     }
                                 }
-                                
+
                                 Spacer()
                             }
                         }
@@ -137,13 +121,12 @@ struct SettingsView: View {
                             }) {
                                 HStack(spacing: 16) {
                                     RoundedRectangle(cornerRadius: 4)
-                                        .fill(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                        .fill(ThemeColors.primaryGradient)
                                         .frame(width: 4)
 
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text("Upgrade to Pro")
-                                            .font(.title3)
-                                            .fontWeight(.bold)
+                                            .font(.system(size: 18, weight: .bold, design: .rounded))
                                             .foregroundColor(ThemeColors.textPrimary)
 
                                         Text("Unlimited projects, AI row counting, pattern sync and more")
@@ -155,13 +138,13 @@ struct SettingsView: View {
                                     Spacer()
 
                                     Text("See plans →")
-                                        .font(.system(size: 14, weight: .semibold))
-                                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                        .font(.system(size: 14, weight: .bold))
+                                        .foregroundColor(ThemeColors.primary)
                                 }
                                 .padding(20)
                                 .background(ThemeColors.surface)
                                 .cornerRadius(16)
-                                .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 2)
+                                .shadow(color: ThemeColors.primary.opacity(0.1), radius: 8, x: 0, y: 4)
                             }
                         }
                         
@@ -200,22 +183,24 @@ struct SettingsView: View {
                                 }) {
                                     HStack(spacing: 16) {
                                         // Icon
-                                        Circle()
-                                            .fill(
-                                                cameraManager.isPermissionGranted
-                                                ? Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1)
-                                                : Color(red: 0.79, green: 0.43, blue: 0.37).opacity(0.1)
-                                            )
-                                            .frame(width: 40, height: 40)
-                                            .overlay(
-                                                Image(systemName: cameraManager.isPermissionGranted ? "camera.fill" : "camera.fill.badge.ellipsis")
-                                                    .font(.system(size: 18, weight: .medium))
-                                                    .foregroundColor(
-                                                        cameraManager.isPermissionGranted
-                                                        ? Color(red: 0.561, green: 0.659, blue: 0.533)
-                                                        : Color(red: 0.79, green: 0.43, blue: 0.37)
-                                                    )
-                                            )
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .fill(
+                                                    cameraManager.isPermissionGranted
+                                                    ? ThemeColors.primaryLight
+                                                    : ThemeColors.accent.opacity(0.1)
+                                                )
+                                                .frame(width: 44, height: 44)
+                                                .overlay(
+                                                    Image(systemName: cameraManager.isPermissionGranted ? "camera.fill" : "camera.fill.badge.ellipsis")
+                                                        .font(.system(size: 18, weight: .medium))
+                                                        .foregroundColor(
+                                                            cameraManager.isPermissionGranted
+                                                            ? ThemeColors.primary
+                                                            : ThemeColors.accent
+                                                        )
+                                                )
+                                        }
                                         
                                         // Text Content
                                         VStack(alignment: .leading, spacing: 2) {
@@ -227,7 +212,7 @@ struct SettingsView: View {
                                                 .font(.system(size: 14, weight: .regular))
                                                 .foregroundColor(
                                                     cameraManager.isPermissionGranted
-                                                    ? Color(red: 0.561, green: 0.659, blue: 0.533)
+                                                    ? ThemeColors.primary
                                                     : Color(red: 0.79, green: 0.43, blue: 0.37)
                                                 )
                                         }
@@ -238,7 +223,7 @@ struct SettingsView: View {
                                         if cameraManager.isPermissionGranted {
                                             Image(systemName: "checkmark.circle.fill")
                                                 .font(.system(size: 20))
-                                                .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                                                .foregroundColor(ThemeColors.primary)
                                         } else {
                                             Image(systemName: "chevron.right")
                                                 .font(.system(size: 14, weight: .medium))
@@ -248,8 +233,8 @@ struct SettingsView: View {
                                     .padding(.horizontal, 16)
                                     .padding(.vertical, 16)
                                     .background(ThemeColors.surface)
-                                    .cornerRadius(12)
-                                    .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+                                    .cornerRadius(14)
+                                    .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 4)
                                 }
 
                                 SettingsItemView(
@@ -336,7 +321,7 @@ struct SettingsView: View {
                             Text("Version 1.0.0")
                                 .font(.system(size: 14, weight: .regular))
                                 .foregroundColor(ThemeColors.textSecondary)
-                            Text("© 2025 StitchVision")
+                            Text("© 2026 StitchVision")
                                 .font(.system(size: 12, weight: .regular))
                                 .foregroundColor(ThemeColors.textSecondary)
                         }
@@ -395,57 +380,56 @@ struct SettingsItemView: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 16) {
-                // Icon
-                Circle()
-                    .fill(
-                        isDestructive 
-                        ? Color(red: 0.79, green: 0.43, blue: 0.37).opacity(0.1)
-                        : Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1)
-                    )
-                    .frame(width: 40, height: 40)
-                    .overlay(
-                        Image(systemName: icon)
-                            .font(.system(size: 18, weight: .medium))
-                            .foregroundColor(
-                                isDestructive 
-                                ? Color(red: 0.79, green: 0.43, blue: 0.37)
-                                : Color(red: 0.561, green: 0.659, blue: 0.533)
-                            )
-                    )
-                
-                // Text Content
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(
+                            isDestructive
+                            ? ThemeColors.accent.opacity(0.1)
+                            : ThemeColors.primaryLight
+                        )
+                        .frame(width: 44, height: 44)
+                        .overlay(
+                            Image(systemName: icon)
+                                .font(.system(size: 18, weight: .medium))
+                                .foregroundColor(
+                                    isDestructive
+                                    ? ThemeColors.accent
+                                    : ThemeColors.primary
+                                )
+                        )
+                }
+
                 VStack(alignment: .leading, spacing: 2) {
                     Text(title)
                         .font(.system(size: 16, weight: .medium))
                         .foregroundColor(
                             isDestructive
-                            ? Color(red: 0.79, green: 0.43, blue: 0.37)
+                            ? ThemeColors.accent
                             : ThemeColors.textPrimary
                         )
-                    
+
                     if !description.isEmpty {
                         Text(description)
                             .font(.system(size: 14, weight: .regular))
                             .foregroundColor(ThemeColors.textSecondary)
                     }
                 }
-                
+
                 Spacer()
-                
-                // Chevron
+
                 Image(systemName: "chevron.right")
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(
                         isDestructive
-                        ? Color(red: 0.79, green: 0.43, blue: 0.37).opacity(0.5)
+                        ? ThemeColors.accent.opacity(0.5)
                         : ThemeColors.textSecondary
                     )
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
             .background(ThemeColors.surface)
-            .cornerRadius(12)
-            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
+            .cornerRadius(14)
+            .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 4)
         }
         .scaleEffect(1.0)
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: title)

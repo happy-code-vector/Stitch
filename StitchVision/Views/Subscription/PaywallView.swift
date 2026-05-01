@@ -79,7 +79,7 @@ struct PaywallView: View {
             ForEach(SubscriptionTier.pro.features, id: \.self) { feature in
                 HStack(spacing: 12) {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                        .foregroundColor(ThemeColors.primary)
                         .frame(width: 24)
 
                     Text(feature)
@@ -127,7 +127,7 @@ struct PaywallView: View {
                     .padding()
             }
         }
-        .background(Color(red: 0.561, green: 0.659, blue: 0.533))
+        .background(ThemeColors.primary)
         .foregroundColor(.white)
         .cornerRadius(12)
         .disabled(selectedProduct == nil || isPurchasing)
@@ -186,14 +186,14 @@ struct PricingOptionView: View {
 
                 Text(product.displayPrice)
                     .font(.headline)
-                    .foregroundColor(Color(red: 0.561, green: 0.659, blue: 0.533))
+                    .foregroundColor(ThemeColors.primary)
             }
             .padding()
-            .background(isSelected ? Color(red: 0.561, green: 0.659, blue: 0.533).opacity(0.1) : Color(.secondarySystemGroupedBackground))
+            .background(isSelected ? ThemeColors.primary.opacity(0.1) : Color(.secondarySystemGroupedBackground))
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(isSelected ? Color(red: 0.561, green: 0.659, blue: 0.533) : Color.clear, lineWidth: 2)
+                    .stroke(isSelected ? ThemeColors.primary : Color.clear, lineWidth: 2)
             )
         }
         .buttonStyle(.plain)
