@@ -397,3 +397,7 @@ struct PatternCard: View {
         }
     }
 }
+
+#Preview {
+    PatternLibraryView(onPatternSelected: { _ in })
+}

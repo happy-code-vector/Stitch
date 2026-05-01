@@ -451,3 +451,8 @@ struct SettingsItemView: View {
         .animation(.spring(response: 0.3, dampingFraction: 0.6), value: title)
     }
 }
+
+#Preview {
+    SettingsView()
+        .environmentObject(AppState())
+}

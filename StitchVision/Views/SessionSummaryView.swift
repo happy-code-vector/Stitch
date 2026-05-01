@@ -365,3 +365,9 @@ struct SparkleData {
     let y: Double
     let delay: Double
 }
+
+#Preview {
+    SessionSummaryView()
+        .environmentObject(AppState())
+        .environmentObject(ProjectStore())
+}

@@ -174,3 +174,8 @@ struct UploadOptionView: View {
         }
     }
 }
+
+#Preview {
+    PatternUploadView()
+        .environmentObject(AppState())
+}

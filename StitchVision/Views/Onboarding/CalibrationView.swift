@@ -586,3 +586,8 @@ private struct PeekingYarnLines: View {
     }
 }
 
+
+#Preview {
+    CalibrationView()
+        .environmentObject(AppState())
+}

@@ -399,3 +399,9 @@ struct YarnStashItem {
     let weight: String
     let thumbnail: String
 }
+
+#Preview {
+    ProjectSetupView()
+        .environmentObject(AppState())
+        .environmentObject(ProjectStore())
+}

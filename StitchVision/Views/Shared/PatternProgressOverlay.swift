@@ -110,3 +110,17 @@ struct CompletedRowsOverlay: View {
         }
     }
 }
+
+#Preview {
+    PatternProgressOverlay(
+        pattern: KnittingPattern(
+            id: "preview",
+            name: "Test Pattern",
+            totalRows: 20,
+            currentRow: 10,
+            completedRows: [],
+            source: "preview"
+        ),
+        currentRowCount: 10
+    )
+}

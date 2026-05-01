@@ -415,3 +415,8 @@ struct ExcitedMascotWithTagView: View {
         }
     }
 }
+
+#Preview {
+    DownsellView()
+        .environmentObject(AppState())
+}

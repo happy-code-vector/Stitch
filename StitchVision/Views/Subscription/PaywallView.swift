@@ -199,3 +199,8 @@ struct PricingOptionView: View {
         .buttonStyle(.plain)
     }
 }
+
+#Preview {
+    PaywallView(feature: "Test Feature")
+        .environmentObject(AppState())
+}

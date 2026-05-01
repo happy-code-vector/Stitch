@@ -255,3 +255,7 @@ struct PatternImportView: View {
         dismiss()
     }
 }
+
+#Preview {
+    PatternImportView(onPatternSaved: { _ in })
+}

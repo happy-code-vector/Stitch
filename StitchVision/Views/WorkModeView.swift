@@ -1123,3 +1123,10 @@ struct StitchDoctorDiagnosisViewSheet: View {
     }
 }
 
+
+
+#Preview {
+    WorkModeView()
+        .environmentObject(AppState())
+        .environmentObject(ProjectStore())
+}
